@@ -144,6 +144,8 @@ static const NSInteger tileHeight = tileWidth;
         return;
     }
 
+    self.numOfTappedTiles++;
+
     NSInteger tileIndex = [self.tileViews indexOfObject:tappedTileView];
 
     if (tileIndex == NSNotFound)
@@ -155,13 +157,16 @@ static const NSInteger tileHeight = tileWidth;
 
     tappedTileView.shown = YES;
 
-    self.numOfTappedTiles++;
-
     [UIView transitionWithView:tappedTileView
         duration:1.0
         options:UIViewAnimationOptionTransitionFlipFromRight
         animations:^{}
-        completion:^(BOOL completed) { [self syncUIWithModel]; }];
+        completion:^(BOOL completed) {
+            if (self.numOfTappedTiles == 2)
+            {
+                [self syncUIWithModel];
+            }
+        }];
 }
 
 - (void)syncUIWithModel
@@ -184,19 +189,19 @@ static const NSInteger tileHeight = tileWidth;
         tileView.imageID = gameTile.tileID;
         tileView.paired = gameTile.paired;
 
-        if (self.numOfTappedTiles == 2)
+        if (tileView.shown && !tileView.paired && self.numOfTappedTiles == 2)
         {
 
-            if (tileView.shown && !tileView.paired)
-            {
-                [self addWobblingAnimationToView:tileView];
-            }
-
-           // self.numOfTappedTiles = 0;
+            [self addWobblingAnimationToView:tileView];
         }
     }
 
     self.scoreLabel.attributedText = self.scoreAttString;
+
+    if (self.numOfTappedTiles == 2)
+    {
+        self.numOfTappedTiles = 0;
+    }
 }
 
 - (void)didReceiveMemoryWarning
