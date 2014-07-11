@@ -8,6 +8,12 @@
 
 #import "MemoransTile.h"
 
+@interface MemoransTile ()
+
+@property(nonatomic) NSString *tileID;
+
+@end
+
 @implementation MemoransTile
 
 - (id)copyWithZone:(NSZone *)zone
@@ -44,6 +50,16 @@
     }
 }
 
+- (NSString *)tileID
+{
+    if (!_tileID)
+    {
+        _tileID = [NSString stringWithFormat:@"%@%ld", self.tileSet, (long)self.tileValue];
+    }
+
+    return _tileID;
+}
+
 #pragma mark - CLASS METHODS
 
 + (NSInteger)maxTileValue { return 20; }
@@ -54,14 +70,9 @@
 
 #pragma mark - INSTANCE METHODS
 
-- (NSString *)tileContent
-{
-    return [NSString stringWithFormat:@"%@%ld", self.tileSet, (long)self.tileValue];
-}
-
 - (BOOL)isEqualToTile:(MemoransTile *)otherTile
 {
-    if ([[self tileContent] isEqualToString:[otherTile tileContent]])
+    if ([[self tileID] isEqualToString:[otherTile tileID]])
     {
         return YES;
     }

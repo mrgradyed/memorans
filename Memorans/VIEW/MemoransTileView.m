@@ -8,29 +8,32 @@
 
 #import "MemoransTileView.h"
 
+
+
+
 @implementation MemoransTileView
 
 #pragma - SETTERS AND GETTERS
 
-- (void)setTileViewContent:(NSString *)tileViewContent
+- (void)setImageID:(NSString *)tileViewContent
 {
-    if ([_tileViewContent isEqualToString:tileViewContent])
+    if ([_imageID isEqualToString:tileViewContent])
     {
         return;
     }
 
-    _tileViewContent = tileViewContent;
+    _imageID = tileViewContent;
     [self setNeedsDisplay];
 }
 
-- (void)setSelected:(BOOL)selected
+- (void)setShown:(BOOL)selected
 {
-    if (_selected == selected)
+    if (_shown == selected)
     {
         return;
     }
 
-    _selected = selected;
+    _shown = selected;
     [self setNeedsDisplay];
 }
 
@@ -59,11 +62,24 @@
 
 #pragma - INSTANCE METHODS
 
+- (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag
+{
+    if (self.shown)
+    {
+        [UIView transitionWithView:self
+            duration:1.0
+            options:UIViewAnimationOptionTransitionFlipFromLeft
+            animations:^{ self.shown = NO; }
+            completion:^(BOOL completed) {}];
+    }
+}
+
 - (void)configureView
 {
     self.backgroundColor = nil;
     self.opaque = NO;
     self.contentMode = UIViewContentModeRedraw;
+    self.multipleTouchEnabled = NO;
 }
 
 // Only override drawRect: if you perform custom drawing.
@@ -80,9 +96,9 @@
     [[UIColor whiteColor] setFill];
     UIRectFill(self.bounds);
 
-    if (self.selected)
+    if (self.shown)
     {
-        UIImage *faceImage = [UIImage imageNamed:[self tileViewContent]];
+        UIImage *faceImage = [UIImage imageNamed:[self imageID]];
         [faceImage drawInRect:self.bounds];
     }
     else

@@ -18,6 +18,8 @@
 // Tile can be of different types or styles, depending on what they display.
 @property(nonatomic) NSString *tileSet;
 
+@property(nonatomic, readonly) NSString *tileID;
+
 // This flag is set to YES if tile is current selected.
 @property(nonatomic) BOOL selected;
 
@@ -37,7 +39,6 @@
 
 #pragma mark - INSTANCE METHODS
 
-- (NSString *)tileContent;
 
 - (BOOL)isEqualToTile:(MemoransTile *)otherTile;
 
