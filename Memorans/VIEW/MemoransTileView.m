@@ -9,11 +9,10 @@
 #import "MemoransTileView.h"
 
 
-
-
 @implementation MemoransTileView
 
 #pragma - SETTERS AND GETTERS
+
 
 - (void)setImageID:(NSString *)tileViewContent
 {
@@ -93,7 +92,15 @@
 
     [roundedRect addClip];
 
-    [[UIColor whiteColor] setFill];
+    if (!self.paired)
+    {
+        [[UIColor whiteColor] setFill];
+    }
+    else
+    {
+        [[UIColor greenColor] setFill];
+    }
+
     UIRectFill(self.bounds);
 
     if (self.shown)

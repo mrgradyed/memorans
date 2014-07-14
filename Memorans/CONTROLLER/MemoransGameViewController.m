@@ -11,15 +11,18 @@
 #import "MemoransTile.h"
 #import "MemoransGameEngine.h"
 
-@interface MemoransGameViewController ()
+@interface MemoransGameViewController () <UIDynamicAnimatorDelegate>
 
 @property(weak, nonatomic) IBOutlet UIView *tileArea;
 @property(weak, nonatomic) IBOutlet UILabel *scoreLabel;
+@property(weak, nonatomic) IBOutlet UIButton *startNewGameButton;
 
 @property(strong, nonatomic) NSMutableArray *tileViews;
 @property(strong, nonatomic) MemoransGameEngine *game;
-@property(strong, nonatomic) NSMutableAttributedString *scoreAttString;
+@property(strong, nonatomic) NSString *gameTileSet;
 @property(nonatomic) NSInteger numOfTappedTiles;
+@property(strong, nonatomic) NSMutableAttributedString *scoreAttString;
+@property(nonatomic) NSDictionary *stringAttributes;
 
 @end
 
@@ -46,28 +49,15 @@ static const NSInteger tileHeight = tileWidth;
     return CGRectMake(frameOriginX, frameOriginY, tileWidth, tileHeight);
 }
 
-- (NSMutableAttributedString *)scoreAttString
-{
-
-    _scoreAttString = [[NSMutableAttributedString alloc]
-        initWithString:[NSString stringWithFormat:@"Score: %d", self.game.gameScore]
-            attributes:@{
-                          NSFontAttributeName : [UIFont boldSystemFontOfSize:30],
-                          NSForegroundColorAttributeName : self.tileArea.backgroundColor
-                       }];
-
-    return _scoreAttString;
-}
-
-- (void)addWobblingAnimationToView:(UIView *)delegateView
++ (void)addWobblingAnimationToView:(UIView *)delegateView
 {
     CABasicAnimation *wobbling = [CABasicAnimation animationWithKeyPath:@"transform.rotation"];
 
-    [wobbling setFromValue:[NSNumber numberWithFloat:0.05]];
+    [wobbling setFromValue:[NSNumber numberWithFloat:0.05f]];
 
-    [wobbling setToValue:[NSNumber numberWithFloat:-0.05]];
+    [wobbling setToValue:[NSNumber numberWithFloat:-0.05f]];
 
-    [wobbling setDuration:0.1];
+    [wobbling setDuration:0.1f];
 
     [wobbling setAutoreverses:YES];
 
@@ -76,6 +66,39 @@ static const NSInteger tileHeight = tileWidth;
     wobbling.delegate = delegateView;
 
     [delegateView.layer addAnimation:wobbling forKey:@"wobbling"];
+}
+
+#pragma mark - SETTERS AND GETTERS
+
+- (void)setGameTileSet:(NSString *)gameTileSet
+{
+    if ([[MemoransTile allowedTileSets] containsObject:gameTileSet])
+    {
+        _gameTileSet = gameTileSet;
+    }
+}
+
+- (NSDictionary *)stringAttributes
+{
+    if (!_stringAttributes)
+    {
+        _stringAttributes = @{
+            NSFontAttributeName : [UIFont boldSystemFontOfSize:30],
+            NSForegroundColorAttributeName : self.tileArea.backgroundColor,
+            NSTextEffectAttributeName : NSTextEffectLetterpressStyle,
+        };
+    }
+
+    return _stringAttributes;
+}
+
+- (NSMutableAttributedString *)scoreAttString
+{
+    _scoreAttString = [[NSMutableAttributedString alloc]
+        initWithString:[NSString stringWithFormat:@"Score: %d", self.game.gameScore]
+            attributes:self.stringAttributes];
+
+    return _scoreAttString;
 }
 
 - (NSMutableArray *)tileViews
@@ -91,47 +114,18 @@ static const NSInteger tileHeight = tileWidth;
 {
     if (!_game)
     {
-        _game = [[MemoransGameEngine alloc] init];
+        _game = [[MemoransGameEngine alloc] initGameWithTileSet:self.gameTileSet];
     }
     return _game;
 }
+
+#pragma mark - INSTANCE METHODS
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 
-    self.tileArea.layer.cornerRadius = 5;
-
-    MemoransTileView *tileView;
-
-    UITapGestureRecognizer *tileTapRecog;
-
-    for (int i = 0; i < numberOfRows; i++)
-    {
-        for (int j = 0; j < numberOfCols; j++)
-        {
-            tileView = [[MemoransTileView alloc]
-                initWithFrame:[MemoransGameViewController frameForTileAtRow:i
-                                                                        Col:j
-                                                           inContainerFrame:self.tileArea.frame]];
-
-            tileTapRecog =
-                [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tileTapped:)];
-
-            tileTapRecog.numberOfTapsRequired = 1;
-            tileTapRecog.numberOfTouchesRequired = 1;
-
-            [tileView addGestureRecognizer:tileTapRecog];
-
-            [self.tileViews addObject:tileView];
-
-            [self.tileArea addSubview:tileView];
-        }
-    }
-
-    self.scoreLabel.attributedText = self.scoreAttString;
-
-    [self syncUIWithModel];
+    [self updateUIWithNewGame:YES];
 }
 
 - (void)tileTapped:(UITapGestureRecognizer *)tileTapRec
@@ -164,13 +158,61 @@ static const NSInteger tileHeight = tileWidth;
         completion:^(BOOL completed) {
             if (self.numOfTappedTiles == 2)
             {
-                [self syncUIWithModel];
+                [self updateUIWithNewGame:NO];
             }
         }];
 }
 
-- (void)syncUIWithModel
+- (void)updateUIWithNewGame:(BOOL)isNewGame
 {
+    if (isNewGame)
+    {
+        self.tileArea.layer.cornerRadius = 5;
+
+        MemoransTileView *tileView;
+        CGRect tileOnBoardFrame;
+
+        UITapGestureRecognizer *tileTapRecog;
+
+        for (int i = 0; i < numberOfRows; i++)
+        {
+            for (int j = 0; j < numberOfCols; j++)
+            {
+                tileOnBoardFrame =
+                    [MemoransGameViewController frameForTileAtRow:i
+                                                              Col:j
+                                                 inContainerFrame:self.tileArea.frame];
+
+                tileView = [[MemoransTileView alloc] initWithFrame:tileOnBoardFrame];
+
+                tileView.onBoardCenter = tileView.center;
+
+                tileView.center = CGPointMake(
+                    tileOnBoardFrame.origin.x + tileOnBoardFrame.size.width / 2,
+                    self.view.frame.origin.y - arc4random() % (int)self.view.frame.size.height);
+
+                tileTapRecog =
+                    [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                            action:@selector(tileTapped:)];
+
+                tileTapRecog.numberOfTapsRequired = 1;
+                tileTapRecog.numberOfTouchesRequired = 1;
+
+                [tileView addGestureRecognizer:tileTapRecog];
+
+                [self.tileViews addObject:tileView];
+                [self.tileArea addSubview:tileView];
+
+                [UIView animateWithDuration:2.0f
+                                      delay:0
+                     usingSpringWithDamping:0.5f
+                      initialSpringVelocity:0.5f
+                                    options:0
+                                 animations:^{ tileView.center = tileView.onBoardCenter; }
+                                 completion:nil];
+            }
+        }
+    }
 
     MemoransTile *gameTile;
     NSInteger tileIndex;
@@ -191,8 +233,7 @@ static const NSInteger tileHeight = tileWidth;
 
         if (tileView.shown && !tileView.paired && self.numOfTappedTiles == 2)
         {
-
-            [self addWobblingAnimationToView:tileView];
+            [MemoransGameViewController addWobblingAnimationToView:tileView];
         }
     }
 

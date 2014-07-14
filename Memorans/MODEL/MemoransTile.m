@@ -34,7 +34,7 @@
 - (void)setTileValue:(NSInteger)tileValue
 {
     // The new value must be among the allowed ones.
-    if ([MemoransTile minTileValue] <= tileValue <= [MemoransTile maxTileValue])
+    if (minTileValue <= tileValue <= maxTileValue)
     {
         _tileValue = tileValue;
     }
@@ -60,11 +60,10 @@
     return _tileID;
 }
 
-#pragma mark - CLASS METHODS
+#pragma mark - CLASS VARS AND METHODS
 
-+ (NSInteger)maxTileValue { return 20; }
-
-+ (NSInteger)minTileValue { return 1; }
+const int maxTileValue = 20;
+const int minTileValue = 1;
 
 + (NSArray *)allowedTileSets { return @[ @"a", @"b" ]; }
 

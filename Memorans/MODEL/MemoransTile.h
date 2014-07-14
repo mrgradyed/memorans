@@ -28,11 +28,11 @@
 
 #pragma mark - CLASS METHODS
 
-// This returns the min allowed tile value.
-+ (NSInteger)minTileValue;
+// This is the min allowed tile value.
+extern const int maxTileValue;
 
-// This returns the max allowed tile value.
-+ (NSInteger)maxTileValue;
+// This is the max allowed tile value.
+extern const int minTileValue;
 
 // This returns the only allowed tile type strings.
 + (NSArray *)allowedTileSets;

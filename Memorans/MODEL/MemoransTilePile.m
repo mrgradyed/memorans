@@ -41,8 +41,8 @@
     }
 
     MemoransTile *newTile;
-    NSInteger minVal = [MemoransTile minTileValue];
-    NSInteger maxVal = [MemoransTile maxTileValue];
+    NSInteger minVal = minTileValue;
+    NSInteger maxVal = maxTileValue;
 
     // We generate the pile with the provided tile set.
     for (NSInteger tileVal = minVal; tileVal <= maxVal; tileVal++)

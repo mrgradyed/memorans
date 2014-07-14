@@ -154,7 +154,7 @@ static const int numberOfUniqueTilesSimultaneouslyInGame = 14;
         }
         else
         {
-            self.gameScore -= 1;
+            self.gameScore -= 2;
             selectedTile.selected = NO;
             self.previousSelectedTile.selected = NO;
         }
