@@ -8,20 +8,18 @@
 
 #import "MemoransTileView.h"
 
-
 @implementation MemoransTileView
 
 #pragma - SETTERS AND GETTERS
 
-
-- (void)setImageID:(NSString *)tileViewContent
+- (void)setImageID:(NSString *)imageID
 {
-    if ([_imageID isEqualToString:tileViewContent])
+    if ([_imageID isEqualToString:imageID])
     {
         return;
     }
 
-    _imageID = tileViewContent;
+    _imageID = imageID;
     [self setNeedsDisplay];
 }
 
@@ -61,17 +59,7 @@
 
 #pragma - INSTANCE METHODS
 
-- (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag
-{
-    if (self.shown)
-    {
-        [UIView transitionWithView:self
-            duration:1.0
-            options:UIViewAnimationOptionTransitionFlipFromLeft
-            animations:^{ self.shown = NO; }
-            completion:^(BOOL completed) {}];
-    }
-}
+
 
 - (void)configureView
 {
@@ -92,13 +80,14 @@
 
     [roundedRect addClip];
 
-    if (!self.paired)
+    if (self.paired)
     {
-        [[UIColor whiteColor] setFill];
+        [[UIColor clearColor] setFill];
     }
     else
     {
-        [[UIColor greenColor] setFill];
+        [[UIColor whiteColor] setFill];
+
     }
 
     UIRectFill(self.bounds);

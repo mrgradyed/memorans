@@ -20,9 +20,10 @@
 @property(strong, nonatomic) NSMutableArray *tileViews;
 @property(strong, nonatomic) MemoransGameEngine *game;
 @property(strong, nonatomic) NSString *gameTileSet;
-@property(nonatomic) NSInteger numOfTappedTiles;
+@property(strong, nonatomic) NSMutableArray *tappedTileViews;
 @property(strong, nonatomic) NSMutableAttributedString *scoreAttString;
 @property(nonatomic) NSDictionary *stringAttributes;
+@property(nonatomic) BOOL isWobbling;
 
 @end
 
@@ -49,7 +50,7 @@ static const NSInteger tileHeight = tileWidth;
     return CGRectMake(frameOriginX, frameOriginY, tileWidth, tileHeight);
 }
 
-+ (void)addWobblingAnimationToView:(UIView *)delegateView
+- (void)addWobblingAnimationToView:(UIView *)delegateView
 {
     CABasicAnimation *wobbling = [CABasicAnimation animationWithKeyPath:@"transform.rotation"];
 
@@ -61,14 +62,53 @@ static const NSInteger tileHeight = tileWidth;
 
     [wobbling setAutoreverses:YES];
 
-    [wobbling setRepeatCount:5];
+    [wobbling setRepeatCount:4];
 
-    wobbling.delegate = delegateView;
+    [wobbling setValue:@"wobbling" forKey:@"id"];
+
+    wobbling.delegate = self;
 
     [delegateView.layer addAnimation:wobbling forKey:@"wobbling"];
 }
 
+- (void)animationDidStart:(CAAnimation *)anim { self.isWobbling = YES; }
+
+- (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag
+{
+    if (!self.isWobbling)
+    {
+        return;
+    }
+
+    self.isWobbling = NO;
+
+    for (MemoransTileView *tileView in self.tappedTileViews)
+    {
+        [UIView transitionWithView:tileView
+            duration:0.3f
+            options:UIViewAnimationOptionTransitionFlipFromLeft
+            animations:^{ tileView.shown = NO; }
+            completion:^(BOOL finished) {
+                if ([self.tappedTileViews indexOfObject:tileView] == 1)
+                {
+                    [self.tappedTileViews removeAllObjects];
+                }
+            }];
+    }
+}
+
 #pragma mark - SETTERS AND GETTERS
+
+- (NSMutableArray *)tappedTileViews
+{
+
+    if (!_tappedTileViews)
+    {
+        _tappedTileViews = [[NSMutableArray alloc] init];
+    }
+
+    return _tappedTileViews;
+}
 
 - (void)setGameTileSet:(NSString *)gameTileSet
 {
@@ -128,37 +168,55 @@ static const NSInteger tileHeight = tileWidth;
     [self updateUIWithNewGame:YES];
 }
 
+- (IBAction)startNewGameButtonPressed
+{
+    for (MemoransTileView *tileView in self.tileViews)
+    {
+        [tileView removeFromSuperview];
+    }
+
+    self.game = nil;
+    self.tileViews = nil;
+    self.tappedTileViews = nil;
+
+    [self updateUIWithNewGame:YES];
+}
+
 - (void)tileTapped:(UITapGestureRecognizer *)tileTapRec
 {
 
     MemoransTileView *tappedTileView = (MemoransTileView *)tileTapRec.view;
 
-    if (tappedTileView.paired || tappedTileView.shown || self.numOfTappedTiles == 2)
+    if (tappedTileView.paired || tappedTileView.shown || [self.tappedTileViews count] == 2)
     {
         return;
     }
 
-    self.numOfTappedTiles++;
-
-    NSInteger tileIndex = [self.tileViews indexOfObject:tappedTileView];
-
-    if (tileIndex == NSNotFound)
-    {
-        return;
-    }
-
-    [self.game playTileAtIndex:tileIndex];
-
-    tappedTileView.shown = YES;
+    [self.tappedTileViews addObject:tappedTileView];
 
     [UIView transitionWithView:tappedTileView
-        duration:1.0
+        duration:0.5f
         options:UIViewAnimationOptionTransitionFlipFromRight
-        animations:^{}
+        animations:^{ tappedTileView.shown = YES; }
         completion:^(BOOL completed) {
-            if (self.numOfTappedTiles == 2)
+
+            if ([self.tappedTileViews indexOfObject:tappedTileView] == 1)
             {
+
+                [self.game playTileAtIndex:[self.tileViews indexOfObject:self.tappedTileViews[0]]];
+                [self.game playTileAtIndex:[self.tileViews indexOfObject:self.tappedTileViews[1]]];
+
                 [self updateUIWithNewGame:NO];
+
+                if (!tappedTileView.paired)
+                {
+                    [self addWobblingAnimationToView:self.tappedTileViews[0]];
+                    [self addWobblingAnimationToView:self.tappedTileViews[1]];
+                }
+                else
+                {
+                    [self.tappedTileViews removeAllObjects];
+                }
             }
         }];
 }
@@ -170,6 +228,7 @@ static const NSInteger tileHeight = tileWidth;
         self.tileArea.layer.cornerRadius = 5;
 
         MemoransTileView *tileView;
+
         CGRect tileOnBoardFrame;
 
         UITapGestureRecognizer *tileTapRecog;
@@ -189,7 +248,8 @@ static const NSInteger tileHeight = tileWidth;
 
                 tileView.center = CGPointMake(
                     tileOnBoardFrame.origin.x + tileOnBoardFrame.size.width / 2,
-                    self.view.frame.origin.y - arc4random() % (int)self.view.frame.size.height);
+                    (self.view.frame.origin.y - arc4random() % (int)self.view.frame.size.height) -
+                        tileView.bounds.size.height);
 
                 tileTapRecog =
                     [[UITapGestureRecognizer alloc] initWithTarget:self
@@ -201,12 +261,13 @@ static const NSInteger tileHeight = tileWidth;
                 [tileView addGestureRecognizer:tileTapRecog];
 
                 [self.tileViews addObject:tileView];
+
                 [self.tileArea addSubview:tileView];
 
                 [UIView animateWithDuration:2.0f
                                       delay:0
-                     usingSpringWithDamping:0.5f
-                      initialSpringVelocity:0.5f
+                     usingSpringWithDamping:0.6f
+                      initialSpringVelocity:0.4f
                                     options:0
                                  animations:^{ tileView.center = tileView.onBoardCenter; }
                                  completion:nil];
@@ -220,29 +281,17 @@ static const NSInteger tileHeight = tileWidth;
     for (MemoransTileView *tileView in self.tileViews)
     {
         tileIndex = [self.tileViews indexOfObject:tileView];
-
         if (tileIndex == NSNotFound)
         {
             return;
         }
 
         gameTile = [self.game tileOnBoardAtIndex:tileIndex];
-
         tileView.imageID = gameTile.tileID;
         tileView.paired = gameTile.paired;
-
-        if (tileView.shown && !tileView.paired && self.numOfTappedTiles == 2)
-        {
-            [MemoransGameViewController addWobblingAnimationToView:tileView];
-        }
     }
 
     self.scoreLabel.attributedText = self.scoreAttString;
-
-    if (self.numOfTappedTiles == 2)
-    {
-        self.numOfTappedTiles = 0;
-    }
 }
 
 - (void)didReceiveMemoryWarning

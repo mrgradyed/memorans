@@ -24,7 +24,7 @@
 
 #pragma mark - INSTANCE METHODS
 
-- (void)playTileAtIndex:(NSInteger)tileIndex;
+- (MemoransTile *)playTileAtIndex:(NSInteger)tileIndex;
 
 - (MemoransTile *)tileOnBoardAtIndex:(NSInteger)tileIndex;
 

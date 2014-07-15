@@ -126,14 +126,14 @@ static const int numberOfUniqueTilesSimultaneouslyInGame = 14;
     }
 }
 
-- (void)playTileAtIndex:(NSInteger)tileIndex
+- (MemoransTile *)playTileAtIndex:(NSInteger)tileIndex
 {
     MemoransTile *selectedTile = self.tilesOnBoard[tileIndex];
 
     // If it's already paired or selected return;
     if (selectedTile.paired || selectedTile.selected)
     {
-        return;
+        return nil;
     }
 
 
@@ -162,6 +162,8 @@ static const int numberOfUniqueTilesSimultaneouslyInGame = 14;
         self.previousSelectedTile = nil;
 
     }
+
+    return selectedTile;
 }
 
 @end
