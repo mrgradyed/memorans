@@ -100,14 +100,14 @@
     else
     {
         UIFont *backFont =
-            [[UIFont preferredFontForTextStyle:UIFontTextStyleCaption1] fontWithSize:98];
+            [[UIFont preferredFontForTextStyle:UIFontTextStyleCaption1] fontWithSize:48];
 
         NSMutableParagraphStyle *parStyle = [[NSMutableParagraphStyle alloc] init];
 
         [parStyle setAlignment:NSTextAlignmentCenter];
 
         NSAttributedString *tileBackString =
-            [[NSAttributedString alloc] initWithString:@"M"
+            [[NSAttributedString alloc] initWithString:self.imageID
                                             attributes:@{
                                                           NSFontAttributeName : backFont,
                                                           NSParagraphStyleAttributeName : parStyle

@@ -19,7 +19,6 @@
 @property(nonatomic, strong) MemoransTile *previousSelectedTile;
 @property(nonatomic) NSInteger gameScore;
 
-
 @end
 
 @implementation MemoransGameEngine
@@ -105,9 +104,9 @@ static const int numberOfUniqueTilesSimultaneouslyInGame = 14;
     NSInteger numberOfTilesInGame = [self.tilesOnBoard count];
     NSInteger tileIndex;
 
-    for (int i = 0; i < numberOfTilesInGame; i++)
+    for (int i = 0; i < numberOfTilesInGame / 2; i += 2)
     {
-        tileIndex = arc4random() % numberOfTilesInGame;
+        tileIndex = (arc4random() % numberOfTilesInGame / 2) + numberOfTilesInGame / 2;
 
         [self.tilesOnBoard exchangeObjectAtIndex:i withObjectAtIndex:tileIndex];
     }
@@ -136,7 +135,6 @@ static const int numberOfUniqueTilesSimultaneouslyInGame = 14;
         return nil;
     }
 
-
     selectedTile.selected = YES;
 
     if (!self.previousSelectedTile)
@@ -150,7 +148,6 @@ static const int numberOfUniqueTilesSimultaneouslyInGame = 14;
             self.gameScore += 5;
             selectedTile.paired = YES;
             self.previousSelectedTile.paired = YES;
-
         }
         else
         {
@@ -160,7 +157,6 @@ static const int numberOfUniqueTilesSimultaneouslyInGame = 14;
         }
 
         self.previousSelectedTile = nil;
-
     }
 
     return selectedTile;
