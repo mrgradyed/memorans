@@ -102,13 +102,13 @@ static const int numberOfUniqueTilesSimultaneouslyInGame = 14;
 - (void)shuffleTilesInGame
 {
     NSInteger numberOfTilesInGame = [self.tilesOnBoard count];
-    NSInteger tileIndex;
+    NSInteger jndex;
 
-    for (int i = 0; i < numberOfTilesInGame / 2; i += 2)
+    for (int index = numberOfTilesInGame - 1; index > 0; index--)
     {
-        tileIndex = (arc4random() % numberOfTilesInGame / 2) + numberOfTilesInGame / 2;
-
-        [self.tilesOnBoard exchangeObjectAtIndex:i withObjectAtIndex:tileIndex];
+        jndex = arc4random() % index;
+        NSLog(@"%d", jndex);
+        [self.tilesOnBoard exchangeObjectAtIndex:jndex withObjectAtIndex:index];
     }
 }
 

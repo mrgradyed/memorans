@@ -18,6 +18,7 @@
 @property(weak, nonatomic) IBOutlet UIButton *startNewGameButton;
 
 @property(strong, nonatomic) NSMutableArray *tileViews;
+@property(strong, nonatomic) NSMutableArray *tileViewsLeft;
 @property(strong, nonatomic) MemoransGameEngine *game;
 @property(strong, nonatomic) NSString *gameTileSet;
 @property(strong, nonatomic) NSMutableArray *tappedTileViews;
@@ -98,6 +99,18 @@ static const NSInteger tileHeight = tileWidth;
 }
 
 #pragma mark - SETTERS AND GETTERS
+
+- (NSMutableArray *)tileViewsLeft
+{
+
+    if (!_tileViewsLeft)
+    {
+
+        _tileViewsLeft = [self.tileViews mutableCopy];
+    }
+
+    return _tileViewsLeft;
+}
 
 - (NSMutableArray *)tappedTileViews
 {
@@ -192,12 +205,19 @@ static const NSInteger tileHeight = tileWidth;
         return;
     }
 
-    [self.tappedTileViews addObject:tappedTileView];
+    [self playTappedTileView:tappedTileView];
+}
+
+- (void)playTappedTileView:(MemoransTileView *)tappedTileView
+{
 
     [UIView transitionWithView:tappedTileView
         duration:0.5f
         options:UIViewAnimationOptionTransitionFlipFromRight
-        animations:^{ tappedTileView.shown = YES; }
+        animations:^{
+            tappedTileView.shown = YES;
+            [self.tappedTileViews addObject:tappedTileView];
+        }
         completion:^(BOOL completed) {
 
             if ([self.tappedTileViews indexOfObject:tappedTileView] == 1)
@@ -215,7 +235,26 @@ static const NSInteger tileHeight = tileWidth;
                 }
                 else
                 {
-                    [self.tappedTileViews removeAllObjects];
+
+                    [UIView transitionWithView:self.tappedTileViews[0]
+                                      duration:0.5f
+                                       options:UIViewAnimationOptionTransitionCurlUp
+                                    animations:^{}
+                                    completion:nil];
+
+                    [UIView transitionWithView:self.tappedTileViews[1]
+                        duration:0.5f
+                        options:UIViewAnimationOptionTransitionCurlUp
+                        animations:^{}
+                        completion:^(BOOL finished) {
+                            [self.tappedTileViews removeAllObjects];
+
+                            if ([self.tileViewsLeft count] == 2)
+                            {
+                                [self playTappedTileView:self.tileViewsLeft[0]];
+                                [self playTappedTileView:self.tileViewsLeft[1]];
+                            }
+                        }];
                 }
             }
         }];
@@ -289,6 +328,11 @@ static const NSInteger tileHeight = tileWidth;
         gameTile = [self.game tileOnBoardAtIndex:tileIndex];
         tileView.imageID = gameTile.tileID;
         tileView.paired = gameTile.paired;
+
+        if (tileView.paired)
+        {
+            [self.tileViewsLeft removeObject:tileView];
+        }
     }
 
     self.scoreLabel.attributedText = self.scoreAttString;
