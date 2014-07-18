@@ -101,13 +101,12 @@ static const int numberOfUniqueTilesSimultaneouslyInGame = 14;
 
 - (void)shuffleTilesInGame
 {
-    NSInteger numberOfTilesInGame = [self.tilesOnBoard count];
-    NSInteger jndex;
+    int numberOfTilesInGame = (int)[self.tilesOnBoard count];
+    int jndex;
 
     for (int index = numberOfTilesInGame - 1; index > 0; index--)
     {
         jndex = arc4random() % index;
-        NSLog(@"%d", jndex);
         [self.tilesOnBoard exchangeObjectAtIndex:jndex withObjectAtIndex:index];
     }
 }

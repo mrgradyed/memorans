@@ -15,7 +15,7 @@
 
 @property(weak, nonatomic) IBOutlet UIView *tileArea;
 @property(weak, nonatomic) IBOutlet UILabel *scoreLabel;
-@property(weak, nonatomic) IBOutlet UIButton *startNewGameButton;
+@property(weak, nonatomic) IBOutlet UIButton *aNewGameButton;
 
 @property(strong, nonatomic) NSMutableArray *tileViews;
 @property(strong, nonatomic) NSMutableArray *tileViewsLeft;
@@ -23,7 +23,8 @@
 @property(strong, nonatomic) NSString *gameTileSet;
 @property(strong, nonatomic) NSMutableArray *tappedTileViews;
 @property(strong, nonatomic) NSMutableAttributedString *scoreAttString;
-@property(nonatomic) NSDictionary *stringAttributes;
+@property(strong, nonatomic) NSDictionary *stringAttributes;
+
 @property(nonatomic) BOOL isWobbling;
 
 @end
@@ -49,53 +50,6 @@ static const NSInteger tileHeight = tileWidth;
     CGFloat frameOriginY = i * colHeight + tileMarginY;
 
     return CGRectMake(frameOriginX, frameOriginY, tileWidth, tileHeight);
-}
-
-- (void)addWobblingAnimationToView:(UIView *)delegateView
-{
-    CABasicAnimation *wobbling = [CABasicAnimation animationWithKeyPath:@"transform.rotation"];
-
-    [wobbling setFromValue:[NSNumber numberWithFloat:0.05f]];
-
-    [wobbling setToValue:[NSNumber numberWithFloat:-0.05f]];
-
-    [wobbling setDuration:0.1f];
-
-    [wobbling setAutoreverses:YES];
-
-    [wobbling setRepeatCount:4];
-
-    [wobbling setValue:@"wobbling" forKey:@"id"];
-
-    wobbling.delegate = self;
-
-    [delegateView.layer addAnimation:wobbling forKey:@"wobbling"];
-}
-
-- (void)animationDidStart:(CAAnimation *)anim { self.isWobbling = YES; }
-
-- (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag
-{
-    if (!self.isWobbling)
-    {
-        return;
-    }
-
-    self.isWobbling = NO;
-
-    for (MemoransTileView *tileView in self.tappedTileViews)
-    {
-        [UIView transitionWithView:tileView
-            duration:0.3f
-            options:UIViewAnimationOptionTransitionFlipFromLeft
-            animations:^{ tileView.shown = NO; }
-            completion:^(BOOL finished) {
-                if ([self.tappedTileViews indexOfObject:tileView] == 1)
-                {
-                    [self.tappedTileViews removeAllObjects];
-                }
-            }];
-    }
 }
 
 #pragma mark - SETTERS AND GETTERS
@@ -136,7 +90,7 @@ static const NSInteger tileHeight = tileWidth;
     if (!_stringAttributes)
     {
         _stringAttributes = @{
-            NSFontAttributeName : [UIFont boldSystemFontOfSize:30],
+            NSFontAttributeName : [UIFont boldSystemFontOfSize:40],
             NSForegroundColorAttributeName : self.tileArea.backgroundColor,
             NSTextEffectAttributeName : NSTextEffectLetterpressStyle,
         };
@@ -148,7 +102,7 @@ static const NSInteger tileHeight = tileWidth;
 - (NSMutableAttributedString *)scoreAttString
 {
     _scoreAttString = [[NSMutableAttributedString alloc]
-        initWithString:[NSString stringWithFormat:@"Score: %d", self.game.gameScore]
+        initWithString:[NSString stringWithFormat:@"Score: %d", (int)self.game.gameScore]
             attributes:self.stringAttributes];
 
     return _scoreAttString;
@@ -174,9 +128,16 @@ static const NSInteger tileHeight = tileWidth;
 
 #pragma mark - INSTANCE METHODS
 
+- (BOOL)prefersStatusBarHidden { return YES; }
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
+    NSAttributedString *aNewGameString =
+        [[NSAttributedString alloc] initWithString:@"New Game" attributes:self.stringAttributes];
+
+    [self.aNewGameButton setAttributedTitle:aNewGameString forState:UIControlStateNormal];
 
     [self updateUIWithNewGame:YES];
 }
@@ -247,6 +208,7 @@ static const NSInteger tileHeight = tileWidth;
                         options:UIViewAnimationOptionTransitionCurlUp
                         animations:^{}
                         completion:^(BOOL finished) {
+
                             [self.tappedTileViews removeAllObjects];
 
                             if ([self.tileViewsLeft count] == 2)
@@ -260,9 +222,10 @@ static const NSInteger tileHeight = tileWidth;
         }];
 }
 
-- (void)updateUIWithNewGame:(BOOL)isNewGame
+- (void)updateUIWithNewGame:(BOOL)restartGame
 {
-    if (isNewGame)
+
+    if (restartGame)
     {
         self.tileArea.layer.cornerRadius = 5;
 
@@ -336,6 +299,53 @@ static const NSInteger tileHeight = tileWidth;
     }
 
     self.scoreLabel.attributedText = self.scoreAttString;
+}
+
+- (void)addWobblingAnimationToView:(UIView *)delegateView
+{
+    CABasicAnimation *wobbling = [CABasicAnimation animationWithKeyPath:@"transform.rotation"];
+
+    [wobbling setFromValue:[NSNumber numberWithFloat:0.05f]];
+
+    [wobbling setToValue:[NSNumber numberWithFloat:-0.05f]];
+
+    [wobbling setDuration:0.1f];
+
+    [wobbling setAutoreverses:YES];
+
+    [wobbling setRepeatCount:4];
+
+    [wobbling setValue:@"wobbling" forKey:@"id"];
+
+    wobbling.delegate = self;
+
+    [delegateView.layer addAnimation:wobbling forKey:@"wobbling"];
+}
+
+- (void)animationDidStart:(CAAnimation *)anim { self.isWobbling = YES; }
+
+- (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag
+{
+    if (!self.isWobbling)
+    {
+        return;
+    }
+
+    self.isWobbling = NO;
+
+    for (MemoransTileView *tileView in self.tappedTileViews)
+    {
+        [UIView transitionWithView:tileView
+            duration:0.3f
+            options:UIViewAnimationOptionTransitionFlipFromLeft
+            animations:^{ tileView.shown = NO; }
+            completion:^(BOOL finished) {
+                if ([self.tappedTileViews indexOfObject:tileView] == 1)
+                {
+                    [self.tappedTileViews removeAllObjects];
+                }
+            }];
+    }
 }
 
 - (void)didReceiveMemoryWarning

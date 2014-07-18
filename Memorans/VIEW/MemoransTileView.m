@@ -59,8 +59,6 @@
 
 #pragma - INSTANCE METHODS
 
-
-
 - (void)configureView
 {
     self.backgroundColor = nil;
@@ -87,7 +85,6 @@
     else
     {
         [[UIColor whiteColor] setFill];
-
     }
 
     UIRectFill(self.bounds);
