@@ -15,13 +15,10 @@
 
 @property(nonatomic, readonly) NSInteger gameScore;
 
-
-
 #pragma mark - INITIALISERS
 
 // Designated initialiser.
-- (instancetype)initGameWithTileSet:(NSString *)tileSet;
-
+- (instancetype)initGameWithNum:(NSInteger)numOfGameTiles fromTileSet:(NSString *)tileSet;
 #pragma mark - INSTANCE METHODS
 
 - (MemoransTile *)playTileAtIndex:(NSInteger)tileIndex;

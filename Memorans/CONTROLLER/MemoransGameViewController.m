@@ -25,41 +25,97 @@
 @property(strong, nonatomic) NSMutableAttributedString *scoreAttString;
 @property(strong, nonatomic) NSDictionary *stringAttributes;
 
+@property(nonatomic) NSInteger numOfTilesOnBoard;
+@property(nonatomic) NSInteger numOfTilesCols;
+@property(nonatomic) NSInteger numOfTilesRows;
+@property(nonatomic) NSInteger tileWidth;
+@property(nonatomic) NSInteger tileHeight;
+
 @property(nonatomic) BOOL isWobbling;
 
 @end
 
 @implementation MemoransGameViewController
 
-#pragma mark - STATIC VARS AND METHODS
+static const NSInteger tileMargin = 5;
 
-static const NSInteger numberOfCols = 7;
-static const NSInteger numberOfRows = 4;
-static const NSInteger tileWidth = 120;
-static const NSInteger tileHeight = tileWidth;
-
-+ (CGRect)frameForTileAtRow:(NSInteger)i Col:(NSInteger)j inContainerFrame:(CGRect)frame
+- (CGRect)frameForTileAtRow:(NSInteger)i Col:(NSInteger)j
 {
-    NSInteger colWidth = frame.size.width / numberOfCols;
-    NSInteger colHeight = frame.size.height / numberOfRows;
+    NSInteger colWidth = self.tileArea.bounds.size.width / self.numOfTilesCols;
+    NSInteger colHeight = self.tileArea.bounds.size.height / self.numOfTilesRows;
 
-    CGFloat tileMarginX = (colWidth - tileWidth) / 2;
-    CGFloat tileMarginY = (colHeight - tileHeight) / 2;
+    CGFloat frameOriginX = j * colWidth + tileMargin;
+    CGFloat frameOriginY = i * colHeight + tileMargin;
 
-    CGFloat frameOriginX = j * colWidth + tileMarginX;
-    CGFloat frameOriginY = i * colHeight + tileMarginY;
-
-    return CGRectMake(frameOriginX, frameOriginY, tileWidth, tileHeight);
+    return CGRectMake(frameOriginX, frameOriginY, self.tileWidth, self.tileHeight);
 }
 
 #pragma mark - SETTERS AND GETTERS
 
+- (NSInteger)tileWidth
+{
+    NSInteger colWidth = self.tileArea.bounds.size.width / self.numOfTilesCols;
+
+    _tileWidth = colWidth - tileMargin * 2;
+
+    return _tileWidth;
+}
+
+- (NSInteger)tileHeight
+{
+    NSInteger colHeight = self.tileArea.bounds.size.height / self.numOfTilesRows;
+
+    _tileHeight = colHeight - tileMargin * 2;
+
+    return _tileHeight;
+}
+
+- (NSInteger)numOfTilesCols
+{
+    for (int r = 6; r >= 2; r--)
+    {
+        int c = (self.numOfTilesOnBoard / r);
+
+        if (self.numOfTilesOnBoard % r == 0 && r <= c)
+        {
+            _numOfTilesCols = c;
+            return _numOfTilesCols;
+        }
+    }
+
+    return _numOfTilesCols;
+}
+
+- (NSInteger)numOfTilesRows
+{
+    for (int r = 6; r >= 2; r--)
+    {
+        int c = (self.numOfTilesOnBoard / r);
+
+        if (self.numOfTilesOnBoard % r == 0 && r <= c)
+        {
+            _numOfTilesRows = r;
+            return _numOfTilesRows;
+        }
+    }
+
+    return _numOfTilesRows;
+}
+
+- (NSInteger)numOfTilesOnBoard
+{
+    if (!_numOfTilesOnBoard || _numOfTilesOnBoard % 2 != 0 || _numOfTilesOnBoard < 4)
+    {
+        _numOfTilesOnBoard = 6;
+    }
+
+    return _numOfTilesOnBoard;
+}
+
 - (NSMutableArray *)tileViewsLeft
 {
-
     if (!_tileViewsLeft)
     {
-
         _tileViewsLeft = [self.tileViews mutableCopy];
     }
 
@@ -77,12 +133,23 @@ static const NSInteger tileHeight = tileWidth;
     return _tappedTileViews;
 }
 
+@synthesize gameTileSet = _gameTileSet;
+
 - (void)setGameTileSet:(NSString *)gameTileSet
 {
     if ([[MemoransTile allowedTileSets] containsObject:gameTileSet])
     {
         _gameTileSet = gameTileSet;
     }
+}
+
+- (NSString *)gameTileSet
+{
+    if (!_gameTileSet)
+    {
+        _gameTileSet = [[MemoransTile allowedTileSets] firstObject];
+    }
+    return _gameTileSet;
 }
 
 - (NSDictionary *)stringAttributes
@@ -112,7 +179,7 @@ static const NSInteger tileHeight = tileWidth;
 {
     if (!_tileViews)
     {
-        _tileViews = [[NSMutableArray alloc] init];
+        _tileViews = [[NSMutableArray alloc] initWithCapacity:self.numOfTilesOnBoard];
     }
     return _tileViews;
 }
@@ -121,7 +188,8 @@ static const NSInteger tileHeight = tileWidth;
 {
     if (!_game)
     {
-        _game = [[MemoransGameEngine alloc] initGameWithTileSet:self.gameTileSet];
+        _game = [[MemoransGameEngine alloc] initGameWithNum:self.numOfTilesOnBoard
+                                                fromTileSet:self.gameTileSet];
     }
     return _game;
 }
@@ -133,6 +201,9 @@ static const NSInteger tileHeight = tileWidth;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
+    self.tileArea.backgroundColor =
+        [UIColor colorWithRed:255 / 255.0f green:211 / 255.0f blue:224 / 255.0f alpha:1];
 
     NSAttributedString *aNewGameString =
         [[NSAttributedString alloc] initWithString:@"New Game" attributes:self.stringAttributes];
@@ -149,16 +220,17 @@ static const NSInteger tileHeight = tileWidth;
         [tileView removeFromSuperview];
     }
 
-    self.game = nil;
     self.tileViews = nil;
+    self.tileViewsLeft = nil;
+    self.game = nil;
     self.tappedTileViews = nil;
+    self.isWobbling = NO;
 
     [self updateUIWithNewGame:YES];
 }
 
 - (void)tileTapped:(UITapGestureRecognizer *)tileTapRec
 {
-
     MemoransTileView *tappedTileView = (MemoransTileView *)tileTapRec.view;
 
     if (tappedTileView.paired || tappedTileView.shown || [self.tappedTileViews count] == 2)
@@ -171,7 +243,6 @@ static const NSInteger tileHeight = tileWidth;
 
 - (void)playTappedTileView:(MemoransTileView *)tappedTileView
 {
-
     [UIView transitionWithView:tappedTileView
         duration:0.5f
         options:UIViewAnimationOptionTransitionFlipFromRight
@@ -183,7 +254,6 @@ static const NSInteger tileHeight = tileWidth;
 
             if ([self.tappedTileViews indexOfObject:tappedTileView] == 1)
             {
-
                 [self.game playTileAtIndex:[self.tileViews indexOfObject:self.tappedTileViews[0]]];
                 [self.game playTileAtIndex:[self.tileViews indexOfObject:self.tappedTileViews[1]]];
 
@@ -196,7 +266,6 @@ static const NSInteger tileHeight = tileWidth;
                 }
                 else
                 {
-
                     [UIView transitionWithView:self.tappedTileViews[0]
                                       duration:0.5f
                                        options:UIViewAnimationOptionTransitionCurlUp
@@ -224,7 +293,6 @@ static const NSInteger tileHeight = tileWidth;
 
 - (void)updateUIWithNewGame:(BOOL)restartGame
 {
-
     if (restartGame)
     {
         self.tileArea.layer.cornerRadius = 5;
@@ -235,14 +303,11 @@ static const NSInteger tileHeight = tileWidth;
 
         UITapGestureRecognizer *tileTapRecog;
 
-        for (int i = 0; i < numberOfRows; i++)
+        for (int i = 0; i < self.numOfTilesRows; i++)
         {
-            for (int j = 0; j < numberOfCols; j++)
+            for (int j = 0; j < self.numOfTilesCols; j++)
             {
-                tileOnBoardFrame =
-                    [MemoransGameViewController frameForTileAtRow:i
-                                                              Col:j
-                                                 inContainerFrame:self.tileArea.frame];
+                tileOnBoardFrame = [self frameForTileAtRow:i Col:j];
 
                 tileView = [[MemoransTileView alloc] initWithFrame:tileOnBoardFrame];
 

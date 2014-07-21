@@ -92,7 +92,14 @@
     if (self.shown)
     {
         UIImage *faceImage = [UIImage imageNamed:[self imageID]];
-        [faceImage drawInRect:self.bounds];
+
+        CGFloat imageSize = MIN(self.bounds.size.width, self.bounds.size.height);
+
+        CGRect imageRect =
+            CGRectMake((self.bounds.size.width - imageSize) / 2,
+                       (self.bounds.size.height - imageSize) / 2, imageSize, imageSize);
+
+        [faceImage drawInRect:imageRect];
     }
     else
     {

@@ -10,46 +10,47 @@
 
 @implementation MemoransBackgroundView
 
+#pragma mark - INIT
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self)
     {
-        // Initialization code
     }
     return self;
 }
+
+#pragma mark - DRAWING
 
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
 - (void)drawRect:(CGRect)rect
 {
-    // Gradient
+    // A gradient for the background.
 
+    // Saving current context.
     CGContextRef currentContext = UIGraphicsGetCurrentContext();
     CGContextSaveGState(currentContext);
 
-    CGColorSpaceRef myColorSpace = CGColorSpaceCreateDeviceRGB();
+    CGColorSpaceRef rgbColorSpace = CGColorSpaceCreateDeviceRGB();
 
-    CGFloat colorComponents[8] = { 26 / 255.0f, 214 / 255.0f, 253 / 255.0f, 1.0f,
-                                   29 / 255.0f, 98 / 255.0f,  240 / 255.0f, 1.0f };
+    CGFloat colorsComponents[8] = { 198 / 255.0f, 68 / 255.0f, 252 / 255.0f, 1,
+                                    88 / 255.0f,  86 / 255.0f, 214 / 255.0f, 1 };
 
-    CGFloat colorLocations[2] = { 0.0f, 1.0f };
+    CGFloat colorsLocations[2] = { 0, 1 };
 
-    CGGradientRef myGradient =
-        CGGradientCreateWithColorComponents(myColorSpace, colorComponents, colorLocations, 2);
+    CGGradientRef backgroundGradient =
+        CGGradientCreateWithColorComponents(rgbColorSpace, colorsComponents, colorsLocations, 2);
 
-    CGPoint gradientStartPoint =
-        CGPointMake(self.bounds.origin.x + self.bounds.size.width / 2, self.bounds.origin.y);
+    CGPoint startPoint = CGPointMake(self.bounds.origin.x, self.bounds.origin.y);
+    CGPoint stopPoint = CGPointMake(self.bounds.size.width, self.bounds.size.height);
 
-    CGPoint gradientStopPoint = CGPointMake(self.bounds.size.width / 2, self.bounds.size.height);
+    CGContextDrawLinearGradient(currentContext, backgroundGradient, startPoint, stopPoint, 0);
 
-    CGContextDrawLinearGradient(currentContext, myGradient, gradientStartPoint, gradientStopPoint,
-                                0);
+    CGGradientRelease(backgroundGradient);
+    CGColorSpaceRelease(rgbColorSpace);
 
-    CGGradientRelease(myGradient);
-    CGColorSpaceRelease(myColorSpace);
-
+    // Restore context.
     CGContextRestoreGState(currentContext);
 }
 

@@ -14,8 +14,8 @@
 
 #pragma mark - PROPERTIES
 
-@property(nonatomic, strong) MemoransTilePile *gamePile;
-@property(nonatomic, strong) NSMutableArray *tilesOnBoard;
+@property(nonatomic, strong) MemoransTilePile *uniqueTilesPile;
+@property(nonatomic, strong) NSMutableArray *tilesInGame;
 @property(nonatomic, strong) MemoransTile *previousSelectedTile;
 @property(nonatomic) NSInteger gameScore;
 
@@ -23,23 +23,21 @@
 
 @implementation MemoransGameEngine
 
-static const int numberOfUniqueTilesSimultaneouslyInGame = 14;
-
 #pragma mark - SETTERS AND GETTERS
-- (NSMutableArray *)tilesOnBoard
+- (NSMutableArray *)tilesInGame
 {
 
-    if (!_tilesOnBoard)
+    if (!_tilesInGame)
     {
-        _tilesOnBoard = [[NSMutableArray alloc] init];
+        _tilesInGame = [[NSMutableArray alloc] init];
     }
-    return _tilesOnBoard;
+    return _tilesInGame;
 }
 
 #pragma mark - INITIALISERS
 
 // Designated initialiser.
-- (instancetype)initGameWithTileSet:(NSString *)tileSet
+- (instancetype)initGameWithNum:(NSInteger)numOfGameTiles fromTileSet:(NSString *)tileSet
 {
     self = [super init];
 
@@ -52,16 +50,20 @@ static const int numberOfUniqueTilesSimultaneouslyInGame = 14;
     // available set.
     if (tileSet)
     {
-        self.gamePile = [[MemoransTilePile alloc] initWithSet:tileSet];
+        self.uniqueTilesPile = [[MemoransTilePile alloc] initWithSet:tileSet];
     }
     else
     {
-        self.gamePile = [[MemoransTilePile alloc] init];
+        self.uniqueTilesPile = [[MemoransTilePile alloc] init];
     }
 
+    if (numOfGameTiles % 2 != 0 || numOfGameTiles < 4)
+    {
+        numOfGameTiles = 6;
+    }
     // We draw as much tiles from the pile as the number requested
     // The actual number of tiles in game is twice that number.
-    for (int i = 0; i < numberOfUniqueTilesSimultaneouslyInGame; i++)
+    for (int i = 0; i < numOfGameTiles / 2; i++)
     {
         [self addPairOfTilesToGame];
     }
@@ -82,7 +84,7 @@ static const int numberOfUniqueTilesSimultaneouslyInGame = 14;
         return nil;
     }
 
-    self = [self initGameWithTileSet:nil];
+    self = [self initGameWithNum:0 fromTileSet:nil];
 
     return self;
 }
@@ -92,31 +94,31 @@ static const int numberOfUniqueTilesSimultaneouslyInGame = 14;
 - (void)addPairOfTilesToGame
 {
     // Extract one tile from the pile and add it twice to the game tiles.
-    MemoransTile *newTile = [self.gamePile extractRandomTileFromPile];
+    MemoransTile *newTile = [self.uniqueTilesPile extractRandomTileFromPile];
 
     // We need the same tile twice in the game.
-    [self.tilesOnBoard addObject:newTile];
-    [self.tilesOnBoard addObject:[newTile copy]];
+    [self.tilesInGame addObject:newTile];
+    [self.tilesInGame addObject:[newTile copy]];
 }
 
 - (void)shuffleTilesInGame
 {
-    int numberOfTilesInGame = (int)[self.tilesOnBoard count];
+    int numberOfTilesInGame = (int)[self.tilesInGame count];
     int jndex;
 
     for (int index = numberOfTilesInGame - 1; index > 0; index--)
     {
         jndex = arc4random() % index;
-        [self.tilesOnBoard exchangeObjectAtIndex:jndex withObjectAtIndex:index];
+        [self.tilesInGame exchangeObjectAtIndex:jndex withObjectAtIndex:index];
     }
 }
 
 - (MemoransTile *)tileOnBoardAtIndex:(NSInteger)tileIndex
 {
 
-    if (tileIndex < [self.tilesOnBoard count])
+    if (tileIndex < [self.tilesInGame count])
     {
-        return [self.tilesOnBoard objectAtIndex:tileIndex];
+        return [self.tilesInGame objectAtIndex:tileIndex];
     }
     else
     {
@@ -126,7 +128,7 @@ static const int numberOfUniqueTilesSimultaneouslyInGame = 14;
 
 - (MemoransTile *)playTileAtIndex:(NSInteger)tileIndex
 {
-    MemoransTile *selectedTile = self.tilesOnBoard[tileIndex];
+    MemoransTile *selectedTile = self.tilesInGame[tileIndex];
 
     // If it's already paired or selected return;
     if (selectedTile.paired || selectedTile.selected)
