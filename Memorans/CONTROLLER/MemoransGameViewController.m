@@ -10,12 +10,13 @@
 #import "MemoransTileView.h"
 #import "MemoransTile.h"
 #import "MemoransGameEngine.h"
+#import "MemoransScoreOverlayView.h"
 
 @interface MemoransGameViewController () <UIDynamicAnimatorDelegate>
 
 @property(weak, nonatomic) IBOutlet UIView *tileArea;
 @property(weak, nonatomic) IBOutlet UILabel *scoreLabel;
-@property(weak, nonatomic) IBOutlet UIButton *aNewGameButton;
+@property(weak, nonatomic) IBOutlet UIButton *restartGameButton;
 
 @property(strong, nonatomic) NSMutableArray *tileViews;
 @property(strong, nonatomic) NSMutableArray *tileViewsLeft;
@@ -56,30 +57,25 @@ static const NSInteger tileMargin = 5;
 {
     NSInteger colWidth = self.tileArea.bounds.size.width / self.numOfTilesCols;
 
-    _tileWidth = colWidth - tileMargin * 2;
-
-    return _tileWidth;
+    return _tileWidth = colWidth - tileMargin * 2;
 }
 
 - (NSInteger)tileHeight
 {
     NSInteger colHeight = self.tileArea.bounds.size.height / self.numOfTilesRows;
 
-    _tileHeight = colHeight - tileMargin * 2;
-
-    return _tileHeight;
+    return _tileHeight = colHeight - tileMargin * 2;
 }
 
 - (NSInteger)numOfTilesCols
 {
     for (int r = 6; r >= 2; r--)
     {
-        int c = (self.numOfTilesOnBoard / r);
+        int c = ((int)self.numOfTilesOnBoard / r);
 
         if (self.numOfTilesOnBoard % r == 0 && r <= c)
         {
-            _numOfTilesCols = c;
-            return _numOfTilesCols;
+            return _numOfTilesCols = c;
         }
     }
 
@@ -90,12 +86,11 @@ static const NSInteger tileMargin = 5;
 {
     for (int r = 6; r >= 2; r--)
     {
-        int c = (self.numOfTilesOnBoard / r);
+        int c = ((int)self.numOfTilesOnBoard / r);
 
         if (self.numOfTilesOnBoard % r == 0 && r <= c)
         {
-            _numOfTilesRows = r;
-            return _numOfTilesRows;
+            return _numOfTilesRows = r;
         }
     }
 
@@ -106,7 +101,7 @@ static const NSInteger tileMargin = 5;
 {
     if (!_numOfTilesOnBoard || _numOfTilesOnBoard % 2 != 0 || _numOfTilesOnBoard < 4)
     {
-        _numOfTilesOnBoard = 6;
+        _numOfTilesOnBoard = 24;
     }
 
     return _numOfTilesOnBoard;
@@ -205,10 +200,10 @@ static const NSInteger tileMargin = 5;
     self.tileArea.backgroundColor =
         [UIColor colorWithRed:255 / 255.0f green:211 / 255.0f blue:224 / 255.0f alpha:1];
 
-    NSAttributedString *aNewGameString =
-        [[NSAttributedString alloc] initWithString:@"New Game" attributes:self.stringAttributes];
+    NSAttributedString *restartGameString =
+        [[NSAttributedString alloc] initWithString:@"Restart" attributes:self.stringAttributes];
 
-    [self.aNewGameButton setAttributedTitle:aNewGameString forState:UIControlStateNormal];
+    [self.restartGameButton setAttributedTitle:restartGameString forState:UIControlStateNormal];
 
     [self updateUIWithNewGame:YES];
 }
@@ -261,11 +256,19 @@ static const NSInteger tileMargin = 5;
 
                 if (!tappedTileView.paired)
                 {
+                    // Played tiles not paired.
+
+                    [self animateScoreOverlayWithPoints:notPairedMalus];
+
                     [self addWobblingAnimationToView:self.tappedTileViews[0]];
                     [self addWobblingAnimationToView:self.tappedTileViews[1]];
                 }
                 else
                 {
+                    // Played tiles PAIRED!!
+
+                    [self animateScoreOverlayWithPoints:pairedBonus];
+
                     [UIView transitionWithView:self.tappedTileViews[0]
                                       duration:0.5f
                                        options:UIViewAnimationOptionTransitionCurlUp
@@ -280,6 +283,7 @@ static const NSInteger tileMargin = 5;
 
                             [self.tappedTileViews removeAllObjects];
 
+                            // If only 2 tiles are left, play those automatically.
                             if ([self.tileViewsLeft count] == 2)
                             {
                                 [self playTappedTileView:self.tileViewsLeft[0]];
@@ -288,6 +292,25 @@ static const NSInteger tileMargin = 5;
                         }];
                 }
             }
+        }];
+}
+
+- (void)animateScoreOverlayWithPoints:(NSInteger)points
+{
+    MemoransScoreOverlayView *scoreOverlayView =
+        [[MemoransScoreOverlayView alloc] initWithScore:points];
+
+    [self.tileArea addSubview:scoreOverlayView];
+
+    [UIView animateWithDuration:0.2f
+        animations:^{
+            scoreOverlayView.center = CGPointMake(CGRectGetMidX(self.tileArea.bounds),
+                                                  CGRectGetMidY(self.tileArea.bounds));
+        }
+        completion:^(BOOL finished) {
+            [UIView animateWithDuration:0.6f
+                animations:^{ scoreOverlayView.alpha = 0; }
+                completion:^(BOOL finished) {}];
         }];
 }
 

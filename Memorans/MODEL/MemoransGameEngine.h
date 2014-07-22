@@ -25,4 +25,7 @@
 
 - (MemoransTile *)tileOnBoardAtIndex:(NSInteger)tileIndex;
 
+extern const int pairedBonus;
+extern const int notPairedMalus;
+
 @end

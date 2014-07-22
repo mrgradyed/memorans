@@ -115,7 +115,6 @@
 
 - (MemoransTile *)tileOnBoardAtIndex:(NSInteger)tileIndex
 {
-
     if (tileIndex < [self.tilesInGame count])
     {
         return [self.tilesInGame objectAtIndex:tileIndex];
@@ -125,6 +124,9 @@
         return nil;
     }
 }
+
+const int pairedBonus = 5;
+const int notPairedMalus = -2;
 
 - (MemoransTile *)playTileAtIndex:(NSInteger)tileIndex
 {
@@ -146,13 +148,13 @@
     {
         if ([selectedTile isEqualToTile:self.previousSelectedTile])
         {
-            self.gameScore += 5;
+            self.gameScore += pairedBonus;
             selectedTile.paired = YES;
             self.previousSelectedTile.paired = YES;
         }
         else
         {
-            self.gameScore -= 2;
+            self.gameScore += notPairedMalus;
             selectedTile.selected = NO;
             self.previousSelectedTile.selected = NO;
         }
