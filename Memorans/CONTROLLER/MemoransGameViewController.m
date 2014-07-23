@@ -10,7 +10,7 @@
 #import "MemoransTileView.h"
 #import "MemoransTile.h"
 #import "MemoransGameEngine.h"
-#import "MemoransScoreOverlayView.h"
+#import "MemoransOverlayView.h"
 
 @interface MemoransGameViewController () <UIDynamicAnimatorDelegate>
 
@@ -20,6 +20,9 @@
 
 @property(strong, nonatomic) NSMutableArray *tileViews;
 @property(strong, nonatomic) NSMutableArray *tileViewsLeft;
+@property(strong, nonatomic) MemoransOverlayView *malusOverlayView;
+@property(strong, nonatomic) MemoransOverlayView *bonusOverlayView;
+
 @property(strong, nonatomic) MemoransGameEngine *game;
 @property(strong, nonatomic) NSString *gameTileSet;
 @property(strong, nonatomic) NSMutableArray *tappedTileViews;
@@ -52,6 +55,38 @@ static const NSInteger tileMargin = 5;
 }
 
 #pragma mark - SETTERS AND GETTERS
+
+- (MemoransOverlayView *)bonusOverlayView
+{
+    if (!_bonusOverlayView)
+    {
+        _bonusOverlayView = [[MemoransOverlayView alloc] initWithFrame:CGRectZero];
+
+        _bonusOverlayView.overlayColor = [UIColor blueColor];
+
+        _bonusOverlayView.overlayString = [NSString stringWithFormat:@"%d", pairedBonus];
+
+        [self.tileArea addSubview:_bonusOverlayView];
+    }
+
+    return _bonusOverlayView;
+}
+
+- (MemoransOverlayView *)malusOverlayView
+{
+    if (!_malusOverlayView)
+    {
+        _malusOverlayView = [[MemoransOverlayView alloc] initWithFrame:CGRectZero];
+
+        _malusOverlayView.overlayColor = [UIColor redColor];
+
+        _malusOverlayView.overlayString = [NSString stringWithFormat:@"%d", notPairedMalus];
+
+        [self.tileArea addSubview:_malusOverlayView];
+    }
+
+    return _malusOverlayView;
+}
 
 - (NSInteger)tileWidth
 {
@@ -101,7 +136,7 @@ static const NSInteger tileMargin = 5;
 {
     if (!_numOfTilesOnBoard || _numOfTilesOnBoard % 2 != 0 || _numOfTilesOnBoard < 4)
     {
-        _numOfTilesOnBoard = 24;
+        _numOfTilesOnBoard = 6;
     }
 
     return _numOfTilesOnBoard;
@@ -217,9 +252,11 @@ static const NSInteger tileMargin = 5;
 
     self.tileViews = nil;
     self.tileViewsLeft = nil;
-    self.game = nil;
     self.tappedTileViews = nil;
+    self.malusOverlayView = nil;
+    self.bonusOverlayView = nil;
     self.isWobbling = NO;
+    self.game = nil;
 
     [self updateUIWithNewGame:YES];
 }
@@ -238,6 +275,13 @@ static const NSInteger tileMargin = 5;
 
 - (void)playTappedTileView:(MemoransTileView *)tappedTileView
 {
+    if ([self.tappedTileViews count] != 2)
+    {
+        [self.malusOverlayView resetView];
+
+        [self.bonusOverlayView resetView];
+    }
+
     [UIView transitionWithView:tappedTileView
         duration:0.5f
         options:UIViewAnimationOptionTransitionFlipFromRight
@@ -256,18 +300,14 @@ static const NSInteger tileMargin = 5;
 
                 if (!tappedTileView.paired)
                 {
-                    // Played tiles not paired.
-
-                    [self animateScoreOverlayWithPoints:notPairedMalus];
+                    [self animateOverlayWithOverlayView:self.malusOverlayView];
 
                     [self addWobblingAnimationToView:self.tappedTileViews[0]];
                     [self addWobblingAnimationToView:self.tappedTileViews[1]];
                 }
                 else
                 {
-                    // Played tiles PAIRED!!
-
-                    [self animateScoreOverlayWithPoints:pairedBonus];
+                    [self animateOverlayWithOverlayView:self.bonusOverlayView];
 
                     [UIView transitionWithView:self.tappedTileViews[0]
                                       duration:0.5f
@@ -283,7 +323,6 @@ static const NSInteger tileMargin = 5;
 
                             [self.tappedTileViews removeAllObjects];
 
-                            // If only 2 tiles are left, play those automatically.
                             if ([self.tileViewsLeft count] == 2)
                             {
                                 [self playTappedTileView:self.tileViewsLeft[0]];
@@ -295,22 +334,16 @@ static const NSInteger tileMargin = 5;
         }];
 }
 
-- (void)animateScoreOverlayWithPoints:(NSInteger)points
+- (void)animateOverlayWithOverlayView:(MemoransOverlayView *)overlayView
 {
-    MemoransScoreOverlayView *scoreOverlayView =
-        [[MemoransScoreOverlayView alloc] initWithScore:points];
-
-    [self.tileArea addSubview:scoreOverlayView];
 
     [UIView animateWithDuration:0.2f
         animations:^{
-            scoreOverlayView.center = CGPointMake(CGRectGetMidX(self.tileArea.bounds),
-                                                  CGRectGetMidY(self.tileArea.bounds));
+            overlayView.center = CGPointMake(CGRectGetMidX(self.tileArea.bounds),
+                                             CGRectGetMidY(self.tileArea.bounds));
         }
         completion:^(BOOL finished) {
-            [UIView animateWithDuration:0.6f
-                animations:^{ scoreOverlayView.alpha = 0; }
-                completion:^(BOOL finished) {}];
+            [UIView animateWithDuration:0.8f animations:^{ overlayView.alpha = 0; } completion:nil];
         }];
 }
 
@@ -436,23 +469,6 @@ static const NSInteger tileMargin = 5;
     }
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little
-preparation before
-navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+- (void)didReceiveMemoryWarning { [super didReceiveMemoryWarning]; }
 
 @end

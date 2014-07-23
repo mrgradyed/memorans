@@ -11,7 +11,7 @@
 @implementation MemoransBackgroundView
 
 #pragma mark - INIT
-- (id)initWithFrame:(CGRect)frame
+- (instancetype)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self)
@@ -22,13 +22,9 @@
 
 #pragma mark - DRAWING
 
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
 - (void)drawRect:(CGRect)rect
 {
-    // A gradient for the background.
 
-    // Saving current context.
     CGContextRef currentContext = UIGraphicsGetCurrentContext();
     CGContextSaveGState(currentContext);
 
@@ -50,7 +46,6 @@
     CGGradientRelease(backgroundGradient);
     CGColorSpaceRelease(rgbColorSpace);
 
-    // Restore context.
     CGContextRestoreGState(currentContext);
 }
 

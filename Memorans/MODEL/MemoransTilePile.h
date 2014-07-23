@@ -14,7 +14,6 @@
 
 #pragma mark - INITIALISERS
 
-// Designated initialiser
 - (instancetype)initWithSet:(NSString *)tileSet;
 
 #pragma mark - INSTANCE METHODS

@@ -16,9 +16,20 @@
 
 @implementation MemoransTile
 
+#pragma mark - SETTERS AND GETTERS
+
+- (void)setTileValue:(NSInteger)tileValue
+{
+    if (minTileValue <= tileValue <= maxTileValue)
+    {
+        _tileValue = tileValue;
+    }
+}
+
+#pragma mark - NSCopying PROTOCOL
+
 - (id)copyWithZone:(NSZone *)zone
 {
-
     MemoransTile *tileCopy = [[MemoransTile allocWithZone:zone] init];
 
     tileCopy.tileValue = self.tileValue;
@@ -29,21 +40,9 @@
     return tileCopy;
 }
 
-#pragma mark - SETTERS AND GETTERS
-
-- (void)setTileValue:(NSInteger)tileValue
-{
-    // The new value must be among the allowed ones.
-    if (minTileValue <= tileValue <= maxTileValue)
-    {
-        _tileValue = tileValue;
-    }
-}
 
 - (void)setTileSet:(NSString *)tileSet
 {
-    // If tileType string is not among the allowed ones, we do not set it for this
-    // tile.
     if ([[MemoransTile allowedTileSets] containsObject:tileSet])
     {
         _tileSet = tileSet;
@@ -60,12 +59,7 @@
     return _tileID;
 }
 
-#pragma mark - CLASS VARS AND METHODS
 
-const int maxTileValue = 20;
-const int minTileValue = 1;
-
-+ (NSArray *)allowedTileSets { return @[ @"a", @"b" ]; }
 
 #pragma mark - INSTANCE METHODS
 
@@ -77,5 +71,12 @@ const int minTileValue = 1;
     }
     return NO;
 }
+
+#pragma mark - CLASS VARS AND METHODS
+
+const int maxTileValue = 20;
+const int minTileValue = 1;
+
++ (NSArray *)allowedTileSets { return @[ @"h", @"a" ]; }
 
 @end

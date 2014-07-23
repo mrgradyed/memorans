@@ -14,13 +14,10 @@
 
 @property(nonatomic) NSString *imageID;
 
-// This flag is set to YES if tile is current selected.
 @property(nonatomic) BOOL shown;
 
-// This flag is to check if the tile has been correctly paired with its "twin".
 @property(nonatomic) BOOL paired;
 
-@property (nonatomic) CGPoint onBoardCenter;
-
+@property(nonatomic) CGPoint onBoardCenter;
 
 @end

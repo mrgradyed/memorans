@@ -46,8 +46,6 @@
         return nil;
     }
 
-    // If the provided tile set is nil we will create a game pile using the first
-    // available set.
     if (tileSet)
     {
         self.uniqueTilesPile = [[MemoransTilePile alloc] initWithSet:tileSet];
@@ -61,8 +59,7 @@
     {
         numOfGameTiles = 6;
     }
-    // We draw as much tiles from the pile as the number requested
-    // The actual number of tiles in game is twice that number.
+
     for (int i = 0; i < numOfGameTiles / 2; i++)
     {
         [self addPairOfTilesToGame];
@@ -73,8 +70,6 @@
     return self;
 }
 
-// Init uses the designated initialiser
-// to create a default game with 14(x2) tiles of the first available set.
 - (instancetype)init
 {
     self = [super init];
@@ -93,10 +88,8 @@
 
 - (void)addPairOfTilesToGame
 {
-    // Extract one tile from the pile and add it twice to the game tiles.
     MemoransTile *newTile = [self.uniqueTilesPile extractRandomTileFromPile];
 
-    // We need the same tile twice in the game.
     [self.tilesInGame addObject:newTile];
     [self.tilesInGame addObject:[newTile copy]];
 }
@@ -132,7 +125,6 @@ const int notPairedMalus = -2;
 {
     MemoransTile *selectedTile = self.tilesInGame[tileIndex];
 
-    // If it's already paired or selected return;
     if (selectedTile.paired || selectedTile.selected)
     {
         return nil;

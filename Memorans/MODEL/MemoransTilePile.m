@@ -57,8 +57,6 @@
     return self;
 }
 
-// The default initialiser uses the designated initialiser
-// to init a pile with the first allowed tile set by default.
 - (instancetype)init
 {
     self = [super init];
@@ -91,6 +89,5 @@
     }
     return randomTile;
 }
-
 
 @end

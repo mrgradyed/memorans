@@ -8,7 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MemoransScoreOverlayView : UIView
+@interface MemoransOverlayView : UIView
 
-- (instancetype)initWithScore:(NSInteger)score;
+@property(nonatomic, strong) NSString *overlayString;
+@property(nonatomic, strong) UIColor *overlayColor;
+
+- (void)resetView;
 @end
