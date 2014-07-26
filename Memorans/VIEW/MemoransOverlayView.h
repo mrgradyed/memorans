@@ -10,8 +10,14 @@
 
 @interface MemoransOverlayView : UIView
 
+#pragma mark - PUBLIC PROPERTIES
+
 @property(nonatomic, strong) NSString *overlayString;
+
 @property(nonatomic, strong) UIColor *overlayColor;
 
+#pragma mark - PUBLIC METHODS
+
 - (void)resetView;
+
 @end

@@ -12,11 +12,11 @@
 
 @interface MemoransTilePile : NSObject
 
-#pragma mark - INITIALISERS
+#pragma mark - DESIGNATED INITIALISER
 
 - (instancetype)initWithSet:(NSString *)tileSet;
 
-#pragma mark - INSTANCE METHODS
+#pragma mark - PUBLIC METHODS
 
 - (MemoransTile *)extractRandomTileFromPile;
 

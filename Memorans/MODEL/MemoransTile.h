@@ -14,24 +14,22 @@
 
 @property(nonatomic) NSInteger tileValue;
 
-@property(nonatomic) NSString *tileSet;
-
-@property(nonatomic, readonly) NSString *tileID;
+@property(nonatomic, strong) NSString *tileSet;
+@property(nonatomic, strong, readonly) NSString *tileID;
 
 @property(nonatomic) BOOL selected;
-
 @property(nonatomic) BOOL paired;
 
-#pragma mark - CLASS METHODS
+#pragma mark - GLOBAL VARS
 
 extern const int maxTileValue;
 
 extern const int minTileValue;
 
-+ (NSArray *)allowedTileSets;
-
-#pragma mark - INSTANCE METHODS
+#pragma mark - PUBLIC METHODS
 
 - (BOOL)isEqualToTile:(MemoransTile *)otherTile;
+
++ (NSArray *)allowedTileSets;
 
 @end

@@ -26,21 +26,6 @@
     }
 }
 
-#pragma mark - NSCopying PROTOCOL
-
-- (id)copyWithZone:(NSZone *)zone
-{
-    MemoransTile *tileCopy = [[MemoransTile allocWithZone:zone] init];
-
-    tileCopy.tileValue = self.tileValue;
-    tileCopy.tileSet = self.tileSet;
-    tileCopy.selected = self.selected;
-    tileCopy.paired = self.paired;
-
-    return tileCopy;
-}
-
-
 - (void)setTileSet:(NSString *)tileSet
 {
     if ([[MemoransTile allowedTileSets] containsObject:tileSet])
@@ -59,9 +44,7 @@
     return _tileID;
 }
 
-
-
-#pragma mark - INSTANCE METHODS
+#pragma mark - EQUALITY
 
 - (BOOL)isEqualToTile:(MemoransTile *)otherTile
 {
@@ -72,7 +55,21 @@
     return NO;
 }
 
-#pragma mark - CLASS VARS AND METHODS
+#pragma mark - NSCopying PROTOCOL
+
+- (id)copyWithZone:(NSZone *)zone
+{
+    MemoransTile *tileCopy = [[MemoransTile allocWithZone:zone] init];
+
+    tileCopy.tileValue = self.tileValue;
+    tileCopy.tileSet = self.tileSet;
+    tileCopy.selected = self.selected;
+    tileCopy.paired = self.paired;
+
+    return tileCopy;
+}
+
+#pragma mark - GLOBAL VARS AND CLASS METHODS
 
 const int maxTileValue = 20;
 const int minTileValue = 1;

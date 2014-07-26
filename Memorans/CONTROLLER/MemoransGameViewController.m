@@ -12,28 +12,30 @@
 #import "MemoransGameEngine.h"
 #import "MemoransOverlayView.h"
 
-@interface MemoransGameViewController () <UIDynamicAnimatorDelegate>
+@interface MemoransGameViewController ()
+
+#pragma mark - OUTLETS
 
 @property(weak, nonatomic) IBOutlet UIView *tileArea;
 @property(weak, nonatomic) IBOutlet UILabel *scoreLabel;
 @property(weak, nonatomic) IBOutlet UIButton *restartGameButton;
 
-@property(strong, nonatomic) NSMutableArray *tileViews;
-@property(strong, nonatomic) NSMutableArray *tileViewsLeft;
-@property(strong, nonatomic) MemoransOverlayView *malusOverlayView;
-@property(strong, nonatomic) MemoransOverlayView *bonusOverlayView;
+#pragma mark - PROPERTIES
 
-@property(strong, nonatomic) MemoransGameEngine *game;
-@property(strong, nonatomic) NSString *gameTileSet;
-@property(strong, nonatomic) NSMutableArray *tappedTileViews;
-@property(strong, nonatomic) NSMutableAttributedString *scoreAttString;
-@property(strong, nonatomic) NSDictionary *stringAttributes;
+@property(nonatomic, strong) NSMutableArray *tileViews;
+@property(nonatomic, strong) NSMutableArray *tileViewsLeft;
+@property(nonatomic, strong) NSMutableArray *tappedTileViews;
+
+@property(nonatomic, strong) MemoransOverlayView *bonusOverlayView;
+@property(nonatomic, strong) MemoransOverlayView *malusOverlayView;
+
+@property(nonatomic, strong) MemoransGameEngine *game;
+
+@property(nonatomic, strong) NSString *gameTileSet;
 
 @property(nonatomic) NSInteger numOfTilesOnBoard;
-@property(nonatomic) NSInteger numOfTilesCols;
-@property(nonatomic) NSInteger numOfTilesRows;
-@property(nonatomic) NSInteger tileWidth;
-@property(nonatomic) NSInteger tileHeight;
+
+@property(nonatomic, strong) NSDictionary *stringAttributes;
 
 @property(nonatomic) BOOL isWobbling;
 
@@ -41,20 +43,37 @@
 
 @implementation MemoransGameViewController
 
-static const NSInteger tileMargin = 5;
+#pragma mark - SETTERS AND GETTERS
 
-- (CGRect)frameForTileAtRow:(NSInteger)i Col:(NSInteger)j
+- (NSMutableArray *)tileViews
 {
-    NSInteger colWidth = self.tileArea.bounds.size.width / self.numOfTilesCols;
-    NSInteger colHeight = self.tileArea.bounds.size.height / self.numOfTilesRows;
-
-    CGFloat frameOriginX = j * colWidth + tileMargin;
-    CGFloat frameOriginY = i * colHeight + tileMargin;
-
-    return CGRectMake(frameOriginX, frameOriginY, self.tileWidth, self.tileHeight);
+    if (!_tileViews)
+    {
+        _tileViews = [[NSMutableArray alloc] initWithCapacity:self.numOfTilesOnBoard];
+    }
+    return _tileViews;
 }
 
-#pragma mark - SETTERS AND GETTERS
+- (NSMutableArray *)tileViewsLeft
+{
+    if (!_tileViewsLeft)
+    {
+        _tileViewsLeft = [self.tileViews mutableCopy];
+    }
+
+    return _tileViewsLeft;
+}
+
+- (NSMutableArray *)tappedTileViews
+{
+
+    if (!_tappedTileViews)
+    {
+        _tappedTileViews = [[NSMutableArray alloc] initWithCapacity:2];
+    }
+
+    return _tappedTileViews;
+}
 
 - (MemoransOverlayView *)bonusOverlayView
 {
@@ -88,79 +107,14 @@ static const NSInteger tileMargin = 5;
     return _malusOverlayView;
 }
 
-- (NSInteger)tileWidth
+- (MemoransGameEngine *)game
 {
-    NSInteger colWidth = self.tileArea.bounds.size.width / self.numOfTilesCols;
-
-    return _tileWidth = colWidth - tileMargin * 2;
-}
-
-- (NSInteger)tileHeight
-{
-    NSInteger colHeight = self.tileArea.bounds.size.height / self.numOfTilesRows;
-
-    return _tileHeight = colHeight - tileMargin * 2;
-}
-
-- (NSInteger)numOfTilesCols
-{
-    for (int r = 6; r >= 2; r--)
+    if (!_game)
     {
-        int c = ((int)self.numOfTilesOnBoard / r);
-
-        if (self.numOfTilesOnBoard % r == 0 && r <= c)
-        {
-            return _numOfTilesCols = c;
-        }
+        _game = [[MemoransGameEngine alloc] initGameWithNum:self.numOfTilesOnBoard
+                                                fromTileSet:self.gameTileSet];
     }
-
-    return _numOfTilesCols;
-}
-
-- (NSInteger)numOfTilesRows
-{
-    for (int r = 6; r >= 2; r--)
-    {
-        int c = ((int)self.numOfTilesOnBoard / r);
-
-        if (self.numOfTilesOnBoard % r == 0 && r <= c)
-        {
-            return _numOfTilesRows = r;
-        }
-    }
-
-    return _numOfTilesRows;
-}
-
-- (NSInteger)numOfTilesOnBoard
-{
-    if (!_numOfTilesOnBoard || _numOfTilesOnBoard % 2 != 0 || _numOfTilesOnBoard < 4)
-    {
-        _numOfTilesOnBoard = 6;
-    }
-
-    return _numOfTilesOnBoard;
-}
-
-- (NSMutableArray *)tileViewsLeft
-{
-    if (!_tileViewsLeft)
-    {
-        _tileViewsLeft = [self.tileViews mutableCopy];
-    }
-
-    return _tileViewsLeft;
-}
-
-- (NSMutableArray *)tappedTileViews
-{
-
-    if (!_tappedTileViews)
-    {
-        _tappedTileViews = [[NSMutableArray alloc] init];
-    }
-
-    return _tappedTileViews;
+    return _game;
 }
 
 @synthesize gameTileSet = _gameTileSet;
@@ -182,6 +136,16 @@ static const NSInteger tileMargin = 5;
     return _gameTileSet;
 }
 
+- (NSInteger)numOfTilesOnBoard
+{
+    if (!_numOfTilesOnBoard || _numOfTilesOnBoard % 2 != 0 || _numOfTilesOnBoard < 4)
+    {
+        _numOfTilesOnBoard = 6;
+    }
+
+    return _numOfTilesOnBoard;
+}
+
 - (NSDictionary *)stringAttributes
 {
     if (!_stringAttributes)
@@ -196,52 +160,7 @@ static const NSInteger tileMargin = 5;
     return _stringAttributes;
 }
 
-- (NSMutableAttributedString *)scoreAttString
-{
-    _scoreAttString = [[NSMutableAttributedString alloc]
-        initWithString:[NSString stringWithFormat:@"Score: %d", (int)self.game.gameScore]
-            attributes:self.stringAttributes];
-
-    return _scoreAttString;
-}
-
-- (NSMutableArray *)tileViews
-{
-    if (!_tileViews)
-    {
-        _tileViews = [[NSMutableArray alloc] initWithCapacity:self.numOfTilesOnBoard];
-    }
-    return _tileViews;
-}
-
-- (MemoransGameEngine *)game
-{
-    if (!_game)
-    {
-        _game = [[MemoransGameEngine alloc] initGameWithNum:self.numOfTilesOnBoard
-                                                fromTileSet:self.gameTileSet];
-    }
-    return _game;
-}
-
-#pragma mark - INSTANCE METHODS
-
-- (BOOL)prefersStatusBarHidden { return YES; }
-
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-
-    self.tileArea.backgroundColor =
-        [UIColor colorWithRed:255 / 255.0f green:211 / 255.0f blue:224 / 255.0f alpha:1];
-
-    NSAttributedString *restartGameString =
-        [[NSAttributedString alloc] initWithString:@"Restart" attributes:self.stringAttributes];
-
-    [self.restartGameButton setAttributedTitle:restartGameString forState:UIControlStateNormal];
-
-    [self updateUIWithNewGame:YES];
-}
+#pragma mark - ACTIONS
 
 - (IBAction)startNewGameButtonPressed
 {
@@ -260,6 +179,8 @@ static const NSInteger tileMargin = 5;
 
     [self updateUIWithNewGame:YES];
 }
+
+#pragma mark - GESTURES HANDLING
 
 - (void)tileTapped:(UITapGestureRecognizer *)tileTapRec
 {
@@ -334,9 +255,69 @@ static const NSInteger tileMargin = 5;
         }];
 }
 
+#pragma mark - TILES SIZING AND PLACING
+
+- (NSInteger)numOfTilesCols
+{
+    for (int r = 6; r >= 2; r--)
+    {
+        int c = ((int)self.numOfTilesOnBoard / r);
+
+        if (self.numOfTilesOnBoard % r == 0 && r <= c)
+        {
+            return c;
+        }
+    }
+
+    return 0;
+}
+
+- (NSInteger)numOfTilesRows
+{
+    for (int r = 6; r >= 2; r--)
+    {
+        int c = ((int)self.numOfTilesOnBoard / r);
+
+        if (self.numOfTilesOnBoard % r == 0 && r <= c)
+        {
+            return r;
+        }
+    }
+
+    return 0;
+}
+
+static const NSInteger gTileMargin = 5;
+
+- (CGFloat)tileWidth
+{
+    NSInteger colWidth = self.tileArea.bounds.size.width / [self numOfTilesCols];
+
+    return colWidth - gTileMargin * 2;
+}
+
+- (CGFloat)tileHeight
+{
+    NSInteger colHeight = self.tileArea.bounds.size.height / [self numOfTilesRows];
+
+    return colHeight - gTileMargin * 2;
+}
+
+- (CGRect)frameForTileAtRow:(NSInteger)i Col:(NSInteger)j
+{
+    CGFloat colWidth = self.tileArea.bounds.size.width / self.numOfTilesCols;
+    CGFloat colHeight = self.tileArea.bounds.size.height / self.numOfTilesRows;
+
+    CGFloat frameOriginX = j * colWidth + gTileMargin;
+    CGFloat frameOriginY = i * colHeight + gTileMargin;
+
+    return CGRectMake(frameOriginX, frameOriginY, self.tileWidth, self.tileHeight);
+}
+
+#pragma mark - ANIMATIONS
+
 - (void)animateOverlayWithOverlayView:(MemoransOverlayView *)overlayView
 {
-
     [UIView animateWithDuration:0.2f
         animations:^{
             overlayView.center = CGPointMake(CGRectGetMidX(self.tileArea.bounds),
@@ -345,6 +326,64 @@ static const NSInteger tileMargin = 5;
         completion:^(BOOL finished) {
             [UIView animateWithDuration:0.8f animations:^{ overlayView.alpha = 0; } completion:nil];
         }];
+}
+
+- (void)addWobblingAnimationToView:(UIView *)delegateView
+{
+    CABasicAnimation *wobbling = [CABasicAnimation animationWithKeyPath:@"transform.rotation"];
+
+    [wobbling setFromValue:[NSNumber numberWithFloat:0.05f]];
+
+    [wobbling setToValue:[NSNumber numberWithFloat:-0.05f]];
+
+    [wobbling setDuration:0.1f];
+
+    [wobbling setAutoreverses:YES];
+
+    [wobbling setRepeatCount:4];
+
+    [wobbling setValue:@"wobbling" forKey:@"id"];
+
+    wobbling.delegate = self;
+
+    [delegateView.layer addAnimation:wobbling forKey:@"wobbling"];
+}
+
+#pragma mark - CAAnimation DELEGATE METHODS
+
+- (void)animationDidStart:(CAAnimation *)anim { self.isWobbling = YES; }
+
+- (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag
+{
+    if (!self.isWobbling)
+    {
+        return;
+    }
+
+    self.isWobbling = NO;
+
+    for (MemoransTileView *tileView in self.tappedTileViews)
+    {
+        [UIView transitionWithView:tileView
+            duration:0.3f
+            options:UIViewAnimationOptionTransitionFlipFromLeft
+            animations:^{ tileView.shown = NO; }
+            completion:^(BOOL finished) {
+                if ([self.tappedTileViews indexOfObject:tileView] == 1)
+                {
+                    [self.tappedTileViews removeAllObjects];
+                }
+            }];
+    }
+}
+
+#pragma mark - USER INTERFACE MANAGEMENT AND UPDATE
+
+- (NSMutableAttributedString *)scoreAttributedString
+{
+    return [[NSMutableAttributedString alloc]
+        initWithString:[NSString stringWithFormat:@"Score: %d", (int)self.game.gameScore]
+            attributes:self.stringAttributes];
 }
 
 - (void)updateUIWithNewGame:(BOOL)restartGame
@@ -409,7 +448,7 @@ static const NSInteger tileMargin = 5;
             return;
         }
 
-        gameTile = [self.game tileOnBoardAtIndex:tileIndex];
+        gameTile = [self.game tileInGameAtIndex:tileIndex];
         tileView.imageID = gameTile.tileID;
         tileView.paired = gameTile.paired;
 
@@ -419,56 +458,26 @@ static const NSInteger tileMargin = 5;
         }
     }
 
-    self.scoreLabel.attributedText = self.scoreAttString;
+    self.scoreLabel.attributedText = self.scoreAttributedString;
 }
 
-- (void)addWobblingAnimationToView:(UIView *)delegateView
+- (void)viewDidLoad
 {
-    CABasicAnimation *wobbling = [CABasicAnimation animationWithKeyPath:@"transform.rotation"];
+    [super viewDidLoad];
 
-    [wobbling setFromValue:[NSNumber numberWithFloat:0.05f]];
+    self.tileArea.backgroundColor =
+        [UIColor colorWithRed:255 / 255.0f green:211 / 255.0f blue:224 / 255.0f alpha:1];
 
-    [wobbling setToValue:[NSNumber numberWithFloat:-0.05f]];
+    NSAttributedString *restartGameString =
+        [[NSAttributedString alloc] initWithString:@"Restart" attributes:self.stringAttributes];
 
-    [wobbling setDuration:0.1f];
+    [self.restartGameButton setAttributedTitle:restartGameString forState:UIControlStateNormal];
 
-    [wobbling setAutoreverses:YES];
-
-    [wobbling setRepeatCount:4];
-
-    [wobbling setValue:@"wobbling" forKey:@"id"];
-
-    wobbling.delegate = self;
-
-    [delegateView.layer addAnimation:wobbling forKey:@"wobbling"];
-}
-
-- (void)animationDidStart:(CAAnimation *)anim { self.isWobbling = YES; }
-
-- (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag
-{
-    if (!self.isWobbling)
-    {
-        return;
-    }
-
-    self.isWobbling = NO;
-
-    for (MemoransTileView *tileView in self.tappedTileViews)
-    {
-        [UIView transitionWithView:tileView
-            duration:0.3f
-            options:UIViewAnimationOptionTransitionFlipFromLeft
-            animations:^{ tileView.shown = NO; }
-            completion:^(BOOL finished) {
-                if ([self.tappedTileViews indexOfObject:tileView] == 1)
-                {
-                    [self.tappedTileViews removeAllObjects];
-                }
-            }];
-    }
+    [self updateUIWithNewGame:YES];
 }
 
 - (void)didReceiveMemoryWarning { [super didReceiveMemoryWarning]; }
+
+- (BOOL)prefersStatusBarHidden { return YES; }
 
 @end

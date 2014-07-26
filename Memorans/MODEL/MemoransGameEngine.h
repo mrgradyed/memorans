@@ -11,21 +11,23 @@
 
 @interface MemoransGameEngine : NSObject
 
-#pragma mark - PROPERTIES
+#pragma mark - PUBLIC PROPERTIES
 
 @property(nonatomic, readonly) NSInteger gameScore;
 
-#pragma mark - INITIALISERS
-
-// Designated initialiser.
-- (instancetype)initGameWithNum:(NSInteger)numOfGameTiles fromTileSet:(NSString *)tileSet;
-#pragma mark - INSTANCE METHODS
-
-- (MemoransTile *)playTileAtIndex:(NSInteger)tileIndex;
-
-- (MemoransTile *)tileOnBoardAtIndex:(NSInteger)tileIndex;
+#pragma mark - GLOBAL VARS
 
 extern const int pairedBonus;
 extern const int notPairedMalus;
+
+#pragma mark - DESIGNATED INITIALISER
+
+- (instancetype)initGameWithNum:(NSInteger)numOfGameTiles fromTileSet:(NSString *)tileSet;
+
+#pragma mark - PUBLIC METHODS
+
+- (MemoransTile *)playTileAtIndex:(NSInteger)tileIndex;
+
+- (MemoransTile *)tileInGameAtIndex:(NSInteger)tileIndex;
 
 @end

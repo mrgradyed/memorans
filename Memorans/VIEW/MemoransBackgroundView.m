@@ -10,21 +10,10 @@
 
 @implementation MemoransBackgroundView
 
-#pragma mark - INIT
-- (instancetype)initWithFrame:(CGRect)frame
-{
-    self = [super initWithFrame:frame];
-    if (self)
-    {
-    }
-    return self;
-}
-
-#pragma mark - DRAWING
+#pragma mark - DRAWING AND APPEARANCE
 
 - (void)drawRect:(CGRect)rect
 {
-
     CGContextRef currentContext = UIGraphicsGetCurrentContext();
     CGContextSaveGState(currentContext);
 
@@ -47,6 +36,17 @@
     CGColorSpaceRelease(rgbColorSpace);
 
     CGContextRestoreGState(currentContext);
+}
+
+#pragma mark - INITIALISERS
+
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self)
+    {
+    }
+    return self;
 }
 
 @end

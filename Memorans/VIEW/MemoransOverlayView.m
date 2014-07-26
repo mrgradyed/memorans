@@ -10,7 +10,10 @@
 
 @interface MemoransOverlayView ()
 
+#pragma mark - PROPERTIES
+
 @property(nonatomic, strong) NSAttributedString *overlayAttributedString;
+
 @property(nonatomic) BOOL textNeedsRefresh;
 
 @property(nonatomic) CGPoint outOfScreenCenter;
@@ -18,6 +21,9 @@
 @end
 
 @implementation MemoransOverlayView
+
+
+#pragma mark - SETTERS AND GETTERS
 
 - (void)setOverlayString:(NSString *)overlayString
 {
@@ -91,19 +97,7 @@
     return _outOfScreenCenter;
 }
 
-#pragma mark - INIT
-
-- (instancetype)initWithFrame:(CGRect)frame
-{
-    self = [super initWithFrame:frame];
-    if (self)
-    {
-        [self configureView];
-    }
-    return self;
-}
-
-#pragma mark - DRAWING
+#pragma mark - DRAWING AND APPEARANCE
 
 - (void)configureView
 {
@@ -118,8 +112,18 @@
 
 - (void)resetView { [self configureView]; }
 
-- (CGSize)sizeThatFits:(CGSize)size { return [self.overlayAttributedString size]; }
-
 - (void)drawRect:(CGRect)rect { [self.overlayAttributedString drawInRect:self.bounds]; }
+
+#pragma mark - INITIALISERS
+
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self)
+    {
+        [self configureView];
+    }
+    return self;
+}
 
 @end

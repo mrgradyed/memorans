@@ -11,6 +11,8 @@
 
 @interface MemoransTilePile ()
 
+#pragma mark - PROPERTIES
+
 @property(nonatomic, strong) NSMutableArray *tilesInPile;
 
 @end
@@ -28,9 +30,25 @@
     return _tilesInPile;
 }
 
+#pragma mark - PILE MANAGEMENT
+
+- (MemoransTile *)extractRandomTileFromPile
+{
+    MemoransTile *randomTile = nil;
+    NSInteger numberOfTilesInPile = [self.tilesInPile count];
+
+    if (numberOfTilesInPile)
+    {
+        NSInteger tileIndex = arc4random() % numberOfTilesInPile;
+        randomTile = self.tilesInPile[tileIndex];
+
+        [self.tilesInPile removeObjectAtIndex:tileIndex];
+    }
+    return randomTile;
+}
+
 #pragma mark - INITIALISERS
 
-// Designated initialiser
 - (instancetype)initWithSet:(NSString *)tileSet
 {
     self = [super init];
@@ -44,7 +62,6 @@
     NSInteger minVal = minTileValue;
     NSInteger maxVal = maxTileValue;
 
-    // We generate the pile with the provided tile set.
     for (NSInteger tileVal = minVal; tileVal <= maxVal; tileVal++)
     {
         newTile = [[MemoransTile alloc] init];
@@ -71,23 +88,6 @@
     self = [self initWithSet:firstTileSet];
 
     return self;
-}
-
-#pragma mark - INSTANCE METHODS
-
-- (MemoransTile *)extractRandomTileFromPile
-{
-    MemoransTile *randomTile = nil;
-    NSInteger numberOfTilesInPile = [self.tilesInPile count];
-
-    if (numberOfTilesInPile)
-    {
-        NSInteger tileIndex = arc4random() % numberOfTilesInPile;
-        randomTile = self.tilesInPile[tileIndex];
-
-        [self.tilesInPile removeObjectAtIndex:tileIndex];
-    }
-    return randomTile;
 }
 
 @end

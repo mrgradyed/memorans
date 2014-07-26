@@ -10,12 +10,11 @@
 
 @interface MemoransTileView : UIView
 
-#pragma mark - PROPERTIES
+#pragma mark - PUBLIC PROPERTIES
 
-@property(nonatomic) NSString *imageID;
+@property(nonatomic, strong) NSString *imageID;
 
 @property(nonatomic) BOOL shown;
-
 @property(nonatomic) BOOL paired;
 
 @property(nonatomic) CGPoint onBoardCenter;

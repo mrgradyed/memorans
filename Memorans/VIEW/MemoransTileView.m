@@ -10,7 +10,7 @@
 
 @implementation MemoransTileView
 
-#pragma - SETTERS AND GETTERS
+#pragma mark - SETTERS AND GETTERS
 
 - (void)setImageID:(NSString *)imageID
 {
@@ -45,19 +45,7 @@
     [self setNeedsDisplay];
 }
 
-#pragma - INITIALISER
-
-- (id)initWithFrame:(CGRect)frame
-{
-    self = [super initWithFrame:frame];
-    if (self)
-    {
-        [self configureView];
-    }
-    return self;
-}
-
-#pragma - INSTANCE METHODS
+#pragma mark - DRAWING AND APPEARANCE
 
 - (void)configureView
 {
@@ -116,6 +104,18 @@
 
         [tileBackString drawInRect:self.bounds];
     }
+}
+
+#pragma mark - INIT
+
+- (id)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self)
+    {
+        [self configureView];
+    }
+    return self;
 }
 
 @end
