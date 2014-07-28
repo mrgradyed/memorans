@@ -19,14 +19,24 @@
 @property(nonatomic, strong) MemoransTilePile *uniqueTilesPile;
 
 @property(nonatomic, strong) NSMutableArray *tilesInGame;
+@property(nonatomic, strong) NSMutableArray *pairedTilesInGame;
 
 @property(nonatomic) NSInteger gameScore;
+@property(nonatomic) NSInteger lastDeltaScore;
 
 @end
 
 @implementation MemoransGameEngine
 
 #pragma mark - SETTERS AND GETTERS
+
+- (void)setGameScore:(NSInteger)gameScore
+{
+
+    self.lastDeltaScore = gameScore - _gameScore;
+
+    _gameScore = gameScore;
+}
 
 - (NSMutableArray *)tilesInGame
 {
@@ -35,6 +45,17 @@
         _tilesInGame = [[NSMutableArray alloc] init];
     }
     return _tilesInGame;
+}
+
+- (NSMutableArray *)pairedTilesInGame
+{
+
+    if (!_pairedTilesInGame)
+    {
+        _pairedTilesInGame = [[NSMutableArray alloc] init];
+    }
+
+    return _pairedTilesInGame;
 }
 
 #pragma mark - IN-GAME TILES HANDLING
@@ -73,8 +94,23 @@
 
 #pragma mark - GAMEPLAY
 
-const int pairedBonus = 5;
-const int notPairedMalus = -2;
+- (NSInteger)pairedBonus
+{
+    NSInteger notPairedTilesCount = [self.tilesInGame count] - [self.pairedTilesInGame count];
+
+    NSLog(@"CURRENT BONUS: %d", notPairedTilesCount / 2);
+
+    return notPairedTilesCount / 2;
+}
+
+- (NSInteger)notPairedMalus
+{
+    NSInteger pairedTilesCount = [self.pairedTilesInGame count];
+
+    NSLog(@"CURRENT MALUS: %d", -((pairedTilesCount / 3) + 1));
+
+    return -((pairedTilesCount / 3) + 1);
+}
 
 - (MemoransTile *)playTileAtIndex:(NSInteger)tileIndex
 {
@@ -95,20 +131,24 @@ const int notPairedMalus = -2;
     {
         if ([selectedTile isEqualToTile:self.previousSelectedTile])
         {
-            self.gameScore += pairedBonus;
+            self.gameScore += [self pairedBonus];
+
             selectedTile.paired = YES;
             self.previousSelectedTile.paired = YES;
+
+            [self.pairedTilesInGame addObject:selectedTile];
+            [self.pairedTilesInGame addObject:self.previousSelectedTile];
         }
         else
         {
-            self.gameScore += notPairedMalus;
+            self.gameScore += [self notPairedMalus];
+
             selectedTile.selected = NO;
             self.previousSelectedTile.selected = NO;
         }
 
         self.previousSelectedTile = nil;
     }
-
     return selectedTile;
 }
 

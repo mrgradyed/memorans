@@ -22,9 +22,8 @@
 
 #pragma mark - GLOBAL VARS
 
-extern const int maxTileValue;
-
-extern const int minTileValue;
+extern const int gMaxTileValue;
+extern const int gMinTileValue;
 
 #pragma mark - PUBLIC METHODS
 

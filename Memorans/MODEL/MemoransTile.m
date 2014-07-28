@@ -20,7 +20,7 @@
 
 - (void)setTileValue:(NSInteger)tileValue
 {
-    if (minTileValue <= tileValue <= maxTileValue)
+    if (gMinTileValue <= tileValue <= gMaxTileValue)
     {
         _tileValue = tileValue;
     }
@@ -71,8 +71,8 @@
 
 #pragma mark - GLOBAL VARS AND CLASS METHODS
 
-const int maxTileValue = 20;
-const int minTileValue = 1;
+const int gMaxTileValue = 20;
+const int gMinTileValue = 1;
 
 + (NSArray *)allowedTileSets { return @[ @"h", @"a" ]; }
 

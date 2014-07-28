@@ -14,11 +14,8 @@
 #pragma mark - PUBLIC PROPERTIES
 
 @property(nonatomic, readonly) NSInteger gameScore;
+@property(nonatomic, readonly) NSInteger lastDeltaScore;
 
-#pragma mark - GLOBAL VARS
-
-extern const int pairedBonus;
-extern const int notPairedMalus;
 
 #pragma mark - DESIGNATED INITIALISER
 
@@ -29,5 +26,6 @@ extern const int notPairedMalus;
 - (MemoransTile *)playTileAtIndex:(NSInteger)tileIndex;
 
 - (MemoransTile *)tileInGameAtIndex:(NSInteger)tileIndex;
+
 
 @end

@@ -59,10 +59,8 @@
     }
 
     MemoransTile *newTile;
-    NSInteger minVal = minTileValue;
-    NSInteger maxVal = maxTileValue;
 
-    for (NSInteger tileVal = minVal; tileVal <= maxVal; tileVal++)
+    for (NSInteger tileVal = gMinTileValue; tileVal <= gMaxTileValue; tileVal++)
     {
         newTile = [[MemoransTile alloc] init];
         newTile.tileSet = tileSet;

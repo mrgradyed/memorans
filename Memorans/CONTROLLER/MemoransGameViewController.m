@@ -26,8 +26,7 @@
 @property(nonatomic, strong) NSMutableArray *tileViewsLeft;
 @property(nonatomic, strong) NSMutableArray *tappedTileViews;
 
-@property(nonatomic, strong) MemoransOverlayView *bonusOverlayView;
-@property(nonatomic, strong) MemoransOverlayView *malusOverlayView;
+@property(nonatomic, strong) MemoransOverlayView *overlayScoreView;
 
 @property(nonatomic, strong) MemoransGameEngine *game;
 
@@ -75,37 +74,23 @@
     return _tappedTileViews;
 }
 
-- (MemoransOverlayView *)bonusOverlayView
+- (MemoransOverlayView *)overlayScoreView
 {
-    if (!_bonusOverlayView)
+    if (!_overlayScoreView)
     {
-        _bonusOverlayView = [[MemoransOverlayView alloc] initWithFrame:CGRectZero];
+        _overlayScoreView = [[MemoransOverlayView alloc] initWithFrame:CGRectZero];
 
-        _bonusOverlayView.overlayColor = [UIColor blueColor];
+        _overlayScoreView.overlayColor = [UIColor blueColor];
 
-        _bonusOverlayView.overlayString = [NSString stringWithFormat:@"%d", pairedBonus];
+        _overlayScoreView.overlayString =
+            [NSString stringWithFormat:@"%d", self.game.lastDeltaScore];
 
-        [self.tileArea addSubview:_bonusOverlayView];
+        [self.tileArea addSubview:_overlayScoreView];
     }
 
-    return _bonusOverlayView;
+    return _overlayScoreView;
 }
 
-- (MemoransOverlayView *)malusOverlayView
-{
-    if (!_malusOverlayView)
-    {
-        _malusOverlayView = [[MemoransOverlayView alloc] initWithFrame:CGRectZero];
-
-        _malusOverlayView.overlayColor = [UIColor redColor];
-
-        _malusOverlayView.overlayString = [NSString stringWithFormat:@"%d", notPairedMalus];
-
-        [self.tileArea addSubview:_malusOverlayView];
-    }
-
-    return _malusOverlayView;
-}
 
 - (MemoransGameEngine *)game
 {
@@ -140,7 +125,7 @@
 {
     if (!_numOfTilesOnBoard || _numOfTilesOnBoard % 2 != 0 || _numOfTilesOnBoard < 4)
     {
-        _numOfTilesOnBoard = 6;
+        _numOfTilesOnBoard = 40;
     }
 
     return _numOfTilesOnBoard;
@@ -150,10 +135,16 @@
 {
     if (!_stringAttributes)
     {
-        _stringAttributes = @{
-            NSFontAttributeName : [UIFont boldSystemFontOfSize:40],
+        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+
+        paragraphStyle.alignment = NSTextAlignmentLeft;
+
+        _stringAttributes = @
+        {
+            NSFontAttributeName : [UIFont fontWithName:@"Verdana" size:50],
             NSForegroundColorAttributeName : self.tileArea.backgroundColor,
             NSTextEffectAttributeName : NSTextEffectLetterpressStyle,
+            NSParagraphStyleAttributeName : paragraphStyle,
         };
     }
 
@@ -172,8 +163,7 @@
     self.tileViews = nil;
     self.tileViewsLeft = nil;
     self.tappedTileViews = nil;
-    self.malusOverlayView = nil;
-    self.bonusOverlayView = nil;
+    self.overlayScoreView = nil;
     self.isWobbling = NO;
     self.game = nil;
 
@@ -198,9 +188,7 @@
 {
     if ([self.tappedTileViews count] != 2)
     {
-        [self.malusOverlayView resetView];
-
-        [self.bonusOverlayView resetView];
+        [self.overlayScoreView resetView];
     }
 
     [UIView transitionWithView:tappedTileView
@@ -221,14 +209,21 @@
 
                 if (!tappedTileView.paired)
                 {
-                    [self animateOverlayWithOverlayView:self.malusOverlayView];
+                    self.overlayScoreView.overlayString =
+                        [NSString stringWithFormat:@"%d", self.game.lastDeltaScore];
+
+                    [self animateOverlayWithOverlayView:self.overlayScoreView];
 
                     [self addWobblingAnimationToView:self.tappedTileViews[0]];
                     [self addWobblingAnimationToView:self.tappedTileViews[1]];
                 }
-                else
+                else if (tappedTileView.paired)
                 {
-                    [self animateOverlayWithOverlayView:self.bonusOverlayView];
+
+                    self.overlayScoreView.overlayString =
+                        [NSString stringWithFormat:@"%d", self.game.lastDeltaScore];
+
+                    [self animateOverlayWithOverlayView:self.overlayScoreView];
 
                     [UIView transitionWithView:self.tappedTileViews[0]
                                       duration:0.5f
@@ -379,13 +374,6 @@ static const NSInteger gTileMargin = 5;
 
 #pragma mark - USER INTERFACE MANAGEMENT AND UPDATE
 
-- (NSMutableAttributedString *)scoreAttributedString
-{
-    return [[NSMutableAttributedString alloc]
-        initWithString:[NSString stringWithFormat:@"Score: %d", (int)self.game.gameScore]
-            attributes:self.stringAttributes];
-}
-
 - (void)updateUIWithNewGame:(BOOL)restartGame
 {
     if (restartGame)
@@ -423,7 +411,6 @@ static const NSInteger gTileMargin = 5;
                 [tileView addGestureRecognizer:tileTapRecog];
 
                 [self.tileViews addObject:tileView];
-
                 [self.tileArea addSubview:tileView];
 
                 [UIView animateWithDuration:2.0f
@@ -461,6 +448,13 @@ static const NSInteger gTileMargin = 5;
     self.scoreLabel.attributedText = self.scoreAttributedString;
 }
 
+- (NSMutableAttributedString *)scoreAttributedString
+{
+    return [[NSMutableAttributedString alloc]
+        initWithString:[NSString stringWithFormat:@"✪ %d", (int)self.game.gameScore]
+            attributes:self.stringAttributes];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -469,7 +463,7 @@ static const NSInteger gTileMargin = 5;
         [UIColor colorWithRed:255 / 255.0f green:211 / 255.0f blue:224 / 255.0f alpha:1];
 
     NSAttributedString *restartGameString =
-        [[NSAttributedString alloc] initWithString:@"Restart" attributes:self.stringAttributes];
+        [[NSAttributedString alloc] initWithString:@"↺" attributes:self.stringAttributes];
 
     [self.restartGameButton setAttributedTitle:restartGameString forState:UIControlStateNormal];
 
