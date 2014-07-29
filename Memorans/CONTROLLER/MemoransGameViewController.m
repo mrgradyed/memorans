@@ -11,6 +11,7 @@
 #import "MemoransTile.h"
 #import "MemoransGameEngine.h"
 #import "MemoransOverlayView.h"
+#import "MemoransColorConverter.h"
 
 @interface MemoransGameViewController ()
 
@@ -83,14 +84,13 @@
         _overlayScoreView.overlayColor = [UIColor blueColor];
 
         _overlayScoreView.overlayString =
-            [NSString stringWithFormat:@"%d", self.game.lastDeltaScore];
+            [NSString stringWithFormat:@"%d", (int)self.game.lastDeltaScore];
 
         [self.tileArea addSubview:_overlayScoreView];
     }
 
     return _overlayScoreView;
 }
-
 
 - (MemoransGameEngine *)game
 {
@@ -125,7 +125,7 @@
 {
     if (!_numOfTilesOnBoard || _numOfTilesOnBoard % 2 != 0 || _numOfTilesOnBoard < 4)
     {
-        _numOfTilesOnBoard = 40;
+        _numOfTilesOnBoard = 16;
     }
 
     return _numOfTilesOnBoard;
@@ -142,7 +142,7 @@
         _stringAttributes = @
         {
             NSFontAttributeName : [UIFont fontWithName:@"Verdana" size:50],
-            NSForegroundColorAttributeName : self.tileArea.backgroundColor,
+            NSForegroundColorAttributeName : [MemoransColorConverter colorFromHEXString:@"#C643FC"],
             NSTextEffectAttributeName : NSTextEffectLetterpressStyle,
             NSParagraphStyleAttributeName : paragraphStyle,
         };
@@ -210,7 +210,10 @@
                 if (!tappedTileView.paired)
                 {
                     self.overlayScoreView.overlayString =
-                        [NSString stringWithFormat:@"%d", self.game.lastDeltaScore];
+                        [NSString stringWithFormat:@"%d", (int)self.game.lastDeltaScore];
+
+                    self.overlayScoreView.overlayColor =
+                        [MemoransColorConverter colorFromHEXString:@"#FF1300"];
 
                     [self animateOverlayWithOverlayView:self.overlayScoreView];
 
@@ -221,7 +224,10 @@
                 {
 
                     self.overlayScoreView.overlayString =
-                        [NSString stringWithFormat:@"%d", self.game.lastDeltaScore];
+                        [NSString stringWithFormat:@"%d", (int)self.game.lastDeltaScore];
+
+                    self.overlayScoreView.overlayColor =
+                        [MemoransColorConverter colorFromHEXString:@"#C643FC"];
 
                     [self animateOverlayWithOverlayView:self.overlayScoreView];
 
@@ -459,8 +465,7 @@ static const NSInteger gTileMargin = 5;
 {
     [super viewDidLoad];
 
-    self.tileArea.backgroundColor =
-        [UIColor colorWithRed:255 / 255.0f green:211 / 255.0f blue:224 / 255.0f alpha:1];
+    self.tileArea.backgroundColor = nil;
 
     NSAttributedString *restartGameString =
         [[NSAttributedString alloc] initWithString:@"↺" attributes:self.stringAttributes];

@@ -98,16 +98,12 @@
 {
     NSInteger notPairedTilesCount = [self.tilesInGame count] - [self.pairedTilesInGame count];
 
-    NSLog(@"CURRENT BONUS: %d", notPairedTilesCount / 2);
-
     return notPairedTilesCount / 2;
 }
 
 - (NSInteger)notPairedMalus
 {
     NSInteger pairedTilesCount = [self.pairedTilesInGame count];
-
-    NSLog(@"CURRENT MALUS: %d", -((pairedTilesCount / 3) + 1));
 
     return -((pairedTilesCount / 3) + 1);
 }

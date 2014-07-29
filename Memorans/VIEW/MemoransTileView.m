@@ -7,6 +7,7 @@
 //
 
 #import "MemoransTileView.h"
+#import "MemoransColorConverter.h"
 
 @implementation MemoransTileView
 
@@ -63,6 +64,7 @@
 
     [roundedRect addClip];
 
+
     if (self.paired)
     {
         [[UIColor clearColor] setFill];
@@ -71,12 +73,17 @@
     {
         [[UIColor whiteColor] setFill];
     }
-
     UIRectFill(self.bounds);
+
+
+
+    [[MemoransColorConverter colorFromHEXString:@"#E4B7F0" ] setStroke];
+
+    [roundedRect stroke];
 
     if (self.shown)
     {
-        UIImage *faceImage = [UIImage imageNamed:[self imageID]];
+        UIImage *faceImage = [UIImage imageNamed:self.imageID];
 
         CGFloat imageSize = MIN(self.bounds.size.width, self.bounds.size.height);
 
