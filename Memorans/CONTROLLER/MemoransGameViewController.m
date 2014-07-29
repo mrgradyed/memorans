@@ -81,11 +81,6 @@
     {
         _overlayScoreView = [[MemoransOverlayView alloc] initWithFrame:CGRectZero];
 
-        _overlayScoreView.overlayColor = [UIColor blueColor];
-
-        _overlayScoreView.overlayString =
-            [NSString stringWithFormat:@"%d", (int)self.game.lastDeltaScore];
-
         [self.tileArea addSubview:_overlayScoreView];
     }
 

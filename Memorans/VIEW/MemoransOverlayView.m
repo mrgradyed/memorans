@@ -14,14 +14,11 @@
 
 @property(nonatomic, strong) NSAttributedString *overlayAttributedString;
 
-@property(nonatomic) BOOL textNeedsRefresh;
-
 @property(nonatomic) CGPoint outOfScreenCenter;
 
 @end
 
 @implementation MemoransOverlayView
-
 
 #pragma mark - SETTERS AND GETTERS
 
@@ -34,7 +31,7 @@
 
     _overlayString = overlayString;
 
-    self.textNeedsRefresh = YES;
+    self.overlayAttributedString = nil;
 
     CGSize newSize = [self.overlayAttributedString size];
 
@@ -55,20 +52,18 @@
     }
     _overlayColor = overlayColor;
 
-    self.textNeedsRefresh = YES;
+    self.overlayAttributedString = nil;
 
     [self setNeedsDisplay];
 }
 
 - (NSAttributedString *)overlayAttributedString
 {
-    if (!_overlayAttributedString || self.textNeedsRefresh)
+    if (!_overlayAttributedString)
     {
-        self.textNeedsRefresh = NO;
-
         NSString *overString = self.overlayString ? self.overlayString : @"!?";
 
-        UIColor *overColor = self.overlayColor ? self.overlayColor : [UIColor greenColor];
+        UIColor *overColor = self.overlayColor ? self.overlayColor : [UIColor redColor];
 
         CGRect screenBounds = [[UIScreen mainScreen] bounds];
 
