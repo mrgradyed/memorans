@@ -7,7 +7,7 @@
 //
 
 #import "MemoransGameEngine.h"
-#import "MemoransTilePile.h"
+#import "MemoransTilesSet.h"
 #import "MemoransTile.h"
 
 @interface MemoransGameEngine ()
@@ -16,13 +16,13 @@
 
 @property(nonatomic, strong) MemoransTile *previousSelectedTile;
 
-@property(nonatomic, strong) MemoransTilePile *uniqueTilesPile;
+@property(nonatomic, strong) MemoransTilesSet *tilesSet;
 
 @property(nonatomic, strong) NSMutableArray *tilesInGame;
-@property(nonatomic, strong) NSMutableArray *pairedTilesInGame;
 
 @property(nonatomic) NSInteger gameScore;
 @property(nonatomic) NSInteger lastDeltaScore;
+@property(nonatomic) NSInteger pairedTilesInGameCount;
 
 @end
 
@@ -32,7 +32,6 @@
 
 - (void)setGameScore:(NSInteger)gameScore
 {
-
     self.lastDeltaScore = gameScore - _gameScore;
 
     _gameScore = gameScore;
@@ -47,22 +46,11 @@
     return _tilesInGame;
 }
 
-- (NSMutableArray *)pairedTilesInGame
-{
-
-    if (!_pairedTilesInGame)
-    {
-        _pairedTilesInGame = [[NSMutableArray alloc] init];
-    }
-
-    return _pairedTilesInGame;
-}
-
 #pragma mark - IN-GAME TILES HANDLING
 
 - (void)addPairOfTilesToGame
 {
-    MemoransTile *newTile = [self.uniqueTilesPile extractRandomTileFromPile];
+    MemoransTile *newTile = [self.tilesSet extractRandomTileFromSet];
 
     [self.tilesInGame addObject:newTile];
     [self.tilesInGame addObject:[newTile copy]];
@@ -96,17 +84,12 @@
 
 - (NSInteger)pairedBonus
 {
-    NSInteger notPairedTilesCount = [self.tilesInGame count] - [self.pairedTilesInGame count];
+    NSInteger notPairedTilesCount = [self.tilesInGame count] - self.pairedTilesInGameCount;
 
     return notPairedTilesCount / 2;
 }
 
-- (NSInteger)notPairedMalus
-{
-    NSInteger pairedTilesCount = [self.pairedTilesInGame count];
-
-    return -((pairedTilesCount / 3) + 1);
-}
+- (NSInteger)notPairedMalus { return -((self.pairedTilesInGameCount / 3) + 1); }
 
 - (MemoransTile *)playTileAtIndex:(NSInteger)tileIndex
 {
@@ -132,8 +115,7 @@
             selectedTile.paired = YES;
             self.previousSelectedTile.paired = YES;
 
-            [self.pairedTilesInGame addObject:selectedTile];
-            [self.pairedTilesInGame addObject:self.previousSelectedTile];
+            self.pairedTilesInGameCount += 2;
         }
         else
         {
@@ -150,7 +132,7 @@
 
 #pragma mark - INITIALISERS
 
-- (instancetype)initGameWithNum:(NSInteger)numOfGameTiles fromTileSet:(NSString *)tileSet
+- (instancetype)initGameWithTilesCount:(NSInteger)gameTilesCount andTileSet:(NSString *)tileSetType
 {
     self = [super init];
 
@@ -159,26 +141,28 @@
         return nil;
     }
 
-    if (tileSet)
+    if (tileSetType)
     {
-        self.uniqueTilesPile = [[MemoransTilePile alloc] initWithSet:tileSet];
+        self.tilesSet = [[MemoransTilesSet alloc] initWithSet:tileSetType];
     }
     else
     {
-        self.uniqueTilesPile = [[MemoransTilePile alloc] init];
+        self.tilesSet = [[MemoransTilesSet alloc] init];
     }
 
-    if (numOfGameTiles % 2 != 0 || numOfGameTiles < 4)
+    if (gameTilesCount % 2 != 0 || gameTilesCount < 4)
     {
-        numOfGameTiles = 6;
+        gameTilesCount = 6;
     }
 
-    for (int i = 0; i < numOfGameTiles / 2; i++)
+    for (int i = 0; i < gameTilesCount / 2; i++)
     {
         [self addPairOfTilesToGame];
     }
 
     [self shuffleTilesInGame];
+
+    self.tilesSet = nil;
 
     return self;
 }
@@ -192,7 +176,7 @@
         return nil;
     }
 
-    self = [self initGameWithNum:0 fromTileSet:nil];
+    self = [self initGameWithTilesCount:0 andTileSet:nil];
 
     return self;
 }

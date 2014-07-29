@@ -16,16 +16,14 @@
 @property(nonatomic, readonly) NSInteger gameScore;
 @property(nonatomic, readonly) NSInteger lastDeltaScore;
 
-
 #pragma mark - DESIGNATED INITIALISER
 
-- (instancetype)initGameWithNum:(NSInteger)numOfGameTiles fromTileSet:(NSString *)tileSet;
+- (instancetype)initGameWithTilesCount:(NSInteger)gameTilesCount andTileSet:(NSString *)tileSetType;
 
 #pragma mark - PUBLIC METHODS
 
 - (MemoransTile *)playTileAtIndex:(NSInteger)tileIndex;
 
 - (MemoransTile *)tileInGameAtIndex:(NSInteger)tileIndex;
-
 
 @end

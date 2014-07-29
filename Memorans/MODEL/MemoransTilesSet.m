@@ -1,48 +1,48 @@
 //
-//  MemoransTilesPile.m
+//  MemoransTilesSet.m
 //  Memorans
 //
 //  Created by emi on 02/07/14.
 //  Copyright (c) 2014 Emiliano D'Alterio. All rights reserved.
 //
 
-#import "MemoransTilePile.h"
+#import "MemoransTilesSet.h"
 #import "MemoransTile.h"
 
-@interface MemoransTilePile ()
+@interface MemoransTilesSet ()
 
 #pragma mark - PROPERTIES
 
-@property(nonatomic, strong) NSMutableArray *tilesInPile;
+@property(nonatomic, strong) NSMutableArray *tilesInSet;
 
 @end
 
-@implementation MemoransTilePile
+@implementation MemoransTilesSet
 
 #pragma mark - SETTERS AND GETTERS
 
-- (NSMutableArray *)tilesInPile
+- (NSMutableArray *)tilesInSet
 {
-    if (!_tilesInPile)
+    if (!_tilesInSet)
     {
-        _tilesInPile = [[NSMutableArray alloc] init];
+        _tilesInSet = [[NSMutableArray alloc] init];
     }
-    return _tilesInPile;
+    return _tilesInSet;
 }
 
-#pragma mark - PILE MANAGEMENT
+#pragma mark - TILES SET MANAGEMENT
 
-- (MemoransTile *)extractRandomTileFromPile
+- (MemoransTile *)extractRandomTileFromSet
 {
     MemoransTile *randomTile = nil;
-    NSInteger numberOfTilesInPile = [self.tilesInPile count];
+    NSInteger numberOfTilesInSet = [self.tilesInSet count];
 
-    if (numberOfTilesInPile)
+    if (numberOfTilesInSet)
     {
-        NSInteger tileIndex = arc4random() % numberOfTilesInPile;
-        randomTile = self.tilesInPile[tileIndex];
+        NSInteger tileIndex = arc4random() % numberOfTilesInSet;
+        randomTile = self.tilesInSet[tileIndex];
 
-        [self.tilesInPile removeObjectAtIndex:tileIndex];
+        [self.tilesInSet removeObjectAtIndex:tileIndex];
     }
     return randomTile;
 }
@@ -60,13 +60,13 @@
 
     MemoransTile *newTile;
 
-    for (NSInteger tileVal = gMinTileValue; tileVal <= gMaxTileValue; tileVal++)
+    for (int tileVal = gMinTileValue; tileVal <= gMaxTileValue; tileVal++)
     {
         newTile = [[MemoransTile alloc] init];
         newTile.tileSet = tileSet;
         newTile.tileValue = tileVal;
 
-        [self.tilesInPile addObject:newTile];
+        [self.tilesInSet addObject:newTile];
     }
 
     return self;

@@ -71,7 +71,7 @@
             initWithString:overString
                 attributes:@{
                               NSFontAttributeName :
-                                  [UIFont boldSystemFontOfSize:screenBounds.size.height / 3],
+                                  [UIFont boldSystemFontOfSize:screenBounds.size.height / 4],
                               NSForegroundColorAttributeName : overColor,
                               NSTextEffectAttributeName : NSTextEffectLetterpressStyle,
                            }];

@@ -31,7 +31,7 @@
 
 @property(nonatomic, strong) MemoransGameEngine *game;
 
-@property(nonatomic, strong) NSString *gameTileSet;
+@property(nonatomic, strong) NSString *gameTileSetType;
 
 @property(nonatomic) NSInteger numOfTilesOnBoard;
 
@@ -91,29 +91,29 @@
 {
     if (!_game)
     {
-        _game = [[MemoransGameEngine alloc] initGameWithNum:self.numOfTilesOnBoard
-                                                fromTileSet:self.gameTileSet];
+        _game = [[MemoransGameEngine alloc] initGameWithTilesCount:self.numOfTilesOnBoard
+                                                        andTileSet:self.gameTileSetType];
     }
     return _game;
 }
 
-@synthesize gameTileSet = _gameTileSet;
+@synthesize gameTileSetType = _gameTileSetType;
 
-- (void)setGameTileSet:(NSString *)gameTileSet
+- (void)setGameTileSetType:(NSString *)gameTileSet
 {
     if ([[MemoransTile allowedTileSets] containsObject:gameTileSet])
     {
-        _gameTileSet = gameTileSet;
+        _gameTileSetType = gameTileSet;
     }
 }
 
-- (NSString *)gameTileSet
+- (NSString *)gameTileSetType
 {
-    if (!_gameTileSet)
+    if (!_gameTileSetType)
     {
-        _gameTileSet = [[MemoransTile allowedTileSets] firstObject];
+        _gameTileSetType = [[MemoransTile allowedTileSets] firstObject];
     }
-    return _gameTileSet;
+    return _gameTileSetType;
 }
 
 - (NSInteger)numOfTilesOnBoard
@@ -148,8 +148,11 @@
 
 #pragma mark - ACTIONS
 
-- (IBAction)startNewGameButtonPressed
+- (IBAction)startNewGameButtonPressed { [self restartGame]; }
+
+- (void)restartGame
 {
+
     for (MemoransTileView *tileView in self.tileViews)
     {
         [tileView removeFromSuperview];
@@ -165,7 +168,7 @@
     [self updateUIWithNewGame:YES];
 }
 
-#pragma mark - GESTURES HANDLING
+#pragma mark - GESTURES HANDLING AND GAMEPLAY
 
 - (void)tileTapped:(UITapGestureRecognizer *)tileTapRec
 {
@@ -210,21 +213,20 @@
                     self.overlayScoreView.overlayColor =
                         [MemoransColorConverter colorFromHEXString:@"#FF1300"];
 
-                    [self animateOverlayWithOverlayView:self.overlayScoreView];
+                    [self animateOverlayViewWithDuration:0.8f];
 
                     [self addWobblingAnimationToView:self.tappedTileViews[0]];
                     [self addWobblingAnimationToView:self.tappedTileViews[1]];
                 }
                 else if (tappedTileView.paired)
                 {
-
                     self.overlayScoreView.overlayString =
-                        [NSString stringWithFormat:@"%d", (int)self.game.lastDeltaScore];
+                        [NSString stringWithFormat:@"+%d", (int)self.game.lastDeltaScore];
 
                     self.overlayScoreView.overlayColor =
                         [MemoransColorConverter colorFromHEXString:@"#C643FC"];
 
-                    [self animateOverlayWithOverlayView:self.overlayScoreView];
+                    [self animateOverlayViewWithDuration:0.8f];
 
                     [UIView transitionWithView:self.tappedTileViews[0]
                                       duration:0.5f
@@ -317,15 +319,17 @@ static const NSInteger gTileMargin = 5;
 
 #pragma mark - ANIMATIONS
 
-- (void)animateOverlayWithOverlayView:(MemoransOverlayView *)overlayView
+- (void)animateOverlayViewWithDuration:(NSTimeInterval)duration
 {
     [UIView animateWithDuration:0.2f
         animations:^{
-            overlayView.center = CGPointMake(CGRectGetMidX(self.tileArea.bounds),
-                                             CGRectGetMidY(self.tileArea.bounds));
+            self.overlayScoreView.center = CGPointMake(CGRectGetMidX(self.tileArea.bounds),
+                                                       CGRectGetMidY(self.tileArea.bounds));
         }
         completion:^(BOOL finished) {
-            [UIView animateWithDuration:0.8f animations:^{ overlayView.alpha = 0; } completion:nil];
+            [UIView animateWithDuration:duration
+                             animations:^{ self.overlayScoreView.alpha = 0; }
+                             completion:nil];
         }];
 }
 
@@ -378,7 +382,7 @@ static const NSInteger gTileMargin = 5;
     }
 }
 
-#pragma mark - USER INTERFACE MANAGEMENT AND UPDATE
+#pragma mark - UI MANAGEMENT AND UPDATE
 
 - (void)updateUIWithNewGame:(BOOL)restartGame
 {

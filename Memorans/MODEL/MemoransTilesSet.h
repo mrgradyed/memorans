@@ -10,7 +10,7 @@
 
 @class MemoransTile;
 
-@interface MemoransTilePile : NSObject
+@interface MemoransTilesSet : NSObject
 
 #pragma mark - DESIGNATED INITIALISER
 
@@ -18,6 +18,6 @@
 
 #pragma mark - PUBLIC METHODS
 
-- (MemoransTile *)extractRandomTileFromPile;
+- (MemoransTile *)extractRandomTileFromSet;
 
 @end
