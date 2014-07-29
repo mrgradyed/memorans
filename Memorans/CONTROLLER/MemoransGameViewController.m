@@ -125,7 +125,7 @@
 {
     if (!_numOfTilesOnBoard || _numOfTilesOnBoard % 2 != 0 || _numOfTilesOnBoard < 4)
     {
-        _numOfTilesOnBoard = 16;
+        _numOfTilesOnBoard = 8;
     }
 
     return _numOfTilesOnBoard;
@@ -234,13 +234,18 @@
                     [UIView transitionWithView:self.tappedTileViews[0]
                                       duration:0.5f
                                        options:UIViewAnimationOptionTransitionCurlUp
-                                    animations:^{}
+                                    animations:^{
+                                        ((MemoransTileView *)self.tappedTileViews[0])
+                                            .layer.borderWidth = 0;
+                                    }
                                     completion:nil];
 
                     [UIView transitionWithView:self.tappedTileViews[1]
                         duration:0.5f
                         options:UIViewAnimationOptionTransitionCurlUp
-                        animations:^{}
+                        animations:^{
+                            ((MemoransTileView *)self.tappedTileViews[1]).layer.borderWidth = 0;
+                        }
                         completion:^(BOOL finished) {
 
                             [self.tappedTileViews removeAllObjects];
@@ -384,8 +389,6 @@ static const NSInteger gTileMargin = 5;
 {
     if (restartGame)
     {
-        self.tileArea.layer.cornerRadius = 5;
-
         MemoransTileView *tileView;
 
         CGRect tileOnBoardFrame;
@@ -465,7 +468,7 @@ static const NSInteger gTileMargin = 5;
 {
     [super viewDidLoad];
 
-    self.tileArea.backgroundColor = nil;
+    self.tileArea.backgroundColor = [UIColor clearColor];
 
     NSAttributedString *restartGameString =
         [[NSAttributedString alloc] initWithString:@"↺" attributes:self.stringAttributes];

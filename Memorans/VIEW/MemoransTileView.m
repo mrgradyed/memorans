@@ -9,9 +9,23 @@
 #import "MemoransTileView.h"
 #import "MemoransColorConverter.h"
 
+@interface MemoransTileView ()
+
+@property(nonatomic) CGFloat defaultCornerRadius;
+
+@end
+
 @implementation MemoransTileView
 
 #pragma mark - SETTERS AND GETTERS
+
+- (CGFloat)defaultCornerRadius {
+
+    if (!_defaultCornerRadius) {
+
+        _defaultCornerRadius = MIN(self.bounds.size.width, self.bounds.size.height) / 15;
+    }
+    return _defaultCornerRadius; }
 
 - (void)setImageID:(NSString *)imageID
 {
@@ -50,20 +64,19 @@
 
 - (void)configureView
 {
-    self.backgroundColor = nil;
-    self.opaque = NO;
+    self.backgroundColor = [UIColor clearColor];
     self.contentMode = UIViewContentModeRedraw;
     self.multipleTouchEnabled = NO;
+    self.layer.borderColor = [MemoransColorConverter colorFromHEXString:@"#E4B7F0"].CGColor;
+    self.layer.borderWidth = 1;
+    self.layer.cornerRadius = self.defaultCornerRadius;
 }
 
 - (void)drawRect:(CGRect)rect
 {
-    UIBezierPath *roundedRect =
-        [UIBezierPath bezierPathWithRoundedRect:self.bounds
-                                   cornerRadius:self.bounds.size.height / 15];
 
-    [roundedRect addClip];
-
+    [[UIBezierPath bezierPathWithRoundedRect:self.bounds
+                                cornerRadius:self.defaultCornerRadius] addClip];
 
     if (self.paired)
     {
@@ -73,13 +86,8 @@
     {
         [[UIColor whiteColor] setFill];
     }
+
     UIRectFill(self.bounds);
-
-
-
-    [[MemoransColorConverter colorFromHEXString:@"#E4B7F0" ] setStroke];
-
-    [roundedRect stroke];
 
     if (self.shown)
     {
@@ -88,26 +96,26 @@
         CGFloat imageSize = MIN(self.bounds.size.width, self.bounds.size.height);
 
         CGRect imageRect =
-            CGRectMake((self.bounds.size.width - imageSize) / 2,
-                       (self.bounds.size.height - imageSize) / 2, imageSize, imageSize);
+        CGRectMake((self.bounds.size.width - imageSize) / 2,
+                   (self.bounds.size.height - imageSize) / 2, imageSize, imageSize);
 
         [faceImage drawInRect:imageRect];
     }
     else
     {
         UIFont *backFont =
-            [[UIFont preferredFontForTextStyle:UIFontTextStyleCaption1] fontWithSize:48];
+        [[UIFont preferredFontForTextStyle:UIFontTextStyleCaption1] fontWithSize:48];
 
         NSMutableParagraphStyle *parStyle = [[NSMutableParagraphStyle alloc] init];
 
         [parStyle setAlignment:NSTextAlignmentCenter];
 
         NSAttributedString *tileBackString =
-            [[NSAttributedString alloc] initWithString:self.imageID
-                                            attributes:@{
-                                                          NSFontAttributeName : backFont,
-                                                          NSParagraphStyleAttributeName : parStyle
-                                                       }];
+        [[NSAttributedString alloc] initWithString:self.imageID
+                                        attributes:@{
+                                                     NSFontAttributeName : backFont,
+                                                     NSParagraphStyleAttributeName : parStyle
+                                                     }];
 
         [tileBackString drawInRect:self.bounds];
     }

@@ -101,8 +101,7 @@
 
 - (void)configureView
 {
-    self.backgroundColor = nil;
-    self.opaque = NO;
+    self.backgroundColor = [UIColor clearColor];
     self.contentMode = UIViewContentModeRedraw;
     self.userInteractionEnabled = NO;
     self.alpha = 1;
