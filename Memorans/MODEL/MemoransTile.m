@@ -26,11 +26,11 @@
     }
 }
 
-- (void)setTileSet:(NSString *)tileSet
+- (void)setTileSetType:(NSString *)tileSet
 {
     if ([[MemoransTile allowedTileSets] containsObject:tileSet])
     {
-        _tileSet = tileSet;
+        _tileSetType = tileSet;
     }
 }
 
@@ -38,7 +38,7 @@
 {
     if (!_tileID)
     {
-        _tileID = [NSString stringWithFormat:@"%@%ld", self.tileSet, (long)self.tileValue];
+        _tileID = [NSString stringWithFormat:@"%@%ld", self.tileSetType, (long)self.tileValue];
     }
 
     return _tileID;
@@ -62,7 +62,7 @@
     MemoransTile *tileCopy = [[MemoransTile allocWithZone:zone] init];
 
     tileCopy.tileValue = self.tileValue;
-    tileCopy.tileSet = self.tileSet;
+    tileCopy.tileSetType = self.tileSetType;
     tileCopy.selected = self.selected;
     tileCopy.paired = self.paired;
 

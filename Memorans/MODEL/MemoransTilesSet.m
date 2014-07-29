@@ -49,7 +49,7 @@
 
 #pragma mark - INITIALISERS
 
-- (instancetype)initWithSet:(NSString *)tileSet
+- (instancetype)initWithSetType:(NSString *)tileSetType
 {
     self = [super init];
 
@@ -63,7 +63,7 @@
     for (int tileVal = gMinTileValue; tileVal <= gMaxTileValue; tileVal++)
     {
         newTile = [[MemoransTile alloc] init];
-        newTile.tileSet = tileSet;
+        newTile.tileSetType = tileSetType;
         newTile.tileValue = tileVal;
 
         [self.tilesInSet addObject:newTile];
@@ -83,7 +83,7 @@
 
     NSString *firstTileSet = [[MemoransTile allowedTileSets] firstObject];
 
-    self = [self initWithSet:firstTileSet];
+    self = [self initWithSetType:firstTileSet];
 
     return self;
 }

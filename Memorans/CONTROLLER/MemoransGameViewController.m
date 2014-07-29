@@ -27,7 +27,9 @@
 @property(nonatomic, strong) NSMutableArray *tileViewsLeft;
 @property(nonatomic, strong) NSMutableArray *tappedTileViews;
 
-@property(nonatomic, strong) MemoransOverlayView *overlayScoreView;
+@property(nonatomic, strong) MemoransOverlayView *bonusScoreOverlayView;
+@property(nonatomic, strong) MemoransOverlayView *malusScoreOverlayView;
+@property(nonatomic, strong) MemoransOverlayView *messageOverlayView;
 
 @property(nonatomic, strong) MemoransGameEngine *game;
 
@@ -75,16 +77,54 @@
     return _tappedTileViews;
 }
 
-- (MemoransOverlayView *)overlayScoreView
+- (MemoransOverlayView *)bonusScoreOverlayView
 {
-    if (!_overlayScoreView)
+    if (!_bonusScoreOverlayView)
     {
-        _overlayScoreView = [[MemoransOverlayView alloc] initWithFrame:CGRectZero];
+        _bonusScoreOverlayView = [[MemoransOverlayView alloc] initWithFrame:CGRectZero];
 
-        [self.tileArea addSubview:_overlayScoreView];
+        _bonusScoreOverlayView.overlayColor =
+            [MemoransColorConverter colorFromHEXString:@"#C643FC"];
+
+        [self.tileArea addSubview:_bonusScoreOverlayView];
     }
 
-    return _overlayScoreView;
+    _bonusScoreOverlayView.overlayString =
+        [NSString stringWithFormat:@"+%d", (int)self.game.lastDeltaScore];
+
+    return _bonusScoreOverlayView;
+}
+
+- (MemoransOverlayView *)malusScoreOverlayView
+{
+    if (!_malusScoreOverlayView)
+    {
+        _malusScoreOverlayView = [[MemoransOverlayView alloc] initWithFrame:CGRectZero];
+
+        _malusScoreOverlayView.overlayColor =
+            [MemoransColorConverter colorFromHEXString:@"#FF1300"];
+
+        [self.tileArea addSubview:_malusScoreOverlayView];
+    }
+
+    _malusScoreOverlayView.overlayString =
+        [NSString stringWithFormat:@"%d", (int)self.game.lastDeltaScore];
+
+    return _malusScoreOverlayView;
+}
+
+- (MemoransOverlayView *)messageScoreOverlayView
+{
+    if (!_messageOverlayView)
+    {
+        _messageOverlayView = [[MemoransOverlayView alloc] initWithFrame:CGRectZero];
+
+        _messageOverlayView.overlayColor = [MemoransColorConverter colorFromHEXString:@"#C643FC"];
+
+        [self.tileArea addSubview:_messageOverlayView];
+    }
+
+    return _messageOverlayView;
 }
 
 - (MemoransGameEngine *)game
@@ -161,7 +201,8 @@
     self.tileViews = nil;
     self.tileViewsLeft = nil;
     self.tappedTileViews = nil;
-    self.overlayScoreView = nil;
+    self.bonusScoreOverlayView = nil;
+    self.malusScoreOverlayView = nil;
     self.isWobbling = NO;
     self.game = nil;
 
@@ -186,7 +227,8 @@
 {
     if ([self.tappedTileViews count] != 2)
     {
-        [self.overlayScoreView resetView];
+        [self.bonusScoreOverlayView resetView];
+        [self.malusScoreOverlayView resetView];
     }
 
     [UIView transitionWithView:tappedTileView
@@ -207,26 +249,15 @@
 
                 if (!tappedTileView.paired)
                 {
-                    self.overlayScoreView.overlayString =
-                        [NSString stringWithFormat:@"%d", (int)self.game.lastDeltaScore];
-
-                    self.overlayScoreView.overlayColor =
-                        [MemoransColorConverter colorFromHEXString:@"#FF1300"];
-
-                    [self animateOverlayViewWithDuration:0.8f];
+                    [self animateOverlayView:self.malusScoreOverlayView withDuration:0.8f];
 
                     [self addWobblingAnimationToView:self.tappedTileViews[0]];
                     [self addWobblingAnimationToView:self.tappedTileViews[1]];
                 }
                 else if (tappedTileView.paired)
                 {
-                    self.overlayScoreView.overlayString =
-                        [NSString stringWithFormat:@"+%d", (int)self.game.lastDeltaScore];
 
-                    self.overlayScoreView.overlayColor =
-                        [MemoransColorConverter colorFromHEXString:@"#C643FC"];
-
-                    [self animateOverlayViewWithDuration:0.8f];
+                    [self animateOverlayView:self.bonusScoreOverlayView withDuration:0.8f];
 
                     [UIView transitionWithView:self.tappedTileViews[0]
                                       duration:0.5f
@@ -252,10 +283,19 @@
                                 [self playTappedTileView:self.tileViewsLeft[0]];
                                 [self playTappedTileView:self.tileViewsLeft[1]];
                             }
+
+                            [self gameDone];
                         }];
                 }
             }
         }];
+}
+
+- (void)gameDone
+{
+    self.messageOverlayView.overlayString = @"Well Done!";
+
+    [self animateOverlayView:self.messageOverlayView withDuration:2];
 }
 
 #pragma mark - TILES SIZING AND PLACING
@@ -319,16 +359,16 @@ static const NSInteger gTileMargin = 5;
 
 #pragma mark - ANIMATIONS
 
-- (void)animateOverlayViewWithDuration:(NSTimeInterval)duration
+- (void)animateOverlayView:(MemoransOverlayView *)overlayView withDuration:(NSTimeInterval)duration
 {
     [UIView animateWithDuration:0.2f
         animations:^{
-            self.overlayScoreView.center = CGPointMake(CGRectGetMidX(self.tileArea.bounds),
-                                                       CGRectGetMidY(self.tileArea.bounds));
+            overlayView.center = CGPointMake(CGRectGetMidX(self.tileArea.bounds),
+                                             CGRectGetMidY(self.tileArea.bounds));
         }
         completion:^(BOOL finished) {
             [UIView animateWithDuration:duration
-                             animations:^{ self.overlayScoreView.alpha = 0; }
+                             animations:^{ overlayView.alpha = 0; }
                              completion:nil];
         }];
 }

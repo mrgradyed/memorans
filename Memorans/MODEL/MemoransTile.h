@@ -14,7 +14,7 @@
 
 @property(nonatomic) NSInteger tileValue;
 
-@property(nonatomic, strong) NSString *tileSet;
+@property(nonatomic, strong) NSString *tileSetType;
 @property(nonatomic, strong, readonly) NSString *tileID;
 
 @property(nonatomic) BOOL selected;

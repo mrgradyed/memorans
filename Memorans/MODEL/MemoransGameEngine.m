@@ -143,7 +143,7 @@
 
     if (tileSetType)
     {
-        self.tilesSet = [[MemoransTilesSet alloc] initWithSet:tileSetType];
+        self.tilesSet = [[MemoransTilesSet alloc] initWithSetType:tileSetType];
     }
     else
     {
