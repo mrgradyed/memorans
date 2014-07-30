@@ -33,13 +33,7 @@
 
     self.overlayAttributedString = nil;
 
-    CGSize newSize = [self.overlayAttributedString size];
-
-    CGRect newBounds = self.bounds;
-
-    newBounds.size = newSize;
-
-    self.bounds = newBounds;
+    [self resizeView];
 
     [self setNeedsDisplay];
 }
@@ -57,6 +51,24 @@
     [self setNeedsDisplay];
 }
 
+- (void)setFontSize:(CGFloat)fontSize
+{
+
+    if (_fontSize == fontSize)
+    {
+
+        return;
+    }
+
+    _fontSize = fontSize;
+
+    self.overlayAttributedString = nil;
+
+    [self resizeView];
+
+    [self setNeedsDisplay];
+}
+
 - (NSAttributedString *)overlayAttributedString
 {
     if (!_overlayAttributedString)
@@ -65,13 +77,12 @@
 
         UIColor *overColor = self.overlayColor ? self.overlayColor : [UIColor redColor];
 
-        CGRect screenBounds = [[UIScreen mainScreen] bounds];
+        CGFloat fontSize = self.fontSize ? self.fontSize : 32;
 
         _overlayAttributedString = [[NSAttributedString alloc]
             initWithString:overString
                 attributes:@{
-                              NSFontAttributeName :
-                                  [UIFont boldSystemFontOfSize:screenBounds.size.height / 4],
+                              NSFontAttributeName : [UIFont boldSystemFontOfSize:fontSize],
                               NSForegroundColorAttributeName : overColor,
                               NSTextEffectAttributeName : NSTextEffectLetterpressStyle,
                            }];
@@ -94,6 +105,25 @@
 
 #pragma mark - DRAWING AND APPEARANCE
 
+- (void)resizeView
+{
+    CGSize newSize = [self.overlayAttributedString size];
+
+    CGRect newBounds = self.bounds;
+
+    newBounds.size = newSize;
+
+    self.bounds = newBounds;
+}
+
+- (void)resetView
+{
+    if (self.center.x != self.outOfScreenCenter.x)
+    {
+        [self configureView];
+    }
+}
+
 - (void)configureView
 {
     self.backgroundColor = [UIColor clearColor];
@@ -103,8 +133,6 @@
 
     self.center = self.outOfScreenCenter;
 }
-
-- (void)resetView { [self configureView]; }
 
 - (void)drawRect:(CGRect)rect { [self.overlayAttributedString drawInRect:self.bounds]; }
 

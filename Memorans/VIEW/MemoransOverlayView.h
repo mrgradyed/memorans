@@ -16,6 +16,8 @@
 
 @property(nonatomic, strong) UIColor *overlayColor;
 
+@property(nonatomic) CGFloat fontSize;
+
 #pragma mark - PUBLIC METHODS
 
 - (void)resetView;

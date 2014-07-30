@@ -86,6 +86,8 @@
         _bonusScoreOverlayView.overlayColor =
             [MemoransColorConverter colorFromHEXString:@"#C643FC"];
 
+        _bonusScoreOverlayView.fontSize = 250;
+
         [self.tileArea addSubview:_bonusScoreOverlayView];
     }
 
@@ -104,6 +106,8 @@
         _malusScoreOverlayView.overlayColor =
             [MemoransColorConverter colorFromHEXString:@"#FF1300"];
 
+        _malusScoreOverlayView.fontSize = 250;
+
         [self.tileArea addSubview:_malusScoreOverlayView];
     }
 
@@ -113,13 +117,15 @@
     return _malusScoreOverlayView;
 }
 
-- (MemoransOverlayView *)messageScoreOverlayView
+- (MemoransOverlayView *)messageOverlayView
 {
     if (!_messageOverlayView)
     {
         _messageOverlayView = [[MemoransOverlayView alloc] initWithFrame:CGRectZero];
 
-        _messageOverlayView.overlayColor = [MemoransColorConverter colorFromHEXString:@"#C643FC"];
+        _messageOverlayView.overlayColor = [MemoransColorConverter colorFromHEXString:@"#007AFF"];
+
+        _messageOverlayView.fontSize = 150;
 
         [self.tileArea addSubview:_messageOverlayView];
     }
@@ -192,7 +198,6 @@
 
 - (void)restartGame
 {
-
     for (MemoransTileView *tileView in self.tileViews)
     {
         [tileView removeFromSuperview];
@@ -201,12 +206,18 @@
     self.tileViews = nil;
     self.tileViewsLeft = nil;
     self.tappedTileViews = nil;
-    self.bonusScoreOverlayView = nil;
-    self.malusScoreOverlayView = nil;
     self.isWobbling = NO;
     self.game = nil;
 
     [self updateUIWithNewGame:YES];
+
+    [self.tileArea bringSubviewToFront:self.bonusScoreOverlayView];
+    [self.tileArea bringSubviewToFront:self.malusScoreOverlayView];
+    [self.tileArea bringSubviewToFront:self.messageOverlayView];
+
+    [self.bonusScoreOverlayView resetView];
+    [self.malusScoreOverlayView resetView];
+    [self.messageOverlayView resetView];
 }
 
 #pragma mark - GESTURES HANDLING AND GAMEPLAY
@@ -278,11 +289,7 @@
 
                             [self.tappedTileViews removeAllObjects];
 
-                            if ([self.tileViewsLeft count] == 2)
-                            {
-                                [self playTappedTileView:self.tileViewsLeft[0]];
-                                [self playTappedTileView:self.tileViewsLeft[1]];
-                            }
+                            [self playLastTwoTilesAutomatically];
 
                             [self gameDone];
                         }];
@@ -291,11 +298,33 @@
         }];
 }
 
+- (void)playLastTwoTilesAutomatically
+{
+    if ([self.tileViewsLeft count] == 2)
+    {
+        [self playTappedTileView:self.tileViewsLeft[0]];
+        [self playTappedTileView:self.tileViewsLeft[1]];
+    }
+}
+
 - (void)gameDone
 {
-    self.messageOverlayView.overlayString = @"Well Done!";
+    if ([self.tileViewsLeft count] == 0)
+    {
+        if (self.game.gameScore > 0)
+        {
+            self.messageOverlayView.overlayString = @"Well Done!";
+            [self animateOverlayView:self.messageOverlayView withDuration:2];
+        }
 
-    [self animateOverlayView:self.messageOverlayView withDuration:2];
+        else
+        {
+            [self restartGame];
+
+            self.messageOverlayView.overlayString = @"Try Again!";
+            [self animateOverlayView:self.messageOverlayView withDuration:2];
+        }
+    }
 }
 
 #pragma mark - TILES SIZING AND PLACING
