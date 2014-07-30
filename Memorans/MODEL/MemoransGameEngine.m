@@ -84,9 +84,10 @@
 
 - (NSInteger)pairedBonus
 {
-    NSInteger notPairedTilesCount = [self.tilesInGame count] - self.pairedTilesInGameCount;
+    NSInteger tileInGameCount = [self.tilesInGame count];
+    NSInteger notPairedTilesCount = tileInGameCount - self.pairedTilesInGameCount;
 
-    return notPairedTilesCount / 2;
+    return (notPairedTilesCount / 2) + (tileInGameCount / 10);
 }
 
 - (NSInteger)notPairedMalus { return -((self.pairedTilesInGameCount / 3) + 1); }

@@ -20,12 +20,15 @@
 @property(weak, nonatomic) IBOutlet UIView *tileArea;
 @property(weak, nonatomic) IBOutlet UILabel *scoreLabel;
 @property(weak, nonatomic) IBOutlet UIButton *restartGameButton;
+@property(weak, nonatomic) IBOutlet UIButton *nextLevelButton;
 
 #pragma mark - PROPERTIES
 
 @property(nonatomic, strong) NSMutableArray *tileViews;
 @property(nonatomic, strong) NSMutableArray *tileViewsLeft;
 @property(nonatomic, strong) NSMutableArray *tappedTileViews;
+
+@property(nonatomic, strong) NSArray *levels;
 
 @property(nonatomic, strong) MemoransOverlayView *bonusScoreOverlayView;
 @property(nonatomic, strong) MemoransOverlayView *malusScoreOverlayView;
@@ -35,11 +38,13 @@
 
 @property(nonatomic, strong) NSString *gameTileSetType;
 
-@property(nonatomic) NSInteger numOfTilesOnBoard;
+@property(nonatomic) NSInteger tilesOnBoardCount;
+@property(nonatomic) NSInteger currentLevel;
 
 @property(nonatomic, strong) NSDictionary *stringAttributes;
 
 @property(nonatomic) BOOL isWobbling;
+@property(nonatomic) BOOL levelCompleted;
 
 @end
 
@@ -51,7 +56,7 @@
 {
     if (!_tileViews)
     {
-        _tileViews = [[NSMutableArray alloc] initWithCapacity:self.numOfTilesOnBoard];
+        _tileViews = [[NSMutableArray alloc] initWithCapacity:self.tilesOnBoardCount];
     }
     return _tileViews;
 }
@@ -75,6 +80,42 @@
     }
 
     return _tappedTileViews;
+}
+
+- (NSArray *)levels
+{
+
+    if (!_levels)
+    {
+        _levels = @[
+            @6,
+            @6,
+            @8,
+            @8,
+            @12,
+            @12,
+            @16,
+            @16,
+            @18,
+            @18,
+            @20,
+            @20,
+            @24,
+            @24,
+            @28,
+            @28,
+            @30,
+            @30,
+            @32,
+            @32,
+            @36,
+            @36,
+            @40,
+            @40
+        ];
+    }
+
+    return _levels;
 }
 
 - (MemoransOverlayView *)bonusScoreOverlayView
@@ -137,7 +178,7 @@
 {
     if (!_game)
     {
-        _game = [[MemoransGameEngine alloc] initGameWithTilesCount:self.numOfTilesOnBoard
+        _game = [[MemoransGameEngine alloc] initGameWithTilesCount:self.tilesOnBoardCount
                                                         andTileSet:self.gameTileSetType];
     }
     return _game;
@@ -162,14 +203,42 @@
     return _gameTileSetType;
 }
 
-- (NSInteger)numOfTilesOnBoard
+- (NSInteger)tilesOnBoardCount
 {
-    if (!_numOfTilesOnBoard || _numOfTilesOnBoard % 2 != 0 || _numOfTilesOnBoard < 4)
+    if (!_tilesOnBoardCount)
     {
-        _numOfTilesOnBoard = 8;
+        _tilesOnBoardCount = [self.levels[self.currentLevel - 1] integerValue];
+    }
+    return _tilesOnBoardCount;
+}
+
+@synthesize currentLevel = _currentLevel;
+
+- (void)setCurrentLevel:(NSInteger)currentLevel
+{
+    if (currentLevel != _currentLevel && currentLevel > 0 && currentLevel <= [self.levels count])
+    {
+        _currentLevel = currentLevel;
+
+        self.levelCompleted = NO;
+        self.tilesOnBoardCount = 0;
+
+        NSInteger gameTileSetTypeIndex = _currentLevel % [[MemoransTile allowedTileSets] count];
+        self.gameTileSetType = [MemoransTile allowedTileSets][gameTileSetTypeIndex];
+    }
+}
+
+- (NSInteger)currentLevel
+{
+    if (!_currentLevel)
+    {
+        _currentLevel = 1;
+
+        NSInteger gameTileSetTypeIndex = _currentLevel % [[MemoransTile allowedTileSets] count];
+        self.gameTileSetType = [MemoransTile allowedTileSets][gameTileSetTypeIndex];
     }
 
-    return _numOfTilesOnBoard;
+    return _currentLevel;
 }
 
 - (NSDictionary *)stringAttributes
@@ -182,7 +251,7 @@
 
         _stringAttributes = @
         {
-            NSFontAttributeName : [UIFont fontWithName:@"Verdana" size:50],
+            NSFontAttributeName : [UIFont fontWithName:@"Verdana" size:60],
             NSForegroundColorAttributeName : [MemoransColorConverter colorFromHEXString:@"#C643FC"],
             NSTextEffectAttributeName : NSTextEffectLetterpressStyle,
             NSParagraphStyleAttributeName : paragraphStyle,
@@ -195,6 +264,11 @@
 #pragma mark - ACTIONS
 
 - (IBAction)startNewGameButtonPressed { [self restartGame]; }
+- (IBAction)nextLevelButtonPressed
+{
+    self.currentLevel++;
+    [self restartGame];
+}
 
 - (void)restartGame
 {
@@ -262,8 +336,8 @@
                 {
                     [self animateOverlayView:self.malusScoreOverlayView withDuration:0.8f];
 
-                    [self addWobblingAnimationToView:self.tappedTileViews[0]];
-                    [self addWobblingAnimationToView:self.tappedTileViews[1]];
+                    [self addWobblingAnimationToView:self.tappedTileViews[0] withRepeatCount:5];
+                    [self addWobblingAnimationToView:self.tappedTileViews[1] withRepeatCount:5];
                 }
                 else if (tappedTileView.paired)
                 {
@@ -313,16 +387,23 @@
     {
         if (self.game.gameScore > 0)
         {
-            self.messageOverlayView.overlayString = @"Well Done!";
-            [self animateOverlayView:self.messageOverlayView withDuration:2];
-        }
+            self.levelCompleted = YES;
 
+            [self addWobblingAnimationToView:self.nextLevelButton withRepeatCount:50];
+
+            self.messageOverlayView.overlayString = @"Well Done!";
+
+            [self animateOverlayView:self.messageOverlayView withDuration:2.5f];
+
+            [self updateUIWithNewGame:NO];
+        }
         else
         {
             [self restartGame];
 
             self.messageOverlayView.overlayString = @"Try Again!";
-            [self animateOverlayView:self.messageOverlayView withDuration:2];
+
+            [self animateOverlayView:self.messageOverlayView withDuration:2.5f];
         }
     }
 }
@@ -333,9 +414,9 @@
 {
     for (int r = 6; r >= 2; r--)
     {
-        int c = ((int)self.numOfTilesOnBoard / r);
+        int c = ((int)self.tilesOnBoardCount / r);
 
-        if (self.numOfTilesOnBoard % r == 0 && r <= c)
+        if (self.tilesOnBoardCount % r == 0 && r <= c)
         {
             return c;
         }
@@ -348,9 +429,9 @@
 {
     for (int r = 6; r >= 2; r--)
     {
-        int c = ((int)self.numOfTilesOnBoard / r);
+        int c = ((int)self.tilesOnBoardCount / r);
 
-        if (self.numOfTilesOnBoard % r == 0 && r <= c)
+        if (self.tilesOnBoardCount % r == 0 && r <= c)
         {
             return r;
         }
@@ -402,21 +483,19 @@ static const NSInteger gTileMargin = 5;
         }];
 }
 
-- (void)addWobblingAnimationToView:(UIView *)delegateView
+- (void)addWobblingAnimationToView:(UIView *)delegateView withRepeatCount:(float)repeatCount
 {
     CABasicAnimation *wobbling = [CABasicAnimation animationWithKeyPath:@"transform.rotation"];
 
-    [wobbling setFromValue:[NSNumber numberWithFloat:0.05f]];
+    [wobbling setFromValue:[NSNumber numberWithFloat:0.08f]];
 
-    [wobbling setToValue:[NSNumber numberWithFloat:-0.05f]];
+    [wobbling setToValue:[NSNumber numberWithFloat:-0.08f]];
 
     [wobbling setDuration:0.1f];
 
     [wobbling setAutoreverses:YES];
 
-    [wobbling setRepeatCount:4];
-
-    [wobbling setValue:@"wobbling" forKey:@"id"];
+    [wobbling setRepeatCount:repeatCount];
 
     wobbling.delegate = self;
 
@@ -501,26 +580,32 @@ static const NSInteger gTileMargin = 5;
         }
     }
 
-    MemoransTile *gameTile;
-    NSInteger tileIndex;
-
-    for (MemoransTileView *tileView in self.tileViews)
+    if ([self.tileViewsLeft count] != 0)
     {
-        tileIndex = [self.tileViews indexOfObject:tileView];
-        if (tileIndex == NSNotFound)
-        {
-            return;
-        }
 
-        gameTile = [self.game tileInGameAtIndex:tileIndex];
-        tileView.imageID = gameTile.tileID;
-        tileView.paired = gameTile.paired;
+        MemoransTile *gameTile;
+        NSInteger tileIndex;
 
-        if (tileView.paired)
+        for (MemoransTileView *tileView in self.tileViews)
         {
-            [self.tileViewsLeft removeObject:tileView];
+            tileIndex = [self.tileViews indexOfObject:tileView];
+            if (tileIndex == NSNotFound)
+            {
+                return;
+            }
+
+            gameTile = [self.game tileInGameAtIndex:tileIndex];
+            tileView.imageID = gameTile.tileID;
+            tileView.paired = gameTile.paired;
+
+            if (tileView.paired)
+            {
+                [self.tileViewsLeft removeObject:tileView];
+            }
         }
     }
+
+    self.nextLevelButton.hidden = !self.levelCompleted;
 
     self.scoreLabel.attributedText = self.scoreAttributedString;
 }
@@ -542,6 +627,11 @@ static const NSInteger gTileMargin = 5;
         [[NSAttributedString alloc] initWithString:@"↺" attributes:self.stringAttributes];
 
     [self.restartGameButton setAttributedTitle:restartGameString forState:UIControlStateNormal];
+
+    NSAttributedString *nextLevelString =
+        [[NSAttributedString alloc] initWithString:@"➔" attributes:self.stringAttributes];
+
+    [self.nextLevelButton setAttributedTitle:nextLevelString forState:UIControlStateNormal];
 
     [self updateUIWithNewGame:YES];
 }
