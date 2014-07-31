@@ -120,6 +120,7 @@
 {
     if (self.center.x != self.outOfScreenCenter.x)
     {
+        [self.layer removeAllAnimations];
         self.center = self.outOfScreenCenter;
         self.alpha = 1;
     }

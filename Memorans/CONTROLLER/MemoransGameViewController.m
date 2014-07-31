@@ -291,8 +291,6 @@
 
 - (void)restartGame
 {
-    [self.startMessageOverlayView.layer removeAllAnimations];
-
     [self.tileViews makeObjectsPerformSelector:@selector(removeFromSuperview)];
 
     self.tileViews = nil;
@@ -302,6 +300,11 @@
     self.isWobbling = NO;
 
     self.game = nil;
+
+    [self.startMessageOverlayView resetView];
+    [self.endMessageOverlayView resetView];
+    [self.bonusScoreOverlayView resetView];
+    [self.malusScoreOverlayView resetView];
 
     [self updateUIWithNewGame:YES];
 }
