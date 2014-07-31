@@ -32,7 +32,8 @@
 
 @property(nonatomic, strong) MemoransOverlayView *bonusScoreOverlayView;
 @property(nonatomic, strong) MemoransOverlayView *malusScoreOverlayView;
-@property(nonatomic, strong) MemoransOverlayView *messageOverlayView;
+@property(nonatomic, strong) MemoransOverlayView *endMessageOverlayView;
+@property(nonatomic, strong) MemoransOverlayView *startMessageOverlayView;
 
 @property(nonatomic, strong) MemoransGameEngine *game;
 
@@ -158,20 +159,38 @@
     return _malusScoreOverlayView;
 }
 
-- (MemoransOverlayView *)messageOverlayView
+- (MemoransOverlayView *)endMessageOverlayView
 {
-    if (!_messageOverlayView)
+    if (!_endMessageOverlayView)
     {
-        _messageOverlayView = [[MemoransOverlayView alloc] initWithFrame:CGRectZero];
+        _endMessageOverlayView = [[MemoransOverlayView alloc] initWithFrame:CGRectZero];
 
-        _messageOverlayView.overlayColor = [MemoransColorConverter colorFromHEXString:@"#007AFF"];
+        _endMessageOverlayView.overlayColor =
+            [MemoransColorConverter colorFromHEXString:@"#007AFF"];
 
-        _messageOverlayView.fontSize = 150;
+        _endMessageOverlayView.fontSize = 150;
 
-        [self.tileArea addSubview:_messageOverlayView];
+        [self.tileArea addSubview:_endMessageOverlayView];
     }
 
-    return _messageOverlayView;
+    return _endMessageOverlayView;
+}
+
+- (MemoransOverlayView *)startMessageOverlayView
+{
+    if (!_startMessageOverlayView)
+    {
+        _startMessageOverlayView = [[MemoransOverlayView alloc] initWithFrame:CGRectZero];
+
+        _startMessageOverlayView.overlayColor =
+            [MemoransColorConverter colorFromHEXString:@"#007AFF"];
+
+        _startMessageOverlayView.fontSize = 150;
+
+        [self.tileArea addSubview:_startMessageOverlayView];
+    }
+
+    return _startMessageOverlayView;
 }
 
 - (MemoransGameEngine *)game
@@ -263,7 +282,7 @@
 
 #pragma mark - ACTIONS
 
-- (IBAction)startNewGameButtonPressed { [self restartGame]; }
+- (IBAction)restartGameButtonPressed { [self restartGame]; }
 - (IBAction)nextLevelButtonPressed
 {
     self.currentLevel++;
@@ -272,26 +291,19 @@
 
 - (void)restartGame
 {
-    for (MemoransTileView *tileView in self.tileViews)
-    {
-        [tileView removeFromSuperview];
-    }
+    [self.startMessageOverlayView.layer removeAllAnimations];
+
+    [self.tileViews makeObjectsPerformSelector:@selector(removeFromSuperview)];
 
     self.tileViews = nil;
     self.tileViewsLeft = nil;
     self.tappedTileViews = nil;
+
     self.isWobbling = NO;
+
     self.game = nil;
 
     [self updateUIWithNewGame:YES];
-
-    [self.tileArea bringSubviewToFront:self.bonusScoreOverlayView];
-    [self.tileArea bringSubviewToFront:self.malusScoreOverlayView];
-    [self.tileArea bringSubviewToFront:self.messageOverlayView];
-
-    [self.bonusScoreOverlayView resetView];
-    [self.malusScoreOverlayView resetView];
-    [self.messageOverlayView resetView];
 }
 
 #pragma mark - GESTURES HANDLING AND GAMEPLAY
@@ -310,12 +322,6 @@
 
 - (void)playTappedTileView:(MemoransTileView *)tappedTileView
 {
-    if ([self.tappedTileViews count] != 2)
-    {
-        [self.bonusScoreOverlayView resetView];
-        [self.malusScoreOverlayView resetView];
-    }
-
     [UIView transitionWithView:tappedTileView
         duration:0.5f
         options:UIViewAnimationOptionTransitionFlipFromRight
@@ -391,9 +397,9 @@
 
             [self addWobblingAnimationToView:self.nextLevelButton withRepeatCount:50];
 
-            self.messageOverlayView.overlayString = @"Well Done!";
+            self.endMessageOverlayView.overlayString = @"Well Done!";
 
-            [self animateOverlayView:self.messageOverlayView withDuration:2.5f];
+            [self animateOverlayView:self.endMessageOverlayView withDuration:2.5f];
 
             [self updateUIWithNewGame:NO];
         }
@@ -401,9 +407,9 @@
         {
             [self restartGame];
 
-            self.messageOverlayView.overlayString = @"Try Again!";
+            self.endMessageOverlayView.overlayString = @"Try Again!";
 
-            [self animateOverlayView:self.messageOverlayView withDuration:2.5f];
+            [self animateOverlayView:self.endMessageOverlayView withDuration:2.5f];
         }
     }
 }
@@ -471,6 +477,9 @@ static const NSInteger gTileMargin = 5;
 
 - (void)animateOverlayView:(MemoransOverlayView *)overlayView withDuration:(NSTimeInterval)duration
 {
+    [overlayView resetView];
+    [overlayView.superview bringSubviewToFront:overlayView];
+
     [UIView animateWithDuration:0.2f
         animations:^{
             overlayView.center = CGPointMake(CGRectGetMidX(self.tileArea.bounds),
@@ -491,7 +500,7 @@ static const NSInteger gTileMargin = 5;
 
     [wobbling setToValue:[NSNumber numberWithFloat:-0.08f]];
 
-    [wobbling setDuration:0.1f];
+    [wobbling setDuration:0.11f];
 
     [wobbling setAutoreverses:YES];
 
@@ -532,52 +541,60 @@ static const NSInteger gTileMargin = 5;
 
 #pragma mark - UI MANAGEMENT AND UPDATE
 
-- (void)updateUIWithNewGame:(BOOL)restartGame
+- (void)createPlaceAndAnimateTileViews
 {
-    if (restartGame)
+    MemoransTileView *tileView;
+
+    CGRect tileOnBoardFrame;
+
+    UITapGestureRecognizer *tileTapRecog;
+
+    for (int i = 0; i < self.numOfTilesRows; i++)
     {
-        MemoransTileView *tileView;
-
-        CGRect tileOnBoardFrame;
-
-        UITapGestureRecognizer *tileTapRecog;
-
-        for (int i = 0; i < self.numOfTilesRows; i++)
+        for (int j = 0; j < self.numOfTilesCols; j++)
         {
-            for (int j = 0; j < self.numOfTilesCols; j++)
-            {
-                tileOnBoardFrame = [self frameForTileAtRow:i Col:j];
+            tileOnBoardFrame = [self frameForTileAtRow:i Col:j];
 
-                tileView = [[MemoransTileView alloc] initWithFrame:tileOnBoardFrame];
+            tileView = [[MemoransTileView alloc] initWithFrame:tileOnBoardFrame];
+            tileView.onBoardCenter = tileView.center;
 
-                tileView.onBoardCenter = tileView.center;
+            tileView.center = CGPointMake(
+                tileOnBoardFrame.origin.x + tileOnBoardFrame.size.width / 2,
+                (self.view.frame.origin.y - arc4random() % (int)self.view.frame.size.height) -
+                    tileView.bounds.size.height);
 
-                tileView.center = CGPointMake(
-                    tileOnBoardFrame.origin.x + tileOnBoardFrame.size.width / 2,
-                    (self.view.frame.origin.y - arc4random() % (int)self.view.frame.size.height) -
-                        tileView.bounds.size.height);
+            tileTapRecog =
+                [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tileTapped:)];
 
-                tileTapRecog =
-                    [[UITapGestureRecognizer alloc] initWithTarget:self
-                                                            action:@selector(tileTapped:)];
+            tileTapRecog.numberOfTapsRequired = 1;
+            tileTapRecog.numberOfTouchesRequired = 1;
 
-                tileTapRecog.numberOfTapsRequired = 1;
-                tileTapRecog.numberOfTouchesRequired = 1;
+            [tileView addGestureRecognizer:tileTapRecog];
 
-                [tileView addGestureRecognizer:tileTapRecog];
+            [self.tileViews addObject:tileView];
+            [self.tileArea addSubview:tileView];
 
-                [self.tileViews addObject:tileView];
-                [self.tileArea addSubview:tileView];
-
-                [UIView animateWithDuration:2.0f
-                                      delay:0
-                     usingSpringWithDamping:0.6f
-                      initialSpringVelocity:0.4f
-                                    options:0
-                                 animations:^{ tileView.center = tileView.onBoardCenter; }
-                                 completion:nil];
-            }
+            [UIView animateWithDuration:2.0f
+                                  delay:0
+                 usingSpringWithDamping:0.6f
+                  initialSpringVelocity:0.4f
+                                options:0
+                             animations:^{ tileView.center = tileView.onBoardCenter; }
+                             completion:nil];
         }
+    }
+}
+
+- (void)updateUIWithNewGame:(BOOL)newGame
+{
+    if (newGame)
+    {
+        [self createPlaceAndAnimateTileViews];
+
+        self.startMessageOverlayView.overlayString =
+            [NSString stringWithFormat:@"Level %d\n%@", self.currentLevel, self.gameTileSetType];
+
+        [self animateOverlayView:self.startMessageOverlayView withDuration:2.5f];
     }
 
     if ([self.tileViewsLeft count] != 0)

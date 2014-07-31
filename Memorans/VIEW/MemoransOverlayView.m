@@ -120,7 +120,8 @@
 {
     if (self.center.x != self.outOfScreenCenter.x)
     {
-        [self configureView];
+        self.center = self.outOfScreenCenter;
+        self.alpha = 1;
     }
 }
 
@@ -129,9 +130,6 @@
     self.backgroundColor = [UIColor clearColor];
     self.contentMode = UIViewContentModeRedraw;
     self.userInteractionEnabled = NO;
-    self.alpha = 1;
-
-    self.center = self.outOfScreenCenter;
 }
 
 - (void)drawRect:(CGRect)rect { [self.overlayAttributedString drawInRect:self.bounds]; }

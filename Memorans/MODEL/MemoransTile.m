@@ -74,6 +74,6 @@
 const int gMaxTileValue = 20;
 const int gMinTileValue = 1;
 
-+ (NSArray *)allowedTileSets { return @[ @"a", @"h" ]; }
++ (NSArray *)allowedTileSets { return @[ @"Angry", @"Happy" ]; }
 
 @end
