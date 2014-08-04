@@ -53,6 +53,8 @@
 
     if ([self.view isKindOfClass:[MemoransBackgroundView class]])
     {
+        self.view.multipleTouchEnabled = NO;
+
         ((MemoransBackgroundView *)self.view).backgroundImage =
             [MemoransBackgroundView allowedBackgrounds][1];
     }
@@ -71,6 +73,8 @@
 
         levelButton.imageID =
             [NSString stringWithFormat:@"L%d%@", (int)level.tilesInLevel, level.tileSetType];
+
+        levelButton.exclusiveTouch = YES;
 
         if (loopCount > 0)
         {
