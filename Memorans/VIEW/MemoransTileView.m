@@ -7,7 +7,7 @@
 //
 
 #import "MemoransTileView.h"
-#import "MemoransColorConverter.h"
+#import "Utilities.h"
 
 @interface MemoransTileView ()
 
@@ -125,7 +125,7 @@
     self.backgroundColor = [UIColor clearColor];
     self.contentMode = UIViewContentModeRedraw;
     self.multipleTouchEnabled = NO;
-    self.layer.borderColor = [MemoransColorConverter colorFromHEXString:@"#E4B7F0"].CGColor;
+    self.layer.borderColor = [Utilities colorFromHEXString:@"#E4B7F0"].CGColor;
     self.layer.borderWidth = 1;
     self.layer.cornerRadius = self.defaultCornerRadius;
 }

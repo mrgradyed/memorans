@@ -7,7 +7,7 @@
 //
 
 #import "MemoransLevelView.h"
-#import "MemoransColorConverter.h"
+#import "Utilities.h"
 
 @implementation MemoransLevelView
 
@@ -27,7 +27,7 @@
     self.backgroundColor = [UIColor clearColor];
     self.contentMode = UIViewContentModeRedraw;
     self.multipleTouchEnabled = NO;
-    self.layer.borderColor = [MemoransColorConverter colorFromHEXString:@"#E4B7F0"].CGColor;
+    self.layer.borderColor = [Utilities colorFromHEXString:@"#E4B7F0"].CGColor;
     self.layer.borderWidth = 1;
     self.layer.cornerRadius = 15;
 }
@@ -39,8 +39,7 @@
 
     if (self.enabled)
     {
-
-        UIImage *buttonImage = [UIImage imageNamed:self.imageID];
+        UIImage *buttonImage = [UIImage imageNamed:@"b3"];
 
         [buttonImage drawInRect:self.bounds];
     }

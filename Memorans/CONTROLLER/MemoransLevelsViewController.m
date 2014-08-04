@@ -12,6 +12,7 @@
 #import "MemoransLevelView.h"
 #import "MemoransSharedLevelsPack.h"
 #import "MemoransGameLevel.h"
+#import "Utilities.h"
 
 @interface MemoransLevelsViewController ()
 
@@ -69,7 +70,7 @@
             (MemoransGameLevel *)[MemoransSharedLevelsPack sharedLevelsPack].levelsPack[loopCount];
 
         levelButton.imageID =
-            [NSString stringWithFormat:@"L%d%@", level.tilesInLevel, level.tileSetType];
+            [NSString stringWithFormat:@"L%d%@", (int)level.tilesInLevel, level.tileSetType];
 
         if (loopCount > 0)
         {

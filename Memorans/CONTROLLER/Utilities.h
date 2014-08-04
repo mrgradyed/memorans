@@ -8,10 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
-@interface MemoransColorConverter : NSObject
+@interface Utilities : NSObject
 
 #pragma mark - PUBLIC METHODS
 
 + (UIColor *)colorFromHEXString:(NSString *)hexString;
+
++ (NSDictionary *)stringAttributesWithColor:(UIColor *)color andSize:(CGFloat)size;
 
 @end

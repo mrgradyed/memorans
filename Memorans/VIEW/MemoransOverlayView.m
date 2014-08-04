@@ -7,6 +7,7 @@
 //
 
 #import "MemoransOverlayView.h"
+#import "Utilities.h"
 
 @interface MemoransOverlayView ()
 
@@ -53,10 +54,8 @@
 
 - (void)setFontSize:(CGFloat)fontSize
 {
-
     if (_fontSize == fontSize)
     {
-
         return;
     }
 
@@ -75,19 +74,10 @@
     {
         NSString *overString = self.overlayString ? self.overlayString : @"!?";
 
-        UIColor *overColor = self.overlayColor ? self.overlayColor : [UIColor redColor];
-
-        CGFloat fontSize = self.fontSize ? self.fontSize : 32;
-
-        NSDictionary *stringAttributes = @
-        {
-            NSFontAttributeName : [UIFont fontWithName:@"Verdana" size:fontSize],
-            NSForegroundColorAttributeName : overColor,
-            NSTextEffectAttributeName : NSTextEffectLetterpressStyle,
-        };
-
-        _overlayAttributedString =
-            [[NSAttributedString alloc] initWithString:overString attributes:stringAttributes];
+        _overlayAttributedString = [[NSAttributedString alloc]
+            initWithString:overString
+                attributes:[Utilities stringAttributesWithColor:self.overlayColor
+                                                        andSize:self.fontSize]];
     }
 
     return _overlayAttributedString;

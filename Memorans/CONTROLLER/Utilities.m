@@ -6,9 +6,9 @@
 //  Copyright (c) 2014 Emiliano D'Alterio. All rights reserved.
 //
 
-#import "MemoransColorConverter.h"
+#import "Utilities.h"
 
-@implementation MemoransColorConverter
+@implementation Utilities
 
 #pragma mark - CLASS METHODS
 
@@ -59,6 +59,25 @@
                            green:greenInt / 255.0f
                             blue:blueInt / 255.0f
                            alpha:1];
+}
+
++ (NSDictionary *)stringAttributesWithColor:(UIColor *)color andSize:(CGFloat)size
+{
+    UIColor * dcolor = color ? color : [Utilities colorFromHEXString:@"#C643FC"];
+
+    CGFloat dsize = size ? size : 32;
+
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+
+    paragraphStyle.alignment = NSTextAlignmentLeft;
+
+    return @
+    {
+        NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue" size:dsize],
+        NSForegroundColorAttributeName : dcolor,
+        NSTextEffectAttributeName : NSTextEffectLetterpressStyle,
+        NSParagraphStyleAttributeName : paragraphStyle,
+    };
 }
 
 @end

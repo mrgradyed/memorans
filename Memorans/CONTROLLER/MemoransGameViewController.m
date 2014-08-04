@@ -12,9 +12,10 @@
 #import "MemoransGameEngine.h"
 #import "MemoransOverlayView.h"
 #import "MemoransBackgroundView.h"
-#import "MemoransColorConverter.h"
 #import "MemoransGameLevel.h"
 #import "MemoransSharedLevelsPack.h"
+#import "Utilities.h"
+
 
 @interface MemoransGameViewController ()
 
@@ -40,8 +41,6 @@
 @property(nonatomic, strong) MemoransOverlayView *startMessageOverlayView;
 
 @property(nonatomic, strong) MemoransGameEngine *game;
-
-@property(nonatomic, strong) NSDictionary *stringAttributes;
 
 @property(nonatomic) BOOL isWobbling;
 
@@ -86,7 +85,7 @@
 
     if (!_endMessages)
     {
-        _endMessages = @[ @"Well Done!", @"Completed!", @"Great!", @"Excellent!" ];
+        _endMessages = @[ @"Well Done!", @"Great!", @"Excellent!", @"Superb!" ];
     }
     return _endMessages;
 }
@@ -97,8 +96,7 @@
     {
         _bonusScoreOverlayView = [[MemoransOverlayView alloc] initWithFrame:CGRectZero];
 
-        _bonusScoreOverlayView.overlayColor =
-            [MemoransColorConverter colorFromHEXString:@"#C643FC"];
+        _bonusScoreOverlayView.overlayColor = [Utilities colorFromHEXString:@"#C643FC"];
 
         _bonusScoreOverlayView.fontSize = 250;
 
@@ -117,8 +115,7 @@
     {
         _malusScoreOverlayView = [[MemoransOverlayView alloc] initWithFrame:CGRectZero];
 
-        _malusScoreOverlayView.overlayColor =
-            [MemoransColorConverter colorFromHEXString:@"#FF1300"];
+        _malusScoreOverlayView.overlayColor = [Utilities colorFromHEXString:@"#FF1300"];
 
         _malusScoreOverlayView.fontSize = 250;
 
@@ -137,8 +134,7 @@
     {
         _endMessageOverlayView = [[MemoransOverlayView alloc] initWithFrame:CGRectZero];
 
-        _endMessageOverlayView.overlayColor =
-            [MemoransColorConverter colorFromHEXString:@"#007AFF"];
+        _endMessageOverlayView.overlayColor = [Utilities colorFromHEXString:@"#007AFF"];
 
         _endMessageOverlayView.fontSize = 150;
 
@@ -154,8 +150,7 @@
     {
         _startMessageOverlayView = [[MemoransOverlayView alloc] initWithFrame:CGRectZero];
 
-        _startMessageOverlayView.overlayColor =
-            [MemoransColorConverter colorFromHEXString:@"#007AFF"];
+        _startMessageOverlayView.overlayColor = [Utilities colorFromHEXString:@"#007AFF"];
 
         _startMessageOverlayView.fontSize = 150;
 
@@ -183,25 +178,7 @@
     }
 }
 
-- (NSDictionary *)stringAttributes
-{
-    if (!_stringAttributes)
-    {
-        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
 
-        paragraphStyle.alignment = NSTextAlignmentLeft;
-
-        _stringAttributes = @
-        {
-            NSFontAttributeName : [UIFont fontWithName:@"Verdana" size:60],
-            NSForegroundColorAttributeName : [MemoransColorConverter colorFromHEXString:@"#C643FC"],
-            NSTextEffectAttributeName : NSTextEffectLetterpressStyle,
-            NSParagraphStyleAttributeName : paragraphStyle,
-        };
-    }
-
-    return _stringAttributes;
-}
 
 #pragma mark - ACTIONS
 
@@ -576,7 +553,7 @@ static const NSInteger gTileMargin = 5;
 {
     return [[NSMutableAttributedString alloc]
         initWithString:[NSString stringWithFormat:@"✪ %d", (int)self.game.gameScore]
-            attributes:self.stringAttributes];
+            attributes:[Utilities stringAttributesWithColor:nil andSize:60]];
 }
 
 - (void)viewDidLoad
@@ -592,17 +569,17 @@ static const NSInteger gTileMargin = 5;
     }
 
     NSAttributedString *restartGameString =
-        [[NSAttributedString alloc] initWithString:@"↺" attributes:self.stringAttributes];
+        [[NSAttributedString alloc] initWithString:@"↺" attributes:[Utilities stringAttributesWithColor:nil andSize:60]];
 
     [self.restartGameButton setAttributedTitle:restartGameString forState:UIControlStateNormal];
 
     NSAttributedString *nextLevelString =
-        [[NSAttributedString alloc] initWithString:@"➤" attributes:self.stringAttributes];
+        [[NSAttributedString alloc] initWithString:@"➤" attributes:[Utilities stringAttributesWithColor:nil andSize:60]];
 
     [self.nextLevelButton setAttributedTitle:nextLevelString forState:UIControlStateNormal];
 
     NSAttributedString *backString =
-        [[NSAttributedString alloc] initWithString:@"◼︎" attributes:self.stringAttributes];
+        [[NSAttributedString alloc] initWithString:@"◼︎" attributes:[Utilities stringAttributesWithColor:nil andSize:60]];
 
     [self.backToMenuButton setAttributedTitle:backString forState:UIControlStateNormal];
 
