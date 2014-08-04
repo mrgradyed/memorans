@@ -19,13 +19,15 @@
 
 #pragma mark - SETTERS AND GETTERS
 
-- (CGFloat)defaultCornerRadius {
+- (CGFloat)defaultCornerRadius
+{
 
-    if (!_defaultCornerRadius) {
-
+    if (!_defaultCornerRadius)
+    {
         _defaultCornerRadius = MIN(self.bounds.size.width, self.bounds.size.height) / 15;
     }
-    return _defaultCornerRadius; }
+    return _defaultCornerRadius;
+}
 
 - (void)setImageID:(NSString *)imageID
 {
@@ -62,19 +64,8 @@
 
 #pragma mark - DRAWING AND APPEARANCE
 
-- (void)configureView
-{
-    self.backgroundColor = [UIColor clearColor];
-    self.contentMode = UIViewContentModeRedraw;
-    self.multipleTouchEnabled = NO;
-    self.layer.borderColor = [MemoransColorConverter colorFromHEXString:@"#E4B7F0"].CGColor;
-    self.layer.borderWidth = 1;
-    self.layer.cornerRadius = self.defaultCornerRadius;
-}
-
 - (void)drawRect:(CGRect)rect
 {
-
     [[UIBezierPath bezierPathWithRoundedRect:self.bounds
                                 cornerRadius:self.defaultCornerRadius] addClip];
 
@@ -96,29 +87,47 @@
         CGFloat imageSize = MIN(self.bounds.size.width, self.bounds.size.height);
 
         CGRect imageRect =
-        CGRectMake((self.bounds.size.width - imageSize) / 2,
-                   (self.bounds.size.height - imageSize) / 2, imageSize, imageSize);
+            CGRectMake((self.bounds.size.width - imageSize) / 2,
+                       (self.bounds.size.height - imageSize) / 2, imageSize, imageSize);
 
         [faceImage drawInRect:imageRect];
     }
     else
     {
+        UIImage *backImage = [UIImage imageNamed:self.tileBackImage];
+
+        [backImage drawInRect:self.bounds];
+
+        // JUST FOR TESTING, TO BE REMOVED - START -
+
         UIFont *backFont =
-        [[UIFont preferredFontForTextStyle:UIFontTextStyleCaption1] fontWithSize:48];
+            [[UIFont preferredFontForTextStyle:UIFontTextStyleCaption1] fontWithSize:18];
 
         NSMutableParagraphStyle *parStyle = [[NSMutableParagraphStyle alloc] init];
 
         [parStyle setAlignment:NSTextAlignmentCenter];
 
         NSAttributedString *tileBackString =
-        [[NSAttributedString alloc] initWithString:self.imageID
-                                        attributes:@{
-                                                     NSFontAttributeName : backFont,
-                                                     NSParagraphStyleAttributeName : parStyle
-                                                     }];
+            [[NSAttributedString alloc] initWithString:self.imageID
+                                            attributes:@{
+                                                          NSFontAttributeName : backFont,
+                                                          NSParagraphStyleAttributeName : parStyle
+                                                       }];
 
         [tileBackString drawInRect:self.bounds];
+
+        // JUST FOR TESTING, TO BE REMOVED - END -
     }
+}
+
+- (void)configureView
+{
+    self.backgroundColor = [UIColor clearColor];
+    self.contentMode = UIViewContentModeRedraw;
+    self.multipleTouchEnabled = NO;
+    self.layer.borderColor = [MemoransColorConverter colorFromHEXString:@"#E4B7F0"].CGColor;
+    self.layer.borderWidth = 1;
+    self.layer.cornerRadius = self.defaultCornerRadius;
 }
 
 #pragma mark - INIT
@@ -132,5 +141,9 @@
     }
     return self;
 }
+
+#pragma mark - GLOBAL VARS AND CLASS METHODS
+
++ (NSArray *)allowedTileViewBacks { return @[ @"tb1", @"tb2", @"tb3" ]; }
 
 @end

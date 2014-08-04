@@ -13,10 +13,15 @@
 #pragma mark - PUBLIC PROPERTIES
 
 @property(nonatomic, strong) NSString *imageID;
+@property(nonatomic, strong) NSString *tileBackImage;
 
 @property(nonatomic) BOOL shown;
 @property(nonatomic) BOOL paired;
 
 @property(nonatomic) CGPoint onBoardCenter;
+
+#pragma mark - PUBLIC METHODS
+
++ (NSArray *)allowedTileViewBacks;
 
 @end

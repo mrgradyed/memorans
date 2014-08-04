@@ -10,4 +10,6 @@
 
 @interface MemoransGameViewController : UIViewController
 
+@property(nonatomic) NSInteger currentLevelNumber;
+
 @end

@@ -11,7 +11,10 @@
 #import "MemoransTile.h"
 #import "MemoransGameEngine.h"
 #import "MemoransOverlayView.h"
+#import "MemoransBackgroundView.h"
 #import "MemoransColorConverter.h"
+#import "MemoransGameLevel.h"
+#import "MemoransSharedLevelsPack.h"
 
 @interface MemoransGameViewController ()
 
@@ -21,6 +24,7 @@
 @property(weak, nonatomic) IBOutlet UILabel *scoreLabel;
 @property(weak, nonatomic) IBOutlet UIButton *restartGameButton;
 @property(weak, nonatomic) IBOutlet UIButton *nextLevelButton;
+@property(weak, nonatomic) IBOutlet UIButton *backToMenuButton;
 
 #pragma mark - PROPERTIES
 
@@ -28,7 +32,7 @@
 @property(nonatomic, strong) NSMutableArray *tileViewsLeft;
 @property(nonatomic, strong) NSMutableArray *tappedTileViews;
 
-@property(nonatomic, strong) NSArray *levels;
+@property(nonatomic, strong) NSArray *endMessages;
 
 @property(nonatomic, strong) MemoransOverlayView *bonusScoreOverlayView;
 @property(nonatomic, strong) MemoransOverlayView *malusScoreOverlayView;
@@ -37,15 +41,9 @@
 
 @property(nonatomic, strong) MemoransGameEngine *game;
 
-@property(nonatomic, strong) NSString *gameTileSetType;
-
-@property(nonatomic) NSInteger tilesOnBoardCount;
-@property(nonatomic) NSInteger currentLevel;
-
 @property(nonatomic, strong) NSDictionary *stringAttributes;
 
 @property(nonatomic) BOOL isWobbling;
-@property(nonatomic) BOOL levelCompleted;
 
 @end
 
@@ -57,7 +55,7 @@
 {
     if (!_tileViews)
     {
-        _tileViews = [[NSMutableArray alloc] initWithCapacity:self.tilesOnBoardCount];
+        _tileViews = [[NSMutableArray alloc] initWithCapacity:[self currentLevel].tilesInLevel];
     }
     return _tileViews;
 }
@@ -83,40 +81,14 @@
     return _tappedTileViews;
 }
 
-- (NSArray *)levels
+- (NSArray *)endMessages
 {
 
-    if (!_levels)
+    if (!_endMessages)
     {
-        _levels = @[
-            @6,
-            @6,
-            @8,
-            @8,
-            @12,
-            @12,
-            @16,
-            @16,
-            @18,
-            @18,
-            @20,
-            @20,
-            @24,
-            @24,
-            @28,
-            @28,
-            @30,
-            @30,
-            @32,
-            @32,
-            @36,
-            @36,
-            @40,
-            @40
-        ];
+        _endMessages = @[ @"Well Done!", @"Completed!", @"Great!", @"Excellent!" ];
     }
-
-    return _levels;
+    return _endMessages;
 }
 
 - (MemoransOverlayView *)bonusScoreOverlayView
@@ -197,67 +169,18 @@
 {
     if (!_game)
     {
-        _game = [[MemoransGameEngine alloc] initGameWithTilesCount:self.tilesOnBoardCount
-                                                        andTileSet:self.gameTileSetType];
+        _game = [[MemoransGameEngine alloc] initGameWithTilesCount:[self currentLevel].tilesInLevel
+                                                        andTileSet:[self currentLevel].tileSetType];
     }
     return _game;
 }
 
-@synthesize gameTileSetType = _gameTileSetType;
-
-- (void)setGameTileSetType:(NSString *)gameTileSet
+- (void)setCurrentLevelNumber:(NSInteger)currentLevelNumber
 {
-    if ([[MemoransTile allowedTileSets] containsObject:gameTileSet])
+    if (currentLevelNumber >= 0 && currentLevelNumber < [[self levelsPack] count])
     {
-        _gameTileSetType = gameTileSet;
+        _currentLevelNumber = currentLevelNumber;
     }
-}
-
-- (NSString *)gameTileSetType
-{
-    if (!_gameTileSetType)
-    {
-        _gameTileSetType = [[MemoransTile allowedTileSets] firstObject];
-    }
-    return _gameTileSetType;
-}
-
-- (NSInteger)tilesOnBoardCount
-{
-    if (!_tilesOnBoardCount)
-    {
-        _tilesOnBoardCount = [self.levels[self.currentLevel - 1] integerValue];
-    }
-    return _tilesOnBoardCount;
-}
-
-@synthesize currentLevel = _currentLevel;
-
-- (void)setCurrentLevel:(NSInteger)currentLevel
-{
-    if (currentLevel != _currentLevel && currentLevel > 0 && currentLevel <= [self.levels count])
-    {
-        _currentLevel = currentLevel;
-
-        self.levelCompleted = NO;
-        self.tilesOnBoardCount = 0;
-
-        NSInteger gameTileSetTypeIndex = _currentLevel % [[MemoransTile allowedTileSets] count];
-        self.gameTileSetType = [MemoransTile allowedTileSets][gameTileSetTypeIndex];
-    }
-}
-
-- (NSInteger)currentLevel
-{
-    if (!_currentLevel)
-    {
-        _currentLevel = 1;
-
-        NSInteger gameTileSetTypeIndex = _currentLevel % [[MemoransTile allowedTileSets] count];
-        self.gameTileSetType = [MemoransTile allowedTileSets][gameTileSetTypeIndex];
-    }
-
-    return _currentLevel;
 }
 
 - (NSDictionary *)stringAttributes
@@ -285,9 +208,10 @@
 - (IBAction)restartGameButtonPressed { [self restartGame]; }
 - (IBAction)nextLevelButtonPressed
 {
-    self.currentLevel++;
+    self.currentLevelNumber++;
     [self restartGame];
 }
+- (IBAction)backToMenuPressed { [self.navigationController popViewControllerAnimated:YES]; }
 
 - (void)restartGame
 {
@@ -390,30 +314,39 @@
     }
 }
 
+- (NSMutableArray *)levelsPack { return [MemoransSharedLevelsPack sharedLevelsPack].levelsPack; }
+
+- (MemoransGameLevel *)currentLevel
+{
+    return (MemoransGameLevel *)[self levelsPack][self.currentLevelNumber];
+}
+
+- (MemoransGameLevel *)nextLevel
+{
+    if ((self.currentLevelNumber + 1) > [[self levelsPack] count] - 1)
+    {
+        return nil;
+    }
+
+    return (MemoransGameLevel *)[self levelsPack][self.currentLevelNumber + 1];
+}
+
 - (void)gameDone
 {
     if ([self.tileViewsLeft count] == 0)
     {
-        if (self.game.gameScore > 0)
-        {
-            self.levelCompleted = YES;
 
-            [self addWobblingAnimationToView:self.nextLevelButton withRepeatCount:50];
+        [self nextLevel].unlocked = YES;
 
-            self.endMessageOverlayView.overlayString = @"Well Done!";
+        [self addWobblingAnimationToView:self.nextLevelButton withRepeatCount:40];
 
-            [self animateOverlayView:self.endMessageOverlayView withDuration:2.5f];
+        self.endMessageOverlayView.overlayString = [NSString
+            stringWithFormat:@"%@",
+                             self.endMessages[self.game.gameScore % [self.endMessages count]]];
 
-            [self updateUIWithNewGame:NO];
-        }
-        else
-        {
-            [self restartGame];
+        [self animateOverlayView:self.endMessageOverlayView withDuration:3];
 
-            self.endMessageOverlayView.overlayString = @"Try Again!";
-
-            [self animateOverlayView:self.endMessageOverlayView withDuration:2.5f];
-        }
+        [self updateUIWithNewGame:NO];
     }
 }
 
@@ -423,9 +356,9 @@
 {
     for (int r = 6; r >= 2; r--)
     {
-        int c = ((int)self.tilesOnBoardCount / r);
+        int c = ((int)[self currentLevel].tilesInLevel / r);
 
-        if (self.tilesOnBoardCount % r == 0 && r <= c)
+        if ([self currentLevel].tilesInLevel % r == 0 && r <= c)
         {
             return c;
         }
@@ -438,9 +371,9 @@
 {
     for (int r = 6; r >= 2; r--)
     {
-        int c = ((int)self.tilesOnBoardCount / r);
+        int c = ((int)[self currentLevel].tilesInLevel / r);
 
-        if (self.tilesOnBoardCount % r == 0 && r <= c)
+        if ([self currentLevel].tilesInLevel % r == 0 && r <= c)
         {
             return r;
         }
@@ -552,6 +485,11 @@ static const NSInteger gTileMargin = 5;
 
     UITapGestureRecognizer *tileTapRecog;
 
+    NSInteger allowedTileViewBacksCount = [[MemoransTileView allowedTileViewBacks] count];
+
+    NSString *tileBackID = [MemoransTileView allowedTileViewBacks][self.currentLevelNumber %
+                                                                   allowedTileViewBacksCount];
+
     for (int i = 0; i < self.numOfTilesRows; i++)
     {
         for (int j = 0; j < self.numOfTilesCols; j++)
@@ -559,12 +497,15 @@ static const NSInteger gTileMargin = 5;
             tileOnBoardFrame = [self frameForTileAtRow:i Col:j];
 
             tileView = [[MemoransTileView alloc] initWithFrame:tileOnBoardFrame];
+
             tileView.onBoardCenter = tileView.center;
 
             tileView.center = CGPointMake(
                 tileOnBoardFrame.origin.x + tileOnBoardFrame.size.width / 2,
                 (self.view.frame.origin.y - arc4random() % (int)self.view.frame.size.height) -
                     tileView.bounds.size.height);
+
+            tileView.tileBackImage = tileBackID;
 
             tileTapRecog =
                 [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tileTapped:)];
@@ -595,9 +536,10 @@ static const NSInteger gTileMargin = 5;
         [self createPlaceAndAnimateTileViews];
 
         self.startMessageOverlayView.overlayString =
-            [NSString stringWithFormat:@"Level %d\n%@", self.currentLevel, self.gameTileSetType];
+            [NSString stringWithFormat:@"Level %d\n%@", (int)self.currentLevelNumber + 1,
+                                       [self currentLevel].tileSetType];
 
-        [self animateOverlayView:self.startMessageOverlayView withDuration:2.5f];
+        [self animateOverlayView:self.startMessageOverlayView withDuration:3];
     }
 
     if ([self.tileViewsLeft count] != 0)
@@ -625,7 +567,7 @@ static const NSInteger gTileMargin = 5;
         }
     }
 
-    self.nextLevelButton.hidden = !self.levelCompleted;
+    self.nextLevelButton.hidden = ![self nextLevel].unlocked;
 
     self.scoreLabel.attributedText = self.scoreAttributedString;
 }
@@ -643,15 +585,28 @@ static const NSInteger gTileMargin = 5;
 
     self.tileArea.backgroundColor = [UIColor clearColor];
 
+    if ([self.view isKindOfClass:[MemoransBackgroundView class]])
+    {
+        ((MemoransBackgroundView *)self.view).backgroundImage =
+            [MemoransBackgroundView allowedBackgrounds][0];
+    }
+
     NSAttributedString *restartGameString =
         [[NSAttributedString alloc] initWithString:@"↺" attributes:self.stringAttributes];
 
     [self.restartGameButton setAttributedTitle:restartGameString forState:UIControlStateNormal];
 
     NSAttributedString *nextLevelString =
-        [[NSAttributedString alloc] initWithString:@"➔" attributes:self.stringAttributes];
+        [[NSAttributedString alloc] initWithString:@"➤" attributes:self.stringAttributes];
 
     [self.nextLevelButton setAttributedTitle:nextLevelString forState:UIControlStateNormal];
+
+    NSAttributedString *backString =
+        [[NSAttributedString alloc] initWithString:@"◼︎" attributes:self.stringAttributes];
+
+    [self.backToMenuButton setAttributedTitle:backString forState:UIControlStateNormal];
+
+    [self.view bringSubviewToFront:self.tileArea];
 
     [self updateUIWithNewGame:YES];
 }

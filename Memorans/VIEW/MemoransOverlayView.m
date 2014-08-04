@@ -79,13 +79,15 @@
 
         CGFloat fontSize = self.fontSize ? self.fontSize : 32;
 
-        _overlayAttributedString = [[NSAttributedString alloc]
-            initWithString:overString
-                attributes:@{
-                              NSFontAttributeName : [UIFont boldSystemFontOfSize:fontSize],
-                              NSForegroundColorAttributeName : overColor,
-                              NSTextEffectAttributeName : NSTextEffectLetterpressStyle,
-                           }];
+        NSDictionary *stringAttributes = @
+        {
+            NSFontAttributeName : [UIFont fontWithName:@"Verdana" size:fontSize],
+            NSForegroundColorAttributeName : overColor,
+            NSTextEffectAttributeName : NSTextEffectLetterpressStyle,
+        };
+
+        _overlayAttributedString =
+            [[NSAttributedString alloc] initWithString:overString attributes:stringAttributes];
     }
 
     return _overlayAttributedString;

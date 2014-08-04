@@ -14,7 +14,7 @@
 
 - (void)drawRect:(CGRect)rect
 {
-    UIImage *faceImage = [UIImage imageNamed:@"b1"];
+    UIImage *faceImage = [UIImage imageNamed:self.backgroundImage];
 
     [faceImage drawInRect:self.bounds];
 }
@@ -29,5 +29,9 @@
     }
     return self;
 }
+
+#pragma mark - GLOBAL VARS AND CLASS METHODS
+
++ (NSArray *)allowedBackgrounds { return @[ @"b1", @"b2", @"b3" ]; }
 
 @end
