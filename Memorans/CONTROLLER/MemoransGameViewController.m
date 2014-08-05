@@ -24,7 +24,7 @@
 @property(weak, nonatomic) IBOutlet UILabel *scoreLabel;
 @property(weak, nonatomic) IBOutlet UIButton *restartGameButton;
 @property(weak, nonatomic) IBOutlet UIButton *nextLevelButton;
-@property(weak, nonatomic) IBOutlet UIButton *backToMenuButton;
+@property(weak, nonatomic) IBOutlet UIButton *backToLevels;
 
 #pragma mark - PROPERTIES
 
@@ -181,13 +181,15 @@
 
 #pragma mark - ACTIONS
 
-- (IBAction)restartGameButtonPressed { [self restartGame]; }
-- (IBAction)nextLevelButtonPressed
+- (IBAction)restartGameButtonTouched { [self restartGame]; }
+
+- (IBAction)nextLevelButtonTouched
 {
     self.currentLevelNumber++;
     [self restartGame];
 }
-- (IBAction)backToMenuPressed { [self.navigationController popViewControllerAnimated:YES]; }
+
+- (IBAction)backToMenuTouched { [self.navigationController popViewControllerAnimated:YES]; }
 
 - (void)restartGame
 {
@@ -502,7 +504,6 @@ static const NSInteger gTileMargin = 5;
 
     if ([self.tileViewsLeft count] != 0)
     {
-
         MemoransTile *gameTile;
         NSInteger tileIndex;
 
@@ -534,7 +535,7 @@ static const NSInteger gTileMargin = 5;
 {
     return [[NSMutableAttributedString alloc]
         initWithString:[NSString stringWithFormat:@"✪ %d", (int)self.game.gameScore]
-            attributes:[Utilities stringAttributesCentered:NO withColor:nil andSize:60]];
+            attributes:[Utilities stringAttributesCentered:YES withColor:nil andSize:60]];
 }
 
 - (void)viewDidLoad
@@ -554,25 +555,31 @@ static const NSInteger gTileMargin = 5;
 
     [self.restartGameButton setAttributedTitle:restartGameString forState:UIControlStateNormal];
 
+    self.restartGameButton.exclusiveTouch = YES;
+
     NSAttributedString *nextLevelString = [[NSAttributedString alloc]
         initWithString:@"➤"
-            attributes:[Utilities stringAttributesCentered:NO withColor:nil andSize:60]];
+            attributes:[Utilities stringAttributesCentered:YES withColor:nil andSize:60]];
 
     [self.nextLevelButton setAttributedTitle:nextLevelString forState:UIControlStateNormal];
 
-    NSAttributedString *backString = [[NSAttributedString alloc]
-        initWithString:@"◼︎"
+    self.nextLevelButton.exclusiveTouch = YES;
+
+    NSAttributedString *backToLevelsString = [[NSAttributedString alloc]
+        initWithString:@"⬅︎"
             attributes:[Utilities stringAttributesCentered:NO withColor:nil andSize:60]];
 
-    [self.backToMenuButton setAttributedTitle:backString forState:UIControlStateNormal];
+    [self.backToLevels setAttributedTitle:backToLevelsString forState:UIControlStateNormal];
+
+    self.backToLevels.exclusiveTouch = YES;
 
     [self.view bringSubviewToFront:self.tileArea];
 
     [self updateUIWithNewGame:YES];
 }
 
-- (void)didReceiveMemoryWarning { [super didReceiveMemoryWarning]; }
-
 - (BOOL)prefersStatusBarHidden { return YES; }
+
+- (void)didReceiveMemoryWarning { [super didReceiveMemoryWarning]; }
 
 @end

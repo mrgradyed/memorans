@@ -17,7 +17,13 @@
 
 @interface MemoransLevelsViewController ()
 
+#pragma mark - OUTLETS
+
 @property(strong, nonatomic) IBOutletCollection(UIButton) NSArray *levelButtonViews;
+
+@property(weak, nonatomic) IBOutlet UIButton *backToMenuButton;
+
+#pragma mark - PROPERTIES
 
 @property(strong, nonatomic) MemoransOverlayView *chooseLevelOverlay;
 
@@ -25,7 +31,7 @@
 
 @implementation MemoransLevelsViewController
 
-#pragma mark - ACCESSORS
+#pragma mark - SETTERS AND GETTERS
 
 - (MemoransOverlayView *)chooseLevelOverlay
 {
@@ -35,7 +41,7 @@
 
         _chooseLevelOverlay.overlayString = @"Pick a level!";
 
-        _chooseLevelOverlay.overlayColor = [Utilities colorFromHEXString:@"#FF1300" withAlpha:1];
+        _chooseLevelOverlay.overlayColor = [Utilities colorFromHEXString:@"FFCC00" withAlpha:1];
 
         _chooseLevelOverlay.fontSize = 150;
 
@@ -46,6 +52,8 @@
 }
 
 #pragma mark - ACTIONS AND NAVIGATION
+
+- (IBAction)backToMenuButtonTouched { [self.navigationController popViewControllerAnimated:YES]; }
 
 - (IBAction)levelButtonTouched:(UIButton *)sender
 {
@@ -80,6 +88,14 @@
 
         ((MemoransBackgroundView *)self.view).backgroundImage = @"HorizontalWaves";
     }
+
+    NSAttributedString *backToMenuString = [[NSAttributedString alloc]
+        initWithString:@"⬅︎"
+            attributes:[Utilities stringAttributesCentered:NO withColor:nil andSize:60]];
+
+    [self.backToMenuButton setAttributedTitle:backToMenuString forState:UIControlStateNormal];
+
+    self.backToMenuButton.exclusiveTouch = YES;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -112,9 +128,11 @@
         loopCount++;
     }
 
-    [Utilities animateOverlayView:self.chooseLevelOverlay withDuration:5];
+    [Utilities animateOverlayView:self.chooseLevelOverlay withDuration:3];
 }
 
 - (BOOL)prefersStatusBarHidden { return YES; }
+
+- (void)didReceiveMemoryWarning { [super didReceiveMemoryWarning]; }
 
 @end

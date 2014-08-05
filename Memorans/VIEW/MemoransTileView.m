@@ -126,7 +126,6 @@
     self.layer.borderWidth = 1;
     self.layer.cornerRadius = self.defaultCornerRadius;
     self.clipsToBounds = YES;
-
 }
 
 #pragma mark - INIT
