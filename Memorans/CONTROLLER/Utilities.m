@@ -7,6 +7,7 @@
 //
 
 #import "Utilities.h"
+#import "MemoransOverlayView.h"
 
 @implementation Utilities
 
@@ -61,7 +62,26 @@
                            alpha:alpha];
 }
 
-+ (NSDictionary *)stringAttributesWithColor:(UIColor *)color andSize:(CGFloat)size
++ (void)animateOverlayView:(MemoransOverlayView *)overlayView withDuration:(NSTimeInterval)duration
+{
+    [overlayView resetView];
+    [overlayView.superview bringSubviewToFront:overlayView];
+
+    [UIView animateWithDuration:0.2f
+        animations:^{
+            overlayView.center = CGPointMake(CGRectGetMidX(overlayView.superview.bounds),
+                                             CGRectGetMidY(overlayView.superview.bounds));
+        }
+        completion:^(BOOL finished) {
+            [UIView animateWithDuration:duration
+                             animations:^{ overlayView.alpha = 0; }
+                             completion:nil];
+        }];
+}
+
++ (NSDictionary *)stringAttributesCentered:(BOOL)centered
+                                 withColor:(UIColor *)color
+                                   andSize:(CGFloat)size
 {
     UIColor *dcolor = color ? color : [Utilities colorFromHEXString:@"#C643FC" withAlpha:1];
 
@@ -69,11 +89,18 @@
 
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
 
-    paragraphStyle.alignment = NSTextAlignmentLeft;
+    if (centered)
+    {
+        paragraphStyle.alignment = NSTextAlignmentCenter;
+    }
+    else
+    {
+        paragraphStyle.alignment = NSTextAlignmentLeft;
+    }
 
     return @
     {
-        NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue" size:dsize],
+        NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-Bold" size:dsize],
         NSForegroundColorAttributeName : dcolor,
         NSTextEffectAttributeName : NSTextEffectLetterpressStyle,
         NSParagraphStyleAttributeName : paragraphStyle,

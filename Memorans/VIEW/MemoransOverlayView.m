@@ -76,8 +76,9 @@
 
         _overlayAttributedString = [[NSAttributedString alloc]
             initWithString:overString
-                attributes:[Utilities stringAttributesWithColor:self.overlayColor
-                                                        andSize:self.fontSize]];
+                attributes:[Utilities stringAttributesCentered:YES
+                                                     withColor:self.overlayColor
+                                                       andSize:self.fontSize]];
     }
 
     return _overlayAttributedString;

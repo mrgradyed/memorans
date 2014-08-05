@@ -66,9 +66,6 @@
 
 - (void)drawRect:(CGRect)rect
 {
-    [[UIBezierPath bezierPathWithRoundedRect:self.bounds
-                                cornerRadius:self.defaultCornerRadius] addClip];
-
     if (self.paired)
     {
         [[UIColor clearColor] setFill];
@@ -128,6 +125,8 @@
     self.layer.borderColor = [Utilities colorFromHEXString:@"#E4B7F0" withAlpha:1].CGColor;
     self.layer.borderWidth = 1;
     self.layer.cornerRadius = self.defaultCornerRadius;
+    self.clipsToBounds = YES;
+
 }
 
 #pragma mark - INIT

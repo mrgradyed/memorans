@@ -9,7 +9,25 @@
 #import "MemoransLevelView.h"
 #import "Utilities.h"
 
+@interface MemoransLevelView ()
+
+@property(nonatomic, strong) UIImageView *overlayLockView;
+
+@end
+
 @implementation MemoransLevelView
+
+- (UIView *)overlayLockView
+{
+
+    if (!_overlayLockView)
+    {
+        _overlayLockView = [[UIImageView alloc] initWithFrame:self.bounds];
+
+        _overlayLockView.image = [UIImage imageNamed:@"lock"];
+    }
+    return _overlayLockView;
+}
 
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
@@ -30,17 +48,28 @@
     self.layer.borderColor = [UIColor whiteColor].CGColor;
     self.layer.borderWidth = 1;
     self.layer.cornerRadius = 15;
+    self.clipsToBounds = YES;
 }
 
 - (void)drawRect:(CGRect)rect
 {
-    [[UIBezierPath bezierPathWithRoundedRect:self.bounds cornerRadius:15] addClip];
+
+    UIImage *buttonImage = [UIImage imageNamed:self.imageID];
+
+    [buttonImage drawInRect:self.bounds];
 
     if (self.enabled)
     {
-        UIImage *buttonImage = [UIImage imageNamed:self.imageID];
+        self.userInteractionEnabled = YES;
 
-        [buttonImage drawInRect:self.bounds];
+        [self.overlayLockView removeFromSuperview];
+    }
+
+    else
+    {
+        self.userInteractionEnabled = NO;
+
+        [self addSubview:self.overlayLockView];
     }
 }
 

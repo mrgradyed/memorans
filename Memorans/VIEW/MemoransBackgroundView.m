@@ -30,8 +30,5 @@
     return self;
 }
 
-#pragma mark - GLOBAL VARS AND CLASS METHODS
-
-+ (NSArray *)allowedBackgrounds { return @[ @"b1", @"b2", @"b3" ]; }
 
 @end

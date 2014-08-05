@@ -12,15 +12,38 @@
 #import "MemoransLevelView.h"
 #import "MemoransSharedLevelsPack.h"
 #import "MemoransGameLevel.h"
+#import "MemoransOverlayView.h"
 #import "Utilities.h"
 
 @interface MemoransLevelsViewController ()
 
 @property(strong, nonatomic) IBOutletCollection(UIButton) NSArray *levelButtonViews;
 
+@property(strong, nonatomic) MemoransOverlayView *chooseLevelOverlay;
+
 @end
 
 @implementation MemoransLevelsViewController
+
+#pragma mark - ACCESSORS
+
+- (MemoransOverlayView *)chooseLevelOverlay
+{
+    if (!_chooseLevelOverlay)
+    {
+        _chooseLevelOverlay = [[MemoransOverlayView alloc] initWithFrame:CGRectZero];
+
+        _chooseLevelOverlay.overlayString = @"Pick a level!";
+
+        _chooseLevelOverlay.overlayColor = [Utilities colorFromHEXString:@"#FF1300" withAlpha:1];
+
+        _chooseLevelOverlay.fontSize = 150;
+
+        [self.view addSubview:_chooseLevelOverlay];
+    }
+
+    return _chooseLevelOverlay;
+}
 
 #pragma mark - ACTIONS AND NAVIGATION
 
@@ -55,8 +78,7 @@
     {
         self.view.multipleTouchEnabled = NO;
 
-        ((MemoransBackgroundView *)self.view).backgroundImage =
-            [MemoransBackgroundView allowedBackgrounds][2];
+        ((MemoransBackgroundView *)self.view).backgroundImage = @"HorizontalWaves";
     }
 }
 
@@ -76,19 +98,21 @@
 
         levelButton.exclusiveTouch = YES;
 
-        if (loopCount > 0)
+        if (loopCount > 1)
         {
             levelButton.enabled = level.unlocked;
 
             // JUST FOR TESTING, TO BE REMOVED - START -
 
-            levelButton.enabled = YES;
+            //  levelButton.enabled = YES;
 
             // JUST FOR TESTING, TO BE REMOVED - END -
         }
 
         loopCount++;
     }
+
+    [Utilities animateOverlayView:self.chooseLevelOverlay withDuration:5];
 }
 
 - (BOOL)prefersStatusBarHidden { return YES; }

@@ -12,8 +12,6 @@
 
 @property(nonatomic, strong) NSString *backgroundImage;
 
-#pragma mark - PUBLIC METHODS
 
-+ (NSArray *)allowedBackgrounds;
 
 @end

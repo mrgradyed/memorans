@@ -16,7 +16,6 @@
 #import "MemoransSharedLevelsPack.h"
 #import "Utilities.h"
 
-
 @interface MemoransGameViewController ()
 
 #pragma mark - OUTLETS
@@ -85,7 +84,8 @@
 
     if (!_endMessages)
     {
-        _endMessages = @[ @"Well Done!", @"Great!", @"Excellent!", @"Superb!" ];
+        _endMessages =
+            @[ @"Well Done!", @"Great!", @"Excellent!", @"Superb!", @"Outstanding!", @"Awesome!" ];
     }
     return _endMessages;
 }
@@ -150,7 +150,8 @@
     {
         _startMessageOverlayView = [[MemoransOverlayView alloc] initWithFrame:CGRectZero];
 
-        _startMessageOverlayView.overlayColor = [Utilities colorFromHEXString:@"#007AFF" withAlpha:1];
+        _startMessageOverlayView.overlayColor =
+            [Utilities colorFromHEXString:@"#007AFF" withAlpha:1];
 
         _startMessageOverlayView.fontSize = 150;
 
@@ -177,8 +178,6 @@
         _currentLevelNumber = currentLevelNumber;
     }
 }
-
-
 
 #pragma mark - ACTIONS
 
@@ -244,7 +243,7 @@
 
                 if (!tappedTileView.paired)
                 {
-                    [self animateOverlayView:self.malusScoreOverlayView withDuration:0.8f];
+                    [Utilities animateOverlayView:self.malusScoreOverlayView withDuration:0.8f];
 
                     [self addWobblingAnimationToView:self.tappedTileViews[0] withRepeatCount:5];
                     [self addWobblingAnimationToView:self.tappedTileViews[1] withRepeatCount:5];
@@ -252,7 +251,7 @@
                 else if (tappedTileView.paired)
                 {
 
-                    [self animateOverlayView:self.bonusScoreOverlayView withDuration:0.8f];
+                    [Utilities animateOverlayView:self.bonusScoreOverlayView withDuration:0.8f];
 
                     [UIView transitionWithView:self.tappedTileViews[0]
                                       duration:0.5f
@@ -312,7 +311,6 @@
 {
     if ([self.tileViewsLeft count] == 0)
     {
-
         [self nextLevel].unlocked = YES;
 
         [self addWobblingAnimationToView:self.nextLevelButton withRepeatCount:40];
@@ -321,7 +319,7 @@
             stringWithFormat:@"%@",
                              self.endMessages[self.game.gameScore % [self.endMessages count]]];
 
-        [self animateOverlayView:self.endMessageOverlayView withDuration:3];
+        [Utilities animateOverlayView:self.endMessageOverlayView withDuration:3];
 
         [self updateUIWithNewGame:NO];
     }
@@ -387,23 +385,6 @@ static const NSInteger gTileMargin = 5;
 }
 
 #pragma mark - ANIMATIONS
-
-- (void)animateOverlayView:(MemoransOverlayView *)overlayView withDuration:(NSTimeInterval)duration
-{
-    [overlayView resetView];
-    [overlayView.superview bringSubviewToFront:overlayView];
-
-    [UIView animateWithDuration:0.2f
-        animations:^{
-            overlayView.center = CGPointMake(CGRectGetMidX(self.tileArea.bounds),
-                                             CGRectGetMidY(self.tileArea.bounds));
-        }
-        completion:^(BOOL finished) {
-            [UIView animateWithDuration:duration
-                             animations:^{ overlayView.alpha = 0; }
-                             completion:nil];
-        }];
-}
 
 - (void)addWobblingAnimationToView:(UIView *)view withRepeatCount:(float)repeatCount
 {
@@ -516,7 +497,7 @@ static const NSInteger gTileMargin = 5;
             [NSString stringWithFormat:@"Level %d\n%@", (int)self.currentLevelNumber + 1,
                                        [self currentLevel].tileSetType];
 
-        [self animateOverlayView:self.startMessageOverlayView withDuration:3];
+        [Utilities animateOverlayView:self.startMessageOverlayView withDuration:3];
     }
 
     if ([self.tileViewsLeft count] != 0)
@@ -553,7 +534,7 @@ static const NSInteger gTileMargin = 5;
 {
     return [[NSMutableAttributedString alloc]
         initWithString:[NSString stringWithFormat:@"✪ %d", (int)self.game.gameScore]
-            attributes:[Utilities stringAttributesWithColor:nil andSize:60]];
+            attributes:[Utilities stringAttributesCentered:NO withColor:nil andSize:60]];
 }
 
 - (void)viewDidLoad
@@ -564,22 +545,24 @@ static const NSInteger gTileMargin = 5;
 
     if ([self.view isKindOfClass:[MemoransBackgroundView class]])
     {
-        ((MemoransBackgroundView *)self.view).backgroundImage =
-            [MemoransBackgroundView allowedBackgrounds][0];
-    }
+        ((MemoransBackgroundView *)self.view).backgroundImage = @"SkewedWaves";
+    };
 
-    NSAttributedString *restartGameString =
-        [[NSAttributedString alloc] initWithString:@"↺" attributes:[Utilities stringAttributesWithColor:nil andSize:60]];
+    NSAttributedString *restartGameString = [[NSAttributedString alloc]
+        initWithString:@"↺"
+            attributes:[Utilities stringAttributesCentered:NO withColor:nil andSize:60]];
 
     [self.restartGameButton setAttributedTitle:restartGameString forState:UIControlStateNormal];
 
-    NSAttributedString *nextLevelString =
-        [[NSAttributedString alloc] initWithString:@"➤" attributes:[Utilities stringAttributesWithColor:nil andSize:60]];
+    NSAttributedString *nextLevelString = [[NSAttributedString alloc]
+        initWithString:@"➤"
+            attributes:[Utilities stringAttributesCentered:NO withColor:nil andSize:60]];
 
     [self.nextLevelButton setAttributedTitle:nextLevelString forState:UIControlStateNormal];
 
-    NSAttributedString *backString =
-        [[NSAttributedString alloc] initWithString:@"◼︎" attributes:[Utilities stringAttributesWithColor:nil andSize:60]];
+    NSAttributedString *backString = [[NSAttributedString alloc]
+        initWithString:@"◼︎"
+            attributes:[Utilities stringAttributesCentered:NO withColor:nil andSize:60]];
 
     [self.backToMenuButton setAttributedTitle:backString forState:UIControlStateNormal];
 

@@ -8,12 +8,18 @@
 
 #import <Foundation/Foundation.h>
 
+@class MemoransOverlayView;
+
 @interface Utilities : NSObject
 
 #pragma mark - PUBLIC METHODS
 
 + (UIColor *)colorFromHEXString:(NSString *)hexString withAlpha:(CGFloat)alpha;
 
-+ (NSDictionary *)stringAttributesWithColor:(UIColor *)color andSize:(CGFloat)size;
++ (void)animateOverlayView:(MemoransOverlayView *)overlayView withDuration:(NSTimeInterval)duration;
+
++ (NSDictionary *)stringAttributesCentered:(BOOL)centered
+                                 withColor:(UIColor *)color
+                                   andSize:(CGFloat)size;
 
 @end
