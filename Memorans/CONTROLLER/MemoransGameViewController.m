@@ -96,7 +96,7 @@
     {
         _bonusScoreOverlayView = [[MemoransOverlayView alloc] initWithFrame:CGRectZero];
 
-        _bonusScoreOverlayView.overlayColor = [Utilities colorFromHEXString:@"#C643FC"];
+        _bonusScoreOverlayView.overlayColor = [Utilities colorFromHEXString:@"#C643FC" withAlpha:1];
 
         _bonusScoreOverlayView.fontSize = 250;
 
@@ -115,7 +115,7 @@
     {
         _malusScoreOverlayView = [[MemoransOverlayView alloc] initWithFrame:CGRectZero];
 
-        _malusScoreOverlayView.overlayColor = [Utilities colorFromHEXString:@"#FF1300"];
+        _malusScoreOverlayView.overlayColor = [Utilities colorFromHEXString:@"#FF1300" withAlpha:1];
 
         _malusScoreOverlayView.fontSize = 250;
 
@@ -134,7 +134,7 @@
     {
         _endMessageOverlayView = [[MemoransOverlayView alloc] initWithFrame:CGRectZero];
 
-        _endMessageOverlayView.overlayColor = [Utilities colorFromHEXString:@"#007AFF"];
+        _endMessageOverlayView.overlayColor = [Utilities colorFromHEXString:@"#007AFF" withAlpha:1];
 
         _endMessageOverlayView.fontSize = 150;
 
@@ -150,7 +150,7 @@
     {
         _startMessageOverlayView = [[MemoransOverlayView alloc] initWithFrame:CGRectZero];
 
-        _startMessageOverlayView.overlayColor = [Utilities colorFromHEXString:@"#007AFF"];
+        _startMessageOverlayView.overlayColor = [Utilities colorFromHEXString:@"#007AFF" withAlpha:1];
 
         _startMessageOverlayView.fontSize = 150;
 
@@ -405,7 +405,7 @@ static const NSInteger gTileMargin = 5;
         }];
 }
 
-- (void)addWobblingAnimationToView:(UIView *)delegateView withRepeatCount:(float)repeatCount
+- (void)addWobblingAnimationToView:(UIView *)view withRepeatCount:(float)repeatCount
 {
     CABasicAnimation *wobbling = [CABasicAnimation animationWithKeyPath:@"transform.rotation"];
 
@@ -421,7 +421,7 @@ static const NSInteger gTileMargin = 5;
 
     wobbling.delegate = self;
 
-    [delegateView.layer addAnimation:wobbling forKey:@"wobbling"];
+    [view.layer addAnimation:wobbling forKey:@"wobbling"];
 }
 
 #pragma mark - CAAnimation DELEGATE METHODS

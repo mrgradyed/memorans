@@ -12,7 +12,7 @@
 
 #pragma mark - CLASS METHODS
 
-+ (UIColor *)colorFromHEXString:(NSString *)hexString
++ (UIColor *)colorFromHEXString:(NSString *)hexString withAlpha:(CGFloat)alpha
 {
     if ([hexString hasPrefix:@"#"])
     {
@@ -58,12 +58,12 @@
     return [UIColor colorWithRed:redInt / 255.0f
                            green:greenInt / 255.0f
                             blue:blueInt / 255.0f
-                           alpha:1];
+                           alpha:alpha];
 }
 
 + (NSDictionary *)stringAttributesWithColor:(UIColor *)color andSize:(CGFloat)size
 {
-    UIColor * dcolor = color ? color : [Utilities colorFromHEXString:@"#C643FC"];
+    UIColor *dcolor = color ? color : [Utilities colorFromHEXString:@"#C643FC" withAlpha:1];
 
     CGFloat dsize = size ? size : 32;
 

@@ -56,7 +56,7 @@
         self.view.multipleTouchEnabled = NO;
 
         ((MemoransBackgroundView *)self.view).backgroundImage =
-            [MemoransBackgroundView allowedBackgrounds][1];
+            [MemoransBackgroundView allowedBackgrounds][2];
     }
 }
 
@@ -72,7 +72,7 @@
             (MemoransGameLevel *)[MemoransSharedLevelsPack sharedLevelsPack].levelsPack[loopCount];
 
         levelButton.imageID =
-            [NSString stringWithFormat:@"L%d%@", (int)level.tilesInLevel, level.tileSetType];
+            [NSString stringWithFormat:@"Level%d%@", (int)level.tilesInLevel, level.tileSetType];
 
         levelButton.exclusiveTouch = YES;
 

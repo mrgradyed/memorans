@@ -27,19 +27,18 @@
     self.backgroundColor = [UIColor clearColor];
     self.contentMode = UIViewContentModeRedraw;
     self.multipleTouchEnabled = NO;
-    self.layer.borderColor = [Utilities colorFromHEXString:@"#E4B7F0"].CGColor;
+    self.layer.borderColor = [UIColor whiteColor].CGColor;
     self.layer.borderWidth = 1;
     self.layer.cornerRadius = 15;
 }
 
 - (void)drawRect:(CGRect)rect
 {
-
     [[UIBezierPath bezierPathWithRoundedRect:self.bounds cornerRadius:15] addClip];
 
     if (self.enabled)
     {
-        UIImage *buttonImage = [UIImage imageNamed:@"b3"];
+        UIImage *buttonImage = [UIImage imageNamed:self.imageID];
 
         [buttonImage drawInRect:self.bounds];
     }

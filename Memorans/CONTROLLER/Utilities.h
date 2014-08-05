@@ -12,7 +12,7 @@
 
 #pragma mark - PUBLIC METHODS
 
-+ (UIColor *)colorFromHEXString:(NSString *)hexString;
++ (UIColor *)colorFromHEXString:(NSString *)hexString withAlpha:(CGFloat)alpha;
 
 + (NSDictionary *)stringAttributesWithColor:(UIColor *)color andSize:(CGFloat)size;
 
