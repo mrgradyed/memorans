@@ -201,6 +201,8 @@
 
     self.isWobbling = NO;
 
+    BOOL gotBadScore = (self.game.gameScore <= 0);
+
     self.game = nil;
 
     [self.startMessageOverlayView resetView];
@@ -208,7 +210,7 @@
     [self.bonusScoreOverlayView resetView];
     [self.malusScoreOverlayView resetView];
 
-    [self updateUIWithNewGame:YES];
+    [self updateUIWithNewGame:YES andBadScore:gotBadScore];
 }
 
 #pragma mark - GESTURES HANDLING AND GAMEPLAY
@@ -241,7 +243,7 @@
                 [self.game playTileAtIndex:[self.tileViews indexOfObject:self.tappedTileViews[0]]];
                 [self.game playTileAtIndex:[self.tileViews indexOfObject:self.tappedTileViews[1]]];
 
-                [self updateUIWithNewGame:NO];
+                [self updateUIWithNewGame:NO andBadScore:NO];
 
                 if (!tappedTileView.paired)
                 {
@@ -313,17 +315,24 @@
 {
     if ([self.tileViewsLeft count] == 0)
     {
-        [self nextLevel].unlocked = YES;
+        if (self.game.gameScore > 0)
+        {
+            [self nextLevel].unlocked = YES;
 
-        [self addWobblingAnimationToView:self.nextLevelButton withRepeatCount:40];
+            [self addWobblingAnimationToView:self.nextLevelButton withRepeatCount:40];
 
-        self.endMessageOverlayView.overlayString = [NSString
-            stringWithFormat:@"%@",
-                             self.endMessages[self.game.gameScore % [self.endMessages count]]];
+            self.endMessageOverlayView.overlayString = [NSString
+                stringWithFormat:@"%@",
+                                 self.endMessages[self.game.gameScore % [self.endMessages count]]];
 
-        [Utilities animateOverlayView:self.endMessageOverlayView withDuration:3];
+            [Utilities animateOverlayView:self.endMessageOverlayView withDuration:3];
 
-        [self updateUIWithNewGame:NO];
+            [self updateUIWithNewGame:NO andBadScore:NO];
+        }
+        else
+        {
+            [self restartGame];
+        }
     }
 }
 
@@ -489,15 +498,22 @@ static const NSInteger gTileMargin = 5;
     }
 }
 
-- (void)updateUIWithNewGame:(BOOL)newGame
+- (void)updateUIWithNewGame:(BOOL)newGame andBadScore:(BOOL)gotBadScore
 {
     if (newGame)
     {
         [self createPlaceAndAnimateTileViews];
 
-        self.startMessageOverlayView.overlayString =
-            [NSString stringWithFormat:@"Level %d\n%@", (int)self.currentLevelNumber + 1,
-                                       [self currentLevel].tileSetType];
+        if (!gotBadScore)
+        {
+            self.startMessageOverlayView.overlayString =
+                [NSString stringWithFormat:@"Level %d\n%@", (int)self.currentLevelNumber + 1,
+                                           [self currentLevel].tileSetType];
+        }
+        else
+        {
+            self.startMessageOverlayView.overlayString = @"Bad Score!\nTry Again!";
+        }
 
         [Utilities animateOverlayView:self.startMessageOverlayView withDuration:3];
     }
@@ -535,7 +551,9 @@ static const NSInteger gTileMargin = 5;
 {
     return [[NSMutableAttributedString alloc]
         initWithString:[NSString stringWithFormat:@"✪ %d", (int)self.game.gameScore]
-            attributes:[Utilities stringAttributesCentered:YES withColor:nil andSize:60]];
+            attributes:[Utilities stringAttributesWithAlignement:NSTextAlignmentCenter
+                                                       withColor:nil
+                                                         andSize:60]];
 }
 
 - (void)viewDidLoad
@@ -551,7 +569,9 @@ static const NSInteger gTileMargin = 5;
 
     NSAttributedString *restartGameString = [[NSAttributedString alloc]
         initWithString:@"↺"
-            attributes:[Utilities stringAttributesCentered:NO withColor:nil andSize:60]];
+            attributes:[Utilities stringAttributesWithAlignement:NSTextAlignmentLeft
+                                                       withColor:nil
+                                                         andSize:60]];
 
     [self.restartGameButton setAttributedTitle:restartGameString forState:UIControlStateNormal];
 
@@ -559,7 +579,9 @@ static const NSInteger gTileMargin = 5;
 
     NSAttributedString *nextLevelString = [[NSAttributedString alloc]
         initWithString:@"➤"
-            attributes:[Utilities stringAttributesCentered:YES withColor:nil andSize:60]];
+            attributes:[Utilities stringAttributesWithAlignement:NSTextAlignmentRight
+                                                       withColor:nil
+                                                         andSize:60]];
 
     [self.nextLevelButton setAttributedTitle:nextLevelString forState:UIControlStateNormal];
 
@@ -567,7 +589,9 @@ static const NSInteger gTileMargin = 5;
 
     NSAttributedString *backToLevelsString = [[NSAttributedString alloc]
         initWithString:@"⬅︎"
-            attributes:[Utilities stringAttributesCentered:NO withColor:nil andSize:60]];
+            attributes:[Utilities stringAttributesWithAlignement:NSTextAlignmentLeft
+                                                       withColor:nil
+                                                         andSize:60]];
 
     [self.backToLevels setAttributedTitle:backToLevelsString forState:UIControlStateNormal];
 
@@ -575,7 +599,7 @@ static const NSInteger gTileMargin = 5;
 
     [self.view bringSubviewToFront:self.tileArea];
 
-    [self updateUIWithNewGame:YES];
+    [self updateUIWithNewGame:YES andBadScore:NO];
 }
 
 - (BOOL)prefersStatusBarHidden { return YES; }

@@ -65,6 +65,7 @@
 + (void)animateOverlayView:(MemoransOverlayView *)overlayView withDuration:(NSTimeInterval)duration
 {
     [overlayView resetView];
+
     [overlayView.superview bringSubviewToFront:overlayView];
 
     [UIView animateWithDuration:0.2f
@@ -79,9 +80,9 @@
         }];
 }
 
-+ (NSDictionary *)stringAttributesCentered:(BOOL)centered
-                                 withColor:(UIColor *)color
-                                   andSize:(CGFloat)size
++ (NSDictionary *)stringAttributesWithAlignement:(NSTextAlignment)alignement
+                                       withColor:(UIColor *)color
+                                         andSize:(CGFloat)size
 {
     UIColor *dcolor = color ? color : [Utilities colorFromHEXString:@"#C643FC" withAlpha:1];
 
@@ -89,20 +90,16 @@
 
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
 
-    if (centered)
-    {
-        paragraphStyle.alignment = NSTextAlignmentCenter;
-    }
-    else
-    {
-        paragraphStyle.alignment = NSTextAlignmentLeft;
-    }
+    paragraphStyle.alignment = alignement;
+
+    paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
 
     return @
     {
         NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-Bold" size:dsize],
         NSForegroundColorAttributeName : dcolor,
-        NSTextEffectAttributeName : NSTextEffectLetterpressStyle,
+        NSStrokeWidthAttributeName : @-2,
+        NSStrokeColorAttributeName : [UIColor blackColor],
         NSParagraphStyleAttributeName : paragraphStyle,
     };
 }

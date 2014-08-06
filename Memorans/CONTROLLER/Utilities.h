@@ -18,8 +18,8 @@
 
 + (void)animateOverlayView:(MemoransOverlayView *)overlayView withDuration:(NSTimeInterval)duration;
 
-+ (NSDictionary *)stringAttributesCentered:(BOOL)centered
-                                 withColor:(UIColor *)color
-                                   andSize:(CGFloat)size;
++ (NSDictionary *)stringAttributesWithAlignement:(NSTextAlignment)alignement
+                                       withColor:(UIColor *)color
+                                         andSize:(CGFloat)size;
 
 @end

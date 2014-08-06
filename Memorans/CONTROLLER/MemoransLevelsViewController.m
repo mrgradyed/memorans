@@ -41,9 +41,9 @@
 
         _chooseLevelOverlay.overlayString = @"Pick a level!";
 
-        _chooseLevelOverlay.overlayColor = [Utilities colorFromHEXString:@"FFCC00" withAlpha:1];
+        _chooseLevelOverlay.overlayColor = [Utilities colorFromHEXString:@"#007AFF" withAlpha:1];
 
-        _chooseLevelOverlay.fontSize = 150;
+        _chooseLevelOverlay.fontSize = 180;
 
         [self.view addSubview:_chooseLevelOverlay];
     }
@@ -82,16 +82,20 @@
 {
     [super viewDidLoad];
 
+    self.view.multipleTouchEnabled = NO;
+
+
     if ([self.view isKindOfClass:[MemoransBackgroundView class]])
     {
-        self.view.multipleTouchEnabled = NO;
 
         ((MemoransBackgroundView *)self.view).backgroundImage = @"HorizontalWaves";
     }
 
     NSAttributedString *backToMenuString = [[NSAttributedString alloc]
         initWithString:@"⬅︎"
-            attributes:[Utilities stringAttributesCentered:NO withColor:nil andSize:60]];
+            attributes:[Utilities stringAttributesWithAlignement:NSTextAlignmentLeft
+                                                       withColor:nil
+                                                         andSize:60]];
 
     [self.backToMenuButton setAttributedTitle:backToMenuString forState:UIControlStateNormal];
 

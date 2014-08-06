@@ -12,6 +12,8 @@
 
 @property(nonatomic, strong) NSString *backgroundImage;
 
+@property(nonatomic, strong) NSString *backgroundText;
+
 
 
 @end

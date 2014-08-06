@@ -28,10 +28,10 @@
     [self performSegueWithIdentifier:@"toLevelsController" sender:self];
 }
 
-- (IBAction)creditsButtonTouched {
+- (IBAction)creditsButtonTouched
+{
 
     [self performSegueWithIdentifier:@"toCreditsController" sender:self];
-
 }
 
 - (void)viewDidLoad
@@ -40,16 +40,20 @@
 
     self.navigationController.navigationBarHidden = YES;
 
+    self.view.multipleTouchEnabled = NO;
+
+
     if ([self.view isKindOfClass:[MemoransBackgroundView class]])
     {
-        self.view.multipleTouchEnabled = NO;
 
         ((MemoransBackgroundView *)self.view).backgroundImage = @"SkewedWaves";
     }
 
     NSAttributedString *startGameString = [[NSAttributedString alloc]
         initWithString:@"Start Game"
-            attributes:[Utilities stringAttributesCentered:NO withColor:nil andSize:60]];
+            attributes:[Utilities stringAttributesWithAlignement:NSTextAlignmentCenter
+                                                       withColor:nil
+                                                         andSize:60]];
 
     [self.startGameButton setAttributedTitle:startGameString forState:UIControlStateNormal];
 
@@ -57,7 +61,9 @@
 
     NSAttributedString *creditsString = [[NSAttributedString alloc]
         initWithString:@"Credits"
-            attributes:[Utilities stringAttributesCentered:NO withColor:nil andSize:60]];
+            attributes:[Utilities stringAttributesWithAlignement:NSTextAlignmentCenter
+                                                       withColor:nil
+                                                         andSize:60]];
 
     [self.creditsButton setAttributedTitle:creditsString forState:UIControlStateNormal];
 
