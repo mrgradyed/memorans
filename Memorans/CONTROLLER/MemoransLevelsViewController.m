@@ -41,9 +41,9 @@
 
         _chooseLevelOverlay.overlayString = @"Pick a level!";
 
-        _chooseLevelOverlay.overlayColor = [Utilities colorFromHEXString:@"#007AFF" withAlpha:1];
+        _chooseLevelOverlay.overlayColor = [Utilities colorFromHEXString:@"#FF1300" withAlpha:1];
 
-        _chooseLevelOverlay.fontSize = 180;
+        _chooseLevelOverlay.fontSize = 150;
 
         [self.view addSubview:_chooseLevelOverlay];
     }
@@ -84,7 +84,6 @@
 
     self.view.multipleTouchEnabled = NO;
 
-
     if ([self.view isKindOfClass:[MemoransBackgroundView class]])
     {
 
@@ -107,6 +106,12 @@
     MemoransGameLevel *level;
 
     int loopCount = 0;
+
+    // JUST FOR TESTING, TO BE REMOVED - START -
+
+    //  NSLog( @"%d", [[MemoransSharedLevelsPack sharedLevelsPack] resetLevelsData]);
+
+    // JUST FOR TESTING, TO BE REMOVED - END -
 
     for (MemoransLevelView *levelButton in self.levelButtonViews)
     {

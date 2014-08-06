@@ -7,6 +7,7 @@
 //
 
 #import "MemoransAppDelegate.h"
+#import "MemoransSharedLevelsPack.h"
 
 @implementation MemoransAppDelegate
 
@@ -33,6 +34,8 @@
     // it is terminated later.
     // If your application supports background execution, this method is called instead of
     // applicationWillTerminate: when the user quits.
+
+    [[MemoransSharedLevelsPack sharedLevelsPack] archive];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application

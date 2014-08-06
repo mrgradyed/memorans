@@ -24,7 +24,7 @@
 
         int loopCount = 0;
 
-        for (NSNumber *tilesInLevel in [MemoransGameLevel allowedTilesInLevels])
+        for (NSNumber *tilesInLevel in [MemoransGameLevel allowedTilesCountsInLevels])
         {
             newLevel = [[MemoransGameLevel alloc] init];
 
@@ -34,11 +34,12 @@
 
             newLevel.tileSetType = [MemoransTile allowedTileSets][tileSetTypeIndex];
 
-            [self.levelsPack addObject:newLevel];
+            [_levelsPack addObject:newLevel];
 
             loopCount++;
         }
     }
+
     return _levelsPack;
 }
 
@@ -46,10 +47,10 @@
 
 - (instancetype)init
 {
-    @throw
-        [NSException exceptionWithName:@"SingletonException"
-                                reason:@"Please use +[MemoransLevelPack sharedLevelsPack] instead."
-                              userInfo:nil];
+    @throw [NSException
+        exceptionWithName:@"SingletonException"
+                   reason:@"Please use +[MemoransLevelPack " @"sharedLevelsPack] instead."
+                 userInfo:nil];
 
     return nil;
 }
@@ -58,9 +59,9 @@
 {
     self = [super init];
 
-    if (!self)
+    if (self)
     {
-        return nil;
+        _levelsPack = [NSKeyedUnarchiver unarchiveObjectWithFile:[self filePathForArchiving]];
     }
 
     return self;
@@ -77,6 +78,32 @@
     dispatch_once(&blockHasCompleted, ^{ sharedLevelsPack = [[self alloc] initPrivate]; });
 
     return sharedLevelsPack;
+}
+
+#pragma mark - ARCHIVING
+
+- (NSString *)filePathForArchiving
+{
+    NSString *documentDirectory =
+        NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
+
+    return [documentDirectory stringByAppendingPathComponent:@"levelspack.archive"];
+}
+
+- (BOOL)archive
+{
+    return [NSKeyedArchiver archiveRootObject:self.levelsPack toFile:[self filePathForArchiving]];
+}
+
+- (BOOL)resetLevelsData
+{
+    self.levelsPack = nil;
+
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+
+    NSError *error;
+
+    return [fileManager removeItemAtPath:[self filePathForArchiving] error:&error];
 }
 
 @end

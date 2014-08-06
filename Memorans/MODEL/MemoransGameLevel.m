@@ -12,7 +12,7 @@
 
 #pragma mark - CLASS METHODS
 
-+ (NSArray *)allowedTilesInLevels
++ (NSArray *)allowedTilesCountsInLevels
 {
     return @[
         @6,
@@ -40,6 +40,37 @@
         @40,
         @40
     ];
+}
+
+#pragma mark - NSCoding PROTOCOL
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super init];
+
+    if (self)
+    {
+        _tileSetType = [aDecoder decodeObjectForKey:@"tileSetType"];
+
+        _tilesInLevel = [aDecoder decodeIntegerForKey:@"tilesInLevel"];
+
+        _rating = [aDecoder decodeIntegerForKey:@"rating"];
+
+        _unlocked = [aDecoder decodeBoolForKey:@"unlocked"];
+    }
+
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder
+{
+    [aCoder encodeObject:self.tileSetType forKey:@"tileSetType"];
+
+    [aCoder encodeInteger:self.tilesInLevel forKey:@"tilesInLevel"];
+
+    [aCoder encodeInteger:self.rating forKey:@"rating"];
+
+    [aCoder encodeBool:self.unlocked forKey:@"unlocked"];
 }
 
 @end

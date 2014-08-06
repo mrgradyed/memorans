@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface MemoransGameLevel : NSObject
+@interface MemoransGameLevel : NSObject <NSCoding>
 
 #pragma mark - PUBLIC PROPERTIES
 
@@ -21,6 +21,6 @@
 
 #pragma mark - PUBLIC METHODS
 
-+ (NSArray *)allowedTilesInLevels;
++ (NSArray *)allowedTilesCountsInLevels;
 
 @end

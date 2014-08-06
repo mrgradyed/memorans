@@ -18,4 +18,7 @@
 
 + (instancetype)sharedLevelsPack;
 
+- (BOOL)archive;
+
+- (BOOL)resetLevelsData;
 @end
