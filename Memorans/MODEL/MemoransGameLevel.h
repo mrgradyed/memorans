@@ -15,7 +15,6 @@
 @property(nonatomic, strong) NSString *tileSetType;
 
 @property(nonatomic) NSInteger tilesInLevel;
-@property(nonatomic) NSInteger rating;
 
 @property(nonatomic) BOOL unlocked;
 

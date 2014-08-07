@@ -14,7 +14,7 @@
 
 #pragma mark - OUTLETS
 
-@property(weak, nonatomic) IBOutlet UIButton *startGameButton;
+@property(weak, nonatomic) IBOutlet UIButton *playButton;
 @property(weak, nonatomic) IBOutlet UIButton *creditsButton;
 
 @end
@@ -23,7 +23,7 @@
 
 #pragma mark - ACTIONS AND NAVIGATION
 
-- (IBAction)startButtonTouched
+- (IBAction)playButtonTouched
 {
     [self performSegueWithIdentifier:@"toLevelsController" sender:self];
 }
@@ -40,8 +40,8 @@
 
     self.navigationController.navigationBarHidden = YES;
 
-    self.view.multipleTouchEnabled = NO;
 
+    self.view.multipleTouchEnabled = NO;
 
     if ([self.view isKindOfClass:[MemoransBackgroundView class]])
     {
@@ -49,21 +49,21 @@
         ((MemoransBackgroundView *)self.view).backgroundImage = @"SkewedWaves";
     }
 
-    NSAttributedString *startGameString = [[NSAttributedString alloc]
-        initWithString:@"Start Game"
+    NSAttributedString *playGameString = [[NSAttributedString alloc]
+        initWithString:@"Play"
             attributes:[Utilities stringAttributesWithAlignement:NSTextAlignmentCenter
                                                        withColor:nil
-                                                         andSize:60]];
+                                                         andSize:80]];
 
-    [self.startGameButton setAttributedTitle:startGameString forState:UIControlStateNormal];
+    [self.playButton setAttributedTitle:playGameString forState:UIControlStateNormal];
 
-    self.startGameButton.exclusiveTouch = YES;
+    self.playButton.exclusiveTouch = YES;
 
     NSAttributedString *creditsString = [[NSAttributedString alloc]
         initWithString:@"Credits"
             attributes:[Utilities stringAttributesWithAlignement:NSTextAlignmentCenter
                                                        withColor:nil
-                                                         andSize:60]];
+                                                         andSize:80]];
 
     [self.creditsButton setAttributedTitle:creditsString forState:UIControlStateNormal];
 
@@ -73,7 +73,8 @@
 /*
 #pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before
+// In a storyboard-based application, you will often want to do a little
+preparation before
 navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {

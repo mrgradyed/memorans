@@ -22,4 +22,10 @@
 
 - (void)resetView;
 
+#pragma mark - INIT
+
+- (instancetype)initWithString:(NSString *)string
+                      andColor:(UIColor *)color
+                   andFontSize:(CGFloat)fontSize;
+
 @end

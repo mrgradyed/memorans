@@ -54,8 +54,6 @@
 
         _tilesInLevel = [aDecoder decodeIntegerForKey:@"tilesInLevel"];
 
-        _rating = [aDecoder decodeIntegerForKey:@"rating"];
-
         _unlocked = [aDecoder decodeBoolForKey:@"unlocked"];
     }
 
@@ -67,8 +65,6 @@
     [aCoder encodeObject:self.tileSetType forKey:@"tileSetType"];
 
     [aCoder encodeInteger:self.tilesInLevel forKey:@"tilesInLevel"];
-
-    [aCoder encodeInteger:self.rating forKey:@"rating"];
 
     [aCoder encodeBool:self.unlocked forKey:@"unlocked"];
 }

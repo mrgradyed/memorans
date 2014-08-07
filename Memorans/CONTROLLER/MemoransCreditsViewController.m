@@ -38,7 +38,7 @@
     {
         ((MemoransBackgroundView *)self.view).backgroundImage = @"StarsOnBlue";
         ((MemoransBackgroundView *)self.view).backgroundText =
-            @"Programming\n \nMonsters Images\n \nMusic\n \n";
+            @"Programming\n \nMonsters Images\n \nMusic\n";
     }
 
     NSAttributedString *backToMenuString = [[NSAttributedString alloc]

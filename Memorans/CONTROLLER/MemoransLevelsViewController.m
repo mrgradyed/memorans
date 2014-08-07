@@ -37,13 +37,10 @@
 {
     if (!_chooseLevelOverlay)
     {
-        _chooseLevelOverlay = [[MemoransOverlayView alloc] initWithFrame:CGRectZero];
-
-        _chooseLevelOverlay.overlayString = @"Pick a level!";
-
-        _chooseLevelOverlay.overlayColor = [Utilities colorFromHEXString:@"#FF1300" withAlpha:1];
-
-        _chooseLevelOverlay.fontSize = 150;
+        _chooseLevelOverlay = [[MemoransOverlayView alloc]
+            initWithString:@"Pick a level!"
+                  andColor:[Utilities colorFromHEXString:@"#C643FC" withAlpha:1]
+               andFontSize:180];
 
         [self.view addSubview:_chooseLevelOverlay];
     }

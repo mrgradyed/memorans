@@ -81,7 +81,6 @@
 
 - (NSArray *)endMessages
 {
-
     if (!_endMessages)
     {
         _endMessages =
@@ -94,12 +93,10 @@
 {
     if (!_bonusScoreOverlayView)
     {
-        _bonusScoreOverlayView = [[MemoransOverlayView alloc] initWithFrame:CGRectZero];
-
-        _bonusScoreOverlayView.overlayColor = [Utilities colorFromHEXString:@"#C643FC" withAlpha:1];
-
-        _bonusScoreOverlayView.fontSize = 250;
-
+        _bonusScoreOverlayView = [[MemoransOverlayView alloc]
+            initWithString:nil
+                  andColor:[Utilities colorFromHEXString:@"#C643FC" withAlpha:1]
+               andFontSize:250];
         [self.tileArea addSubview:_bonusScoreOverlayView];
     }
 
@@ -113,11 +110,10 @@
 {
     if (!_malusScoreOverlayView)
     {
-        _malusScoreOverlayView = [[MemoransOverlayView alloc] initWithFrame:CGRectZero];
-
-        _malusScoreOverlayView.overlayColor = [Utilities colorFromHEXString:@"#FF1300" withAlpha:1];
-
-        _malusScoreOverlayView.fontSize = 250;
+        _malusScoreOverlayView = [[MemoransOverlayView alloc]
+            initWithString:nil
+                  andColor:[Utilities colorFromHEXString:@"#FF1300" withAlpha:1]
+               andFontSize:250];
 
         [self.tileArea addSubview:_malusScoreOverlayView];
     }
@@ -132,11 +128,10 @@
 {
     if (!_endMessageOverlayView)
     {
-        _endMessageOverlayView = [[MemoransOverlayView alloc] initWithFrame:CGRectZero];
-
-        _endMessageOverlayView.overlayColor = [Utilities colorFromHEXString:@"#007AFF" withAlpha:1];
-
-        _endMessageOverlayView.fontSize = 150;
+        _endMessageOverlayView = [[MemoransOverlayView alloc]
+            initWithString:nil
+                  andColor:[Utilities colorFromHEXString:@"#007AFF" withAlpha:1]
+               andFontSize:150];
 
         [self.tileArea addSubview:_endMessageOverlayView];
     }
@@ -148,12 +143,10 @@
 {
     if (!_startMessageOverlayView)
     {
-        _startMessageOverlayView = [[MemoransOverlayView alloc] initWithFrame:CGRectZero];
-
-        _startMessageOverlayView.overlayColor =
-            [Utilities colorFromHEXString:@"#007AFF" withAlpha:1];
-
-        _startMessageOverlayView.fontSize = 150;
+        _startMessageOverlayView = [[MemoransOverlayView alloc]
+            initWithString:nil
+                  andColor:[Utilities colorFromHEXString:@"#007AFF" withAlpha:1]
+               andFontSize:150];
 
         [self.tileArea addSubview:_startMessageOverlayView];
     }
@@ -254,7 +247,6 @@
                 }
                 else if (tappedTileView.paired)
                 {
-
                     [Utilities animateOverlayView:self.bonusScoreOverlayView withDuration:0.8f];
 
                     [UIView transitionWithView:self.tappedTileViews[0]

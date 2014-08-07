@@ -32,11 +32,9 @@
 
     _overlayString = overlayString;
 
-    self.overlayAttributedString = nil;
+    _overlayAttributedString = nil;
 
     [self resizeView];
-
-    [self setNeedsDisplay];
 }
 
 - (void)setOverlayColor:(UIColor *)overlayColor
@@ -47,9 +45,7 @@
     }
     _overlayColor = overlayColor;
 
-    self.overlayAttributedString = nil;
-
-    [self setNeedsDisplay];
+    _overlayAttributedString = nil;
 }
 
 - (void)setFontSize:(CGFloat)fontSize
@@ -61,11 +57,9 @@
 
     _fontSize = fontSize;
 
-    self.overlayAttributedString = nil;
+    _overlayAttributedString = nil;
 
     [self resizeView];
-
-    [self setNeedsDisplay];
 }
 
 - (NSAttributedString *)overlayAttributedString
@@ -77,8 +71,8 @@
         _overlayAttributedString = [[NSAttributedString alloc]
             initWithString:overString
                 attributes:[Utilities stringAttributesWithAlignement:NSTextAlignmentCenter
-                                                     withColor:self.overlayColor
-                                                       andSize:self.fontSize]];
+                                                           withColor:self.overlayColor
+                                                             andSize:self.fontSize]];
     }
 
     return _overlayAttributedString;
@@ -86,28 +80,18 @@
 
 - (CGPoint)outOfScreenCenter
 {
-    if (_outOfScreenCenter.x == CGPointZero.x)
+    if (_outOfScreenCenter.x == CGPointZero.x || _outOfScreenCenter.y == CGPointZero.y)
     {
         CGRect screenBounds = [[UIScreen mainScreen] bounds];
 
         _outOfScreenCenter = CGPointMake(screenBounds.size.width + self.frame.size.width / 2,
                                          screenBounds.size.height + self.frame.size.height / 2);
     }
+
     return _outOfScreenCenter;
 }
 
 #pragma mark - DRAWING AND APPEARANCE
-
-- (void)resizeView
-{
-    CGSize newSize = [self.overlayAttributedString size];
-
-    CGRect newBounds = self.bounds;
-
-    newBounds.size = newSize;
-
-    self.bounds = newBounds;
-}
 
 - (void)resetView
 {
@@ -119,24 +103,57 @@
     }
 }
 
-- (void)configureView
+- (void)resizeView
 {
-    self.backgroundColor = [UIColor clearColor];
-    self.contentMode = UIViewContentModeRedraw;
-    self.userInteractionEnabled = NO;
+    CGSize newSize = [self.overlayAttributedString size];
+
+    CGRect newBounds = self.bounds;
+
+    newBounds.size = newSize;
+
+    self.bounds = newBounds;
+
+    [self setNeedsDisplay];
 }
 
 - (void)drawRect:(CGRect)rect { [self.overlayAttributedString drawInRect:self.bounds]; }
 
-#pragma mark - INITIALISERS
+- (void)configureView
+{
+    self.backgroundColor = [UIColor clearColor];
+
+    self.contentMode = UIViewContentModeRedraw;
+
+    self.userInteractionEnabled = NO;
+}
+
+#pragma mark - INIT
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
+
     if (self)
     {
         [self configureView];
     }
+    return self;
+}
+
+- (instancetype)initWithString:(NSString *)string
+                      andColor:(UIColor *)color
+                   andFontSize:(CGFloat)fontSize
+{
+    self = [self initWithFrame:CGRectZero];
+
+    _overlayString = string;
+
+    _overlayColor = color;
+
+    _fontSize = fontSize;
+
+    [self resizeView];
+
     return self;
 }
 
