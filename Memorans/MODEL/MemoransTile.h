@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface MemoransTile : NSObject <NSCopying>
+@interface MemoransTile : NSObject <NSCopying, NSCoding>
 
 #pragma mark - PROPERTIES
 

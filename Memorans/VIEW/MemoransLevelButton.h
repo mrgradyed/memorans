@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MemoransLevelView : UIButton
+@interface MemoransLevelButton : UIButton
 
 @property(nonatomic, strong) NSString *imageID;
 

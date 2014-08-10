@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 @class MemoransTile;
 
-@interface MemoransGameEngine : NSObject
+@interface MemoransGameEngine : NSObject <NSCoding>
 
 #pragma mark - PUBLIC PROPERTIES
 

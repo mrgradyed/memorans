@@ -10,7 +10,7 @@
 
 @class MemoransTile;
 
-@interface MemoransTilesSet : NSObject
+@interface MemoransTilesSet : NSObject <NSCoding>
 
 #pragma mark - DESIGNATED INITIALISER
 

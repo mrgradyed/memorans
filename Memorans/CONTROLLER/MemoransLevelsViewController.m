@@ -9,7 +9,7 @@
 #import "MemoransLevelsViewController.h"
 #import "MemoransGameViewController.h"
 #import "MemoransBackgroundView.h"
-#import "MemoransLevelView.h"
+#import "MemoransLevelButton.h"
 #import "MemoransSharedLevelsPack.h"
 #import "MemoransGameLevel.h"
 #import "MemoransOverlayView.h"
@@ -54,7 +54,7 @@
 
 - (IBAction)levelButtonTouched:(UIButton *)sender
 {
-    if ([sender isKindOfClass:[MemoransLevelView class]])
+    if ([sender isKindOfClass:[MemoransLevelButton class]])
     {
         [self performSegueWithIdentifier:@"toGameController" sender:sender];
     }
@@ -62,14 +62,17 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([segue.identifier isEqualToString:@"toGameController"] &&
-        [segue.destinationViewController isKindOfClass:[MemoransGameViewController class]])
+    if ([segue.identifier isEqualToString:@"toGameController"])
     {
         MemoransGameViewController *gameController = segue.destinationViewController;
 
-        MemoransLevelView *levelButton = (MemoransLevelView *)sender;
+        MemoransLevelButton *levelButton = (MemoransLevelButton *)sender;
 
-        gameController.currentLevelNumber = [self.levelButtonViews indexOfObject:levelButton];
+        NSInteger levelNumber = [self.levelButtonViews indexOfObject:levelButton];
+
+        gameController.currentLevelNumber = levelNumber;
+
+    //    NSLog(@"LEVEL CHOSEN: %d", levelNumber);
     }
 }
 
@@ -106,11 +109,12 @@
 
     // JUST FOR TESTING, TO BE REMOVED - START -
 
-    //  NSLog( @"%d", [[MemoransSharedLevelsPack sharedLevelsPack] resetLevelsData]);
+    //  NSLog( @"%d", [[MemoransSharedLevelsPack sharedLevelsPack]
+    //  resetLevelsData]);
 
     // JUST FOR TESTING, TO BE REMOVED - END -
 
-    for (MemoransLevelView *levelButton in self.levelButtonViews)
+    for (MemoransLevelButton *levelButton in self.levelButtonViews)
     {
         level =
             (MemoransGameLevel *)[MemoransSharedLevelsPack sharedLevelsPack].levelsPack[loopCount];

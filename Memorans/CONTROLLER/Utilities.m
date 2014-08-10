@@ -69,10 +69,7 @@
     [overlayView.superview bringSubviewToFront:overlayView];
 
     [UIView animateWithDuration:0.2f
-        animations:^{
-            overlayView.center = CGPointMake(CGRectGetMidX(overlayView.superview.bounds),
-                                             CGRectGetMidY(overlayView.superview.bounds));
-        }
+        animations:^{ overlayView.center = overlayView.superview.center; }
         completion:^(BOOL finished) {
             [UIView animateWithDuration:duration
                              animations:^{ overlayView.alpha = 0; }

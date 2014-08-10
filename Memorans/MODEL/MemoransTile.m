@@ -63,10 +63,42 @@
 
     tileCopy.tileValue = self.tileValue;
     tileCopy.tileSetType = self.tileSetType;
+    tileCopy.tileID = self.tileID;
     tileCopy.selected = self.selected;
     tileCopy.paired = self.paired;
 
     return tileCopy;
+}
+
+#pragma mark - NSCoding PROTOCOL
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super init];
+
+    if (self)
+    {
+        _tileValue = [aDecoder decodeIntegerForKey:@"tileValue"];
+
+        _tileSetType = [aDecoder decodeObjectForKey:@"tileSetType"];
+        _tileID = [aDecoder decodeObjectForKey:@"tileID"];
+
+        _selected = [aDecoder decodeBoolForKey:@"selected"];
+        _paired = [aDecoder decodeBoolForKey:@"paired"];
+    }
+
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder
+{
+    [aCoder encodeInteger:self.tileValue forKey:@"tileValue"];
+
+    [aCoder encodeObject:self.tileSetType forKey:@"tileSetType"];
+    [aCoder encodeObject:self.tileID forKey:@"tileID"];
+
+    [aCoder encodeBool:self.selected forKey:@"selected"];
+    [aCoder encodeBool:self.paired forKey:@"paired"];
 }
 
 #pragma mark - GLOBAL VARS AND CLASS METHODS

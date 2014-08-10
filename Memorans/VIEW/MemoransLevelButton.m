@@ -6,16 +6,16 @@
 //  Copyright (c) 2014 Emiliano D'Alterio. All rights reserved.
 //
 
-#import "MemoransLevelView.h"
+#import "MemoransLevelButton.h"
 #import "Utilities.h"
 
-@interface MemoransLevelView ()
+@interface MemoransLevelButton ()
 
 @property(nonatomic, strong) UIImageView *overlayLockView;
 
 @end
 
-@implementation MemoransLevelView
+@implementation MemoransLevelButton
 
 - (UIView *)overlayLockView
 {
@@ -64,7 +64,6 @@
 
         [self.overlayLockView removeFromSuperview];
     }
-
     else
     {
         self.userInteractionEnabled = NO;

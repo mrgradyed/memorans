@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+@class MemoransGameLevel;
+
 @interface MemoransSharedLevelsPack : NSObject
 
 #pragma mark - PUBLIC PROPERTIES
@@ -18,7 +20,12 @@
 
 + (instancetype)sharedLevelsPack;
 
-- (BOOL)archive;
+- (BOOL)archiveLevelsStatus;
 
-- (BOOL)resetLevelsData;
+- (BOOL)removeLevelsStatusOnDisk;
+
+- (void)setPartiallyPlayedLevel:(MemoransGameLevel *)level;
+
+- (void)setHasSaveOnLevel:(MemoransGameLevel *)level;
+
 @end

@@ -47,7 +47,7 @@
     return randomTile;
 }
 
-#pragma mark - INITIALISERS
+#pragma mark - INIT
 
 - (instancetype)initWithSetType:(NSString *)tileSetType
 {
@@ -86,6 +86,25 @@
     self = [self initWithSetType:firstTileSet];
 
     return self;
+}
+
+#pragma mark - NSCoding PROTOCOL
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super init];
+
+    if (self)
+    {
+        _tilesInSet = [aDecoder decodeObjectForKey:@"tilesInSet"];
+    }
+
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder
+{
+    [aCoder encodeObject:self.tilesInSet forKey:@"tilesInSet"];
 }
 
 @end

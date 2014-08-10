@@ -12,4 +12,6 @@
 
 @property(nonatomic) NSInteger currentLevelNumber;
 
+- (void)resumeGame;
+
 @end

@@ -55,6 +55,12 @@
         _tilesInLevel = [aDecoder decodeIntegerForKey:@"tilesInLevel"];
 
         _unlocked = [aDecoder decodeBoolForKey:@"unlocked"];
+
+        _partiallyPlayed = [aDecoder decodeBoolForKey:@"partiallyPlayed"];
+
+        _hasSave = [aDecoder decodeBoolForKey:@"hasSave"];
+
+
     }
 
     return self;
@@ -67,6 +73,12 @@
     [aCoder encodeInteger:self.tilesInLevel forKey:@"tilesInLevel"];
 
     [aCoder encodeBool:self.unlocked forKey:@"unlocked"];
+
+    [aCoder encodeBool:self.partiallyPlayed forKey:@"partiallyPlayed"];
+
+    [aCoder encodeBool:self.hasSave forKey:@"hasSave"];
+
+
 }
 
 @end

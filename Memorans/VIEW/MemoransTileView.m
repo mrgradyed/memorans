@@ -21,7 +21,6 @@
 
 - (CGFloat)defaultCornerRadius
 {
-
     if (!_defaultCornerRadius)
     {
         _defaultCornerRadius = MIN(self.bounds.size.width, self.bounds.size.height) / 15;
@@ -37,6 +36,7 @@
     }
 
     _imageID = imageID;
+
     [self setNeedsDisplay];
 }
 
@@ -48,6 +48,7 @@
     }
 
     _shown = selected;
+
     [self setNeedsDisplay];
 }
 
@@ -59,6 +60,7 @@
     }
 
     _paired = paired;
+
     [self setNeedsDisplay];
 }
 
@@ -69,6 +71,7 @@
     if (self.paired)
     {
         [[UIColor clearColor] setFill];
+        self.layer.borderWidth = 0;
     }
     else
     {
@@ -140,8 +143,54 @@
     return self;
 }
 
+#pragma mark - NSCoding PROTOCOL
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super initWithCoder:aDecoder];
+
+    if (self)
+    {
+        _imageID = [aDecoder decodeObjectForKey:@"imageID"];
+
+        _tileBackImage = [aDecoder decodeObjectForKey:@"tileBackImage"];
+
+        _shown = [aDecoder decodeBoolForKey:@"shown"];
+
+        _paired = [aDecoder decodeBoolForKey:@"paired"];
+
+        _tapped = [aDecoder decodeBoolForKey:@"tapped"];
+
+        _onBoardCenter = [aDecoder decodeCGPointForKey:@"onBoardCenter"];
+
+        _defaultCornerRadius = [aDecoder decodeFloatForKey:@"defaultCornerRadius"];
+
+        [self configureView];
+    }
+
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder
+{
+    [super encodeWithCoder:aCoder];
+
+    [aCoder encodeObject:self.imageID forKey:@"imageID"];
+
+    [aCoder encodeObject:self.tileBackImage forKey:@"tileBackImage"];
+
+    [aCoder encodeBool:self.shown forKey:@"shown"];
+
+    [aCoder encodeBool:self.paired forKey:@"paired"];
+
+    [aCoder encodeBool:self.tapped forKey:@"tapped"];
+
+    [aCoder encodeCGPoint:self.onBoardCenter forKey:@"onBoardCenter"];
+
+    [aCoder encodeFloat:self.defaultCornerRadius forKey:@"defaultCornerRadius"];
+}
+
 #pragma mark - GLOBAL VARS AND CLASS METHODS
 
 + (NSArray *)allowedTileViewBacks { return @[ @"tb1", @"tb2", @"tb3" ]; }
-
 @end

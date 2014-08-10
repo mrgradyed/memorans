@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MemoransTileView : UIView
+@interface MemoransTileView : UIView <NSCoding>
 
 #pragma mark - PUBLIC PROPERTIES
 
@@ -17,6 +17,8 @@
 
 @property(nonatomic) BOOL shown;
 @property(nonatomic) BOOL paired;
+@property(nonatomic) BOOL tapped;
+
 
 @property(nonatomic) CGPoint onBoardCenter;
 

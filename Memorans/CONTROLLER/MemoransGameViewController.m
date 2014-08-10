@@ -24,7 +24,7 @@
 @property(weak, nonatomic) IBOutlet UILabel *scoreLabel;
 @property(weak, nonatomic) IBOutlet UIButton *restartGameButton;
 @property(weak, nonatomic) IBOutlet UIButton *nextLevelButton;
-@property(weak, nonatomic) IBOutlet UIButton *backToLevels;
+@property(weak, nonatomic) IBOutlet UIButton *backToLevelsButton;
 
 #pragma mark - PROPERTIES
 
@@ -42,6 +42,7 @@
 @property(nonatomic, strong) MemoransGameEngine *game;
 
 @property(nonatomic) BOOL isWobbling;
+@property(nonatomic) BOOL isBadScore;
 
 @end
 
@@ -70,7 +71,6 @@
 
 - (NSMutableArray *)tappedTileViews
 {
-
     if (!_tappedTileViews)
     {
         _tappedTileViews = [[NSMutableArray alloc] initWithCapacity:2];
@@ -97,6 +97,10 @@
             initWithString:nil
                   andColor:[Utilities colorFromHEXString:@"#C643FC" withAlpha:1]
                andFontSize:250];
+    }
+
+    if ([self.tileArea.subviews indexOfObject:_bonusScoreOverlayView] == NSNotFound)
+    {
         [self.tileArea addSubview:_bonusScoreOverlayView];
     }
 
@@ -114,7 +118,10 @@
             initWithString:nil
                   andColor:[Utilities colorFromHEXString:@"#FF1300" withAlpha:1]
                andFontSize:250];
+    }
 
+    if ([self.tileArea.subviews indexOfObject:_malusScoreOverlayView] == NSNotFound)
+    {
         [self.tileArea addSubview:_malusScoreOverlayView];
     }
 
@@ -132,7 +139,10 @@
             initWithString:nil
                   andColor:[Utilities colorFromHEXString:@"#007AFF" withAlpha:1]
                andFontSize:150];
+    }
 
+    if ([self.tileArea.subviews indexOfObject:_endMessageOverlayView] == NSNotFound)
+    {
         [self.tileArea addSubview:_endMessageOverlayView];
     }
 
@@ -147,7 +157,10 @@
             initWithString:nil
                   andColor:[Utilities colorFromHEXString:@"#007AFF" withAlpha:1]
                andFontSize:150];
+    }
 
+    if ([self.tileArea.subviews indexOfObject:_startMessageOverlayView] == NSNotFound)
+    {
         [self.tileArea addSubview:_startMessageOverlayView];
     }
 
@@ -184,9 +197,18 @@
 
 - (IBAction)backToMenuTouched { [self.navigationController popViewControllerAnimated:YES]; }
 
+#pragma mark - GESTURES HANDLING AND GAMEPLAY
+
 - (void)restartGame
 {
-    [self.tileViews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    [self currentLevel].partiallyPlayed = NO;
+
+    if ([self currentLevel].hasSave)
+    {
+        [self removeGameControllerStatusFromDisk];
+    }
+
+    [self.tileArea.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
 
     self.tileViews = nil;
     self.tileViewsLeft = nil;
@@ -194,8 +216,7 @@
 
     self.isWobbling = NO;
 
-    BOOL gotBadScore = (self.game.gameScore <= 0);
-
+    self.isBadScore = (self.game.gameScore < 0);
     self.game = nil;
 
     [self.startMessageOverlayView resetView];
@@ -203,10 +224,42 @@
     [self.bonusScoreOverlayView resetView];
     [self.malusScoreOverlayView resetView];
 
-    [self updateUIWithNewGame:YES andBadScore:gotBadScore];
+    [self updateUIWithNewGame:YES];
 }
 
-#pragma mark - GESTURES HANDLING AND GAMEPLAY
+- (void)resumeGame
+{
+    self.game = [NSKeyedUnarchiver
+        unarchiveObjectWithFile:[self filePathForArchivingWithName:@"gameStatus.archive"]];
+
+    self.tileViews = [NSKeyedUnarchiver
+        unarchiveObjectWithFile:[self filePathForArchivingWithName:@"tileViewsStatus.archive"]];
+
+    UITapGestureRecognizer *tileTapRecog;
+
+    for (MemoransTileView *tileView in self.tileViews)
+    {
+        tileTapRecog =
+            [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tileTapped:)];
+
+        tileTapRecog.numberOfTapsRequired = 1;
+        tileTapRecog.numberOfTouchesRequired = 1;
+
+        [tileView addGestureRecognizer:tileTapRecog];
+
+        [self.tileArea addSubview:tileView];
+
+        if (tileView.tapped)
+        {
+            [self.tappedTileViews addObject:tileView];
+        }
+
+        if (tileView.paired)
+        {
+            [self.tileViewsLeft removeObject:tileView];
+        }
+    }
+}
 
 - (void)tileTapped:(UITapGestureRecognizer *)tileTapRec
 {
@@ -217,72 +270,156 @@
         return;
     }
 
-    [self playTappedTileView:tappedTileView];
+    [self flipAndPlayTappedTileView:tappedTileView];
+}
+
+- (void)flipAndPlayTappedTileView:(MemoransTileView *)tappedTileView
+{
+    [UIView transitionWithView:tappedTileView
+        duration:0.3f
+        options:UIViewAnimationOptionTransitionFlipFromRight
+        animations:^{
+
+            [self.tappedTileViews addObject:tappedTileView];
+
+            tappedTileView.tapped = YES;
+            tappedTileView.shown = YES;
+        }
+        completion:^(BOOL completed) { [self playTappedTileView:tappedTileView]; }];
 }
 
 - (void)playTappedTileView:(MemoransTileView *)tappedTileView
 {
-    [UIView transitionWithView:tappedTileView
-        duration:0.5f
-        options:UIViewAnimationOptionTransitionFlipFromRight
-        animations:^{
-            tappedTileView.shown = YES;
-            [self.tappedTileViews addObject:tappedTileView];
+    [[MemoransSharedLevelsPack sharedLevelsPack] setPartiallyPlayedLevel:[self currentLevel]];
+
+    if ([self.tappedTileViews indexOfObject:tappedTileView] != 1)
+    {
+        return;
+    }
+
+    [self playChosenTiles];
+
+    if (!tappedTileView.paired)
+    {
+        [Utilities animateOverlayView:self.malusScoreOverlayView withDuration:0.8f];
+
+        [self addWobblingAnimationToView:self.tappedTileViews[0] withRepeatCount:5];
+        [self addWobblingAnimationToView:self.tappedTileViews[1] withRepeatCount:5];
+    }
+    else if (tappedTileView.paired)
+    {
+        [Utilities animateOverlayView:self.bonusScoreOverlayView withDuration:0.8f];
+
+        for (MemoransTileView *tileView in self.tappedTileViews)
+        {
+            [UIView transitionWithView:tileView
+                duration:0.5f
+                options:UIViewAnimationOptionTransitionCurlUp
+                animations:^{}
+                completion:^(BOOL finished) {
+
+                    if ([self.tappedTileViews indexOfObject:tileView] == 1)
+                    {
+                        [self finishAndSave];
+
+                        //  [self playLastTwoTilesAutomatically];
+                    }
+                }];
         }
-        completion:^(BOOL completed) {
+    }
+}
 
-            if ([self.tappedTileViews indexOfObject:tappedTileView] == 1)
-            {
-                [self.game playTileAtIndex:[self.tileViews indexOfObject:self.tappedTileViews[0]]];
-                [self.game playTileAtIndex:[self.tileViews indexOfObject:self.tappedTileViews[1]]];
+- (void)playChosenTiles
+{
+    if ([self.tappedTileViews count] == 2)
+    {
+        NSInteger firstTappedViewIndex = [self.tileViews indexOfObject:self.tappedTileViews[0]];
 
-                [self updateUIWithNewGame:NO andBadScore:NO];
+        NSInteger secondTappedViewIndex = [self.tileViews indexOfObject:self.tappedTileViews[1]];
 
-                if (!tappedTileView.paired)
-                {
-                    [Utilities animateOverlayView:self.malusScoreOverlayView withDuration:0.8f];
+        if (firstTappedViewIndex == NSNotFound || secondTappedViewIndex == NSNotFound)
+        {
+            return;
+        }
 
-                    [self addWobblingAnimationToView:self.tappedTileViews[0] withRepeatCount:5];
-                    [self addWobblingAnimationToView:self.tappedTileViews[1] withRepeatCount:5];
-                }
-                else if (tappedTileView.paired)
-                {
-                    [Utilities animateOverlayView:self.bonusScoreOverlayView withDuration:0.8f];
+        [self.game playTileAtIndex:firstTappedViewIndex];
 
-                    [UIView transitionWithView:self.tappedTileViews[0]
-                                      duration:0.5f
-                                       options:UIViewAnimationOptionTransitionCurlUp
-                                    animations:^{
-                                        ((MemoransTileView *)self.tappedTileViews[0])
-                                            .layer.borderWidth = 0;
-                                    }
-                                    completion:nil];
+        [self.game playTileAtIndex:secondTappedViewIndex];
 
-                    [UIView transitionWithView:self.tappedTileViews[1]
-                        duration:0.5f
-                        options:UIViewAnimationOptionTransitionCurlUp
-                        animations:^{
-                            ((MemoransTileView *)self.tappedTileViews[1]).layer.borderWidth = 0;
-                        }
-                        completion:^(BOOL finished) {
+        [self updateUIWithNewGame:NO];
+    }
+}
 
-                            [self.tappedTileViews removeAllObjects];
+- (void)finishAndSave
+{
+    if ([self.tappedTileViews count] == 2)
+    {
 
-                            [self playLastTwoTilesAutomatically];
+        MemoransTileView *firstTappedTileView = ((MemoransTileView *)self.tappedTileViews[0]);
+        MemoransTileView *secondTappedTileView = ((MemoransTileView *)self.tappedTileViews[1]);
 
-                            [self gameDone];
-                        }];
-                }
-            }
-        }];
+        firstTappedTileView.tapped = NO;
+        secondTappedTileView.tapped = NO;
+
+        [self.tappedTileViews removeAllObjects];
+
+        if (firstTappedTileView.paired && secondTappedTileView.paired)
+        {
+            [self.tileViewsLeft removeObject:firstTappedTileView];
+            [self.tileViewsLeft removeObject:secondTappedTileView];
+        }
+
+        if ([self archiveGameControllerStatus])
+        {
+            [[MemoransSharedLevelsPack sharedLevelsPack] setHasSaveOnLevel:[self currentLevel]];
+        }
+
+        if ([self.tileViewsLeft count] == 0)
+        {
+            [self levelFinished];
+        }
+    }
+}
+
+- (void)levelFinished
+{
+    if ([self.tileViewsLeft count] == 0)
+    {
+        [self currentLevel].partiallyPlayed = NO;
+
+        if ([self currentLevel].hasSave)
+        {
+            [self removeGameControllerStatusFromDisk];
+        }
+
+        if (!self.isBadScore)
+        {
+            [self nextLevel].unlocked = YES;
+
+            [self addWobblingAnimationToView:self.nextLevelButton withRepeatCount:40];
+
+            self.endMessageOverlayView.overlayString = [NSString
+                stringWithFormat:@"%@",
+                                 self.endMessages[self.game.gameScore % [self.endMessages count]]];
+
+            [Utilities animateOverlayView:self.endMessageOverlayView withDuration:2];
+
+            [self updateUIWithNewGame:NO];
+        }
+        else
+        {
+            [self restartGame];
+        }
+    }
 }
 
 - (void)playLastTwoTilesAutomatically
 {
     if ([self.tileViewsLeft count] == 2)
     {
-        [self playTappedTileView:self.tileViewsLeft[0]];
-        [self playTappedTileView:self.tileViewsLeft[1]];
+
+        [self flipAndPlayTappedTileView:self.tileViewsLeft[0]];
+        [self flipAndPlayTappedTileView:self.tileViewsLeft[1]];
     }
 }
 
@@ -303,28 +440,53 @@
     return (MemoransGameLevel *)[self levelsPack][self.currentLevelNumber + 1];
 }
 
-- (void)gameDone
+#pragma mark - ANIMATIONS
+
+- (void)addWobblingAnimationToView:(UIView *)view withRepeatCount:(float)repeatCount
 {
-    if ([self.tileViewsLeft count] == 0)
+    CABasicAnimation *wobbling = [CABasicAnimation animationWithKeyPath:@"transform.rotation"];
+
+    [wobbling setFromValue:[NSNumber numberWithFloat:0.08f]];
+
+    [wobbling setToValue:[NSNumber numberWithFloat:-0.08f]];
+
+    [wobbling setDuration:0.11f];
+
+    [wobbling setAutoreverses:YES];
+
+    [wobbling setRepeatCount:repeatCount];
+
+    wobbling.delegate = self;
+
+    [view.layer addAnimation:wobbling forKey:@"wobbling"];
+}
+
+#pragma mark - CAAnimation DELEGATE METHODS
+
+- (void)animationDidStart:(CAAnimation *)anim { self.isWobbling = YES; }
+
+- (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag
+{
+    if (!self.isWobbling)
     {
-        if (self.game.gameScore > 0)
-        {
-            [self nextLevel].unlocked = YES;
+        return;
+    }
 
-            [self addWobblingAnimationToView:self.nextLevelButton withRepeatCount:40];
+    self.isWobbling = NO;
 
-            self.endMessageOverlayView.overlayString = [NSString
-                stringWithFormat:@"%@",
-                                 self.endMessages[self.game.gameScore % [self.endMessages count]]];
+    for (MemoransTileView *tileView in self.tappedTileViews)
+    {
+        [UIView transitionWithView:tileView
+            duration:0.3f
+            options:UIViewAnimationOptionTransitionFlipFromLeft
+            animations:^{ tileView.shown = NO; }
+            completion:^(BOOL finished) {
 
-            [Utilities animateOverlayView:self.endMessageOverlayView withDuration:3];
-
-            [self updateUIWithNewGame:NO andBadScore:NO];
-        }
-        else
-        {
-            [self restartGame];
-        }
+                if ([self.tappedTileViews indexOfObject:tileView] == 1)
+                {
+                    [self finishAndSave];
+                }
+            }];
     }
 }
 
@@ -387,58 +549,9 @@ static const NSInteger gTileMargin = 5;
     return CGRectMake(frameOriginX, frameOriginY, self.tileWidth, self.tileHeight);
 }
 
-#pragma mark - ANIMATIONS
+#pragma mark - VIEWS MANAGEMENT AND UPDATE
 
-- (void)addWobblingAnimationToView:(UIView *)view withRepeatCount:(float)repeatCount
-{
-    CABasicAnimation *wobbling = [CABasicAnimation animationWithKeyPath:@"transform.rotation"];
-
-    [wobbling setFromValue:[NSNumber numberWithFloat:0.08f]];
-
-    [wobbling setToValue:[NSNumber numberWithFloat:-0.08f]];
-
-    [wobbling setDuration:0.11f];
-
-    [wobbling setAutoreverses:YES];
-
-    [wobbling setRepeatCount:repeatCount];
-
-    wobbling.delegate = self;
-
-    [view.layer addAnimation:wobbling forKey:@"wobbling"];
-}
-
-#pragma mark - CAAnimation DELEGATE METHODS
-
-- (void)animationDidStart:(CAAnimation *)anim { self.isWobbling = YES; }
-
-- (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag
-{
-    if (!self.isWobbling)
-    {
-        return;
-    }
-
-    self.isWobbling = NO;
-
-    for (MemoransTileView *tileView in self.tappedTileViews)
-    {
-        [UIView transitionWithView:tileView
-            duration:0.3f
-            options:UIViewAnimationOptionTransitionFlipFromLeft
-            animations:^{ tileView.shown = NO; }
-            completion:^(BOOL finished) {
-                if ([self.tappedTileViews indexOfObject:tileView] == 1)
-                {
-                    [self.tappedTileViews removeAllObjects];
-                }
-            }];
-    }
-}
-
-#pragma mark - UI MANAGEMENT AND UPDATE
-
-- (void)createPlaceAndAnimateTileViews
+- (void)createAndAnimateTileViews
 {
     MemoransTileView *tileView;
 
@@ -446,10 +559,9 @@ static const NSInteger gTileMargin = 5;
 
     UITapGestureRecognizer *tileTapRecog;
 
-    NSInteger allowedTileViewBacksCount = [[MemoransTileView allowedTileViewBacks] count];
-
-    NSString *tileBackID = [MemoransTileView allowedTileViewBacks][self.currentLevelNumber %
-                                                                   allowedTileViewBacksCount];
+    NSString *tileBackImage =
+        [MemoransTileView allowedTileViewBacks][self.currentLevelNumber %
+                                                [[MemoransTileView allowedTileViewBacks] count]];
 
     for (int i = 0; i < self.numOfTilesRows; i++)
     {
@@ -466,7 +578,7 @@ static const NSInteger gTileMargin = 5;
                 (self.view.frame.origin.y - arc4random() % (int)self.view.frame.size.height) -
                     tileView.bounds.size.height);
 
-            tileView.tileBackImage = tileBackID;
+            tileView.tileBackImage = tileBackImage;
 
             tileTapRecog =
                 [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tileTapped:)];
@@ -477,6 +589,7 @@ static const NSInteger gTileMargin = 5;
             [tileView addGestureRecognizer:tileTapRecog];
 
             [self.tileViews addObject:tileView];
+
             [self.tileArea addSubview:tileView];
 
             [UIView animateWithDuration:2.0f
@@ -490,24 +603,42 @@ static const NSInteger gTileMargin = 5;
     }
 }
 
-- (void)updateUIWithNewGame:(BOOL)newGame andBadScore:(BOOL)gotBadScore
+- (void)updateUIWithNewGame:(BOOL)newGame
 {
     if (newGame)
     {
-        [self createPlaceAndAnimateTileViews];
-
-        if (!gotBadScore)
+        if ([self currentLevel].partiallyPlayed && [self currentLevel].hasSave)
         {
-            self.startMessageOverlayView.overlayString =
-                [NSString stringWithFormat:@"Level %d\n%@", (int)self.currentLevelNumber + 1,
-                                           [self currentLevel].tileSetType];
+            [self resumeGame];
+
+            self.startMessageOverlayView.overlayString = @"Game\nResumed";
         }
         else
         {
-            self.startMessageOverlayView.overlayString = @"Bad Score!\nTry Again!";
+            [self createAndAnimateTileViews];
+
+            if (!self.isBadScore)
+            {
+                self.startMessageOverlayView.overlayString =
+                    [NSString stringWithFormat:@"Level %d\n%@", (int)self.currentLevelNumber + 1,
+                                               [self currentLevel].tileSetType];
+            }
+            else
+            {
+                self.startMessageOverlayView.overlayString = @"Bad Score!\nTry Again!";
+            }
         }
 
-        [Utilities animateOverlayView:self.startMessageOverlayView withDuration:3];
+        [Utilities animateOverlayView:self.startMessageOverlayView withDuration:2];
+
+        self.view.userInteractionEnabled = YES;
+    }
+
+    if ([self.tileViews count] < 2)
+    {
+        [self restartGame];
+
+        return;
     }
 
     if ([self.tileViewsLeft count] != 0)
@@ -518,18 +649,13 @@ static const NSInteger gTileMargin = 5;
         for (MemoransTileView *tileView in self.tileViews)
         {
             tileIndex = [self.tileViews indexOfObject:tileView];
-            if (tileIndex == NSNotFound)
-            {
-                return;
-            }
 
-            gameTile = [self.game tileInGameAtIndex:tileIndex];
-            tileView.imageID = gameTile.tileID;
-            tileView.paired = gameTile.paired;
-
-            if (tileView.paired)
+            if (tileIndex != NSNotFound)
             {
-                [self.tileViewsLeft removeObject:tileView];
+                gameTile = [self.game tileInGameAtIndex:tileIndex];
+
+                tileView.imageID = gameTile.tileID;
+                tileView.paired = gameTile.paired;
             }
         }
     }
@@ -550,6 +676,7 @@ static const NSInteger gTileMargin = 5;
 
 - (void)viewDidLoad
 {
+
     [super viewDidLoad];
 
     self.tileArea.backgroundColor = [UIColor clearColor];
@@ -585,17 +712,73 @@ static const NSInteger gTileMargin = 5;
                                                        withColor:nil
                                                          andSize:60]];
 
-    [self.backToLevels setAttributedTitle:backToLevelsString forState:UIControlStateNormal];
+    [self.backToLevelsButton setAttributedTitle:backToLevelsString forState:UIControlStateNormal];
 
-    self.backToLevels.exclusiveTouch = YES;
+    self.backToLevelsButton.exclusiveTouch = YES;
 
     [self.view bringSubviewToFront:self.tileArea];
 
-    [self updateUIWithNewGame:YES andBadScore:NO];
+    [self updateUIWithNewGame:YES];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+
+    if ([self currentLevel].partiallyPlayed && [self.tappedTileViews count] != 2)
+    {
+        if ([self archiveGameControllerStatus])
+        {
+            [[MemoransSharedLevelsPack sharedLevelsPack] setHasSaveOnLevel:[self currentLevel]];
+        }
+    }
 }
 
 - (BOOL)prefersStatusBarHidden { return YES; }
 
 - (void)didReceiveMemoryWarning { [super didReceiveMemoryWarning]; }
+
+#pragma mark - ARCHIVING
+
+- (NSString *)filePathForArchivingWithName:(NSString *)filename
+{
+    NSString *documentDirectory =
+        NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
+
+    return [documentDirectory stringByAppendingPathComponent:filename];
+}
+
+- (BOOL)archiveGameControllerStatus
+{
+    BOOL gameArchiving = [NSKeyedArchiver
+        archiveRootObject:self.game
+                   toFile:[self filePathForArchivingWithName:@"gameStatus.archive"]];
+
+    BOOL tileViewsArchiving = [NSKeyedArchiver
+        archiveRootObject:self.tileViews
+                   toFile:[self filePathForArchivingWithName:@"tileViewsStatus.archive"]];
+
+    return (gameArchiving && tileViewsArchiving);
+}
+
+- (BOOL)removeGameControllerStatusFromDisk
+{
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+
+    NSError *gameError;
+
+    BOOL gameArchiveRemoval =
+        [fileManager removeItemAtPath:[self filePathForArchivingWithName:@"gameStatus.archive"]
+                                error:&gameError];
+
+    NSError *tileError;
+
+    BOOL tileViewsArchiveRemoval =
+        [fileManager removeItemAtPath:[self filePathForArchivingWithName:@"tileViewsStatus.archive"]
+                                error:&tileError];
+
+    return (gameArchiveRemoval && tileViewsArchiveRemoval);
+}
+
 
 @end

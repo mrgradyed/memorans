@@ -43,6 +43,39 @@
     return _levelsPack;
 }
 
+#pragma LEVELS MANAGEMENT
+
+- (void)setPartiallyPlayedLevel:(MemoransGameLevel *)level
+{
+    for (MemoransGameLevel *lvl in self.levelsPack)
+    {
+        if ([lvl isEqual:level])
+        {
+
+            lvl.partiallyPlayed = YES;
+        }
+        else
+        {
+            lvl.partiallyPlayed = NO;
+        }
+    }
+}
+
+- (void)setHasSaveOnLevel:(MemoransGameLevel *)level
+{
+    for (MemoransGameLevel *lvl in self.levelsPack)
+    {
+        if ([lvl isEqual:level])
+        {
+            lvl.hasSave = YES;
+        }
+        else
+        {
+            lvl.hasSave = NO;
+        }
+    }
+}
+
 #pragma mark - INITS
 
 - (instancetype)init
@@ -87,15 +120,15 @@
     NSString *documentDirectory =
         NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
 
-    return [documentDirectory stringByAppendingPathComponent:@"levelspack.archive"];
+    return [documentDirectory stringByAppendingPathComponent:@"levelsStatus.archive"];
 }
 
-- (BOOL)archive
+- (BOOL)archiveLevelsStatus
 {
     return [NSKeyedArchiver archiveRootObject:self.levelsPack toFile:[self filePathForArchiving]];
 }
 
-- (BOOL)resetLevelsData
+- (BOOL)removeLevelsStatusOnDisk
 {
     self.levelsPack = nil;
 

@@ -182,4 +182,43 @@
     return self;
 }
 
+#pragma mark - NSCoding PROTOCOL
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super init];
+
+    if (self)
+    {
+        _gameScore = [aDecoder decodeIntegerForKey:@"gameScore"];
+
+        _lastDeltaScore = [aDecoder decodeIntegerForKey:@"lastDeltaScore"];
+
+        _previousSelectedTile = [aDecoder decodeObjectForKey:@"previousSelectedTile"];
+
+        _tilesSet = [aDecoder decodeObjectForKey:@"tilesSet"];
+
+        _tilesInGame = [aDecoder decodeObjectForKey:@"tilesInGame"];
+
+        _pairedTilesInGameCount = [aDecoder decodeIntegerForKey:@"pairedTilesInGameCount"];
+    }
+
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder
+{
+    [aCoder encodeInteger:self.gameScore forKey:@"gameScore"];
+
+    [aCoder encodeInteger:self.lastDeltaScore forKey:@"lastDeltaScore"];
+
+    [aCoder encodeObject:self.previousSelectedTile forKey:@"previousSelectedTile"];
+
+    [aCoder encodeObject:self.tilesSet forKey:@"tilesSet"];
+
+    [aCoder encodeObject:self.tilesInGame forKey:@"tilesInGame"];
+
+    [aCoder encodeInteger:self.pairedTilesInGameCount forKey:@"pairedTilesInGameCount"];
+}
+
 @end
