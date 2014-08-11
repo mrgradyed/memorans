@@ -107,8 +107,7 @@
 
     // JUST FOR TESTING, TO BE REMOVED - START -
 
-    //  NSLog( @"%d", [[MemoransSharedLevelsPack sharedLevelsPack]
-    //  resetLevelsData]);
+    // NSLog(@"%d", [[MemoransSharedLevelsPack sharedLevelsPack] removeLevelsStatusOnDisk]);
 
     // JUST FOR TESTING, TO BE REMOVED - END -
 
@@ -124,14 +123,22 @@
 
         if (loopCount > 1)
         {
-            levelButton.enabled = level.unlocked;
-
-            // JUST FOR TESTING, TO BE REMOVED - START -
-
-            //  levelButton.enabled = YES;
-
-            // JUST FOR TESTING, TO BE REMOVED - END -
+            level.unlocked = NO;
         }
+
+        else
+        {
+
+            level.unlocked = YES;
+        }
+
+        levelButton.enabled = level.unlocked;
+
+        // JUST FOR TESTING, TO BE REMOVED - START -
+
+        //  levelButton.enabled = YES;
+
+        // JUST FOR TESTING, TO BE REMOVED - END -
 
         loopCount++;
     }
