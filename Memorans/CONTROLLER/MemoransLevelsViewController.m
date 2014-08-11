@@ -71,8 +71,6 @@
         NSInteger levelNumber = [self.levelButtonViews indexOfObject:levelButton];
 
         gameController.currentLevelNumber = levelNumber;
-
-    //    NSLog(@"LEVEL CHOSEN: %d", levelNumber);
     }
 }
 

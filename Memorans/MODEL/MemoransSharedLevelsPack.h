@@ -14,7 +14,7 @@
 
 #pragma mark - PUBLIC PROPERTIES
 
-@property(nonatomic, strong) NSMutableArray *levelsPack;
+@property(nonatomic, strong) NSArray *levelsPack;
 
 #pragma mark - PUBLIC METHODS
 
@@ -23,9 +23,5 @@
 - (BOOL)archiveLevelsStatus;
 
 - (BOOL)removeLevelsStatusOnDisk;
-
-- (void)setPartiallyPlayedLevel:(MemoransGameLevel *)level;
-
-- (void)setHasSaveOnLevel:(MemoransGameLevel *)level;
 
 @end

@@ -201,11 +201,11 @@
 
 - (void)restartGame
 {
-    [self currentLevel].partiallyPlayed = NO;
-
     if ([self currentLevel].hasSave)
     {
         [self removeGameControllerStatusFromDisk];
+
+        [self currentLevel].hasSave = NO;
     }
 
     [self.tileArea.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
@@ -290,7 +290,6 @@
 
 - (void)playTappedTileView:(MemoransTileView *)tappedTileView
 {
-    [[MemoransSharedLevelsPack sharedLevelsPack] setPartiallyPlayedLevel:[self currentLevel]];
 
     if ([self.tappedTileViews indexOfObject:tappedTileView] != 1)
     {
@@ -321,8 +320,6 @@
                     if ([self.tappedTileViews indexOfObject:tileView] == 1)
                     {
                         [self finishAndSave];
-
-                        //  [self playLastTwoTilesAutomatically];
                     }
                 }];
         }
@@ -354,14 +351,13 @@
 {
     if ([self.tappedTileViews count] == 2)
     {
-
         MemoransTileView *firstTappedTileView = ((MemoransTileView *)self.tappedTileViews[0]);
         MemoransTileView *secondTappedTileView = ((MemoransTileView *)self.tappedTileViews[1]);
 
+        [self.tappedTileViews removeAllObjects];
+
         firstTappedTileView.tapped = NO;
         secondTappedTileView.tapped = NO;
-
-        [self.tappedTileViews removeAllObjects];
 
         if (firstTappedTileView.paired && secondTappedTileView.paired)
         {
@@ -369,12 +365,14 @@
             [self.tileViewsLeft removeObject:secondTappedTileView];
         }
 
-        if ([self archiveGameControllerStatus])
+        if ([self.tileViewsLeft count] != 0)
         {
-            [[MemoransSharedLevelsPack sharedLevelsPack] setHasSaveOnLevel:[self currentLevel]];
+            if ([self archiveGameControllerStatus])
+            {
+                [self currentLevel].hasSave = YES;
+            }
         }
-
-        if ([self.tileViewsLeft count] == 0)
+        else
         {
             [self levelFinished];
         }
@@ -385,11 +383,11 @@
 {
     if ([self.tileViewsLeft count] == 0)
     {
-        [self currentLevel].partiallyPlayed = NO;
-
         if ([self currentLevel].hasSave)
         {
             [self removeGameControllerStatusFromDisk];
+
+            [self currentLevel].hasSave = NO;
         }
 
         if (!self.isBadScore)
@@ -423,7 +421,7 @@
     }
 }
 
-- (NSMutableArray *)levelsPack { return [MemoransSharedLevelsPack sharedLevelsPack].levelsPack; }
+- (NSArray *)levelsPack { return [MemoransSharedLevelsPack sharedLevelsPack].levelsPack; }
 
 - (MemoransGameLevel *)currentLevel
 {
@@ -607,7 +605,7 @@ static const NSInteger gTileMargin = 5;
 {
     if (newGame)
     {
-        if ([self currentLevel].partiallyPlayed && [self currentLevel].hasSave)
+        if ([self currentLevel].hasSave)
         {
             [self resumeGame];
 
@@ -721,19 +719,6 @@ static const NSInteger gTileMargin = 5;
     [self updateUIWithNewGame:YES];
 }
 
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-
-    if ([self currentLevel].partiallyPlayed && [self.tappedTileViews count] != 2)
-    {
-        if ([self archiveGameControllerStatus])
-        {
-            [[MemoransSharedLevelsPack sharedLevelsPack] setHasSaveOnLevel:[self currentLevel]];
-        }
-    }
-}
-
 - (BOOL)prefersStatusBarHidden { return YES; }
 
 - (void)didReceiveMemoryWarning { [super didReceiveMemoryWarning]; }
@@ -763,6 +748,8 @@ static const NSInteger gTileMargin = 5;
 
 - (BOOL)removeGameControllerStatusFromDisk
 {
+
+
     NSFileManager *fileManager = [NSFileManager defaultManager];
 
     NSError *gameError;

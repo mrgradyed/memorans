@@ -14,11 +14,11 @@
 
 #pragma mark - SETTERS AND GETTERS
 
-- (NSMutableArray *)levelsPack
+- (NSArray *)levelsPack
 {
     if (!_levelsPack)
     {
-        _levelsPack = [[NSMutableArray alloc] init];
+        NSMutableArray *pack = [[NSMutableArray alloc] init];
 
         MemoransGameLevel *newLevel;
 
@@ -34,46 +34,15 @@
 
             newLevel.tileSetType = [MemoransTile allowedTileSets][tileSetTypeIndex];
 
-            [_levelsPack addObject:newLevel];
+            [pack addObject:newLevel];
 
             loopCount++;
         }
+
+        _levelsPack = pack;
     }
 
     return _levelsPack;
-}
-
-#pragma LEVELS MANAGEMENT
-
-- (void)setPartiallyPlayedLevel:(MemoransGameLevel *)level
-{
-    for (MemoransGameLevel *lvl in self.levelsPack)
-    {
-        if ([lvl isEqual:level])
-        {
-
-            lvl.partiallyPlayed = YES;
-        }
-        else
-        {
-            lvl.partiallyPlayed = NO;
-        }
-    }
-}
-
-- (void)setHasSaveOnLevel:(MemoransGameLevel *)level
-{
-    for (MemoransGameLevel *lvl in self.levelsPack)
-    {
-        if ([lvl isEqual:level])
-        {
-            lvl.hasSave = YES;
-        }
-        else
-        {
-            lvl.hasSave = NO;
-        }
-    }
 }
 
 #pragma mark - INITS

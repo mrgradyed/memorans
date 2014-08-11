@@ -7,8 +7,33 @@
 //
 
 #import "MemoransGameLevel.h"
+#import "MemoransSharedLevelsPack.h"
 
 @implementation MemoransGameLevel
+
+#pragma mark - SETTERS AND GETTERS
+
+- (void)setHasSave:(BOOL)hasSave
+{
+    if (hasSave)
+    {
+        for (MemoransGameLevel *lvl in [MemoransSharedLevelsPack sharedLevelsPack].levelsPack)
+        {
+            if ([lvl isEqual:self])
+            {
+                _hasSave = YES;
+            }
+            else
+            {
+                lvl.hasSave = NO;
+            }
+        }
+    }
+    else
+    {
+        _hasSave = NO;
+    }
+}
 
 #pragma mark - CLASS METHODS
 
@@ -56,11 +81,7 @@
 
         _unlocked = [aDecoder decodeBoolForKey:@"unlocked"];
 
-        _partiallyPlayed = [aDecoder decodeBoolForKey:@"partiallyPlayed"];
-
         _hasSave = [aDecoder decodeBoolForKey:@"hasSave"];
-
-
     }
 
     return self;
@@ -74,11 +95,7 @@
 
     [aCoder encodeBool:self.unlocked forKey:@"unlocked"];
 
-    [aCoder encodeBool:self.partiallyPlayed forKey:@"partiallyPlayed"];
-
     [aCoder encodeBool:self.hasSave forKey:@"hasSave"];
-
-
 }
 
 @end

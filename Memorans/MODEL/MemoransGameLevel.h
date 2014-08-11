@@ -18,11 +18,7 @@
 
 @property(nonatomic) BOOL unlocked;
 
-@property(nonatomic) BOOL partiallyPlayed;
-
 @property(nonatomic) BOOL hasSave;
-
-
 
 #pragma mark - PUBLIC METHODS
 
