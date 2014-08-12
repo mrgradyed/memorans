@@ -15,7 +15,7 @@
 #pragma mark - OUTLETS
 
 @property(weak, nonatomic) IBOutlet UIButton *backToMenuButton;
-@property (weak, nonatomic) IBOutlet UITextView *creditsText;
+@property(weak, nonatomic) IBOutlet UITextView *creditsText;
 
 @end
 
@@ -31,9 +31,7 @@
 {
     [super viewDidLoad];
 
-    MemoransBackgroundView *backgroundView = (MemoransBackgroundView *)self.view;
-
-    backgroundView.backgroundImage = @"StarsOnBlue";
+    self.view.backgroundColor = [UIColor whiteColor];
 
     NSAttributedString *backToMenuString = [[NSAttributedString alloc]
         initWithString:@"⬅︎"
@@ -48,6 +46,7 @@
     self.creditsText.editable = NO;
     self.creditsText.selectable = YES;
     self.creditsText.dataDetectorTypes = UIDataDetectorTypeLink;
+    self.creditsText.backgroundColor = [UIColor clearColor];
 }
 
 - (BOOL)prefersStatusBarHidden { return YES; }
