@@ -27,6 +27,8 @@
 
 @property(strong, nonatomic) MemoransOverlayView *chooseLevelOverlay;
 
+@property(strong, nonatomic) MemoransSharedLevelsPack *sharedLevelsPack;
+
 @end
 
 @implementation MemoransLevelsViewController
@@ -46,6 +48,16 @@
     }
 
     return _chooseLevelOverlay;
+}
+
+- (MemoransSharedLevelsPack *)sharedLevelsPack
+{
+    if (!_sharedLevelsPack)
+    {
+        _sharedLevelsPack = [MemoransSharedLevelsPack sharedLevelsPack];
+    }
+
+    return _sharedLevelsPack;
 }
 
 #pragma mark - ACTIONS AND NAVIGATION
@@ -82,11 +94,7 @@
 
     self.view.multipleTouchEnabled = NO;
 
-    if ([self.view isKindOfClass:[MemoransBackgroundView class]])
-    {
-
-        ((MemoransBackgroundView *)self.view).backgroundImage = @"HorizontalWaves";
-    }
+    ((MemoransBackgroundView *)self.view).backgroundImage = @"HorizontalWaves";
 
     NSAttributedString *backToMenuString = [[NSAttributedString alloc]
         initWithString:@"⬅︎"
@@ -97,48 +105,42 @@
     [self.backToMenuButton setAttributedTitle:backToMenuString forState:UIControlStateNormal];
 
     self.backToMenuButton.exclusiveTouch = YES;
-}
 
-- (void)viewWillAppear:(BOOL)animated
-{
     MemoransGameLevel *level;
 
     int loopCount = 0;
 
-    // JUST FOR TESTING, TO BE REMOVED - START -
-
-    // NSLog(@"%d", [[MemoransSharedLevelsPack sharedLevelsPack] removeLevelsStatusOnDisk]);
-
-    // JUST FOR TESTING, TO BE REMOVED - END -
-
     for (MemoransLevelButton *levelButton in self.levelButtonViews)
     {
-        level =
-            (MemoransGameLevel *)[MemoransSharedLevelsPack sharedLevelsPack].levelsPack[loopCount];
+        level = (MemoransGameLevel *)self.sharedLevelsPack.levelsPack[loopCount];
 
         levelButton.imageID =
             [NSString stringWithFormat:@"Level%d%@", (int)level.tilesInLevel, level.tileSetType];
 
         levelButton.exclusiveTouch = YES;
 
-        if (loopCount > 1)
+        if (loopCount < 2)
         {
-            level.unlocked = NO;
-        }
-
-        else
-        {
-
             level.unlocked = YES;
         }
 
+        loopCount++;
+    }
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+
+    MemoransGameLevel *level;
+
+    int loopCount = 0;
+
+    for (MemoransLevelButton *levelButton in self.levelButtonViews)
+    {
+        level = (MemoransGameLevel *)self.sharedLevelsPack.levelsPack[loopCount];
+
         levelButton.enabled = level.unlocked;
-
-        // JUST FOR TESTING, TO BE REMOVED - START -
-
-        //  levelButton.enabled = YES;
-
-        // JUST FOR TESTING, TO BE REMOVED - END -
 
         loopCount++;
     }

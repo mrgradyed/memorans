@@ -13,37 +13,29 @@
 
 #pragma mark - PROPERTIES
 
-@property(nonatomic, strong) NSMutableArray *tilesInSet;
+@property(strong, nonatomic) NSMutableArray *setTiles;
 
 @end
 
 @implementation MemoransTilesSet
 
-#pragma mark - SETTERS AND GETTERS
-
-- (NSMutableArray *)tilesInSet
-{
-    if (!_tilesInSet)
-    {
-        _tilesInSet = [[NSMutableArray alloc] init];
-    }
-    return _tilesInSet;
-}
-
-#pragma mark - TILES SET MANAGEMENT
+#pragma mark - SET TILES SET MANAGEMENT
 
 - (MemoransTile *)extractRandomTileFromSet
 {
     MemoransTile *randomTile = nil;
-    NSInteger numberOfTilesInSet = [self.tilesInSet count];
 
-    if (numberOfTilesInSet)
+    NSInteger numberOfSetTiles = [self.setTiles count];
+
+    if (numberOfSetTiles)
     {
-        NSInteger tileIndex = arc4random() % numberOfTilesInSet;
-        randomTile = self.tilesInSet[tileIndex];
+        NSInteger tileIndex = arc4random() % numberOfSetTiles;
 
-        [self.tilesInSet removeObjectAtIndex:tileIndex];
+        randomTile = self.setTiles[tileIndex];
+
+        [self.setTiles removeObjectAtIndex:tileIndex];
     }
+
     return randomTile;
 }
 
@@ -53,20 +45,21 @@
 {
     self = [super init];
 
-    if (!self)
+    if (self)
     {
-        return nil;
-    }
+        _setTiles = [[NSMutableArray alloc] initWithCapacity:gMaxTileValue];
 
-    MemoransTile *newTile;
+        MemoransTile *newTile;
 
-    for (int tileVal = gMinTileValue; tileVal <= gMaxTileValue; tileVal++)
-    {
-        newTile = [[MemoransTile alloc] init];
-        newTile.tileSetType = tileSetType;
-        newTile.tileValue = tileVal;
+        for (int tileVal = gMinTileValue; tileVal <= gMaxTileValue; tileVal++)
+        {
+            newTile = [[MemoransTile alloc] init];
 
-        [self.tilesInSet addObject:newTile];
+            newTile.tileSetType = tileSetType;
+            newTile.tileValue = tileVal;
+
+            [_setTiles addObject:newTile];
+        }
     }
 
     return self;
@@ -76,14 +69,10 @@
 {
     self = [super init];
 
-    if (!self)
+    if (self)
     {
-        return nil;
+        self = [self initWithSetType:[MemoransTile allowedTileSets][0]];
     }
-
-    NSString *firstTileSet = [[MemoransTile allowedTileSets] firstObject];
-
-    self = [self initWithSetType:firstTileSet];
 
     return self;
 }
@@ -96,7 +85,7 @@
 
     if (self)
     {
-        _tilesInSet = [aDecoder decodeObjectForKey:@"tilesInSet"];
+        _setTiles = [aDecoder decodeObjectForKey:@"setTiles"];
     }
 
     return self;
@@ -104,7 +93,7 @@
 
 - (void)encodeWithCoder:(NSCoder *)aCoder
 {
-    [aCoder encodeObject:self.tilesInSet forKey:@"tilesInSet"];
+    [aCoder encodeObject:self.setTiles forKey:@"setTiles"];
 }
 
 @end

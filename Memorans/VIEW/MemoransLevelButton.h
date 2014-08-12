@@ -10,6 +10,8 @@
 
 @interface MemoransLevelButton : UIButton
 
-@property(nonatomic, strong) NSString *imageID;
+#pragma mark - PUBLIC PROPERTIES
+
+@property(strong, nonatomic) NSString *imageID;
 
 @end

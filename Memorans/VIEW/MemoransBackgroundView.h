@@ -10,9 +10,9 @@
 
 @interface MemoransBackgroundView : UIView
 
-@property(nonatomic, strong) NSString *backgroundImage;
+@property(strong, nonatomic) NSString *backgroundImage;
 
-@property(nonatomic, strong) NSString *backgroundText;
+@property(strong, nonatomic) NSString *backgroundText;
 
 
 

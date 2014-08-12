@@ -15,7 +15,6 @@
 #pragma mark - OUTLETS
 
 @property(weak, nonatomic) IBOutlet UIButton *backToMenuButton;
-@property(weak, nonatomic) IBOutlet UILabel *creditsLabel;
 
 @end
 
@@ -31,14 +30,10 @@
 {
     [super viewDidLoad];
 
-    self.view.multipleTouchEnabled = NO;
+    MemoransBackgroundView *backgroundView = (MemoransBackgroundView *)self.view;
 
-    if ([self.view isKindOfClass:[MemoransBackgroundView class]])
-    {
-        ((MemoransBackgroundView *)self.view).backgroundImage = @"StarsOnBlue";
-        ((MemoransBackgroundView *)self.view).backgroundText =
-            @"Programming\n \nMonsters Images\n \nMusic\n";
-    }
+    backgroundView.backgroundImage = @"StarsOnBlue";
+    backgroundView.backgroundText = @"Programming\n \nMonsters Images\n \nMusic\n";
 
     NSAttributedString *backToMenuString = [[NSAttributedString alloc]
         initWithString:@"⬅︎"
@@ -49,16 +44,10 @@
     [self.backToMenuButton setAttributedTitle:backToMenuString forState:UIControlStateNormal];
 
     self.backToMenuButton.exclusiveTouch = YES;
-
-    self.creditsLabel.hidden = YES;
 }
-
-- (void)viewWillAppear:(BOOL)animated { [self.view setNeedsDisplay]; }
-
-- (void)didReceiveMemoryWarning { [super didReceiveMemoryWarning]; }
 
 - (BOOL)prefersStatusBarHidden { return YES; }
 
-
+- (void)didReceiveMemoryWarning { [super didReceiveMemoryWarning]; }
 
 @end

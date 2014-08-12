@@ -13,7 +13,7 @@
 
 #pragma mark - PROPERTIES
 
-@property(nonatomic, strong) NSAttributedString *overlayAttributedString;
+@property(strong, nonatomic) NSAttributedString *overlayAttributedString;
 
 @property(nonatomic) CGPoint outOfScreenCenter;
 
@@ -46,6 +46,8 @@
     _overlayColor = overlayColor;
 
     _overlayAttributedString = nil;
+
+    [self setNeedsDisplay];
 }
 
 - (void)setFontSize:(CGFloat)fontSize
@@ -91,13 +93,14 @@
     return _outOfScreenCenter;
 }
 
-#pragma mark - DRAWING AND APPEARANCE
+#pragma mark - VIEW DRAWING
 
 - (void)resetView
 {
     if (self.center.x != self.outOfScreenCenter.x)
     {
         [self.layer removeAllAnimations];
+
         self.center = self.outOfScreenCenter;
         self.alpha = 1;
     }
@@ -118,15 +121,6 @@
 
 - (void)drawRect:(CGRect)rect { [self.overlayAttributedString drawInRect:self.bounds]; }
 
-- (void)configureView
-{
-    self.backgroundColor = [UIColor clearColor];
-
-    self.contentMode = UIViewContentModeRedraw;
-
-    self.userInteractionEnabled = NO;
-}
-
 #pragma mark - INIT
 
 - (instancetype)initWithFrame:(CGRect)frame
@@ -137,7 +131,15 @@
     {
         [self configureView];
     }
+
     return self;
+}
+
+- (void)configureView
+{
+    self.backgroundColor = [UIColor clearColor];
+    self.contentMode = UIViewContentModeRedraw;
+    self.userInteractionEnabled = NO;
 }
 
 - (instancetype)initWithString:(NSString *)string

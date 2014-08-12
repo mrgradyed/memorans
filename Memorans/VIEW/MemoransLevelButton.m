@@ -11,49 +11,32 @@
 
 @interface MemoransLevelButton ()
 
-@property(nonatomic, strong) UIImageView *overlayLockView;
+#pragma mark - PROPERTIES
+
+@property(strong, nonatomic) UIImageView *overlayLockView;
 
 @end
 
 @implementation MemoransLevelButton
 
+#pragma mark - SETTERS AND GETTERS
+
 - (UIView *)overlayLockView
 {
-
     if (!_overlayLockView)
     {
         _overlayLockView = [[UIImageView alloc] initWithFrame:self.bounds];
 
         _overlayLockView.image = [UIImage imageNamed:@"lock"];
     }
+
     return _overlayLockView;
 }
 
-- (id)initWithCoder:(NSCoder *)aDecoder
-{
-    self = [super initWithCoder:aDecoder];
-
-    if (self)
-    {
-        [self configureView];
-    }
-    return self;
-}
-
-- (void)configureView
-{
-    self.backgroundColor = [UIColor clearColor];
-    self.contentMode = UIViewContentModeRedraw;
-    self.multipleTouchEnabled = NO;
-    self.layer.borderColor = [UIColor whiteColor].CGColor;
-    self.layer.borderWidth = 1;
-    self.layer.cornerRadius = 15;
-    self.clipsToBounds = YES;
-}
+#pragma mark - VIEW DRAWING
 
 - (void)drawRect:(CGRect)rect
 {
-
     UIImage *buttonImage = [UIImage imageNamed:self.imageID];
 
     [buttonImage drawInRect:self.bounds];
@@ -70,6 +53,32 @@
 
         [self addSubview:self.overlayLockView];
     }
+}
+
+#pragma mark - INIT
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super initWithCoder:aDecoder];
+
+    if (self)
+    {
+        [self configureView];
+    }
+
+    return self;
+}
+
+- (void)configureView
+{
+    self.backgroundColor = [UIColor clearColor];
+    self.contentMode = UIViewContentModeRedraw;
+    self.multipleTouchEnabled = NO;
+    self.clipsToBounds = YES;
+
+    self.layer.borderColor = [UIColor whiteColor].CGColor;
+    self.layer.borderWidth = 1;
+    self.layer.cornerRadius = 15;
 }
 
 @end

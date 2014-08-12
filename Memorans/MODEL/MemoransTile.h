@@ -10,25 +10,25 @@
 
 @interface MemoransTile : NSObject <NSCopying, NSCoding>
 
-#pragma mark - PROPERTIES
+#pragma mark - PUBLIC PROPERTIES
 
 @property(nonatomic) NSInteger tileValue;
 
-@property(nonatomic, strong) NSString *tileSetType;
-@property(nonatomic, strong, readonly) NSString *tileID;
+@property(strong, nonatomic) NSString *tileSetType;
+@property(strong, nonatomic, readonly) NSString *tileID;
 
 @property(nonatomic) BOOL selected;
 @property(nonatomic) BOOL paired;
-
-#pragma mark - GLOBAL VARS
-
-extern const int gMaxTileValue;
-extern const int gMinTileValue;
 
 #pragma mark - PUBLIC METHODS
 
 - (BOOL)isEqualToTile:(MemoransTile *)otherTile;
 
 + (NSArray *)allowedTileSets;
+
+#pragma mark - GLOBAL VARS
+
+extern const int gMaxTileValue;
+extern const int gMinTileValue;
 
 @end

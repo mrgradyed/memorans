@@ -22,8 +22,8 @@
 
 #pragma mark - PUBLIC METHODS
 
-- (MemoransTile *)playTileAtIndex:(NSInteger)tileIndex;
+- (void)playGameTileAtIndex:(NSInteger)tileIndex;
 
-- (MemoransTile *)tileInGameAtIndex:(NSInteger)tileIndex;
+- (MemoransTile *)gameTileAtIndex:(NSInteger)tileIndex;
 
 @end

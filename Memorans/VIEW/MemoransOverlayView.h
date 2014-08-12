@@ -12,9 +12,9 @@
 
 #pragma mark - PUBLIC PROPERTIES
 
-@property(nonatomic, strong) NSString *overlayString;
+@property(strong, nonatomic) NSString *overlayString;
 
-@property(nonatomic, strong) UIColor *overlayColor;
+@property(strong, nonatomic) UIColor *overlayColor;
 
 @property(nonatomic) CGFloat fontSize;
 

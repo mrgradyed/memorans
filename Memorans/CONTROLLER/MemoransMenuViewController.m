@@ -30,9 +30,10 @@
 
 - (IBAction)creditsButtonTouched
 {
-
     [self performSegueWithIdentifier:@"toCreditsController" sender:self];
 }
+
+#pragma mark - VIEWS MANAGEMENT AND UPDATE
 
 - (void)viewDidLoad
 {
@@ -40,14 +41,9 @@
 
     self.navigationController.navigationBarHidden = YES;
 
-
     self.view.multipleTouchEnabled = NO;
 
-    if ([self.view isKindOfClass:[MemoransBackgroundView class]])
-    {
-
-        ((MemoransBackgroundView *)self.view).backgroundImage = @"SkewedWaves";
-    }
+    ((MemoransBackgroundView *)self.view).backgroundImage = @"SkewedWaves";
 
     NSAttributedString *playGameString = [[NSAttributedString alloc]
         initWithString:@"Play"
@@ -69,7 +65,6 @@
 
     self.creditsButton.exclusiveTouch = YES;
 }
-
 
 - (BOOL)prefersStatusBarHidden { return YES; }
 

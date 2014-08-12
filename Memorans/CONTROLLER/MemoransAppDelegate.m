@@ -44,7 +44,6 @@
 
     NSLog(@"applicationDidEnterBackground");
 
-    [[MemoransSharedLevelsPack sharedLevelsPack] archiveLevelsStatus];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application

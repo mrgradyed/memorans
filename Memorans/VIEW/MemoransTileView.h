@@ -12,13 +12,12 @@
 
 #pragma mark - PUBLIC PROPERTIES
 
-@property(nonatomic, strong) NSString *imageID;
-@property(nonatomic, strong) NSString *tileBackImage;
+@property(strong, nonatomic) NSString *imageID;
+@property(strong, nonatomic) NSString *tileBackImage;
 
 @property(nonatomic) BOOL shown;
 @property(nonatomic) BOOL paired;
 @property(nonatomic) BOOL tapped;
-
 
 @property(nonatomic) CGPoint onBoardCenter;
 

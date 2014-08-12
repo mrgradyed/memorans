@@ -12,7 +12,7 @@
 
 #pragma mark - PUBLIC PROPERTIES
 
-@property(nonatomic, strong) NSString *tileSetType;
+@property(strong, nonatomic) NSString *tileSetType;
 
 @property(nonatomic) NSInteger tilesInLevel;
 

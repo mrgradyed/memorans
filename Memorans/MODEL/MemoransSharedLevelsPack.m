@@ -12,40 +12,20 @@
 
 @implementation MemoransSharedLevelsPack
 
-#pragma mark - SETTERS AND GETTERS
+#pragma mark - CLASS METHODS
 
-- (NSArray *)levelsPack
++ (instancetype)sharedLevelsPack
 {
-    if (!_levelsPack)
-    {
-        NSMutableArray *pack = [[NSMutableArray alloc] init];
+    static MemoransSharedLevelsPack *sharedLevelsPack;
 
-        MemoransGameLevel *newLevel;
+    static dispatch_once_t gBlockHasCompleted;
 
-        int loopCount = 0;
+    dispatch_once(&gBlockHasCompleted, ^{ sharedLevelsPack = [[self alloc] initActually]; });
 
-        for (NSNumber *tilesInLevel in [MemoransGameLevel allowedTilesCountsInLevels])
-        {
-            newLevel = [[MemoransGameLevel alloc] init];
-
-            newLevel.tilesInLevel = [tilesInLevel integerValue];
-
-            NSInteger tileSetTypeIndex = loopCount % [[MemoransTile allowedTileSets] count];
-
-            newLevel.tileSetType = [MemoransTile allowedTileSets][tileSetTypeIndex];
-
-            [pack addObject:newLevel];
-
-            loopCount++;
-        }
-        
-        _levelsPack = pack;
-    }
-
-    return _levelsPack;
+    return sharedLevelsPack;
 }
 
-#pragma mark - INITS
+#pragma mark - INIT
 
 - (instancetype)init
 {
@@ -57,29 +37,42 @@
     return nil;
 }
 
-- (instancetype)initPrivate
+- (instancetype)initActually
 {
     self = [super init];
 
     if (self)
     {
         _levelsPack = [NSKeyedUnarchiver unarchiveObjectWithFile:[self filePathForArchiving]];
+
+        if (!_levelsPack)
+        {
+            NSMutableArray *pack = [[NSMutableArray alloc] init];
+
+            MemoransGameLevel *newLevel;
+
+            int loopCount = 0;
+
+            for (NSNumber *tilesInLevel in [MemoransGameLevel allowedTilesCountsInLevels])
+            {
+                newLevel = [[MemoransGameLevel alloc] init];
+
+                newLevel.tilesInLevel = [tilesInLevel integerValue];
+
+                NSInteger tileSetTypeIndex = loopCount % [[MemoransTile allowedTileSets] count];
+
+                newLevel.tileSetType = [MemoransTile allowedTileSets][tileSetTypeIndex];
+
+                [pack addObject:newLevel];
+
+                loopCount++;
+            }
+
+            _levelsPack = pack;
+        }
     }
 
     return self;
-}
-
-#pragma mark - CLASS METHODS
-
-+ (instancetype)sharedLevelsPack
-{
-    static MemoransSharedLevelsPack *sharedLevelsPack;
-
-    static dispatch_once_t blockHasCompleted;
-
-    dispatch_once(&blockHasCompleted, ^{ sharedLevelsPack = [[self alloc] initPrivate]; });
-
-    return sharedLevelsPack;
 }
 
 #pragma mark - ARCHIVING
@@ -97,7 +90,7 @@
     return [NSKeyedArchiver archiveRootObject:self.levelsPack toFile:[self filePathForArchiving]];
 }
 
-- (BOOL)removeLevelsStatusOnDisk
+- (BOOL)deleteSavedLevelsStatus
 {
     self.levelsPack = nil;
 

@@ -11,7 +11,7 @@
 
 @implementation MemoransBackgroundView
 
-#pragma mark - DRAWING AND APPEARANCE
+#pragma mark - VIEW DRAWING
 
 - (void)drawRect:(CGRect)rect
 {
@@ -24,39 +24,22 @@
 
     if (self.backgroundText)
     {
-        NSAttributedString *backgroundText = [[NSAttributedString alloc]
-            initWithString:self.backgroundText
-                attributes:[Utilities
-                               stringAttributesWithAlignement:NSTextAlignmentCenter
-                                                    withColor:[Utilities
-                                                                  colorFromHEXString:@"#FFCC00"
-                                                                           withAlpha:1]
-                                                      andSize:60]];
+        UIColor *backgroundTextColor = [Utilities colorFromHEXString:@"#FFCC00" withAlpha:1];
 
-        [backgroundText
-            drawInRect:CGRectMake(self.bounds.origin.x + 100, self.bounds.origin.y + 100,
-                                  self.bounds.size.width - 200, self.bounds.size.height - 200)];
+        NSDictionary *textAttributes =
+            [Utilities stringAttributesWithAlignement:NSTextAlignmentCenter
+                                            withColor:backgroundTextColor
+                                              andSize:60];
+
+        NSAttributedString *backgroundText =
+            [[NSAttributedString alloc] initWithString:self.backgroundText
+                                            attributes:textAttributes];
+
+        CGRect textRect = CGRectMake(self.bounds.origin.x + 100, self.bounds.origin.y + 100,
+                                     self.bounds.size.width - 200, self.bounds.size.height - 200);
+
+        [backgroundText drawInRect:textRect];
     }
-}
-
-#pragma mark - INITIALISERS
-
-- (instancetype)initWithFrame:(CGRect)frame
-{
-    self = [super initWithFrame:frame];
-    if (self)
-    {
-        [self configureView];
-    }
-    return self;
-}
-
-- (void)configureView
-{
-    self.backgroundColor = [UIColor clearColor];
-    self.contentMode = UIViewContentModeRedraw;
-    self.multipleTouchEnabled = NO;
-    self.clipsToBounds = YES;
 }
 
 @end

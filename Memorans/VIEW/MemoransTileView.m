@@ -9,24 +9,9 @@
 #import "MemoransTileView.h"
 #import "Utilities.h"
 
-@interface MemoransTileView ()
-
-@property(nonatomic) CGFloat defaultCornerRadius;
-
-@end
-
 @implementation MemoransTileView
 
 #pragma mark - SETTERS AND GETTERS
-
-- (CGFloat)defaultCornerRadius
-{
-    if (!_defaultCornerRadius)
-    {
-        _defaultCornerRadius = MIN(self.bounds.size.width, self.bounds.size.height) / 15;
-    }
-    return _defaultCornerRadius;
-}
 
 - (void)setImageID:(NSString *)imageID
 {
@@ -40,14 +25,26 @@
     [self setNeedsDisplay];
 }
 
-- (void)setShown:(BOOL)selected
+- (void)setTileBackImage:(NSString *)tileBackImage
 {
-    if (_shown == selected)
+    if ([_tileBackImage isEqualToString:tileBackImage])
     {
         return;
     }
 
-    _shown = selected;
+    _tileBackImage = tileBackImage;
+
+    [self setNeedsDisplay];
+}
+
+- (void)setShown:(BOOL)shown
+{
+    if (_shown == shown)
+    {
+        return;
+    }
+
+    _shown = shown;
 
     [self setNeedsDisplay];
 }
@@ -64,13 +61,14 @@
     [self setNeedsDisplay];
 }
 
-#pragma mark - DRAWING AND APPEARANCE
+#pragma mark - VIEW DRAWING
 
 - (void)drawRect:(CGRect)rect
 {
     if (self.paired)
     {
         [[UIColor clearColor] setFill];
+
         self.layer.borderWidth = 0;
     }
     else
@@ -84,11 +82,11 @@
     {
         UIImage *faceImage = [UIImage imageNamed:self.imageID];
 
-        CGFloat imageSize = MIN(self.bounds.size.width, self.bounds.size.height);
+        CGFloat shortestTileSide = MIN(self.bounds.size.width, self.bounds.size.height);
 
-        CGRect imageRect =
-            CGRectMake((self.bounds.size.width - imageSize) / 2,
-                       (self.bounds.size.height - imageSize) / 2, imageSize, imageSize);
+        CGRect imageRect = CGRectMake((self.bounds.size.width - shortestTileSide) / 2,
+                                      (self.bounds.size.height - shortestTileSide) / 2,
+                                      shortestTileSide, shortestTileSide);
 
         [faceImage drawInRect:imageRect];
     }
@@ -120,27 +118,29 @@
     }
 }
 
-- (void)configureView
-{
-    self.backgroundColor = [UIColor clearColor];
-    self.contentMode = UIViewContentModeRedraw;
-    self.multipleTouchEnabled = NO;
-    self.layer.borderColor = [Utilities colorFromHEXString:@"#E4B7F0" withAlpha:1].CGColor;
-    self.layer.borderWidth = 1;
-    self.layer.cornerRadius = self.defaultCornerRadius;
-    self.clipsToBounds = YES;
-}
-
 #pragma mark - INIT
 
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
+
     if (self)
     {
         [self configureView];
     }
     return self;
+}
+
+- (void)configureView
+{
+    self.backgroundColor = [UIColor clearColor];
+    self.contentMode = UIViewContentModeRedraw;
+    self.multipleTouchEnabled = NO;
+    self.clipsToBounds = YES;
+
+    self.layer.borderColor = [Utilities colorFromHEXString:@"#E4B7F0" withAlpha:1].CGColor;
+    self.layer.borderWidth = 1;
+    self.layer.cornerRadius = MIN(self.bounds.size.width, self.bounds.size.height) / 15;
 }
 
 #pragma mark - NSCoding PROTOCOL
@@ -163,8 +163,6 @@
 
         _onBoardCenter = [aDecoder decodeCGPointForKey:@"onBoardCenter"];
 
-        _defaultCornerRadius = [aDecoder decodeFloatForKey:@"defaultCornerRadius"];
-
         [self configureView];
     }
 
@@ -186,11 +184,10 @@
     [aCoder encodeBool:self.tapped forKey:@"tapped"];
 
     [aCoder encodeCGPoint:self.onBoardCenter forKey:@"onBoardCenter"];
-
-    [aCoder encodeFloat:self.defaultCornerRadius forKey:@"defaultCornerRadius"];
 }
 
-#pragma mark - GLOBAL VARS AND CLASS METHODS
+#pragma mark - CLASS METHODS
 
 + (NSArray *)allowedTileViewBacks { return @[ @"tb1", @"tb2", @"tb3" ]; }
+
 @end

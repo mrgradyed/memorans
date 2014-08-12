@@ -10,7 +10,7 @@
 
 @interface MemoransTile ()
 
-@property(nonatomic) NSString *tileID;
+@property(strong, nonatomic) NSString *tileID;
 
 @end
 
@@ -26,11 +26,11 @@
     }
 }
 
-- (void)setTileSetType:(NSString *)tileSet
+- (void)setTileSetType:(NSString *)tileSetType
 {
-    if ([[MemoransTile allowedTileSets] containsObject:tileSet])
+    if ([[MemoransTile allowedTileSets] containsObject:tileSetType])
     {
-        _tileSetType = tileSet;
+        _tileSetType = tileSetType;
     }
 }
 
@@ -38,7 +38,7 @@
 {
     if (!_tileID)
     {
-        _tileID = [NSString stringWithFormat:@"%@%ld", self.tileSetType, (long)self.tileValue];
+        _tileID = [NSString stringWithFormat:@"%@%d", self.tileSetType, (int)self.tileValue];
     }
 
     return _tileID;

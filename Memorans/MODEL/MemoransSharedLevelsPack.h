@@ -14,7 +14,7 @@
 
 #pragma mark - PUBLIC PROPERTIES
 
-@property(nonatomic, strong) NSArray *levelsPack;
+@property(strong, nonatomic) NSArray *levelsPack;
 
 #pragma mark - PUBLIC METHODS
 
@@ -22,6 +22,6 @@
 
 - (BOOL)archiveLevelsStatus;
 
-- (BOOL)removeLevelsStatusOnDisk;
+- (BOOL)deleteSavedLevelsStatus;
 
 @end

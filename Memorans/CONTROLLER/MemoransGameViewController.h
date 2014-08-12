@@ -10,8 +10,8 @@
 
 @interface MemoransGameViewController : UIViewController
 
-@property(nonatomic) NSInteger currentLevelNumber;
+#pragma mark - PUBLIC PROPERTIES
 
-- (void)resumeGame;
+@property(nonatomic) NSInteger currentLevelNumber;
 
 @end
