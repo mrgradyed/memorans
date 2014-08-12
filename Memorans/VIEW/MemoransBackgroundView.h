@@ -12,8 +12,4 @@
 
 @property(strong, nonatomic) NSString *backgroundImage;
 
-@property(strong, nonatomic) NSString *backgroundText;
-
-
-
 @end

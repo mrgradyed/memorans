@@ -21,25 +21,6 @@
 
         [faceImage drawInRect:self.bounds];
     }
-
-    if (self.backgroundText)
-    {
-        UIColor *backgroundTextColor = [Utilities colorFromHEXString:@"#FFCC00" withAlpha:1];
-
-        NSDictionary *textAttributes =
-            [Utilities stringAttributesWithAlignement:NSTextAlignmentCenter
-                                            withColor:backgroundTextColor
-                                              andSize:60];
-
-        NSAttributedString *backgroundText =
-            [[NSAttributedString alloc] initWithString:self.backgroundText
-                                            attributes:textAttributes];
-
-        CGRect textRect = CGRectMake(self.bounds.origin.x + 100, self.bounds.origin.y + 100,
-                                     self.bounds.size.width - 200, self.bounds.size.height - 200);
-
-        [backgroundText drawInRect:textRect];
-    }
 }
 
 @end

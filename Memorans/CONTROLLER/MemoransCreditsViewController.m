@@ -15,6 +15,7 @@
 #pragma mark - OUTLETS
 
 @property(weak, nonatomic) IBOutlet UIButton *backToMenuButton;
+@property (weak, nonatomic) IBOutlet UITextView *creditsText;
 
 @end
 
@@ -33,7 +34,6 @@
     MemoransBackgroundView *backgroundView = (MemoransBackgroundView *)self.view;
 
     backgroundView.backgroundImage = @"StarsOnBlue";
-    backgroundView.backgroundText = @"Programming\n \nMonsters Images\n \nMusic\n";
 
     NSAttributedString *backToMenuString = [[NSAttributedString alloc]
         initWithString:@"⬅︎"
@@ -44,6 +44,10 @@
     [self.backToMenuButton setAttributedTitle:backToMenuString forState:UIControlStateNormal];
 
     self.backToMenuButton.exclusiveTouch = YES;
+
+    self.creditsText.editable = NO;
+    self.creditsText.selectable = YES;
+    self.creditsText.dataDetectorTypes = UIDataDetectorTypeLink;
 }
 
 - (BOOL)prefersStatusBarHidden { return YES; }
