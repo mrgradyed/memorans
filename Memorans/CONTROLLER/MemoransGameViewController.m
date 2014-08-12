@@ -199,14 +199,9 @@
 
 #pragma mark - ACTIONS
 
-- (IBAction)restartGameButtonTouched { [self restartGame]; }
+- (IBAction)restartGameButtonTouched { [self restartGameWithNextLevel:NO]; }
 
-- (IBAction)nextLevelButtonTouched
-{
-    self.currentLevelNumber++;
-
-    [self restartGame];
-}
+- (IBAction)nextLevelButtonTouched { [self restartGameWithNextLevel:YES]; }
 
 - (IBAction)backToMenuButtonTouched { [self.navigationController popViewControllerAnimated:YES]; }
 
@@ -358,18 +353,27 @@
         }
         else
         {
-            [self restartGame];
+            [self restartGameWithNextLevel:NO];
         }
     }
 }
 
-- (void)restartGame
+- (void)restartGameWithNextLevel:(BOOL)next
 {
-    if ([self currentLevel].hasSave)
+    if (next)
     {
-        [self deleteSavedGameControllerStatus];
+        self.currentLevelNumber++;
+    }
+    else
+    {
+        self.isBadScore = (self.game.gameScore < 0);
 
-        [self currentLevel].hasSave = NO;
+        if ([self currentLevel].hasSave)
+        {
+            [self deleteSavedGameControllerStatus];
+
+            [self currentLevel].hasSave = NO;
+        }
     }
 
     [self.tileArea.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
@@ -380,7 +384,6 @@
 
     self.isWobbling = NO;
 
-    self.isBadScore = (self.game.gameScore < 0);
     self.game = nil;
 
     [self.startMessageOverlayView resetView];
@@ -587,7 +590,7 @@ static const NSInteger gTileMargin = 5;
 
     if ([self.tileViews count] < 6)
     {
-        [self restartGame];
+        [self restartGameWithNextLevel:NO];
 
         return;
     }
