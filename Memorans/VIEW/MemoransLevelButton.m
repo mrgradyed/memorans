@@ -37,10 +37,6 @@
 
 - (void)drawRect:(CGRect)rect
 {
-    UIImage *buttonImage = [UIImage imageNamed:self.imageID];
-
-    [buttonImage drawInRect:self.bounds];
-
     if (self.enabled)
     {
         self.userInteractionEnabled = YES;

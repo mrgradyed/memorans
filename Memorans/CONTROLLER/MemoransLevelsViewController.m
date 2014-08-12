@@ -114,8 +114,10 @@
     {
         level = (MemoransGameLevel *)self.sharedLevelsPack.levelsPack[loopCount];
 
-        levelButton.imageID =
+        NSString *levelButtonImage =
             [NSString stringWithFormat:@"Level%d%@", (int)level.tilesInLevel, level.tileSetType];
+
+        [levelButton setImage:[UIImage imageNamed:levelButtonImage] forState:UIControlStateNormal];
 
         levelButton.exclusiveTouch = YES;
 
