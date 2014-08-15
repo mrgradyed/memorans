@@ -11,7 +11,6 @@
 #import "MemoransTile.h"
 #import "MemoransGameEngine.h"
 #import "MemoransOverlayView.h"
-#import "MemoransBackgroundView.h"
 #import "MemoransGameLevel.h"
 #import "MemoransSharedLevelsPack.h"
 #import "Utilities.h"
@@ -30,7 +29,7 @@
 
 @property(nonatomic, strong) NSMutableArray *tileViews;
 @property(nonatomic, strong) NSMutableArray *tileViewsLeft;
-@property(nonatomic, strong) NSMutableArray *tappedTileViews;
+@property(nonatomic, strong) NSMutableArray *chosenTileViews;
 
 @property(nonatomic, strong) NSArray *endMessages;
 
@@ -71,14 +70,14 @@
     return _tileViewsLeft;
 }
 
-- (NSMutableArray *)tappedTileViews
+- (NSMutableArray *)chosenTileViews
 {
-    if (!_tappedTileViews)
+    if (!_chosenTileViews)
     {
-        _tappedTileViews = [[NSMutableArray alloc] initWithCapacity:2];
+        _chosenTileViews = [[NSMutableArray alloc] initWithCapacity:2];
     }
 
-    return _tappedTileViews;
+    return _chosenTileViews;
 }
 
 - (NSArray *)endMessages
@@ -199,11 +198,26 @@
 
 #pragma mark - ACTIONS
 
-- (IBAction)restartGameButtonTouched { [self restartGameWithNextLevel:NO]; }
+- (IBAction)restartGameButtonTouched
+{
+    [Utilities playSoundEffectFromResource:@"pop" ofType:@"wav"];
 
-- (IBAction)nextLevelButtonTouched { [self restartGameWithNextLevel:YES]; }
+    [self restartGameWithNextLevel:NO];
+}
 
-- (IBAction)backToMenuButtonTouched { [self.navigationController popViewControllerAnimated:YES]; }
+- (IBAction)nextLevelButtonTouched
+{
+    [Utilities playSoundEffectFromResource:@"pop" ofType:@"wav"];
+
+    [self restartGameWithNextLevel:YES];
+}
+
+- (IBAction)backToMenuButtonTouched
+{
+    [Utilities playSoundEffectFromResource:@"pop" ofType:@"wav"];
+
+    [self.navigationController popViewControllerAnimated:YES];
+}
 
 #pragma mark - GESTURES HANDLING
 
@@ -211,7 +225,7 @@
 {
     MemoransTileView *tappedTileView = (MemoransTileView *)tileTapRec.view;
 
-    if (tappedTileView.paired || tappedTileView.shown || [self.tappedTileViews count] == 2)
+    if (tappedTileView.paired || tappedTileView.shown || [self.chosenTileViews count] == 2)
     {
         return;
     }
@@ -221,14 +235,16 @@
 
 - (void)flipAndPlayTappedTileView:(MemoransTileView *)tappedTileView
 {
+    [Utilities playSoundEffectFromResource:@"uuue" ofType:@"wav"];
+
     [UIView transitionWithView:tappedTileView
         duration:0.3f
         options:UIViewAnimationOptionTransitionFlipFromRight
         animations:^{
 
-            [self.tappedTileViews addObject:tappedTileView];
+            [self.chosenTileViews addObject:tappedTileView];
 
-            tappedTileView.tapped = YES;
+            tappedTileView.chosen = YES;
             tappedTileView.shown = YES;
         }
         completion:^(BOOL completed) { [self playTappedTileView:tappedTileView]; }];
@@ -238,7 +254,7 @@
 
 - (void)playTappedTileView:(MemoransTileView *)tappedTileView
 {
-    if ([self.tappedTileViews indexOfObject:tappedTileView] != 1)
+    if ([self.chosenTileViews indexOfObject:tappedTileView] != 1)
     {
         return;
     }
@@ -249,14 +265,18 @@
     {
         [Utilities animateOverlayView:self.malusScoreOverlayView withDuration:0.8f];
 
-        [self addWobblingAnimationToView:self.tappedTileViews[0] withRepeatCount:5];
-        [self addWobblingAnimationToView:self.tappedTileViews[1] withRepeatCount:5];
+        [self addWobblingAnimationToView:self.chosenTileViews[0] withRepeatCount:4];
+        [self addWobblingAnimationToView:self.chosenTileViews[1] withRepeatCount:4];
+
+        [Utilities playSoundEffectFromResource:@"iiii" ofType:@"wav"];
     }
     else if (tappedTileView.paired)
     {
         [Utilities animateOverlayView:self.bonusScoreOverlayView withDuration:0.8f];
 
-        for (MemoransTileView *tileView in self.tappedTileViews)
+        [Utilities playSoundEffectFromResource:@"uiii" ofType:@"wav"];
+
+        for (MemoransTileView *tileView in self.chosenTileViews)
         {
             [UIView transitionWithView:tileView
                 duration:0.5f
@@ -264,7 +284,7 @@
                 animations:^{}
                 completion:^(BOOL finished) {
 
-                    if ([self.tappedTileViews indexOfObject:tileView] == 1)
+                    if ([self.chosenTileViews indexOfObject:tileView] == 1)
                     {
                         [self finishAndSave];
                     }
@@ -275,11 +295,11 @@
 
 - (void)playChosenTiles
 {
-    if ([self.tappedTileViews count] == 2)
+    if ([self.chosenTileViews count] == 2)
     {
-        NSInteger firstTappedViewIndex = [self.tileViews indexOfObject:self.tappedTileViews[0]];
+        NSInteger firstTappedViewIndex = [self.tileViews indexOfObject:self.chosenTileViews[0]];
 
-        NSInteger secondTappedViewIndex = [self.tileViews indexOfObject:self.tappedTileViews[1]];
+        NSInteger secondTappedViewIndex = [self.tileViews indexOfObject:self.chosenTileViews[1]];
 
         if (firstTappedViewIndex == NSNotFound || secondTappedViewIndex == NSNotFound)
         {
@@ -296,15 +316,15 @@
 
 - (void)finishAndSave
 {
-    if ([self.tappedTileViews count] == 2)
+    if ([self.chosenTileViews count] == 2)
     {
-        MemoransTileView *firstTappedTileView = ((MemoransTileView *)self.tappedTileViews[0]);
-        MemoransTileView *secondTappedTileView = ((MemoransTileView *)self.tappedTileViews[1]);
+        MemoransTileView *firstTappedTileView = ((MemoransTileView *)self.chosenTileViews[0]);
+        MemoransTileView *secondTappedTileView = ((MemoransTileView *)self.chosenTileViews[1]);
 
-        [self.tappedTileViews removeAllObjects];
+        [self.chosenTileViews removeAllObjects];
 
-        firstTappedTileView.tapped = NO;
-        secondTappedTileView.tapped = NO;
+        firstTappedTileView.chosen = NO;
+        secondTappedTileView.chosen = NO;
 
         if (firstTappedTileView.paired && secondTappedTileView.paired)
         {
@@ -363,11 +383,11 @@
     if (next)
     {
         self.currentLevelNumber++;
+
+        self.isBadScore = NO;
     }
     else
     {
-        self.isBadScore = (self.game.gameScore < 0);
-
         if ([self currentLevel].hasSave)
         {
             [self deleteSavedGameControllerStatus];
@@ -380,16 +400,13 @@
 
     self.tileViews = nil;
     self.tileViewsLeft = nil;
-    self.tappedTileViews = nil;
+    self.chosenTileViews = nil;
 
     self.isWobbling = NO;
 
     self.game = nil;
 
-    [self.startMessageOverlayView resetView];
-    [self.endMessageOverlayView resetView];
-    [self.bonusScoreOverlayView resetView];
-    [self.malusScoreOverlayView resetView];
+    self.startMessageOverlayView = nil;
 
     [self updateUIWithNewGame:YES];
 }
@@ -416,9 +433,9 @@
 
         [self.tileArea addSubview:tileView];
 
-        if (tileView.tapped)
+        if (tileView.chosen)
         {
-            [self.tappedTileViews addObject:tileView];
+            [self.chosenTileViews addObject:tileView];
         }
 
         if (tileView.paired)
@@ -480,7 +497,7 @@
 
     self.isWobbling = NO;
 
-    for (MemoransTileView *tileView in self.tappedTileViews)
+    for (MemoransTileView *tileView in self.chosenTileViews)
     {
         [UIView transitionWithView:tileView
             duration:0.3f
@@ -488,7 +505,7 @@
             animations:^{ tileView.shown = NO; }
             completion:^(BOOL finished) {
 
-                if ([self.tappedTileViews indexOfObject:tileView] == 1)
+                if ([self.chosenTileViews indexOfObject:tileView] == 1)
                 {
                     [self finishAndSave];
                 }
@@ -616,6 +633,8 @@ static const NSInteger gTileMargin = 5;
 
     self.nextLevelButton.hidden = ![self nextLevel].unlocked;
 
+    self.isBadScore = (self.game.gameScore < 0);
+
     self.scoreLabel.attributedText = self.scoreAttributedString;
 }
 
@@ -686,7 +705,11 @@ static const NSInteger gTileMargin = 5;
 
     self.tileArea.backgroundColor = [UIColor clearColor];
 
-    ((MemoransBackgroundView *)self.view).backgroundImage = @"SkewedWaves";
+    UIImageView *backgroundImageView =
+        [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"SkewedWaves"]];
+
+    [self.view addSubview:backgroundImageView];
+    [self.view sendSubviewToBack:backgroundImageView];
 
     NSAttributedString *restartGameString = [[NSAttributedString alloc]
         initWithString:@"↺"
@@ -725,8 +748,6 @@ static const NSInteger gTileMargin = 5;
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-    NSLog(@"viewWillDisappear");
-
     [super viewWillDisappear:animated];
 
     [self.sharedLevelsPack archiveLevelsStatus];
@@ -778,6 +799,5 @@ static const NSInteger gTileMargin = 5;
 
     return (gameArchiveRemoval && tileViewsArchiveRemoval);
 }
-
 
 @end

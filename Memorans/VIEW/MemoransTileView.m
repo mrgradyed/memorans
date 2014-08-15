@@ -159,7 +159,7 @@
 
         _paired = [aDecoder decodeBoolForKey:@"paired"];
 
-        _tapped = [aDecoder decodeBoolForKey:@"tapped"];
+        _chosen = [aDecoder decodeBoolForKey:@"chosen"];
 
         _onBoardCenter = [aDecoder decodeCGPointForKey:@"onBoardCenter"];
 
@@ -181,7 +181,7 @@
 
     [aCoder encodeBool:self.paired forKey:@"paired"];
 
-    [aCoder encodeBool:self.tapped forKey:@"tapped"];
+    [aCoder encodeBool:self.chosen forKey:@"chosen"];
 
     [aCoder encodeCGPoint:self.onBoardCenter forKey:@"onBoardCenter"];
 }

@@ -22,4 +22,6 @@
                                        withColor:(UIColor *)color
                                          andSize:(CGFloat)size;
 
++ (void)playSoundEffectFromResource:(NSString *)fileName ofType:(NSString *)fileType;
+
 @end

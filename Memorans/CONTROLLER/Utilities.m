@@ -6,6 +6,8 @@
 //  Copyright (c) 2014 Emiliano D'Alterio. All rights reserved.
 //
 
+@import AudioToolbox;
+
 #import "Utilities.h"
 #import "MemoransOverlayView.h"
 
@@ -72,8 +74,8 @@
         animations:^{ overlayView.center = overlayView.superview.center; }
         completion:^(BOOL finished) {
             [UIView animateWithDuration:duration
-                             animations:^{ overlayView.alpha = 0; }
-                             completion:nil];
+                animations:^{ overlayView.alpha = 0; }
+                completion:^(BOOL finished) { [overlayView removeFromSuperview]; }];
         }];
 }
 
@@ -99,6 +101,43 @@
         NSStrokeColorAttributeName : [UIColor blackColor],
         NSParagraphStyleAttributeName : paragraphStyle,
     };
+}
+
++ (void)playSoundEffectFromResource:(NSString *)fileName ofType:(NSString *)fileType
+{
+    if (!([@[ @"caf", @"aif", @"wav" ] containsObject:fileType]))
+    {
+        return;
+    }
+
+    dispatch_queue_t globalDefaultQueue =
+        dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+
+    dispatch_async(globalDefaultQueue, ^(void) {
+
+        NSString *soundEffectPath =
+            [[NSBundle mainBundle] pathForResource:fileName ofType:fileType];
+
+        CFURLRef soundEffectUrl = CFBridgingRetain([NSURL fileURLWithPath:soundEffectPath]);
+
+        SystemSoundID soundEffect;
+
+        AudioServicesCreateSystemSoundID(soundEffectUrl, &soundEffect);
+
+        CFRelease(soundEffectUrl);
+
+        AudioServicesAddSystemSoundCompletion(soundEffect, NULL, NULL, disposeSoundEffect, NULL);
+
+        AudioServicesPlaySystemSound(soundEffect);
+    });
+}
+
+void disposeSoundEffect(soundEffect, inClientData)
+{
+    dispatch_queue_t globalDefaultQueue =
+        dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+
+    dispatch_async(globalDefaultQueue, ^(void) { AudioServicesDisposeSystemSoundID(soundEffect); });
 }
 
 @end

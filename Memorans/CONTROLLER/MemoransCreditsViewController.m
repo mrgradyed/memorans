@@ -7,7 +7,6 @@
 //
 
 #import "MemoransCreditsViewController.h"
-#import "MemoransBackgroundView.h"
 #import "Utilities.h"
 
 @interface MemoransCreditsViewController ()
@@ -23,7 +22,11 @@
 
 #pragma mark - ACTIONS AND NAVIGATION
 
-- (IBAction)backToMenuButtonTouched { [self.navigationController popViewControllerAnimated:YES]; }
+- (IBAction)backToMenuButtonTouched
+{
+    [Utilities playSoundEffectFromResource:@"pop" ofType:@"wav"];
+    [self.navigationController popViewControllerAnimated:YES];
+}
 
 #pragma mark - VIEWS MANAGEMENT AND UPDATE
 
@@ -47,6 +50,8 @@
     self.creditsText.selectable = YES;
     self.creditsText.dataDetectorTypes = UIDataDetectorTypeLink;
     self.creditsText.backgroundColor = [UIColor clearColor];
+
+    [self.view sendSubviewToBack:self.creditsText];
 }
 
 - (BOOL)prefersStatusBarHidden { return YES; }

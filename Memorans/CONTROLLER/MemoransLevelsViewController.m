@@ -8,7 +8,6 @@
 
 #import "MemoransLevelsViewController.h"
 #import "MemoransGameViewController.h"
-#import "MemoransBackgroundView.h"
 #import "MemoransLevelButton.h"
 #import "MemoransSharedLevelsPack.h"
 #import "MemoransGameLevel.h"
@@ -25,8 +24,6 @@
 
 #pragma mark - PROPERTIES
 
-@property(strong, nonatomic) MemoransOverlayView *chooseLevelOverlay;
-
 @property(strong, nonatomic) MemoransSharedLevelsPack *sharedLevelsPack;
 
 @end
@@ -34,21 +31,6 @@
 @implementation MemoransLevelsViewController
 
 #pragma mark - SETTERS AND GETTERS
-
-- (MemoransOverlayView *)chooseLevelOverlay
-{
-    if (!_chooseLevelOverlay)
-    {
-        _chooseLevelOverlay = [[MemoransOverlayView alloc]
-            initWithString:@"Pick a level!"
-                  andColor:[Utilities colorFromHEXString:@"#C643FC" withAlpha:1]
-               andFontSize:180];
-
-        [self.view addSubview:_chooseLevelOverlay];
-    }
-
-    return _chooseLevelOverlay;
-}
 
 - (MemoransSharedLevelsPack *)sharedLevelsPack
 {
@@ -62,12 +44,18 @@
 
 #pragma mark - ACTIONS AND NAVIGATION
 
-- (IBAction)backToMenuButtonTouched { [self.navigationController popViewControllerAnimated:YES]; }
+- (IBAction)backToMenuButtonTouched
+{
+    [Utilities playSoundEffectFromResource:@"pop" ofType:@"wav"];
+    [self.navigationController popViewControllerAnimated:YES];
+}
 
 - (IBAction)levelButtonTouched:(UIButton *)sender
 {
     if ([sender isKindOfClass:[MemoransLevelButton class]])
     {
+        [Utilities playSoundEffectFromResource:@"pop" ofType:@"wav"];
+
         [self performSegueWithIdentifier:@"toGameController" sender:sender];
     }
 }
@@ -94,7 +82,11 @@
 
     self.view.multipleTouchEnabled = NO;
 
-    ((MemoransBackgroundView *)self.view).backgroundImage = @"HorizontalWaves";
+    UIImageView *backgroundImageView =
+        [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"HorizontalWaves"]];
+
+    [self.view addSubview:backgroundImageView];
+    [self.view sendSubviewToBack:backgroundImageView];
 
     NSAttributedString *backToMenuString = [[NSAttributedString alloc]
         initWithString:@"⬅︎"
@@ -147,7 +139,14 @@
         loopCount++;
     }
 
-    [Utilities animateOverlayView:self.chooseLevelOverlay withDuration:3];
+    MemoransOverlayView *chooseLevelOverlay = [[MemoransOverlayView alloc]
+        initWithString:@"Pick a level!"
+              andColor:[Utilities colorFromHEXString:@"#C643FC" withAlpha:1]
+           andFontSize:180];
+
+    [self.view addSubview:chooseLevelOverlay];
+
+    [Utilities animateOverlayView:chooseLevelOverlay withDuration:2];
 }
 
 - (BOOL)prefersStatusBarHidden { return YES; }

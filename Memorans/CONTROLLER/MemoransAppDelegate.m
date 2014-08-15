@@ -41,9 +41,6 @@
     // If your application supports background execution, this method is called
     // instead of
     // applicationWillTerminate: when the user quits.
-
-    NSLog(@"applicationDidEnterBackground");
-
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application

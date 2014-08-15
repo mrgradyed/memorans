@@ -17,7 +17,7 @@
 
 @property(nonatomic) BOOL shown;
 @property(nonatomic) BOOL paired;
-@property(nonatomic) BOOL tapped;
+@property(nonatomic) BOOL chosen;
 
 @property(nonatomic) CGPoint onBoardCenter;
 
