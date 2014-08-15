@@ -33,11 +33,6 @@
 
 @property(nonatomic, strong) NSArray *endMessages;
 
-@property(nonatomic, strong) MemoransOverlayView *bonusScoreOverlayView;
-@property(nonatomic, strong) MemoransOverlayView *malusScoreOverlayView;
-@property(nonatomic, strong) MemoransOverlayView *endMessageOverlayView;
-@property(nonatomic, strong) MemoransOverlayView *startMessageOverlayView;
-
 @property(nonatomic, strong) MemoransSharedLevelsPack *sharedLevelsPack;
 
 @property(nonatomic, strong) MemoransGameEngine *game;
@@ -98,84 +93,6 @@
     }
 
     return _sharedLevelsPack;
-}
-
-- (MemoransOverlayView *)bonusScoreOverlayView
-{
-    if (!_bonusScoreOverlayView)
-    {
-        _bonusScoreOverlayView = [[MemoransOverlayView alloc]
-            initWithString:nil
-                  andColor:[Utilities colorFromHEXString:@"#C643FC" withAlpha:1]
-               andFontSize:250];
-    }
-
-    if ([self.tileArea.subviews indexOfObject:_bonusScoreOverlayView] == NSNotFound)
-    {
-        [self.tileArea addSubview:_bonusScoreOverlayView];
-    }
-
-    _bonusScoreOverlayView.overlayString =
-        [NSString stringWithFormat:@"+%d", (int)self.game.lastDeltaScore];
-
-    return _bonusScoreOverlayView;
-}
-
-- (MemoransOverlayView *)malusScoreOverlayView
-{
-    if (!_malusScoreOverlayView)
-    {
-        _malusScoreOverlayView = [[MemoransOverlayView alloc]
-            initWithString:nil
-                  andColor:[Utilities colorFromHEXString:@"#FF1300" withAlpha:1]
-               andFontSize:250];
-    }
-
-    if ([self.tileArea.subviews indexOfObject:_malusScoreOverlayView] == NSNotFound)
-    {
-        [self.tileArea addSubview:_malusScoreOverlayView];
-    }
-
-    _malusScoreOverlayView.overlayString =
-        [NSString stringWithFormat:@"%d", (int)self.game.lastDeltaScore];
-
-    return _malusScoreOverlayView;
-}
-
-- (MemoransOverlayView *)endMessageOverlayView
-{
-    if (!_endMessageOverlayView)
-    {
-        _endMessageOverlayView = [[MemoransOverlayView alloc]
-            initWithString:nil
-                  andColor:[Utilities colorFromHEXString:@"#007AFF" withAlpha:1]
-               andFontSize:150];
-    }
-
-    if ([self.tileArea.subviews indexOfObject:_endMessageOverlayView] == NSNotFound)
-    {
-        [self.tileArea addSubview:_endMessageOverlayView];
-    }
-
-    return _endMessageOverlayView;
-}
-
-- (MemoransOverlayView *)startMessageOverlayView
-{
-    if (!_startMessageOverlayView)
-    {
-        _startMessageOverlayView = [[MemoransOverlayView alloc]
-            initWithString:nil
-                  andColor:[Utilities colorFromHEXString:@"#007AFF" withAlpha:1]
-               andFontSize:150];
-    }
-
-    if ([self.tileArea.subviews indexOfObject:_startMessageOverlayView] == NSNotFound)
-    {
-        [self.tileArea addSubview:_startMessageOverlayView];
-    }
-
-    return _startMessageOverlayView;
 }
 
 - (MemoransGameEngine *)game
@@ -263,7 +180,7 @@
 
     if (!tappedTileView.paired)
     {
-        [Utilities animateOverlayView:self.malusScoreOverlayView withDuration:0.8f];
+        [Utilities animateOverlayView:[self malusScoreOverlayView] withDuration:0.8f];
 
         [self addWobblingAnimationToView:self.chosenTileViews[0] withRepeatCount:4];
         [self addWobblingAnimationToView:self.chosenTileViews[1] withRepeatCount:4];
@@ -272,7 +189,7 @@
     }
     else if (tappedTileView.paired)
     {
-        [Utilities animateOverlayView:self.bonusScoreOverlayView withDuration:0.8f];
+        [Utilities animateOverlayView:[self bonusScoreOverlayView ] withDuration:0.8f];
 
         [Utilities playSoundEffectFromResource:@"uiii" ofType:@"wav"];
 
@@ -363,11 +280,13 @@
 
             [self addWobblingAnimationToView:self.nextLevelButton withRepeatCount:40];
 
-            self.endMessageOverlayView.overlayString = [NSString
+            MemoransOverlayView *endMessageOverlayView = [self endMessageOverlayView];
+
+            endMessageOverlayView.overlayString = [NSString
                 stringWithFormat:@"%@",
                                  self.endMessages[self.game.gameScore % [self.endMessages count]]];
 
-            [Utilities animateOverlayView:self.endMessageOverlayView withDuration:2];
+            [Utilities animateOverlayView:endMessageOverlayView withDuration:2];
 
             [self updateUIWithNewGame:NO];
         }
@@ -405,8 +324,6 @@
     self.isWobbling = NO;
 
     self.game = nil;
-
-    self.startMessageOverlayView = nil;
 
     [self updateUIWithNewGame:YES];
 }
@@ -578,11 +495,13 @@ static const NSInteger gTileMargin = 5;
 {
     if (newGame)
     {
+        MemoransOverlayView *startMessageOverlayView = [self startMessageOverlayView];
+
         if ([self currentLevel].hasSave)
         {
             [self resumeGame];
 
-            self.startMessageOverlayView.overlayString = @"Game\nResumed";
+            startMessageOverlayView.overlayString = @"Game\nResumed";
         }
         else
         {
@@ -590,17 +509,17 @@ static const NSInteger gTileMargin = 5;
 
             if (!self.isBadScore)
             {
-                self.startMessageOverlayView.overlayString =
+                startMessageOverlayView.overlayString =
                     [NSString stringWithFormat:@"Level %d\n%@", (int)self.currentLevelNumber + 1,
                                                [self currentLevel].tileSetType];
             }
             else
             {
-                self.startMessageOverlayView.overlayString = @"Bad Score!\nTry Again!";
+                startMessageOverlayView.overlayString = @"Bad Score!\nTry Again!";
             }
         }
 
-        [Utilities animateOverlayView:self.startMessageOverlayView withDuration:2];
+        [Utilities animateOverlayView:startMessageOverlayView withDuration:2];
 
         self.view.userInteractionEnabled = YES;
     }
@@ -635,7 +554,11 @@ static const NSInteger gTileMargin = 5;
 
     self.isBadScore = (self.game.gameScore < 0);
 
-    self.scoreLabel.attributedText = self.scoreAttributedString;
+    self.scoreLabel.attributedText = [[NSMutableAttributedString alloc]
+        initWithString:[NSString stringWithFormat:@"✪ %d", (int)self.game.gameScore]
+            attributes:[Utilities stringAttributesWithAlignement:NSTextAlignmentCenter
+                                                       withColor:nil
+                                                         andSize:60]];
 }
 
 - (void)createAndAnimateTileViews
@@ -690,13 +613,66 @@ static const NSInteger gTileMargin = 5;
     }
 }
 
-- (NSMutableAttributedString *)scoreAttributedString
+- (MemoransOverlayView *)bonusScoreOverlayView
 {
-    return [[NSMutableAttributedString alloc]
-        initWithString:[NSString stringWithFormat:@"✪ %d", (int)self.game.gameScore]
-            attributes:[Utilities stringAttributesWithAlignement:NSTextAlignmentCenter
-                                                       withColor:nil
-                                                         andSize:60]];
+    MemoransOverlayView *bonusScoreOverlayView = [[MemoransOverlayView alloc]
+        initWithString:[NSString stringWithFormat:@"+%d", (int)self.game.lastDeltaScore]
+              andColor:[Utilities colorFromHEXString:@"#C643FC" withAlpha:1]
+           andFontSize:250];
+
+    if ([self.tileArea.subviews indexOfObject:bonusScoreOverlayView] == NSNotFound)
+    {
+        [self.tileArea addSubview:bonusScoreOverlayView];
+    }
+
+    return bonusScoreOverlayView;
+}
+
+- (MemoransOverlayView *)malusScoreOverlayView
+{
+
+    MemoransOverlayView *malusScoreOverlayView = [[MemoransOverlayView alloc]
+        initWithString:[NSString stringWithFormat:@"%d", (int)self.game.lastDeltaScore]
+              andColor:[Utilities colorFromHEXString:@"#FF1300" withAlpha:1]
+           andFontSize:250];
+
+    if ([self.tileArea.subviews indexOfObject:malusScoreOverlayView] == NSNotFound)
+    {
+        [self.tileArea addSubview:malusScoreOverlayView];
+    }
+
+    return malusScoreOverlayView;
+}
+
+- (MemoransOverlayView *)endMessageOverlayView
+{
+
+    MemoransOverlayView *endMessageOverlayView = [[MemoransOverlayView alloc]
+        initWithString:nil
+              andColor:[Utilities colorFromHEXString:@"#007AFF" withAlpha:1]
+           andFontSize:150];
+
+    if ([self.tileArea.subviews indexOfObject:endMessageOverlayView] == NSNotFound)
+    {
+        [self.tileArea addSubview:endMessageOverlayView];
+    }
+
+    return endMessageOverlayView;
+}
+
+- (MemoransOverlayView *)startMessageOverlayView
+{
+    MemoransOverlayView *startMessageOverlayView = [[MemoransOverlayView alloc]
+        initWithString:nil
+              andColor:[Utilities colorFromHEXString:@"#007AFF" withAlpha:1]
+           andFontSize:150];
+
+    if ([self.tileArea.subviews indexOfObject:startMessageOverlayView] == NSNotFound)
+    {
+        [self.tileArea addSubview:startMessageOverlayView];
+    }
+
+    return startMessageOverlayView;
 }
 
 - (void)viewDidLoad
