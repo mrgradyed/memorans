@@ -32,13 +32,13 @@
 
 - (IBAction)playButtonTouched
 {
-    [Utilities playSoundEffectFromResource:@"pop" ofType:@"wav"];
+    [Utilities playPopSound];
 
     [self performSegueWithIdentifier:@"toLevelsController" sender:self];
 }
 - (IBAction)musicButtonTouched
 {
-    [Utilities playSoundEffectFromResource:@"pop" ofType:@"wav"];
+    [Utilities playPopSound];
 
     self.musicOff = !self.musicOff;
 
@@ -64,7 +64,7 @@
 
 - (IBAction)creditsButtonTouched
 {
-    [Utilities playSoundEffectFromResource:@"pop" ofType:@"wav"];
+    [Utilities playPopSound];
 
     [self performSegueWithIdentifier:@"toCreditsController" sender:self];
 }
@@ -145,7 +145,7 @@
 
         self.musicPlayer.delegate = self;
         self.musicPlayer.numberOfLoops = 0;
-        self.musicPlayer.volume = 0.3;
+        self.musicPlayer.volume = 0.4;
 
         [self.musicPlayer prepareToPlay];
         [self.musicPlayer play];

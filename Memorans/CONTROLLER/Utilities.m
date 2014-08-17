@@ -7,13 +7,14 @@
 //
 
 @import AudioToolbox;
+@import AVFoundation;
 
 #import "Utilities.h"
 #import "MemoransOverlayView.h"
 
 @implementation Utilities
 
-#pragma mark - CLASS METHODS
+#pragma mark - UTILITY METHODS
 
 + (UIColor *)colorFromHEXString:(NSString *)hexString withAlpha:(CGFloat)alpha
 {
@@ -103,7 +104,9 @@
     };
 }
 
-+ (void)playSoundEffectFromResource:(NSString *)fileName ofType:(NSString *)fileType
+#pragma mark - SYSTEM SOUNDS
+
++ (void)playSystemSoundEffectFromResource:(NSString *)fileName ofType:(NSString *)fileType
 {
     if (!([@[ @"caf", @"aif", @"wav" ] containsObject:fileType]))
     {
@@ -138,6 +141,106 @@ void disposeSoundEffect(soundEffect, inClientData)
         dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
 
     dispatch_async(globalDefaultQueue, ^(void) { AudioServicesDisposeSystemSoundID(soundEffect); });
+}
+
+#pragma mark - SOUNDS EFFECTS VIA AVAudioPlayer
+
++ (dispatch_queue_t)sharedSoundEffectsSerialQueue
+{
+    static dispatch_queue_t soundEffectsSerialQueue;
+
+    static dispatch_once_t blockHasCompleted;
+
+    dispatch_once(&blockHasCompleted, ^{
+
+        soundEffectsSerialQueue =
+            dispatch_queue_create("SOUND_EFFECTS_SERIAL_QUEUE", DISPATCH_QUEUE_SERIAL);
+    });
+
+    return soundEffectsSerialQueue;
+}
+
++ (void)playPopSound
+{
+
+    dispatch_async([Utilities sharedSoundEffectsSerialQueue], ^(void) {
+
+        popSoundPlayer.currentTime = 0;
+
+        [popSoundPlayer play];
+    });
+}
+
++ (void)playIiiiSound
+{
+
+    dispatch_async([Utilities sharedSoundEffectsSerialQueue], ^(void) {
+
+        iiiiSoundPlayer.currentTime = 0;
+
+        [iiiiSoundPlayer play];
+    });
+}
+
++ (void)playUiiiSound
+{
+
+    dispatch_async([Utilities sharedSoundEffectsSerialQueue], ^(void) {
+
+        uiiiSoundPlayer.currentTime = 0;
+
+        [uiiiSoundPlayer play];
+    });
+}
+
++ (void)playUeeeSound
+{
+
+    dispatch_async([Utilities sharedSoundEffectsSerialQueue], ^(void) {
+
+        [uuueSoundPlayer stop];
+
+        uuueSoundPlayer.currentTime = 0;
+
+        [uuueSoundPlayer play];
+    });
+}
+
++ (AVAudioPlayer *)audioPlayerFromResource:(NSString *)fileName ofType:(NSString *)fileType
+{
+    NSBundle *appBundle = [NSBundle mainBundle];
+
+    NSData *soundData =
+        [NSData dataWithContentsOfFile:[appBundle pathForResource:fileName ofType:fileType]];
+
+    NSError *error;
+
+    AVAudioPlayer *player;
+
+    player = [[AVAudioPlayer alloc] initWithData:soundData error:&error];
+
+    player.numberOfLoops = 0;
+    player.volume = 0.8;
+
+    return player;
+}
+
+#pragma mark - CLASS INIT
+
+static AVAudioPlayer *popSoundPlayer;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+static AVAudioPlayer *iiiiSoundPlayer;
+static AVAudioPlayer *uiiiSoundPlayer;
+static AVAudioPlayer *uuueSoundPlayer;
+
++ (void)initialize
+{
+    if (self == [Utilities self])
+    {
+        popSoundPlayer = [Utilities audioPlayerFromResource:@"pop" ofType:@"caf"];
+        iiiiSoundPlayer = [Utilities audioPlayerFromResource:@"iiii" ofType:@"caf"];
+        uiiiSoundPlayer = [Utilities audioPlayerFromResource:@"uiii" ofType:@"caf"];
+        uuueSoundPlayer = [Utilities audioPlayerFromResource:@"uuue" ofType:@"caf"];
+    }
 }
 
 @end

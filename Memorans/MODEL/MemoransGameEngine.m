@@ -71,10 +71,15 @@
 
     NSInteger notPairedTilesCount = tileInGameCount - self.pairedTilesInGameCount;
 
-    return (notPairedTilesCount / 2) + (tileInGameCount / 10);
+    return (notPairedTilesCount / 2) + (tileInGameCount / 6) + 1;
 }
 
-- (NSInteger)notPairedMalus { return -((self.pairedTilesInGameCount / 3) + 1); }
+- (NSInteger)notPairedMalus
+{
+    NSInteger malus = -((self.pairedTilesInGameCount / 2) + 1);
+
+    return malus > 9 ? 9 : malus;
+}
 
 - (void)playGameTileAtIndex:(NSInteger)tileIndex
 {
@@ -91,6 +96,7 @@
     }
 
     selectedTile.selected = YES;
+    selectedTile.tilePoints--;
 
     if (!self.previousSelectedTile)
     {
@@ -100,7 +106,10 @@
     {
         if ([selectedTile isEqualToTile:self.previousSelectedTile])
         {
-            self.gameScore += [self pairedBonus];
+            NSInteger actualBonus = [self pairedBonus] + (selectedTile.tilePoints +
+                                                          self.previousSelectedTile.tilePoints);
+
+            self.gameScore += actualBonus < 3 ? 3 : actualBonus;
 
             selectedTile.paired = YES;
 

@@ -33,6 +33,8 @@
     {
         _hasSave = NO;
     }
+
+    [[MemoransSharedLevelsPack sharedLevelsPack] archiveLevelsStatus];
 }
 
 #pragma mark - CLASS METHODS

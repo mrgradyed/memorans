@@ -33,12 +33,12 @@
 
 @property(nonatomic, strong) NSArray *endMessages;
 
-@property(nonatomic, strong) MemoransSharedLevelsPack *sharedLevelsPack;
-
 @property(nonatomic, strong) MemoransGameEngine *game;
 
-@property(nonatomic) BOOL isWobbling;
+@property(nonatomic) NSInteger wobblingTilesCount;
+
 @property(nonatomic) BOOL isBadScore;
+@property(nonatomic) BOOL isLevelCompleted;
 
 @end
 
@@ -85,16 +85,6 @@
     return _endMessages;
 }
 
-- (MemoransSharedLevelsPack *)sharedLevelsPack
-{
-    if (!_sharedLevelsPack)
-    {
-        _sharedLevelsPack = [MemoransSharedLevelsPack sharedLevelsPack];
-    }
-
-    return _sharedLevelsPack;
-}
-
 - (MemoransGameEngine *)game
 {
     if (!_game)
@@ -107,7 +97,7 @@
 
 - (void)setCurrentLevelNumber:(NSInteger)currentLevelNumber
 {
-    if (currentLevelNumber >= 0 && currentLevelNumber < [self.sharedLevelsPack.levelsPack count])
+    if (currentLevelNumber >= 0 && currentLevelNumber < [[self levelsPack] count])
     {
         _currentLevelNumber = currentLevelNumber;
     }
@@ -117,21 +107,24 @@
 
 - (IBAction)restartGameButtonTouched
 {
-    [Utilities playSoundEffectFromResource:@"pop" ofType:@"wav"];
+
+    [Utilities playPopSound];
 
     [self restartGameWithNextLevel:NO];
 }
 
 - (IBAction)nextLevelButtonTouched
 {
-    [Utilities playSoundEffectFromResource:@"pop" ofType:@"wav"];
+
+    [Utilities playUiiiSound];
 
     [self restartGameWithNextLevel:YES];
 }
 
 - (IBAction)backToMenuButtonTouched
 {
-    [Utilities playSoundEffectFromResource:@"pop" ofType:@"wav"];
+
+    [Utilities playPopSound];
 
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -152,7 +145,7 @@
 
 - (void)flipAndPlayTappedTileView:(MemoransTileView *)tappedTileView
 {
-    [Utilities playSoundEffectFromResource:@"uuue" ofType:@"wav"];
+    [Utilities playUeeeSound];
 
     [UIView transitionWithView:tappedTileView
         duration:0.3f
@@ -185,13 +178,13 @@
         [self addWobblingAnimationToView:self.chosenTileViews[0] withRepeatCount:4];
         [self addWobblingAnimationToView:self.chosenTileViews[1] withRepeatCount:4];
 
-        [Utilities playSoundEffectFromResource:@"iiii" ofType:@"wav"];
+        [Utilities playIiiiSound];
     }
     else if (tappedTileView.paired)
     {
-        [Utilities animateOverlayView:[self bonusScoreOverlayView ] withDuration:0.8f];
+        [Utilities animateOverlayView:[self bonusScoreOverlayView] withDuration:0.8f];
 
-        [Utilities playSoundEffectFromResource:@"uiii" ofType:@"wav"];
+        [Utilities playUiiiSound];
 
         for (MemoransTileView *tileView in self.chosenTileViews)
         {
@@ -258,12 +251,12 @@
         }
         else
         {
-            [self levelFinished];
+            [self completeLevel];
         }
     }
 }
 
-- (void)levelFinished
+- (void)completeLevel
 {
     if ([self.tileViewsLeft count] == 0)
     {
@@ -273,6 +266,8 @@
 
             [self currentLevel].hasSave = NO;
         }
+
+        self.isLevelCompleted = YES;
 
         if (!self.isBadScore)
         {
@@ -320,10 +315,9 @@
     self.tileViews = nil;
     self.tileViewsLeft = nil;
     self.chosenTileViews = nil;
-
-    self.isWobbling = NO;
-
     self.game = nil;
+
+    self.wobblingTilesCount = 0;
 
     [self updateUIWithNewGame:YES];
 }
@@ -362,24 +356,26 @@
     }
 }
 
+- (NSArray *)levelsPack { return [MemoransSharedLevelsPack sharedLevelsPack].levelsPack; }
+
 - (MemoransGameLevel *)currentLevel
 {
-    if (self.currentLevelNumber > [self.sharedLevelsPack.levelsPack count] - 1)
+    if (self.currentLevelNumber > [[self levelsPack] count] - 1)
     {
         return nil;
     }
 
-    return (MemoransGameLevel *)self.sharedLevelsPack.levelsPack[self.currentLevelNumber];
+    return (MemoransGameLevel *)[self levelsPack][self.currentLevelNumber];
 }
 
 - (MemoransGameLevel *)nextLevel
 {
-    if (self.currentLevelNumber + 1 > [self.sharedLevelsPack.levelsPack count] - 1)
+    if (self.currentLevelNumber + 1 > [[self levelsPack] count] - 1)
     {
         return nil;
     }
 
-    return (MemoransGameLevel *)self.sharedLevelsPack.levelsPack[self.currentLevelNumber + 1];
+    return (MemoransGameLevel *)[self levelsPack][self.currentLevelNumber + 1];
 }
 
 #pragma mark - CAAnimation AND CAAnimation DELEGATE METHODS
@@ -403,30 +399,33 @@
     [view.layer addAnimation:wobbling forKey:@"wobbling"];
 }
 
-- (void)animationDidStart:(CAAnimation *)anim { self.isWobbling = YES; }
+- (void)animationDidStart:(CAAnimation *)anim { self.wobblingTilesCount++; }
 
 - (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag
 {
-    if (!self.isWobbling)
+    if (!self.wobblingTilesCount)
     {
         return;
     }
 
-    self.isWobbling = NO;
+    self.wobblingTilesCount--;
 
-    for (MemoransTileView *tileView in self.chosenTileViews)
+    if (!self.wobblingTilesCount)
     {
-        [UIView transitionWithView:tileView
-            duration:0.3f
-            options:UIViewAnimationOptionTransitionFlipFromLeft
-            animations:^{ tileView.shown = NO; }
-            completion:^(BOOL finished) {
+        for (MemoransTileView *tileView in self.chosenTileViews)
+        {
+            [UIView transitionWithView:tileView
+                duration:0.3f
+                options:UIViewAnimationOptionTransitionFlipFromLeft
+                animations:^{ tileView.shown = NO; }
+                completion:^(BOOL finished) {
 
-                if ([self.chosenTileViews indexOfObject:tileView] == 1)
-                {
-                    [self finishAndSave];
-                }
-            }];
+                    if ([self.chosenTileViews indexOfObject:tileView] == 1)
+                    {
+                        [self finishAndSave];
+                    }
+                }];
+        }
     }
 }
 
@@ -507,21 +506,21 @@ static const NSInteger gTileMargin = 5;
         {
             [self createAndAnimateTileViews];
 
-            if (!self.isBadScore)
+            if (self.isBadScore && self.isLevelCompleted)
+            {
+                startMessageOverlayView.overlayString = @"Bad Score\nTry Again!";
+            }
+            else
             {
                 startMessageOverlayView.overlayString =
                     [NSString stringWithFormat:@"Level %d\n%@", (int)self.currentLevelNumber + 1,
                                                [self currentLevel].tileSetType];
             }
-            else
-            {
-                startMessageOverlayView.overlayString = @"Bad Score!\nTry Again!";
-            }
         }
 
         [Utilities animateOverlayView:startMessageOverlayView withDuration:2];
 
-        self.view.userInteractionEnabled = YES;
+        self.isLevelCompleted = NO;
     }
 
     if ([self.tileViews count] < 6)
@@ -726,7 +725,7 @@ static const NSInteger gTileMargin = 5;
 {
     [super viewWillDisappear:animated];
 
-    [self.sharedLevelsPack archiveLevelsStatus];
+    [[MemoransSharedLevelsPack sharedLevelsPack] archiveLevelsStatus];
 }
 
 - (BOOL)prefersStatusBarHidden { return YES; }

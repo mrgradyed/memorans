@@ -22,6 +22,14 @@
                                        withColor:(UIColor *)color
                                          andSize:(CGFloat)size;
 
-+ (void)playSoundEffectFromResource:(NSString *)fileName ofType:(NSString *)fileType;
++ (void)playSystemSoundEffectFromResource:(NSString *)fileName ofType:(NSString *)fileType;
+
++ (void)playPopSound;
+
++ (void)playIiiiSound;
+
++ (void)playUiiiSound;
+
++ (void)playUeeeSound;
 
 @end

@@ -79,6 +79,7 @@
     if (self)
     {
         _tileValue = [aDecoder decodeIntegerForKey:@"tileValue"];
+        _tilePoints = [aDecoder decodeIntegerForKey:@"_tilePoints"];
 
         _tileSetType = [aDecoder decodeObjectForKey:@"tileSetType"];
         _tileID = [aDecoder decodeObjectForKey:@"tileID"];
@@ -93,6 +94,8 @@
 - (void)encodeWithCoder:(NSCoder *)aCoder
 {
     [aCoder encodeInteger:self.tileValue forKey:@"tileValue"];
+    [aCoder encodeInteger:self.tilePoints forKey:@"_tilePoints"];
+
 
     [aCoder encodeObject:self.tileSetType forKey:@"tileSetType"];
     [aCoder encodeObject:self.tileID forKey:@"tileID"];

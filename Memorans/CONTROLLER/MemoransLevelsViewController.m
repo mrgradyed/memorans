@@ -22,31 +22,16 @@
 
 @property(weak, nonatomic) IBOutlet UIButton *backToMenuButton;
 
-#pragma mark - PROPERTIES
-
-@property(strong, nonatomic) MemoransSharedLevelsPack *sharedLevelsPack;
-
 @end
 
 @implementation MemoransLevelsViewController
-
-#pragma mark - SETTERS AND GETTERS
-
-- (MemoransSharedLevelsPack *)sharedLevelsPack
-{
-    if (!_sharedLevelsPack)
-    {
-        _sharedLevelsPack = [MemoransSharedLevelsPack sharedLevelsPack];
-    }
-
-    return _sharedLevelsPack;
-}
 
 #pragma mark - ACTIONS AND NAVIGATION
 
 - (IBAction)backToMenuButtonTouched
 {
-    [Utilities playSoundEffectFromResource:@"pop" ofType:@"wav"];
+    [Utilities playPopSound];
+
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -54,7 +39,7 @@
 {
     if ([sender isKindOfClass:[MemoransLevelButton class]])
     {
-        [Utilities playSoundEffectFromResource:@"pop" ofType:@"wav"];
+        [Utilities playPopSound];
 
         [self performSegueWithIdentifier:@"toGameController" sender:sender];
     }
@@ -104,7 +89,8 @@
 
     for (MemoransLevelButton *levelButton in self.levelButtonViews)
     {
-        level = (MemoransGameLevel *)self.sharedLevelsPack.levelsPack[loopCount];
+        level =
+            (MemoransGameLevel *)[MemoransSharedLevelsPack sharedLevelsPack].levelsPack[loopCount];
 
         NSString *levelButtonImage =
             [NSString stringWithFormat:@"Level%d%@", (int)level.tilesInLevel, level.tileSetType];
@@ -132,7 +118,8 @@
 
     for (MemoransLevelButton *levelButton in self.levelButtonViews)
     {
-        level = (MemoransGameLevel *)self.sharedLevelsPack.levelsPack[loopCount];
+        level =
+            (MemoransGameLevel *)[MemoransSharedLevelsPack sharedLevelsPack].levelsPack[loopCount];
 
         levelButton.enabled = level.unlocked;
 

@@ -13,6 +13,7 @@
 #pragma mark - PUBLIC PROPERTIES
 
 @property(nonatomic) NSInteger tileValue;
+@property(nonatomic) NSInteger tilePoints;
 
 @property(strong, nonatomic) NSString *tileSetType;
 @property(strong, nonatomic, readonly) NSString *tileID;

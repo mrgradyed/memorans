@@ -18,9 +18,9 @@
 {
     static MemoransSharedLevelsPack *sharedLevelsPack;
 
-    static dispatch_once_t gBlockHasCompleted;
+    static dispatch_once_t blockHasCompleted;
 
-    dispatch_once(&gBlockHasCompleted, ^{ sharedLevelsPack = [[self alloc] initActually]; });
+    dispatch_once(&blockHasCompleted, ^{ sharedLevelsPack = [[self alloc] initActually]; });
 
     return sharedLevelsPack;
 }

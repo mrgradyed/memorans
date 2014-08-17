@@ -24,7 +24,7 @@
 
 - (IBAction)backToMenuButtonTouched
 {
-    [Utilities playSoundEffectFromResource:@"pop" ofType:@"wav"];
+    [Utilities playPopSound];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
