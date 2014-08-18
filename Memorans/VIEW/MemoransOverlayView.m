@@ -70,11 +70,11 @@
     {
         NSString *overString = self.overlayString ? self.overlayString : @"!?";
 
-        _overlayAttributedString = [[NSAttributedString alloc]
-            initWithString:overString
-                attributes:[Utilities stringAttributesWithAlignement:NSTextAlignmentCenter
-                                                           withColor:self.overlayColor
-                                                             andSize:self.fontSize]];
+        _overlayAttributedString =
+            [Utilities defaultStyledAttributedStringWithString:overString
+                                                 andAlignement:NSTextAlignmentCenter
+                                                      andColor:self.overlayColor
+                                                       andSize:self.fontSize];
     }
 
     return _overlayAttributedString;

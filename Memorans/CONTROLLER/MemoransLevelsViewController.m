@@ -73,11 +73,11 @@
     [self.view addSubview:backgroundImageView];
     [self.view sendSubviewToBack:backgroundImageView];
 
-    NSAttributedString *backToMenuString = [[NSAttributedString alloc]
-        initWithString:@"⬅︎"
-            attributes:[Utilities stringAttributesWithAlignement:NSTextAlignmentLeft
-                                                       withColor:nil
-                                                         andSize:60]];
+    NSAttributedString *backToMenuString =
+        [Utilities defaultStyledAttributedStringWithString:@"⬅︎"
+                                             andAlignement:NSTextAlignmentLeft
+                                                  andColor:nil
+                                                   andSize:60];
 
     [self.backToMenuButton setAttributedTitle:backToMenuString forState:UIControlStateNormal];
 

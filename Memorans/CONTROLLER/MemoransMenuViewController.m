@@ -10,6 +10,8 @@
 
 #import "MemoransMenuViewController.h"
 #import "Utilities.h"
+#import "MemoransBehavior.h"
+#import "MemoransTile.h"
 
 @interface MemoransMenuViewController () <AVAudioPlayerDelegate>
 
@@ -18,15 +20,45 @@
 @property(weak, nonatomic) IBOutlet UIButton *playButton;
 @property(weak, nonatomic) IBOutlet UIButton *musicButton;
 @property(weak, nonatomic) IBOutlet UIButton *creditsButton;
+@property(weak, nonatomic) IBOutlet UIButton *soundEffectsButton;
+
+#pragma mark - PROPERTIES
+
+@property(strong, nonatomic) UIDynamicAnimator *dynamicAnimator;
+
+@property(strong, nonatomic) NSMutableArray *monsterViews;
 
 @property(strong, nonatomic) AVAudioPlayer *musicPlayer;
 
 @property(nonatomic) BOOL playingFirstTrack;
 @property(nonatomic) BOOL musicOff;
+@property(nonatomic) BOOL soundsOff;
 
 @end
 
 @implementation MemoransMenuViewController
+
+#pragma mark - SETTERS AND GETTERS
+
+- (UIDynamicAnimator *)dynamicAnimator
+{
+    if (!_dynamicAnimator)
+    {
+        _dynamicAnimator = [[UIDynamicAnimator alloc] initWithReferenceView:self.view];
+    }
+
+    return _dynamicAnimator;
+}
+
+- (NSMutableArray *)monsterViews
+{
+    if (!_monsterViews)
+    {
+        _monsterViews = [[NSMutableArray alloc] initWithCapacity:2];
+    }
+
+    return _monsterViews;
+}
 
 #pragma mark - ACTIONS AND NAVIGATION
 
@@ -38,17 +70,9 @@
 }
 - (IBAction)musicButtonTouched
 {
-    [Utilities playPopSound];
-
     self.musicOff = !self.musicOff;
 
-    NSAttributedString *musicButtonString = [[NSAttributedString alloc]
-        initWithString:self.musicOff ? @"Music: Off" : @"Music: On"
-            attributes:[Utilities stringAttributesWithAlignement:NSTextAlignmentCenter
-                                                       withColor:nil
-                                                         andSize:80]];
-
-    [self.musicButton setAttributedTitle:musicButtonString forState:UIControlStateNormal];
+    [Utilities playPopSound];
 
     if (self.musicOff)
     {
@@ -60,6 +84,37 @@
         [self startPlayingMusicFromResource:@"JauntyGumption" ofType:@"mp3"];
         self.playingFirstTrack = YES;
     }
+
+    NSAttributedString *musicButtonString = [Utilities
+        defaultStyledAttributedStringWithString:self.musicOff ? @"Music: Off" : @"Music: On"
+                                  andAlignement:NSTextAlignmentCenter
+                                       andColor:nil
+                                        andSize:70];
+
+    [self.musicButton setAttributedTitle:musicButtonString forState:UIControlStateNormal];
+}
+- (IBAction)soundEffectsButtonTouched
+{
+    self.soundsOff = !self.soundsOff;
+
+    if (self.soundsOff)
+    {
+        gSoundsOff = YES;
+    }
+    else
+    {
+        gSoundsOff = NO;
+    }
+
+    [Utilities playPopSound];
+
+    NSAttributedString *soundsButtonString = [Utilities
+        defaultStyledAttributedStringWithString:self.soundsOff ? @"Sounds: Off" : @"Sounds: On"
+                                  andAlignement:NSTextAlignmentCenter
+                                       andColor:nil
+                                        andSize:70];
+
+    [self.soundEffectsButton setAttributedTitle:soundsButtonString forState:UIControlStateNormal];
 }
 
 - (IBAction)creditsButtonTouched
@@ -85,31 +140,41 @@
     [self.view addSubview:backgroundImageView];
     [self.view sendSubviewToBack:backgroundImageView];
 
-    NSAttributedString *playGameString = [[NSAttributedString alloc]
-        initWithString:@"Play"
-            attributes:[Utilities stringAttributesWithAlignement:NSTextAlignmentCenter
-                                                       withColor:nil
-                                                         andSize:80]];
+    NSAttributedString *playGameString =
+        [Utilities defaultStyledAttributedStringWithString:@"Play"
+                                             andAlignement:NSTextAlignmentCenter
+                                                  andColor:nil
+                                                   andSize:70];
 
     [self.playButton setAttributedTitle:playGameString forState:UIControlStateNormal];
 
     self.playButton.exclusiveTouch = YES;
 
-    NSAttributedString *musicButtonString = [[NSAttributedString alloc]
-        initWithString:@"Music: On"
-            attributes:[Utilities stringAttributesWithAlignement:NSTextAlignmentCenter
-                                                       withColor:nil
-                                                         andSize:80]];
+    NSAttributedString *musicButtonString =
+        [Utilities defaultStyledAttributedStringWithString:@"Music: On"
+                                             andAlignement:NSTextAlignmentCenter
+                                                  andColor:nil
+                                                   andSize:70];
 
     [self.musicButton setAttributedTitle:musicButtonString forState:UIControlStateNormal];
 
     self.musicButton.exclusiveTouch = YES;
 
-    NSAttributedString *creditsString = [[NSAttributedString alloc]
-        initWithString:@"Credits"
-            attributes:[Utilities stringAttributesWithAlignement:NSTextAlignmentCenter
-                                                       withColor:nil
-                                                         andSize:80]];
+    NSAttributedString *soundsButtonString =
+        [Utilities defaultStyledAttributedStringWithString:@"Sounds On"
+                                             andAlignement:NSTextAlignmentCenter
+                                                  andColor:nil
+                                                   andSize:70];
+
+    [self.soundEffectsButton setAttributedTitle:soundsButtonString forState:UIControlStateNormal];
+
+    self.soundEffectsButton.exclusiveTouch = YES;
+
+    NSAttributedString *creditsString =
+        [Utilities defaultStyledAttributedStringWithString:@"Credits"
+                                             andAlignement:NSTextAlignmentCenter
+                                                  andColor:nil
+                                                   andSize:70];
 
     [self.creditsButton setAttributedTitle:creditsString forState:UIControlStateNormal];
 
@@ -117,6 +182,70 @@
 
     [self startPlayingMusicFromResource:@"JauntyGumption" ofType:@"mp3"];
     self.playingFirstTrack = YES;
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+
+    [super viewWillDisappear:animated];
+
+    [self.monsterViews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    self.monsterViews = nil;
+    self.dynamicAnimator = nil;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+
+    [self addAndAnimateMonsterViews];
+
+    [self.view bringSubviewToFront:self.playButton];
+    [self.view bringSubviewToFront:self.musicButton];
+    [self.view bringSubviewToFront:self.creditsButton];
+}
+
+#pragma mark - ANIMATIONS
+
+- (void)addAndAnimateMonsterViews
+{
+    NSInteger prevRandomImageIndex = 0;
+    NSInteger randomImageIndex = 0;
+    UIImage *monsterImage;
+    UIImageView *monsterImageView;
+
+    for (int i = 0; i < 2; i++)
+    {
+        while (prevRandomImageIndex == randomImageIndex)
+        {
+            randomImageIndex = (arc4random() % 20) + 1;
+        }
+
+        prevRandomImageIndex = randomImageIndex;
+
+        monsterImage =
+            [UIImage imageNamed:[NSString stringWithFormat:@"Happy%d", (int)randomImageIndex]];
+
+        monsterImageView = [[UIImageView alloc] initWithImage:monsterImage];
+
+        if (!i)
+        {
+            monsterImageView.center = CGPointMake(monsterImageView.frame.size.width, 0);
+        }
+        else
+        {
+            monsterImageView.center =
+                CGPointMake(self.view.frame.size.width - (monsterImageView.frame.size.width), 0);
+        }
+
+        [self.monsterViews addObject:monsterImageView];
+
+        [self.view addSubview:monsterImageView];
+    }
+
+    MemoransBehavior *memoransBehavior = [[MemoransBehavior alloc] initWithItems:self.monsterViews];
+
+    [self.dynamicAnimator addBehavior:memoransBehavior];
 }
 
 - (BOOL)prefersStatusBarHidden { return YES; }

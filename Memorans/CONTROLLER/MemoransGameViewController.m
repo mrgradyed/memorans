@@ -553,11 +553,12 @@ static const NSInteger gTileMargin = 5;
 
     self.isBadScore = (self.game.gameScore < 0);
 
-    self.scoreLabel.attributedText = [[NSMutableAttributedString alloc]
-        initWithString:[NSString stringWithFormat:@"✪ %d", (int)self.game.gameScore]
-            attributes:[Utilities stringAttributesWithAlignement:NSTextAlignmentCenter
-                                                       withColor:nil
-                                                         andSize:60]];
+    self.scoreLabel.attributedText = [Utilities
+        defaultStyledAttributedStringWithString:[NSString stringWithFormat:@"✪ %d",
+                                                                           (int)self.game.gameScore]
+                                  andAlignement:NSTextAlignmentCenter
+                                       andColor:nil
+                                        andSize:60];
 }
 
 - (void)createAndAnimateTileViews
@@ -572,6 +573,8 @@ static const NSInteger gTileMargin = 5;
         [MemoransTileView allowedTileViewBacks][self.currentLevelNumber %
                                                 [[MemoransTileView allowedTileViewBacks] count]];
 
+    NSInteger tileYOffset;
+
     for (int i = 0; i < self.numOfTilesRows; i++)
     {
         for (int j = 0; j < self.numOfTilesCols; j++)
@@ -582,10 +585,11 @@ static const NSInteger gTileMargin = 5;
 
             tileView.onBoardCenter = tileView.center;
 
-            tileView.center = CGPointMake(
-                tileOnBoardFrame.origin.x + tileOnBoardFrame.size.width / 2,
-                (self.view.frame.origin.y - arc4random() % (int)self.view.frame.size.height) -
-                    tileView.bounds.size.height);
+            tileYOffset = arc4random() % (int)self.view.frame.size.height;
+
+            tileView.center =
+                CGPointMake(tileOnBoardFrame.origin.x + tileOnBoardFrame.size.width / 2,
+                            (self.view.frame.origin.y - tileYOffset) - tileView.frame.size.height);
 
             tileView.tileBackImage = tileBackImage;
 
@@ -686,31 +690,31 @@ static const NSInteger gTileMargin = 5;
     [self.view addSubview:backgroundImageView];
     [self.view sendSubviewToBack:backgroundImageView];
 
-    NSAttributedString *restartGameString = [[NSAttributedString alloc]
-        initWithString:@"↺"
-            attributes:[Utilities stringAttributesWithAlignement:NSTextAlignmentLeft
-                                                       withColor:nil
-                                                         andSize:60]];
+    NSAttributedString *restartGameString =
+        [Utilities defaultStyledAttributedStringWithString:@"↺"
+                                             andAlignement:NSTextAlignmentCenter
+                                                  andColor:nil
+                                                   andSize:60];
 
     [self.restartGameButton setAttributedTitle:restartGameString forState:UIControlStateNormal];
 
     self.restartGameButton.exclusiveTouch = YES;
 
-    NSAttributedString *nextLevelString = [[NSAttributedString alloc]
-        initWithString:@"➤"
-            attributes:[Utilities stringAttributesWithAlignement:NSTextAlignmentRight
-                                                       withColor:nil
-                                                         andSize:60]];
+    NSAttributedString *nextLevelString =
+        [Utilities defaultStyledAttributedStringWithString:@"➤"
+                                             andAlignement:NSTextAlignmentRight
+                                                  andColor:nil
+                                                   andSize:60];
 
     [self.nextLevelButton setAttributedTitle:nextLevelString forState:UIControlStateNormal];
 
     self.nextLevelButton.exclusiveTouch = YES;
 
-    NSAttributedString *backToLevelsString = [[NSAttributedString alloc]
-        initWithString:@"⬅︎"
-            attributes:[Utilities stringAttributesWithAlignement:NSTextAlignmentLeft
-                                                       withColor:nil
-                                                         andSize:60]];
+    NSAttributedString *backToLevelsString =
+        [Utilities defaultStyledAttributedStringWithString:@"⬅︎"
+                                             andAlignement:NSTextAlignmentLeft
+                                                  andColor:nil
+                                                   andSize:60];
 
     [self.backToLevelsButton setAttributedTitle:backToLevelsString forState:UIControlStateNormal];
 

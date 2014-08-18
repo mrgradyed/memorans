@@ -95,7 +95,7 @@
         UIImage *backImage = [UIImage imageNamed:self.tileBackImage];
 
         [backImage drawInRect:self.bounds];
-
+/*
         // JUST FOR TESTING, TO BE REMOVED - START -
 
         UIFont *backFont =
@@ -115,6 +115,7 @@
         [tileBackString drawInRect:self.bounds];
 
         // JUST FOR TESTING, TO BE REMOVED - END -
+ */
     }
 }
 

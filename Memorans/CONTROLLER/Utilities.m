@@ -14,7 +14,7 @@
 
 @implementation Utilities
 
-#pragma mark - UTILITY METHODS
+#pragma mark - COLOR CONVERTER
 
 + (UIColor *)colorFromHEXString:(NSString *)hexString withAlpha:(CGFloat)alpha
 {
@@ -65,6 +65,8 @@
                            alpha:alpha];
 }
 
+#pragma mark - OVERLAYS ANIMATION
+
 + (void)animateOverlayView:(MemoransOverlayView *)overlayView withDuration:(NSTimeInterval)duration
 {
     [overlayView resetView];
@@ -80,9 +82,12 @@
         }];
 }
 
-+ (NSDictionary *)stringAttributesWithAlignement:(NSTextAlignment)alignement
-                                       withColor:(UIColor *)color
-                                         andSize:(CGFloat)size
+#pragma mark - ATTRIBUTED STRINGS
+
++ (NSAttributedString *)defaultStyledAttributedStringWithString:(NSString *)string
+                                                  andAlignement:(NSTextAlignment)alignement
+                                                       andColor:(UIColor *)color
+                                                        andSize:(CGFloat)size
 {
     UIColor *dcolor = color ? color : [Utilities colorFromHEXString:@"#C643FC" withAlpha:1];
 
@@ -94,14 +99,16 @@
 
     paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
 
-    return @
-    {
-        NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-Bold" size:dsize],
-        NSForegroundColorAttributeName : dcolor,
-        NSStrokeWidthAttributeName : @-2,
-        NSStrokeColorAttributeName : [UIColor blackColor],
-        NSParagraphStyleAttributeName : paragraphStyle,
-    };
+    return [[NSAttributedString alloc]
+        initWithString:string
+            attributes:@
+            {
+                NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-Bold" size:dsize],
+                NSForegroundColorAttributeName : dcolor,
+                NSStrokeWidthAttributeName : @-2,
+                NSStrokeColorAttributeName : [UIColor blackColor],
+                NSParagraphStyleAttributeName : paragraphStyle,
+            }];
 }
 
 #pragma mark - SYSTEM SOUNDS
@@ -160,8 +167,14 @@ void disposeSoundEffect(soundEffect, inClientData)
     return soundEffectsSerialQueue;
 }
 
+BOOL gSoundsOff = NO;
+
 + (void)playPopSound
 {
+    if (gSoundsOff)
+    {
+        return;
+    }
 
     dispatch_async([Utilities sharedSoundEffectsSerialQueue], ^(void) {
 
@@ -173,6 +186,10 @@ void disposeSoundEffect(soundEffect, inClientData)
 
 + (void)playIiiiSound
 {
+    if (gSoundsOff)
+    {
+        return;
+    }
 
     dispatch_async([Utilities sharedSoundEffectsSerialQueue], ^(void) {
 
@@ -184,6 +201,10 @@ void disposeSoundEffect(soundEffect, inClientData)
 
 + (void)playUiiiSound
 {
+    if (gSoundsOff)
+    {
+        return;
+    }
 
     dispatch_async([Utilities sharedSoundEffectsSerialQueue], ^(void) {
 
@@ -195,6 +216,10 @@ void disposeSoundEffect(soundEffect, inClientData)
 
 + (void)playUeeeSound
 {
+    if (gSoundsOff)
+    {
+        return;
+    }
 
     dispatch_async([Utilities sharedSoundEffectsSerialQueue], ^(void) {
 
@@ -227,7 +252,7 @@ void disposeSoundEffect(soundEffect, inClientData)
 
 #pragma mark - CLASS INIT
 
-static AVAudioPlayer *popSoundPlayer;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+static AVAudioPlayer *popSoundPlayer;
 static AVAudioPlayer *iiiiSoundPlayer;
 static AVAudioPlayer *uiiiSoundPlayer;
 static AVAudioPlayer *uuueSoundPlayer;

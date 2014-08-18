@@ -18,9 +18,10 @@
 
 + (void)animateOverlayView:(MemoransOverlayView *)overlayView withDuration:(NSTimeInterval)duration;
 
-+ (NSDictionary *)stringAttributesWithAlignement:(NSTextAlignment)alignement
-                                       withColor:(UIColor *)color
-                                         andSize:(CGFloat)size;
++ (NSAttributedString *)defaultStyledAttributedStringWithString:(NSString *)string
+                                                  andAlignement:(NSTextAlignment)alignement
+                                                       andColor:(UIColor *)color
+                                                        andSize:(CGFloat)size;
 
 + (void)playSystemSoundEffectFromResource:(NSString *)fileName ofType:(NSString *)fileType;
 
@@ -31,5 +32,11 @@
 + (void)playUiiiSound;
 
 + (void)playUeeeSound;
+
+
+#pragma mark - GLOBAL VARIABLES
+
+extern BOOL gSoundsOff;
+
 
 @end
