@@ -78,7 +78,7 @@
 {
     NSInteger malus = -((self.pairedTilesInGameCount / 2) + 1);
 
-    return malus > 9 ? 9 : malus;
+    return malus < -9 ? -9 : malus;
 }
 
 - (void)playGameTileAtIndex:(NSInteger)tileIndex

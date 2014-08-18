@@ -161,7 +161,7 @@
     self.musicButton.exclusiveTouch = YES;
 
     NSAttributedString *soundsButtonString =
-        [Utilities defaultStyledAttributedStringWithString:@"Sounds On"
+        [Utilities defaultStyledAttributedStringWithString:@"Sounds: On"
                                              andAlignement:NSTextAlignmentCenter
                                                   andColor:nil
                                                    andSize:70];
