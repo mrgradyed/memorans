@@ -7,6 +7,7 @@
 //
 
 #import "MemoransCreditsViewController.h"
+#import "MemoransGradientView.h"
 #import "Utilities.h"
 
 @interface MemoransCreditsViewController ()
@@ -34,13 +35,20 @@
 {
     [super viewDidLoad];
 
-    self.view.backgroundColor = [UIColor whiteColor];
+    if([self.view isKindOfClass:[MemoransGradientView class]]) {
+
+        MemoransGradientView * backgroundView = (MemoransGradientView *)self.view;
+
+        backgroundView.startColor = [Utilities colorFromHEXString:@"#D6CEC3" withAlpha:1];
+        backgroundView.middleColor = [Utilities colorFromHEXString:@"#FFFDD0" withAlpha:1];
+        backgroundView.endColor =[Utilities colorFromHEXString:@"#E4DDCA" withAlpha:1];
+    }
 
     NSAttributedString *backToMenuString = [Utilities
-                                            defaultStyledAttributedStringWithString:@"⬅︎"
+                                            styledAttributedStringWithString:@"⬅︎"
                                             andAlignement:NSTextAlignmentLeft
                                             andColor:nil
-                                            andSize:60];
+                                            andSize:60 andStrokeColor:nil];
 
     [self.backToMenuButton setAttributedTitle:backToMenuString forState:UIControlStateNormal];
 

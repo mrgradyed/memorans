@@ -13,6 +13,7 @@
 #import "MemoransOverlayView.h"
 #import "MemoransGameLevel.h"
 #import "MemoransSharedLevelsPack.h"
+#import "MemoransGradientView.h"
 #import "Utilities.h"
 
 @interface MemoransGameViewController ()
@@ -107,7 +108,6 @@
 
 - (IBAction)restartGameButtonTouched
 {
-
     [Utilities playPopSound];
 
     [self restartGameWithNextLevel:NO];
@@ -324,10 +324,10 @@
 
 - (void)resumeGame
 {
-    self.game = [NSKeyedUnarchiver
+    _game = [NSKeyedUnarchiver
         unarchiveObjectWithFile:[self filePathForArchivingWithName:@"gameStatus.archive"]];
 
-    self.tileViews = [NSKeyedUnarchiver
+    _tileViews = [NSKeyedUnarchiver
         unarchiveObjectWithFile:[self filePathForArchivingWithName:@"tileViewsStatus.archive"]];
 
     UITapGestureRecognizer *tileTapRecog;
@@ -384,9 +384,9 @@
 {
     CABasicAnimation *wobbling = [CABasicAnimation animationWithKeyPath:@"transform.rotation"];
 
-    [wobbling setFromValue:[NSNumber numberWithFloat:0.08f]];
+    [wobbling setFromValue:@(0.08f)];
 
-    [wobbling setToValue:[NSNumber numberWithFloat:-0.08f]];
+    [wobbling setToValue:@(-0.08f)];
 
     [wobbling setDuration:0.11f];
 
@@ -554,11 +554,12 @@ static const NSInteger gTileMargin = 5;
     self.isBadScore = (self.game.gameScore < 0);
 
     self.scoreLabel.attributedText = [Utilities
-        defaultStyledAttributedStringWithString:[NSString stringWithFormat:@"✪ %d",
-                                                                           (int)self.game.gameScore]
-                                  andAlignement:NSTextAlignmentCenter
-                                       andColor:nil
-                                        andSize:60];
+        styledAttributedStringWithString:[NSString
+                                             stringWithFormat:@"✪ %d", (int)self.game.gameScore]
+                           andAlignement:NSTextAlignmentCenter
+                                andColor:nil
+                                 andSize:60
+                          andStrokeColor:nil];
 }
 
 - (void)createAndAnimateTileViews
@@ -684,37 +685,47 @@ static const NSInteger gTileMargin = 5;
 
     self.tileArea.backgroundColor = [UIColor clearColor];
 
-    UIImageView *backgroundImageView =
-        [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"SkewedWaves"]];
 
-    [self.view addSubview:backgroundImageView];
-    [self.view sendSubviewToBack:backgroundImageView];
+    if ([self.view isKindOfClass:[MemoransGradientView class]])
+    {
+
+        MemoransGradientView *backgroundView = (MemoransGradientView *)self.view;
+
+        backgroundView.startColor = [Utilities colorFromHEXString:@"#DBDDDE" withAlpha:1];
+        backgroundView.middleColor = [Utilities colorFromHEXString:@"#FFFDD0" withAlpha:1];
+        backgroundView.endColor = [Utilities colorFromHEXString:@"#898C90" withAlpha:1];
+
+    }
+
 
     NSAttributedString *restartGameString =
-        [Utilities defaultStyledAttributedStringWithString:@"↺"
-                                             andAlignement:NSTextAlignmentCenter
-                                                  andColor:nil
-                                                   andSize:60];
+        [Utilities styledAttributedStringWithString:@"↺"
+                                      andAlignement:NSTextAlignmentCenter
+                                           andColor:nil
+                                            andSize:60
+                                     andStrokeColor:nil];
 
     [self.restartGameButton setAttributedTitle:restartGameString forState:UIControlStateNormal];
 
     self.restartGameButton.exclusiveTouch = YES;
 
     NSAttributedString *nextLevelString =
-        [Utilities defaultStyledAttributedStringWithString:@"➤"
-                                             andAlignement:NSTextAlignmentRight
-                                                  andColor:nil
-                                                   andSize:60];
+        [Utilities styledAttributedStringWithString:@"➤"
+                                      andAlignement:NSTextAlignmentRight
+                                           andColor:nil
+                                            andSize:60
+                                     andStrokeColor:nil];
 
     [self.nextLevelButton setAttributedTitle:nextLevelString forState:UIControlStateNormal];
 
     self.nextLevelButton.exclusiveTouch = YES;
 
     NSAttributedString *backToLevelsString =
-        [Utilities defaultStyledAttributedStringWithString:@"⬅︎"
-                                             andAlignement:NSTextAlignmentLeft
-                                                  andColor:nil
-                                                   andSize:60];
+        [Utilities styledAttributedStringWithString:@"⬅︎"
+                                      andAlignement:NSTextAlignmentLeft
+                                           andColor:nil
+                                            andSize:60
+                                     andStrokeColor:nil];
 
     [self.backToLevelsButton setAttributedTitle:backToLevelsString forState:UIControlStateNormal];
 

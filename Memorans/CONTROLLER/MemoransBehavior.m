@@ -8,11 +8,11 @@
 
 #import "MemoransBehavior.h"
 
-@interface MemoransBehavior ()
+@interface MemoransBehavior () <UICollisionBehaviorDelegate>
 
 #pragma mark - PROPERTIES
 
-@property(strong, nonatomic) UIGravityBehavior *gravity;
+@property(strong, nonatomic) UIPushBehavior *push;
 @property(strong, nonatomic) UICollisionBehavior *collision;
 @property(strong, nonatomic) UIDynamicItemBehavior *bouncing;
 
@@ -22,15 +22,16 @@
 
 #pragma mark - SETTERS AND GETTERS
 
-- (UIGravityBehavior *)gravity
+- (UIPushBehavior *)push
 {
-    if (!_gravity)
+    if (!_push)
     {
-        _gravity = [[UIGravityBehavior alloc] init];
-        _gravity.magnitude = 2.5f;
+        _push = [[UIPushBehavior alloc] init];
+        _push.magnitude = 10000.0f;
+        _push.angle = 1.44f;
     }
 
-    return _gravity;
+    return _push;
 }
 
 - (UICollisionBehavior *)collision
@@ -39,6 +40,7 @@
     {
         _collision = [[UICollisionBehavior alloc] init];
         _collision.translatesReferenceBoundsIntoBoundary = YES;
+        _collision.collisionDelegate = self;
     }
 
     return _collision;
@@ -49,8 +51,8 @@
     if (!_bouncing)
     {
         _bouncing = [[UIDynamicItemBehavior alloc] init];
-        _bouncing.elasticity = 0.8f;
-        _bouncing.allowsRotation = NO;
+        _bouncing.elasticity = 0.9f;
+        _bouncing.allowsRotation = YES;
     }
 
     return _bouncing;
@@ -60,14 +62,14 @@
 
 - (void)addItem:(id<UIDynamicItem>)item
 {
-    [self.gravity addItem:item];
+    [self.push addItem:item];
     [self.collision addItem:item];
     [self.bouncing addItem:item];
 }
 
 - (void)removeItem:(id<UIDynamicItem>)item
 {
-    [self.gravity removeItem:item];
+    [self.push removeItem:item];
     [self.collision removeItem:item];
     [self.bouncing removeItem:item];
 }
@@ -80,7 +82,7 @@
 
     if (self)
     {
-        [self addChildBehavior:self.gravity];
+        [self addChildBehavior:self.push];
         [self addChildBehavior:self.collision];
         [self addChildBehavior:self.bouncing];
     }
@@ -103,6 +105,16 @@
     return self;
 }
 
+#pragma mark - UICollisionBehaviorDelegate PROTOCOL
 
+- (void)collisionBehavior:(UICollisionBehavior *)behavior
+      beganContactForItem:(id<UIDynamicItem>)item1
+                 withItem:(id<UIDynamicItem>)item2
+                  atPoint:(CGPoint)p
+{
+
+    [self.push removeItem:item1];
+    [self.push removeItem:item2];
+}
 
 @end

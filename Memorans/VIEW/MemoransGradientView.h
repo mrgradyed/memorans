@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+#pragma mark - PROPERTIES
+
 @interface MemoransGradientView : UIView
 
 @property(strong, nonatomic) UIColor *startColor;
@@ -15,5 +17,11 @@
 @property(strong, nonatomic) UIColor *middleColor;
 
 @property(strong, nonatomic) UIColor *endColor;
+
+@property(strong, nonatomic) NSString *backgroundText;
+
+@property(strong, nonatomic) UIColor *backgroundTextColor;
+
+@property(nonatomic) CGFloat backgroundTextFontSize;
 
 @end

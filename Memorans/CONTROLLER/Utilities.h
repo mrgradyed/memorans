@@ -18,10 +18,11 @@
 
 + (void)animateOverlayView:(MemoransOverlayView *)overlayView withDuration:(NSTimeInterval)duration;
 
-+ (NSAttributedString *)defaultStyledAttributedStringWithString:(NSString *)string
-                                                  andAlignement:(NSTextAlignment)alignement
-                                                       andColor:(UIColor *)color
-                                                        andSize:(CGFloat)size;
++ (NSAttributedString *)styledAttributedStringWithString:(NSString *)string
+                                           andAlignement:(NSTextAlignment)alignement
+                                                andColor:(UIColor *)color
+                                                 andSize:(CGFloat)size
+                                          andStrokeColor:(UIColor *)strokeColor;
 
 + (void)playSystemSoundEffectFromResource:(NSString *)fileName ofType:(NSString *)fileType;
 

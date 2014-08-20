@@ -7,12 +7,14 @@
 //
 
 #import "MemoransGradientView.h"
+#import "Utilities.h"
 
 @implementation MemoransGradientView
 
+#pragma mark - SETTERS AND GETTERS
+
 - (void)setStartColor:(UIColor *)startColor
 {
-
     if ([_startColor isEqual:startColor])
     {
         return;
@@ -25,7 +27,6 @@
 
 - (void)setEndColor:(UIColor *)endColor
 {
-
     if ([_endColor isEqual:endColor])
     {
         return;
@@ -38,7 +39,6 @@
 
 - (void)setMiddleColor:(UIColor *)middleColor
 {
-
     if ([_middleColor isEqual:middleColor])
     {
 
@@ -49,40 +49,120 @@
     [self setNeedsDisplay];
 }
 
+- (void)setBackgroundText:(NSString *)backgroundText
+{
+
+    if ([_backgroundText isEqualToString:backgroundText])
+    {
+        return;
+    }
+
+    _backgroundText = backgroundText;
+
+    [self setNeedsDisplay];
+}
+
+- (void)setBackgroundTextColor:(UIColor *)backgroundTextColor
+{
+
+    if ([_backgroundTextColor isEqual:backgroundTextColor])
+    {
+        return;
+    }
+
+    _backgroundTextColor = backgroundTextColor;
+
+    [self setNeedsDisplay];
+}
+
+- (void)setBackgroundTextFontSize:(CGFloat)backgroundTextFontSize
+{
+
+    if (_backgroundTextFontSize == backgroundTextFontSize)
+    {
+        return;
+    }
+
+    _backgroundTextFontSize = backgroundTextFontSize;
+
+    [self setNeedsDisplay];
+}
+
+#pragma mark - VIEW DRAWING
+
 - (void)drawRect:(CGRect)rect
 {
-    CGContextRef currentContext = UIGraphicsGetCurrentContext();
-    CGContextSaveGState(currentContext);
 
-    CGColorSpaceRef myColorSpace = CGColorSpaceCreateDeviceRGB();
+    if (self.startColor && self.endColor)
+    {
+        CGContextRef currentContext = UIGraphicsGetCurrentContext();
+        CGContextSaveGState(currentContext);
 
-    CGFloat scRed, scGreen, scBlue, scAlpha;
-    CGFloat mcRed, mcGreen, mcBlue, mcAlpha;
-    CGFloat ecRed, ecGreen, ecBlue, ecAlpha;
+        CGColorSpaceRef myColorSpace = CGColorSpaceCreateDeviceRGB();
 
-    [self.startColor getRed:&scRed green:&scGreen blue:&scBlue alpha:&scAlpha];
-    [self.middleColor getRed:&mcRed green:&mcGreen blue:&mcBlue alpha:&mcAlpha];
-    [self.endColor getRed:&ecRed green:&ecGreen blue:&ecBlue alpha:&ecAlpha];
+        CGFloat scRed, scGreen, scBlue, scAlpha;
+        CGFloat ecRed, ecGreen, ecBlue, ecAlpha;
 
-    CGFloat colorComponents[12] = { scRed,  scGreen, scBlue, scAlpha, mcRed,  mcGreen,
-                                   mcBlue, mcAlpha, ecRed,  ecGreen, ecBlue, ecAlpha };
+        [self.startColor getRed:&scRed green:&scGreen blue:&scBlue alpha:&scAlpha];
+        [self.endColor getRed:&ecRed green:&ecGreen blue:&ecBlue alpha:&ecAlpha];
 
-    CGFloat colorLocations[3] = { 0.0f, 0.5f, 1.0f };
+        CGGradientRef backGradient;
 
-    CGGradientRef myGradient =
-        CGGradientCreateWithColorComponents(myColorSpace, colorComponents, colorLocations, 3);
+        if (self.middleColor)
+        {
+            CGFloat mcRed, mcGreen, mcBlue, mcAlpha;
 
-    CGPoint gradientStartPoint = CGPointMake(self.bounds.origin.x, self.bounds.origin.y);
+            [self.middleColor getRed:&mcRed green:&mcGreen blue:&mcBlue alpha:&mcAlpha];
 
-    CGPoint gradientStopPoint = CGPointMake(self.bounds.size.width, self.bounds.size.height);
+            CGFloat colorComponents[12] = { scRed,  scGreen, scBlue, scAlpha, mcRed,  mcGreen,
+                                            mcBlue, mcAlpha, ecRed,  ecGreen, ecBlue, ecAlpha };
 
-    CGContextDrawLinearGradient(currentContext, myGradient, gradientStartPoint, gradientStopPoint,
-                                0);
+            CGFloat colorLocations[3] = { 0.0f, 0.5f, 1.0f };
 
-    CGGradientRelease(myGradient);
-    CGColorSpaceRelease(myColorSpace);
+            backGradient = CGGradientCreateWithColorComponents(myColorSpace, colorComponents,
+                                                               colorLocations, 3);
+        }
+        else
+        {
+            CGFloat colorComponents[8] = { scRed, scGreen, scBlue, scAlpha,
+                                           ecRed, ecGreen, ecBlue, ecAlpha };
 
-    CGContextRestoreGState(currentContext);
+            CGFloat colorLocations[2] = { 0.0f, 1.0f };
+
+            backGradient = CGGradientCreateWithColorComponents(myColorSpace, colorComponents,
+                                                               colorLocations, 2);
+        }
+
+        CGPoint gradientStartPoint = CGPointMake(self.bounds.origin.x, self.bounds.origin.y);
+
+        CGPoint gradientStopPoint = CGPointMake(self.bounds.size.width, self.bounds.size.height);
+
+        CGContextDrawLinearGradient(currentContext, backGradient, gradientStartPoint,
+                                    gradientStopPoint, 0);
+
+        CGGradientRelease(backGradient);
+
+        CGColorSpaceRelease(myColorSpace);
+
+        CGContextRestoreGState(currentContext);
+    }
+
+    if (self.backgroundText)
+    {
+        NSAttributedString *attributedBackgroundText =
+            [Utilities styledAttributedStringWithString:self.backgroundText
+                                                 andAlignement:NSTextAlignmentCenter
+                                                      andColor:self.backgroundTextColor
+                                                       andSize:self.backgroundTextFontSize andStrokeColor:nil];
+
+        CGSize stringSize = [attributedBackgroundText size];
+
+        CGRect stringRect = CGRectMake((self.bounds.size.width - stringSize.width) / 2,
+                                       (self.bounds.size.height - stringSize.height) / 2,
+                                       stringSize.width, stringSize.height);
+
+        [attributedBackgroundText drawInRect:stringRect];
+    }
 }
 
 @end

@@ -12,6 +12,7 @@
 #import "MemoransSharedLevelsPack.h"
 #import "MemoransGameLevel.h"
 #import "MemoransOverlayView.h"
+#import "MemoransGradientView.h"
 #import "Utilities.h"
 
 @interface MemoransLevelsViewController ()
@@ -67,17 +68,24 @@
 
     self.view.multipleTouchEnabled = NO;
 
-    UIImageView *backgroundImageView =
-        [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"HorizontalWaves"]];
+    if ([self.view isKindOfClass:[MemoransGradientView class]])
+    {
 
-    [self.view addSubview:backgroundImageView];
-    [self.view sendSubviewToBack:backgroundImageView];
+        MemoransGradientView *backgroundView = (MemoransGradientView *)self.view;
+
+        backgroundView.startColor = [Utilities colorFromHEXString:@"#DBDDDE" withAlpha:1];
+        backgroundView.middleColor = [Utilities colorFromHEXString:@"#FFFDD0" withAlpha:1];
+        backgroundView.endColor = [Utilities colorFromHEXString:@"#898C90" withAlpha:1];
+        
+    }
+
 
     NSAttributedString *backToMenuString =
-        [Utilities defaultStyledAttributedStringWithString:@"⬅︎"
+        [Utilities styledAttributedStringWithString:@"⬅︎"
                                              andAlignement:NSTextAlignmentLeft
                                                   andColor:nil
-                                                   andSize:60];
+                                                   andSize:60
+         andStrokeColor:nil];
 
     [self.backToMenuButton setAttributedTitle:backToMenuString forState:UIControlStateNormal];
 
@@ -87,12 +95,14 @@
 
     int loopCount = 0;
 
+    NSString *levelButtonImage;
+
     for (MemoransLevelButton *levelButton in self.levelButtonViews)
     {
         level =
             (MemoransGameLevel *)[MemoransSharedLevelsPack sharedLevelsPack].levelsPack[loopCount];
 
-        NSString *levelButtonImage =
+        levelButtonImage =
             [NSString stringWithFormat:@"Level%d%@", (int)level.tilesInLevel, level.tileSetType];
 
         [levelButton setImage:[UIImage imageNamed:levelButtonImage] forState:UIControlStateNormal];
@@ -103,6 +113,8 @@
         {
             level.unlocked = YES;
         }
+
+
 
         loopCount++;
     }
@@ -125,15 +137,6 @@
 
         loopCount++;
     }
-
-    MemoransOverlayView *chooseLevelOverlay = [[MemoransOverlayView alloc]
-        initWithString:@"Pick a level!"
-              andColor:[Utilities colorFromHEXString:@"#C643FC" withAlpha:1]
-           andFontSize:180];
-
-    [self.view addSubview:chooseLevelOverlay];
-
-    [Utilities animateOverlayView:chooseLevelOverlay withDuration:2];
 }
 
 - (BOOL)prefersStatusBarHidden { return YES; }

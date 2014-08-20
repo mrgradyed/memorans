@@ -12,8 +12,9 @@
 #import "Utilities.h"
 #import "MemoransBehavior.h"
 #import "MemoransTile.h"
+#import "MemoransGradientView.h"
 
-@interface MemoransMenuViewController () <AVAudioPlayerDelegate>
+@interface MemoransMenuViewController () <AVAudioPlayerDelegate, UIDynamicAnimatorDelegate>
 
 #pragma mark - OUTLETS
 
@@ -45,6 +46,7 @@
     if (!_dynamicAnimator)
     {
         _dynamicAnimator = [[UIDynamicAnimator alloc] initWithReferenceView:self.view];
+        _dynamicAnimator.delegate = self;
     }
 
     return _dynamicAnimator;
@@ -54,7 +56,7 @@
 {
     if (!_monsterViews)
     {
-        _monsterViews = [[NSMutableArray alloc] initWithCapacity:2];
+        _monsterViews = [[NSMutableArray alloc] init];
     }
 
     return _monsterViews;
@@ -68,6 +70,7 @@
 
     [self performSegueWithIdentifier:@"toLevelsController" sender:self];
 }
+
 - (IBAction)musicButtonTouched
 {
     self.musicOff = !self.musicOff;
@@ -85,14 +88,16 @@
         self.playingFirstTrack = YES;
     }
 
-    NSAttributedString *musicButtonString = [Utilities
-        defaultStyledAttributedStringWithString:self.musicOff ? @"Music: Off" : @"Music: On"
-                                  andAlignement:NSTextAlignmentCenter
-                                       andColor:nil
-                                        andSize:70];
+    NSAttributedString *musicButtonString =
+        [Utilities styledAttributedStringWithString:self.musicOff ? @"Music: Off" : @"Music: On"
+                                      andAlignement:NSTextAlignmentCenter
+                                           andColor:nil
+                                            andSize:70
+                                     andStrokeColor:[UIColor clearColor]];
 
     [self.musicButton setAttributedTitle:musicButtonString forState:UIControlStateNormal];
 }
+
 - (IBAction)soundEffectsButtonTouched
 {
     self.soundsOff = !self.soundsOff;
@@ -108,11 +113,12 @@
 
     [Utilities playPopSound];
 
-    NSAttributedString *soundsButtonString = [Utilities
-        defaultStyledAttributedStringWithString:self.soundsOff ? @"Sounds: Off" : @"Sounds: On"
-                                  andAlignement:NSTextAlignmentCenter
-                                       andColor:nil
-                                        andSize:70];
+    NSAttributedString *soundsButtonString =
+        [Utilities styledAttributedStringWithString:self.soundsOff ? @"Sounds: Off" : @"Sounds: On"
+                                      andAlignement:NSTextAlignmentCenter
+                                           andColor:nil
+                                            andSize:70
+                                     andStrokeColor:[UIColor clearColor]];
 
     [self.soundEffectsButton setAttributedTitle:soundsButtonString forState:UIControlStateNormal];
 }
@@ -134,62 +140,79 @@
 
     self.view.multipleTouchEnabled = NO;
 
-    UIImageView *backgroundImageView =
-        [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"SkewedWaves"]];
+    if ([self.view isKindOfClass:[MemoransGradientView class]])
+    {
 
-    [self.view addSubview:backgroundImageView];
-    [self.view sendSubviewToBack:backgroundImageView];
+        MemoransGradientView *backgroundView = (MemoransGradientView *)self.view;
+
+        backgroundView.startColor = [Utilities colorFromHEXString:@"#FFDB4C" withAlpha:1];
+        backgroundView.middleColor = [Utilities colorFromHEXString:@"#FFFDD0" withAlpha:1];
+        backgroundView.endColor = [Utilities colorFromHEXString:@"#FF9500" withAlpha:1];
+    }
 
     NSAttributedString *playGameString =
-        [Utilities defaultStyledAttributedStringWithString:@"Play"
-                                             andAlignement:NSTextAlignmentCenter
-                                                  andColor:nil
-                                                   andSize:70];
+        [Utilities styledAttributedStringWithString:@"Play"
+                                      andAlignement:NSTextAlignmentCenter
+                                           andColor:nil
+                                            andSize:70
+                                     andStrokeColor:[UIColor clearColor]];
 
     [self.playButton setAttributedTitle:playGameString forState:UIControlStateNormal];
 
-    self.playButton.exclusiveTouch = YES;
-
     NSAttributedString *musicButtonString =
-        [Utilities defaultStyledAttributedStringWithString:@"Music: On"
-                                             andAlignement:NSTextAlignmentCenter
-                                                  andColor:nil
-                                                   andSize:70];
+        [Utilities styledAttributedStringWithString:@"Music: On"
+                                      andAlignement:NSTextAlignmentCenter
+                                           andColor:nil
+                                            andSize:70
+                                     andStrokeColor:[UIColor clearColor]];
 
     [self.musicButton setAttributedTitle:musicButtonString forState:UIControlStateNormal];
 
-    self.musicButton.exclusiveTouch = YES;
-
     NSAttributedString *soundsButtonString =
-        [Utilities defaultStyledAttributedStringWithString:@"Sounds: On"
-                                             andAlignement:NSTextAlignmentCenter
-                                                  andColor:nil
-                                                   andSize:70];
+        [Utilities styledAttributedStringWithString:@"Sounds: On"
+                                      andAlignement:NSTextAlignmentCenter
+                                           andColor:nil
+                                            andSize:70
+                                     andStrokeColor:[UIColor clearColor]];
 
     [self.soundEffectsButton setAttributedTitle:soundsButtonString forState:UIControlStateNormal];
 
-    self.soundEffectsButton.exclusiveTouch = YES;
-
     NSAttributedString *creditsString =
-        [Utilities defaultStyledAttributedStringWithString:@"Credits"
-                                             andAlignement:NSTextAlignmentCenter
-                                                  andColor:nil
-                                                   andSize:70];
+        [Utilities styledAttributedStringWithString:@"Credits"
+                                      andAlignement:NSTextAlignmentCenter
+                                           andColor:nil
+                                            andSize:70
+                                     andStrokeColor:[UIColor clearColor]];
 
     [self.creditsButton setAttributedTitle:creditsString forState:UIControlStateNormal];
 
-    self.creditsButton.exclusiveTouch = YES;
+    [self configureButton:self.playButton];
+    [self configureButton:self.musicButton];
+    [self configureButton:self.soundEffectsButton];
+    [self configureButton:self.creditsButton];
 
     [self startPlayingMusicFromResource:@"JauntyGumption" ofType:@"mp3"];
     self.playingFirstTrack = YES;
 }
 
+- (void)configureButton:(UIButton *)button
+{
+    button.backgroundColor = [Utilities colorFromHEXString:@"#FFFDD0" withAlpha:1];
+    button.multipleTouchEnabled = NO;
+    button.exclusiveTouch = YES;
+    button.clipsToBounds = YES;
+
+    button.layer.borderColor = [Utilities colorFromHEXString:@"#E4B7F0" withAlpha:1].CGColor;
+    button.layer.borderWidth = 1;
+    button.layer.cornerRadius = 15;
+}
+
 - (void)viewWillDisappear:(BOOL)animated
 {
-
     [super viewWillDisappear:animated];
 
     [self.monsterViews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+
     self.monsterViews = nil;
     self.dynamicAnimator = nil;
 }
@@ -199,48 +222,62 @@
     [super viewWillAppear:animated];
 
     [self addAndAnimateMonsterViews];
-
-    [self.view bringSubviewToFront:self.playButton];
-    [self.view bringSubviewToFront:self.musicButton];
-    [self.view bringSubviewToFront:self.creditsButton];
 }
 
 #pragma mark - ANIMATIONS
 
 - (void)addAndAnimateMonsterViews
 {
-    NSInteger prevRandomImageIndex = 0;
-    NSInteger randomImageIndex = 0;
+    if ([self.monsterViews count])
+    {
+        [self.monsterViews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+
+        self.monsterViews = nil;
+        self.dynamicAnimator = nil;
+    }
+
+    [Utilities playIiiiSound];
+
     UIImage *monsterImage;
     UIImageView *monsterImageView;
+    NSInteger monsterViewOffset;
 
-    for (int i = 0; i < 2; i++)
+    NSMutableArray *imageIndexes = [[NSMutableArray alloc] init];
+    NSInteger randomImageIndex = 0;
+
+    for (int i = 0; i < 12; i++)
     {
-        while (prevRandomImageIndex == randomImageIndex)
+        do
         {
             randomImageIndex = (arc4random() % 20) + 1;
-        }
+        } while ([imageIndexes indexOfObject:@(randomImageIndex)] != NSNotFound);
 
-        prevRandomImageIndex = randomImageIndex;
+        [imageIndexes addObject:@(randomImageIndex)];
 
         monsterImage =
             [UIImage imageNamed:[NSString stringWithFormat:@"Happy%d", (int)randomImageIndex]];
 
         monsterImageView = [[UIImageView alloc] initWithImage:monsterImage];
 
-        if (!i)
+        monsterViewOffset = (arc4random() % (int)monsterImageView.frame.size.width) +
+                            (arc4random() % (int)monsterImageView.frame.size.width) +
+                            monsterImageView.frame.size.width;
+
+        if (i % 2 == 0)
         {
-            monsterImageView.center = CGPointMake(monsterImageView.frame.size.width, 0);
+            monsterImageView.center = CGPointMake(monsterViewOffset, monsterViewOffset);
         }
         else
         {
-            monsterImageView.center =
-                CGPointMake(self.view.frame.size.width - (monsterImageView.frame.size.width), 0);
+            monsterImageView.center = CGPointMake(self.view.frame.size.width - monsterViewOffset,
+                                                  self.view.frame.size.height - monsterViewOffset);
         }
 
         [self.monsterViews addObject:monsterImageView];
 
         [self.view addSubview:monsterImageView];
+
+        [self.view sendSubviewToBack:monsterImageView];
     }
 
     MemoransBehavior *memoransBehavior = [[MemoransBehavior alloc] initWithItems:self.monsterViews];
@@ -310,5 +347,9 @@
         }
     }
 }
+
+#pragma mark - UIDynamicAnimatorDelegate PROTOCOL
+
+- (void)dynamicAnimatorDidPause:(UIDynamicAnimator *)animator { [self addAndAnimateMonsterViews]; }
 
 @end

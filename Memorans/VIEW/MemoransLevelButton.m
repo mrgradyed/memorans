@@ -72,7 +72,7 @@
     self.multipleTouchEnabled = NO;
     self.clipsToBounds = YES;
 
-    self.layer.borderColor = [UIColor whiteColor].CGColor;
+    self.layer.borderColor =  [Utilities colorFromHEXString:@"#E4B7F0" withAlpha:1].CGColor;
     self.layer.borderWidth = 1;
     self.layer.cornerRadius = 15;
 }

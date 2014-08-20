@@ -84,12 +84,17 @@
 
 #pragma mark - ATTRIBUTED STRINGS
 
-+ (NSAttributedString *)defaultStyledAttributedStringWithString:(NSString *)string
++ (NSAttributedString *)styledAttributedStringWithString:(NSString *)string
                                                   andAlignement:(NSTextAlignment)alignement
                                                        andColor:(UIColor *)color
                                                         andSize:(CGFloat)size
+                                                 andStrokeColor:(UIColor *)strokeColor
 {
     UIColor *dcolor = color ? color : [Utilities colorFromHEXString:@"#C643FC" withAlpha:1];
+
+    UIColor *dStrokeColor =
+    strokeColor ? strokeColor :[Utilities colorFromHEXString:@"#1F1F21" withAlpha:1];
+;
 
     CGFloat dsize = size ? size : 32;
 
@@ -106,7 +111,7 @@
                 NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-Bold" size:dsize],
                 NSForegroundColorAttributeName : dcolor,
                 NSStrokeWidthAttributeName : @-2,
-                NSStrokeColorAttributeName : [UIColor blackColor],
+                NSStrokeColorAttributeName : dStrokeColor,
                 NSParagraphStyleAttributeName : paragraphStyle,
             }];
 }

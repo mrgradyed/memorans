@@ -71,10 +71,10 @@
         NSString *overString = self.overlayString ? self.overlayString : @"!?";
 
         _overlayAttributedString =
-            [Utilities defaultStyledAttributedStringWithString:overString
+            [Utilities styledAttributedStringWithString:overString
                                                  andAlignement:NSTextAlignmentCenter
                                                       andColor:self.overlayColor
-                                                       andSize:self.fontSize];
+                                                       andSize:self.fontSize andStrokeColor:nil];
     }
 
     return _overlayAttributedString;
