@@ -494,6 +494,7 @@ static const NSInteger gTileMargin = 5;
 {
     if (newGame)
     {
+
         MemoransOverlayView *startMessageOverlayView = [self startMessageOverlayView];
 
         if ([self currentLevel].hasSave)
@@ -516,6 +517,15 @@ static const NSInteger gTileMargin = 5;
                     [NSString stringWithFormat:@"Level %d\n%@", (int)self.currentLevelNumber + 1,
                                                [self currentLevel].tileSetType];
             }
+        }
+
+        if ([self.view isKindOfClass:[MemoransGradientView class]])
+        {
+            MemoransGradientView *backgroundView = (MemoransGradientView *)self.view;
+
+            backgroundView.startColor = [Utilities randomNiceColor];
+            backgroundView.middleColor = [Utilities randomNiceColor];
+            backgroundView.endColor = [Utilities randomNiceColor];
         }
 
         [Utilities animateOverlayView:startMessageOverlayView withDuration:2];
@@ -684,19 +694,6 @@ static const NSInteger gTileMargin = 5;
     [super viewDidLoad];
 
     self.tileArea.backgroundColor = [UIColor clearColor];
-
-
-    if ([self.view isKindOfClass:[MemoransGradientView class]])
-    {
-
-        MemoransGradientView *backgroundView = (MemoransGradientView *)self.view;
-
-        backgroundView.startColor = [Utilities colorFromHEXString:@"#DBDDDE" withAlpha:1];
-        backgroundView.middleColor = [Utilities colorFromHEXString:@"#FFFDD0" withAlpha:1];
-        backgroundView.endColor = [Utilities colorFromHEXString:@"#898C90" withAlpha:1];
-
-    }
-
 
     NSAttributedString *restartGameString =
         [Utilities styledAttributedStringWithString:@"↺"

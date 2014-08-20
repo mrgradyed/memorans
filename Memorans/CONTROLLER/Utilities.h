@@ -16,6 +16,8 @@
 
 + (UIColor *)colorFromHEXString:(NSString *)hexString withAlpha:(CGFloat)alpha;
 
++ (UIColor *)randomNiceColor;
+
 + (void)animateOverlayView:(MemoransOverlayView *)overlayView withDuration:(NSTimeInterval)duration;
 
 + (NSAttributedString *)styledAttributedStringWithString:(NSString *)string
@@ -34,10 +36,8 @@
 
 + (void)playUeeeSound;
 
-
 #pragma mark - GLOBAL VARIABLES
 
 extern BOOL gSoundsOff;
-
 
 @end

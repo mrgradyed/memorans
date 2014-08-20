@@ -14,7 +14,7 @@
 
 @implementation Utilities
 
-#pragma mark - COLOR CONVERTER
+#pragma mark - COLORS
 
 + (UIColor *)colorFromHEXString:(NSString *)hexString withAlpha:(CGFloat)alpha
 {
@@ -65,6 +65,18 @@
                            alpha:alpha];
 }
 
++ (UIColor *)randomNiceColor
+{
+    CGFloat hue = (arc4random() % 360) / 359.0f;
+    CGFloat saturation = (float)arc4random() / UINT32_MAX;
+    CGFloat brightness = (float)arc4random() / UINT32_MAX;
+
+    saturation = saturation < 0.5 ? 0.5 : saturation;
+    brightness = brightness < 0.8 ? 0.8 : brightness;
+
+    return [UIColor colorWithHue:hue saturation:saturation brightness:brightness alpha:1];
+}
+
 #pragma mark - OVERLAYS ANIMATION
 
 + (void)animateOverlayView:(MemoransOverlayView *)overlayView withDuration:(NSTimeInterval)duration
@@ -85,16 +97,15 @@
 #pragma mark - ATTRIBUTED STRINGS
 
 + (NSAttributedString *)styledAttributedStringWithString:(NSString *)string
-                                                  andAlignement:(NSTextAlignment)alignement
-                                                       andColor:(UIColor *)color
-                                                        andSize:(CGFloat)size
-                                                 andStrokeColor:(UIColor *)strokeColor
+                                           andAlignement:(NSTextAlignment)alignement
+                                                andColor:(UIColor *)color
+                                                 andSize:(CGFloat)size
+                                          andStrokeColor:(UIColor *)strokeColor
 {
     UIColor *dcolor = color ? color : [Utilities colorFromHEXString:@"#C643FC" withAlpha:1];
 
     UIColor *dStrokeColor =
-    strokeColor ? strokeColor :[Utilities colorFromHEXString:@"#1F1F21" withAlpha:1];
-;
+        strokeColor ? strokeColor : [Utilities colorFromHEXString:@"#1F1F21" withAlpha:1];
 
     CGFloat dsize = size ? size : 32;
 

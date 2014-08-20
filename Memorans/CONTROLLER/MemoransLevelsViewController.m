@@ -68,24 +68,12 @@
 
     self.view.multipleTouchEnabled = NO;
 
-    if ([self.view isKindOfClass:[MemoransGradientView class]])
-    {
-
-        MemoransGradientView *backgroundView = (MemoransGradientView *)self.view;
-
-        backgroundView.startColor = [Utilities colorFromHEXString:@"#DBDDDE" withAlpha:1];
-        backgroundView.middleColor = [Utilities colorFromHEXString:@"#FFFDD0" withAlpha:1];
-        backgroundView.endColor = [Utilities colorFromHEXString:@"#898C90" withAlpha:1];
-        
-    }
-
-
     NSAttributedString *backToMenuString =
         [Utilities styledAttributedStringWithString:@"⬅︎"
-                                             andAlignement:NSTextAlignmentLeft
-                                                  andColor:nil
-                                                   andSize:60
-         andStrokeColor:nil];
+                                      andAlignement:NSTextAlignmentLeft
+                                           andColor:nil
+                                            andSize:60
+                                     andStrokeColor:nil];
 
     [self.backToMenuButton setAttributedTitle:backToMenuString forState:UIControlStateNormal];
 
@@ -114,8 +102,6 @@
             level.unlocked = YES;
         }
 
-
-
         loopCount++;
     }
 }
@@ -123,6 +109,15 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+
+    if ([self.view isKindOfClass:[MemoransGradientView class]])
+    {
+        MemoransGradientView *backgroundView = (MemoransGradientView *)self.view;
+
+        backgroundView.startColor = [Utilities randomNiceColor];
+        backgroundView.middleColor = [Utilities randomNiceColor];
+        backgroundView.endColor = [Utilities randomNiceColor];
+    }
 
     MemoransGameLevel *level;
 

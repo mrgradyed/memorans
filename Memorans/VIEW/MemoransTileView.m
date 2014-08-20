@@ -139,7 +139,7 @@
     self.multipleTouchEnabled = NO;
     self.clipsToBounds = YES;
 
-    self.layer.borderColor = [Utilities colorFromHEXString:@"#E4B7F0" withAlpha:1].CGColor;
+    self.layer.borderColor = [Utilities colorFromHEXString:@"#1F1F21" withAlpha:1].CGColor;
     self.layer.borderWidth = 1;
     self.layer.cornerRadius = MIN(self.bounds.size.width, self.bounds.size.height) / 15;
 }

@@ -140,16 +140,6 @@
 
     self.view.multipleTouchEnabled = NO;
 
-    if ([self.view isKindOfClass:[MemoransGradientView class]])
-    {
-
-        MemoransGradientView *backgroundView = (MemoransGradientView *)self.view;
-
-        backgroundView.startColor = [Utilities colorFromHEXString:@"#FFDB4C" withAlpha:1];
-        backgroundView.middleColor = [Utilities colorFromHEXString:@"#FFFDD0" withAlpha:1];
-        backgroundView.endColor = [Utilities colorFromHEXString:@"#FF9500" withAlpha:1];
-    }
-
     NSAttributedString *playGameString =
         [Utilities styledAttributedStringWithString:@"Play"
                                       andAlignement:NSTextAlignmentCenter
@@ -202,7 +192,7 @@
     button.exclusiveTouch = YES;
     button.clipsToBounds = YES;
 
-    button.layer.borderColor = [Utilities colorFromHEXString:@"#E4B7F0" withAlpha:1].CGColor;
+    button.layer.borderColor = [Utilities colorFromHEXString:@"#1F1F21" withAlpha:1].CGColor;
     button.layer.borderWidth = 1;
     button.layer.cornerRadius = 15;
 }
@@ -220,6 +210,15 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+
+    if ([self.view isKindOfClass:[MemoransGradientView class]])
+    {
+        MemoransGradientView *backgroundView = (MemoransGradientView *)self.view;
+
+        backgroundView.startColor = [Utilities randomNiceColor];
+        backgroundView.middleColor = [Utilities randomNiceColor];
+        backgroundView.endColor = [Utilities randomNiceColor];
+    }
 
     [self addAndAnimateMonsterViews];
 }
