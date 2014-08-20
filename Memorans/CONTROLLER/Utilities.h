@@ -18,6 +18,8 @@
 
 + (UIColor *)randomNiceColor;
 
++ (CAGradientLayer *)randomGradient;
+
 + (void)animateOverlayView:(MemoransOverlayView *)overlayView withDuration:(NSTimeInterval)duration;
 
 + (NSAttributedString *)styledAttributedStringWithString:(NSString *)string

@@ -7,7 +7,6 @@
 //
 
 #import "MemoransCreditsViewController.h"
-#import "MemoransGradientView.h"
 #import "Utilities.h"
 
 @interface MemoransCreditsViewController ()
@@ -17,9 +16,26 @@
 @property(weak, nonatomic) IBOutlet UIButton *backToMenuButton;
 @property(weak, nonatomic) IBOutlet UITextView *creditsText;
 
+#pragma mark - PROPERTIES
+@property(strong, nonatomic) CAGradientLayer *gradientLayer;
+
 @end
 
 @implementation MemoransCreditsViewController
+
+#pragma mark - SETTERS AND GETTERS
+
+- (CAGradientLayer *)gradientLayer
+{
+    if (!_gradientLayer)
+    {
+        _gradientLayer = [Utilities randomGradient];
+
+        _gradientLayer.frame = self.view.bounds;
+    }
+
+    return _gradientLayer;
+}
 
 #pragma mark - ACTIONS AND NAVIGATION
 
@@ -35,20 +51,12 @@
 {
     [super viewDidLoad];
 
-    if([self.view isKindOfClass:[MemoransGradientView class]]) {
-
-        MemoransGradientView * backgroundView = (MemoransGradientView *)self.view;
-
-        backgroundView.startColor = [Utilities colorFromHEXString:@"#D6CEC3" withAlpha:1];
-        backgroundView.middleColor = [Utilities colorFromHEXString:@"#FFFDD0" withAlpha:1];
-        backgroundView.endColor =[Utilities colorFromHEXString:@"#E4DDCA" withAlpha:1];
-    }
-
-    NSAttributedString *backToMenuString = [Utilities
-                                            styledAttributedStringWithString:@"⬅︎"
-                                            andAlignement:NSTextAlignmentLeft
-                                            andColor:nil
-                                            andSize:60 andStrokeColor:nil];
+    NSAttributedString *backToMenuString =
+        [Utilities styledAttributedStringWithString:@"⬅︎"
+                                      andAlignement:NSTextAlignmentLeft
+                                           andColor:nil
+                                            andSize:60
+                                     andStrokeColor:nil];
 
     [self.backToMenuButton setAttributedTitle:backToMenuString forState:UIControlStateNormal];
 
@@ -57,9 +65,24 @@
     self.creditsText.editable = NO;
     self.creditsText.selectable = YES;
     self.creditsText.dataDetectorTypes = UIDataDetectorTypeLink;
-    self.creditsText.backgroundColor = [UIColor clearColor];
+    self.creditsText.backgroundColor = [Utilities colorFromHEXString:@"#FFFDD0" withAlpha:1];
+
+    self.creditsText.layer.borderColor =
+        [Utilities colorFromHEXString:@"#2B2B2B" withAlpha:1].CGColor;
+    self.creditsText.layer.borderWidth = 1;
+    self.creditsText.layer.cornerRadius = 90;
 
     [self.view sendSubviewToBack:self.creditsText];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+
+    [self.gradientLayer removeFromSuperlayer];
+    self.gradientLayer = nil;
+
+    [self.view.layer insertSublayer:self.gradientLayer atIndex:0];
 }
 
 - (BOOL)prefersStatusBarHidden { return YES; }

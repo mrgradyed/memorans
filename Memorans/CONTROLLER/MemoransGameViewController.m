@@ -13,7 +13,6 @@
 #import "MemoransOverlayView.h"
 #import "MemoransGameLevel.h"
 #import "MemoransSharedLevelsPack.h"
-#import "MemoransGradientView.h"
 #import "Utilities.h"
 
 @interface MemoransGameViewController ()
@@ -32,7 +31,7 @@
 @property(nonatomic, strong) NSMutableArray *tileViewsLeft;
 @property(nonatomic, strong) NSMutableArray *chosenTileViews;
 
-@property(nonatomic, strong) NSArray *endMessages;
+@property(strong, nonatomic) CAGradientLayer *gradientLayer;
 
 @property(nonatomic, strong) MemoransGameEngine *game;
 
@@ -76,14 +75,16 @@
     return _chosenTileViews;
 }
 
-- (NSArray *)endMessages
+- (CAGradientLayer *)gradientLayer
 {
-    if (!_endMessages)
+    if (!_gradientLayer)
     {
-        _endMessages =
-            @[ @"Well Done!", @"Great!", @"Excellent!", @"Superb!", @"Outstanding!", @"Awesome!" ];
+        _gradientLayer = [Utilities randomGradient];
+
+        _gradientLayer.frame = self.view.bounds;
     }
-    return _endMessages;
+
+    return _gradientLayer;
 }
 
 - (MemoransGameEngine *)game
@@ -173,7 +174,7 @@
 
     if (!tappedTileView.paired)
     {
-        [Utilities animateOverlayView:[self malusScoreOverlayView] withDuration:0.8f];
+        [Utilities animateOverlayView:[self malusScoreOverlayView] withDuration:0.5f];
 
         [self addWobblingAnimationToView:self.chosenTileViews[0] withRepeatCount:4];
         [self addWobblingAnimationToView:self.chosenTileViews[1] withRepeatCount:4];
@@ -182,7 +183,7 @@
     }
     else if (tappedTileView.paired)
     {
-        [Utilities animateOverlayView:[self bonusScoreOverlayView] withDuration:0.8f];
+        [Utilities animateOverlayView:[self bonusScoreOverlayView] withDuration:0.5f];
 
         [Utilities playUiiiSound];
 
@@ -277,11 +278,19 @@
 
             MemoransOverlayView *endMessageOverlayView = [self endMessageOverlayView];
 
-            endMessageOverlayView.overlayString = [NSString
-                stringWithFormat:@"%@",
-                                 self.endMessages[self.game.gameScore % [self.endMessages count]]];
+            NSArray *endMessages = @[
+                @"Well Done!",
+                @"Great!",
+                @"Excellent!",
+                @"Superb!",
+                @"Outstanding!",
+                @"Awesome!"
+            ];
 
-            [Utilities animateOverlayView:endMessageOverlayView withDuration:2];
+            endMessageOverlayView.overlayString = [NSString
+                stringWithFormat:@"%@", endMessages[self.game.gameScore % [endMessages count]]];
+
+            [Utilities animateOverlayView:endMessageOverlayView withDuration:1.8f];
 
             [self updateUIWithNewGame:NO];
         }
@@ -494,7 +503,6 @@ static const NSInteger gTileMargin = 5;
 {
     if (newGame)
     {
-
         MemoransOverlayView *startMessageOverlayView = [self startMessageOverlayView];
 
         if ([self currentLevel].hasSave)
@@ -519,16 +527,14 @@ static const NSInteger gTileMargin = 5;
             }
         }
 
-        if ([self.view isKindOfClass:[MemoransGradientView class]])
-        {
-            MemoransGradientView *backgroundView = (MemoransGradientView *)self.view;
+        [self.gradientLayer removeFromSuperlayer];
+        self.gradientLayer = nil;
 
-            backgroundView.startColor = [Utilities randomNiceColor];
-            backgroundView.middleColor = [Utilities randomNiceColor];
-            backgroundView.endColor = [Utilities randomNiceColor];
-        }
+        [self.view.layer insertSublayer:self.gradientLayer atIndex:0];
 
-        [Utilities animateOverlayView:startMessageOverlayView withDuration:2];
+        [self.nextLevelButton.layer removeAllAnimations];
+
+        [Utilities animateOverlayView:startMessageOverlayView withDuration:1.8f];
 
         self.isLevelCompleted = NO;
     }
@@ -631,7 +637,7 @@ static const NSInteger gTileMargin = 5;
 {
     MemoransOverlayView *bonusScoreOverlayView = [[MemoransOverlayView alloc]
         initWithString:[NSString stringWithFormat:@"+%d", (int)self.game.lastDeltaScore]
-              andColor:[Utilities colorFromHEXString:@"#C643FC" withAlpha:1]
+              andColor:[Utilities colorFromHEXString:@"#0BD318" withAlpha:1]
            andFontSize:250];
 
     if ([self.tileArea.subviews indexOfObject:bonusScoreOverlayView] == NSNotFound)
@@ -663,7 +669,7 @@ static const NSInteger gTileMargin = 5;
 
     MemoransOverlayView *endMessageOverlayView = [[MemoransOverlayView alloc]
         initWithString:nil
-              andColor:[Utilities colorFromHEXString:@"#007AFF" withAlpha:1]
+              andColor:nil
            andFontSize:150];
 
     if ([self.tileArea.subviews indexOfObject:endMessageOverlayView] == NSNotFound)
@@ -678,7 +684,7 @@ static const NSInteger gTileMargin = 5;
 {
     MemoransOverlayView *startMessageOverlayView = [[MemoransOverlayView alloc]
         initWithString:nil
-              andColor:[Utilities colorFromHEXString:@"#007AFF" withAlpha:1]
+              andColor:nil
            andFontSize:150];
 
     if ([self.tileArea.subviews indexOfObject:startMessageOverlayView] == NSNotFound)
@@ -729,6 +735,11 @@ static const NSInteger gTileMargin = 5;
     self.backToLevelsButton.exclusiveTouch = YES;
 
     [self.view bringSubviewToFront:self.tileArea];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
 
     [self updateUIWithNewGame:YES];
 }

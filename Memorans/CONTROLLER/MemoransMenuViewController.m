@@ -12,7 +12,6 @@
 #import "Utilities.h"
 #import "MemoransBehavior.h"
 #import "MemoransTile.h"
-#import "MemoransGradientView.h"
 
 @interface MemoransMenuViewController () <AVAudioPlayerDelegate, UIDynamicAnimatorDelegate>
 
@@ -24,6 +23,8 @@
 @property(weak, nonatomic) IBOutlet UIButton *soundEffectsButton;
 
 #pragma mark - PROPERTIES
+
+@property(strong, nonatomic) CAGradientLayer *gradientLayer;
 
 @property(strong, nonatomic) UIDynamicAnimator *dynamicAnimator;
 
@@ -40,6 +41,18 @@
 @implementation MemoransMenuViewController
 
 #pragma mark - SETTERS AND GETTERS
+
+- (CAGradientLayer *)gradientLayer
+{
+    if (!_gradientLayer)
+    {
+        _gradientLayer = [Utilities randomGradient];
+
+        _gradientLayer.frame = self.view.bounds;
+    }
+
+    return _gradientLayer;
+}
 
 - (UIDynamicAnimator *)dynamicAnimator
 {
@@ -192,33 +205,19 @@
     button.exclusiveTouch = YES;
     button.clipsToBounds = YES;
 
-    button.layer.borderColor = [Utilities colorFromHEXString:@"#1F1F21" withAlpha:1].CGColor;
+    button.layer.borderColor = [Utilities colorFromHEXString:@"#2B2B2B" withAlpha:1].CGColor;
     button.layer.borderWidth = 1;
     button.layer.cornerRadius = 15;
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-
-    [self.monsterViews makeObjectsPerformSelector:@selector(removeFromSuperview)];
-
-    self.monsterViews = nil;
-    self.dynamicAnimator = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
 
-    if ([self.view isKindOfClass:[MemoransGradientView class]])
-    {
-        MemoransGradientView *backgroundView = (MemoransGradientView *)self.view;
+    [self.gradientLayer removeFromSuperlayer];
+    self.gradientLayer = nil;
 
-        backgroundView.startColor = [Utilities randomNiceColor];
-        backgroundView.middleColor = [Utilities randomNiceColor];
-        backgroundView.endColor = [Utilities randomNiceColor];
-    }
+    [self.view.layer insertSublayer:self.gradientLayer atIndex:0];
 
     [self addAndAnimateMonsterViews];
 }
@@ -239,7 +238,8 @@
 
     UIImage *monsterImage;
     UIImageView *monsterImageView;
-    NSInteger monsterViewOffset;
+    NSInteger monsterViewXOffset;
+    NSInteger monsterViewYOffset;
 
     NSMutableArray *imageIndexes = [[NSMutableArray alloc] init];
     NSInteger randomImageIndex = 0;
@@ -258,25 +258,26 @@
 
         monsterImageView = [[UIImageView alloc] initWithImage:monsterImage];
 
-        monsterViewOffset = (arc4random() % (int)monsterImageView.frame.size.width) +
-                            (arc4random() % (int)monsterImageView.frame.size.width) +
-                            monsterImageView.frame.size.width;
+        monsterViewXOffset = monsterImageView.frame.size.width +
+                             (arc4random() % (int)monsterImageView.frame.size.width);
 
-        if (i % 2 == 0)
-        {
-            monsterImageView.center = CGPointMake(monsterViewOffset, monsterViewOffset);
-        }
-        else
-        {
-            monsterImageView.center = CGPointMake(self.view.frame.size.width - monsterViewOffset,
-                                                  self.view.frame.size.height - monsterViewOffset);
-        }
+        monsterViewYOffset = monsterImageView.frame.size.height +
+                             (arc4random() % (int)monsterImageView.frame.size.height);
+
+        monsterImageView.center = CGPointMake(monsterViewXOffset, monsterViewYOffset);
 
         [self.monsterViews addObject:monsterImageView];
 
         [self.view addSubview:monsterImageView];
+    }
 
-        [self.view sendSubviewToBack:monsterImageView];
+    for (UIView *view in self.view.subviews)
+    {
+
+        if ([view isKindOfClass:[UIButton class]])
+        {
+            [self.view bringSubviewToFront:view];
+        }
     }
 
     MemoransBehavior *memoransBehavior = [[MemoransBehavior alloc] initWithItems:self.monsterViews];

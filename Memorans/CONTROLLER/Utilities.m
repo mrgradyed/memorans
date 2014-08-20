@@ -72,9 +72,28 @@
     CGFloat brightness = (float)arc4random() / UINT32_MAX;
 
     saturation = saturation < 0.5 ? 0.5 : saturation;
-    brightness = brightness < 0.8 ? 0.8 : brightness;
+    brightness = brightness < 0.9 ? 0.9 : brightness;
 
     return [UIColor colorWithHue:hue saturation:saturation brightness:brightness alpha:1];
+}
+
++ (CAGradientLayer *)randomGradient
+{
+    UIColor *startColor = [Utilities randomNiceColor];
+    UIColor *middleColor = [Utilities randomNiceColor];
+    UIColor *endColor = [Utilities randomNiceColor];
+
+    CAGradientLayer *gradientLayer = [CAGradientLayer layer];
+
+    gradientLayer.colors =
+        @[ (id)startColor.CGColor, (id)middleColor.CGColor, (id)endColor.CGColor ];
+
+    gradientLayer.locations = @[ @(0.0f), @(0.5f), @(1.0f) ];
+
+    gradientLayer.startPoint = CGPointMake(0.0f, 0.0f);
+    gradientLayer.endPoint = CGPointMake(1.0f, 1.0f);
+
+    return gradientLayer;
 }
 
 #pragma mark - OVERLAYS ANIMATION
@@ -83,14 +102,28 @@
 {
     [overlayView resetView];
 
+    overlayView.superview.userInteractionEnabled = NO;
+
     [overlayView.superview bringSubviewToFront:overlayView];
 
-    [UIView animateWithDuration:0.2f
+    [UIView animateWithDuration:0.3f
         animations:^{ overlayView.center = overlayView.superview.center; }
         completion:^(BOOL finished) {
-            [UIView animateWithDuration:duration
+
+            [UIView animateWithDuration:0.3f
+                delay:duration
+                options:0
                 animations:^{ overlayView.alpha = 0; }
-                completion:^(BOOL finished) { [overlayView removeFromSuperview]; }];
+                completion:^(BOOL finished) {
+
+
+                    overlayView.superview.userInteractionEnabled = YES;
+
+                    [overlayView removeFromSuperview];
+
+
+
+                }];
         }];
 }
 
@@ -102,10 +135,10 @@
                                                  andSize:(CGFloat)size
                                           andStrokeColor:(UIColor *)strokeColor
 {
-    UIColor *dcolor = color ? color : [Utilities colorFromHEXString:@"#C643FC" withAlpha:1];
+    UIColor *dcolor = color ? color : [Utilities colorFromHEXString:@"#007AFF" withAlpha:1];
 
     UIColor *dStrokeColor =
-        strokeColor ? strokeColor : [Utilities colorFromHEXString:@"#1F1F21" withAlpha:1];
+        strokeColor ? strokeColor : [Utilities colorFromHEXString:@"#2B2B2B" withAlpha:1];
 
     CGFloat dsize = size ? size : 32;
 

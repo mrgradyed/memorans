@@ -96,7 +96,6 @@
     [aCoder encodeInteger:self.tileValue forKey:@"tileValue"];
     [aCoder encodeInteger:self.tilePoints forKey:@"_tilePoints"];
 
-
     [aCoder encodeObject:self.tileSetType forKey:@"tileSetType"];
     [aCoder encodeObject:self.tileID forKey:@"tileID"];
 

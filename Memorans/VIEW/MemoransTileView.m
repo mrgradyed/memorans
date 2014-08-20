@@ -95,27 +95,28 @@
         UIImage *backImage = [UIImage imageNamed:self.tileBackImage];
 
         [backImage drawInRect:self.bounds];
-/*
-        // JUST FOR TESTING, TO BE REMOVED - START -
+        /*
+                // JUST FOR TESTING, TO BE REMOVED - START -
 
-        UIFont *backFont =
-            [[UIFont preferredFontForTextStyle:UIFontTextStyleCaption1] fontWithSize:18];
+                UIFont *backFont =
+                    [[UIFont preferredFontForTextStyle:UIFontTextStyleCaption1] fontWithSize:18];
 
-        NSMutableParagraphStyle *parStyle = [[NSMutableParagraphStyle alloc] init];
+                NSMutableParagraphStyle *parStyle = [[NSMutableParagraphStyle alloc] init];
 
-        [parStyle setAlignment:NSTextAlignmentCenter];
+                [parStyle setAlignment:NSTextAlignmentCenter];
 
-        NSAttributedString *tileBackString =
-            [[NSAttributedString alloc] initWithString:self.imageID
-                                            attributes:@{
-                                                          NSFontAttributeName : backFont,
-                                                          NSParagraphStyleAttributeName : parStyle
-                                                       }];
+                NSAttributedString *tileBackString =
+                    [[NSAttributedString alloc] initWithString:self.imageID
+                                                    attributes:@{
+                                                                  NSFontAttributeName : backFont,
+                                                                  NSParagraphStyleAttributeName :
+           parStyle
+                                                               }];
 
-        [tileBackString drawInRect:self.bounds];
+                [tileBackString drawInRect:self.bounds];
 
-        // JUST FOR TESTING, TO BE REMOVED - END -
- */
+                // JUST FOR TESTING, TO BE REMOVED - END -
+         */
     }
 }
 
@@ -139,7 +140,7 @@
     self.multipleTouchEnabled = NO;
     self.clipsToBounds = YES;
 
-    self.layer.borderColor = [Utilities colorFromHEXString:@"#1F1F21" withAlpha:1].CGColor;
+    self.layer.borderColor = [Utilities colorFromHEXString:@"#2B2B2B" withAlpha:1].CGColor;
     self.layer.borderWidth = 1;
     self.layer.cornerRadius = MIN(self.bounds.size.width, self.bounds.size.height) / 15;
 }

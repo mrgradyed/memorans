@@ -12,7 +12,6 @@
 #import "MemoransSharedLevelsPack.h"
 #import "MemoransGameLevel.h"
 #import "MemoransOverlayView.h"
-#import "MemoransGradientView.h"
 #import "Utilities.h"
 
 @interface MemoransLevelsViewController ()
@@ -23,9 +22,26 @@
 
 @property(weak, nonatomic) IBOutlet UIButton *backToMenuButton;
 
+#pragma mark - PROPERTIES
+@property(strong, nonatomic) CAGradientLayer *gradientLayer;
+
 @end
 
 @implementation MemoransLevelsViewController
+
+#pragma mark - SETTERS AND GETTERS
+
+- (CAGradientLayer *)gradientLayer
+{
+    if (!_gradientLayer)
+    {
+        _gradientLayer = [Utilities randomGradient];
+
+        _gradientLayer.frame = self.view.bounds;
+    }
+
+    return _gradientLayer;
+}
 
 #pragma mark - ACTIONS AND NAVIGATION
 
@@ -110,14 +126,10 @@
 {
     [super viewWillAppear:animated];
 
-    if ([self.view isKindOfClass:[MemoransGradientView class]])
-    {
-        MemoransGradientView *backgroundView = (MemoransGradientView *)self.view;
+    [self.gradientLayer removeFromSuperlayer];
+    self.gradientLayer = nil;
 
-        backgroundView.startColor = [Utilities randomNiceColor];
-        backgroundView.middleColor = [Utilities randomNiceColor];
-        backgroundView.endColor = [Utilities randomNiceColor];
-    }
+    [self.view.layer insertSublayer:self.gradientLayer atIndex:0];
 
     MemoransGameLevel *level;
 
