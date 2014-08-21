@@ -103,11 +103,8 @@
 
     for (MemoransLevelButton *levelButton in self.levelButtonViews)
     {
-        level =
-            (MemoransGameLevel *)[MemoransSharedLevelsPack sharedLevelsPack].levelsPack[loopCount];
 
-        levelButtonImage =
-            [NSString stringWithFormat:@"Level%d%@", (int)level.tilesInLevel, level.tileSetType];
+        levelButtonImage = [NSString stringWithFormat:@"Level%d", loopCount + 1];
 
         [levelButton setImage:[UIImage imageNamed:levelButtonImage] forState:UIControlStateNormal];
 
@@ -144,6 +141,13 @@
 
         loopCount++;
     }
+
+    MemoransOverlayView *overlayView =
+        [[MemoransOverlayView alloc] initWithString:@"Pick a level" andColor:nil andFontSize:150];
+
+    [self.view addSubview:overlayView];
+
+    [Utilities animateOverlayView:overlayView withDuration:1.5f];
 }
 
 - (BOOL)prefersStatusBarHidden { return YES; }

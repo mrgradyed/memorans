@@ -42,6 +42,8 @@
         self.userInteractionEnabled = YES;
 
         [self.overlayLockView removeFromSuperview];
+
+        self.overlayLockView = nil;
     }
     else
     {

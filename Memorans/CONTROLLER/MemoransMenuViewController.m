@@ -34,7 +34,6 @@
 
 @property(nonatomic) BOOL playingFirstTrack;
 @property(nonatomic) BOOL musicOff;
-@property(nonatomic) BOOL soundsOff;
 
 @end
 
@@ -102,36 +101,29 @@
     }
 
     NSAttributedString *musicButtonString =
-        [Utilities styledAttributedStringWithString:self.musicOff ? @"Music: Off" : @"Music: On"
+        [Utilities styledAttributedStringWithString:self.musicOff ? @"♬ Off" : @"♬ On"
                                       andAlignement:NSTextAlignmentCenter
                                            andColor:nil
-                                            andSize:70
-                                     andStrokeColor:[UIColor clearColor]];
+                                            andSize:60
+                                     andStrokeColor:nil];
 
     [self.musicButton setAttributedTitle:musicButtonString forState:UIControlStateNormal];
 }
 
 - (IBAction)soundEffectsButtonTouched
 {
-    self.soundsOff = !self.soundsOff;
+    [Utilities playPopSound];
 
-    if (self.soundsOff)
-    {
-        gSoundsOff = YES;
-    }
-    else
-    {
-        gSoundsOff = NO;
-    }
+    gSoundsOff = !gSoundsOff;
 
     [Utilities playPopSound];
 
     NSAttributedString *soundsButtonString =
-        [Utilities styledAttributedStringWithString:self.soundsOff ? @"Sounds: Off" : @"Sounds: On"
+        [Utilities styledAttributedStringWithString:gSoundsOff ? @"♪ Off" : @"♪ On"
                                       andAlignement:NSTextAlignmentCenter
                                            andColor:nil
-                                            andSize:70
-                                     andStrokeColor:[UIColor clearColor]];
+                                            andSize:60
+                                     andStrokeColor:nil];
 
     [self.soundEffectsButton setAttributedTitle:soundsButtonString forState:UIControlStateNormal];
 }
@@ -154,29 +146,29 @@
     self.view.multipleTouchEnabled = NO;
 
     NSAttributedString *playGameString =
-        [Utilities styledAttributedStringWithString:@"Play"
+        [Utilities styledAttributedStringWithString:@"▶︎"
                                       andAlignement:NSTextAlignmentCenter
                                            andColor:nil
-                                            andSize:70
-                                     andStrokeColor:[UIColor clearColor]];
+                                            andSize:60
+                                     andStrokeColor:nil];
 
     [self.playButton setAttributedTitle:playGameString forState:UIControlStateNormal];
 
     NSAttributedString *musicButtonString =
-        [Utilities styledAttributedStringWithString:@"Music: On"
+        [Utilities styledAttributedStringWithString:@"♬ On"
                                       andAlignement:NSTextAlignmentCenter
                                            andColor:nil
-                                            andSize:70
-                                     andStrokeColor:[UIColor clearColor]];
+                                            andSize:60
+                                     andStrokeColor:nil];
 
     [self.musicButton setAttributedTitle:musicButtonString forState:UIControlStateNormal];
 
     NSAttributedString *soundsButtonString =
-        [Utilities styledAttributedStringWithString:@"Sounds: On"
+        [Utilities styledAttributedStringWithString:@"♪ On"
                                       andAlignement:NSTextAlignmentCenter
                                            andColor:nil
-                                            andSize:70
-                                     andStrokeColor:[UIColor clearColor]];
+                                            andSize:60
+                                     andStrokeColor:nil];
 
     [self.soundEffectsButton setAttributedTitle:soundsButtonString forState:UIControlStateNormal];
 
@@ -184,15 +176,18 @@
         [Utilities styledAttributedStringWithString:@"Credits"
                                       andAlignement:NSTextAlignmentCenter
                                            andColor:nil
-                                            andSize:70
-                                     andStrokeColor:[UIColor clearColor]];
+                                            andSize:60
+                                     andStrokeColor:nil];
 
     [self.creditsButton setAttributedTitle:creditsString forState:UIControlStateNormal];
 
-    [self configureButton:self.playButton];
-    [self configureButton:self.musicButton];
-    [self configureButton:self.soundEffectsButton];
-    [self configureButton:self.creditsButton];
+    for (UIView *view in self.view.subviews)
+    {
+        if ([view isKindOfClass:[UIButton class]])
+        {
+            [self configureButton:(UIButton *)view];
+        }
+    }
 
     [self startPlayingMusicFromResource:@"JauntyGumption" ofType:@"mp3"];
     self.playingFirstTrack = YES;
@@ -200,14 +195,25 @@
 
 - (void)configureButton:(UIButton *)button
 {
-    button.backgroundColor = [Utilities colorFromHEXString:@"#FFFDD0" withAlpha:1];
+    button.backgroundColor = [Utilities colorFromHEXString:@"#2B2B2B" withAlpha:1];
     button.multipleTouchEnabled = NO;
     button.exclusiveTouch = YES;
     button.clipsToBounds = YES;
 
     button.layer.borderColor = [Utilities colorFromHEXString:@"#2B2B2B" withAlpha:1].CGColor;
     button.layer.borderWidth = 1;
-    button.layer.cornerRadius = 15;
+    button.layer.cornerRadius = 25;
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+
+    [super viewDidDisappear:animated];
+
+    [self.monsterViews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+
+    self.monsterViews = nil;
+    self.dynamicAnimator = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -273,7 +279,6 @@
 
     for (UIView *view in self.view.subviews)
     {
-
         if ([view isKindOfClass:[UIButton class]])
         {
             [self.view bringSubviewToFront:view];

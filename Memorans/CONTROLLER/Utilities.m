@@ -102,28 +102,21 @@
 {
     [overlayView resetView];
 
-    overlayView.superview.userInteractionEnabled = NO;
-
     [overlayView.superview bringSubviewToFront:overlayView];
 
+    CGPoint newCenter =
+        CGPointMake(overlayView.superview.center.x,
+                    overlayView.superview.frame.origin.y + overlayView.frame.size.height / 2);
+
     [UIView animateWithDuration:0.3f
-        animations:^{ overlayView.center = overlayView.superview.center; }
+        animations:^{ overlayView.center = newCenter; }
         completion:^(BOOL finished) {
 
             [UIView animateWithDuration:0.3f
                 delay:duration
                 options:0
                 animations:^{ overlayView.alpha = 0; }
-                completion:^(BOOL finished) {
-
-
-                    overlayView.superview.userInteractionEnabled = YES;
-
-                    [overlayView removeFromSuperview];
-
-
-
-                }];
+                completion:^(BOOL finished) { [overlayView removeFromSuperview]; }];
         }];
 }
 
@@ -135,7 +128,7 @@
                                                  andSize:(CGFloat)size
                                           andStrokeColor:(UIColor *)strokeColor
 {
-    UIColor *dcolor = color ? color : [Utilities colorFromHEXString:@"#007AFF" withAlpha:1];
+    UIColor *dcolor = color ? color : [Utilities colorFromHEXString:@"#108cff" withAlpha:1];
 
     UIColor *dStrokeColor =
         strokeColor ? strokeColor : [Utilities colorFromHEXString:@"#2B2B2B" withAlpha:1];
@@ -154,7 +147,7 @@
             {
                 NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-Bold" size:dsize],
                 NSForegroundColorAttributeName : dcolor,
-                NSStrokeWidthAttributeName : @-2,
+                NSStrokeWidthAttributeName : @-3,
                 NSStrokeColorAttributeName : dStrokeColor,
                 NSParagraphStyleAttributeName : paragraphStyle,
             }];

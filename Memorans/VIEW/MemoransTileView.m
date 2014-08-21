@@ -71,9 +71,13 @@
 
         self.layer.borderWidth = 0;
     }
-    else
+    else if (self.shown)
     {
         [[UIColor whiteColor] setFill];
+    }
+    else
+    {
+        [[Utilities colorFromHEXString:@"#2B2B2B" withAlpha:1] setFill];
     }
 
     UIRectFill(self.bounds);
@@ -94,7 +98,13 @@
     {
         UIImage *backImage = [UIImage imageNamed:self.tileBackImage];
 
-        [backImage drawInRect:self.bounds];
+        CGFloat shortestTileSide = MIN(self.bounds.size.width, self.bounds.size.height);
+
+        CGRect imageRect = CGRectMake((self.bounds.size.width - shortestTileSide) / 2, 0,
+                                      shortestTileSide, shortestTileSide);
+
+        [backImage drawInRect:imageRect];
+
         /*
                 // JUST FOR TESTING, TO BE REMOVED - START -
 

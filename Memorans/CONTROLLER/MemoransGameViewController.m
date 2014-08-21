@@ -174,7 +174,7 @@
 
     if (!tappedTileView.paired)
     {
-        [Utilities animateOverlayView:[self malusScoreOverlayView] withDuration:0.5f];
+        [Utilities animateOverlayView:[self malusScoreOverlayView] withDuration:0.3f];
 
         [self addWobblingAnimationToView:self.chosenTileViews[0] withRepeatCount:4];
         [self addWobblingAnimationToView:self.chosenTileViews[1] withRepeatCount:4];
@@ -183,7 +183,7 @@
     }
     else if (tappedTileView.paired)
     {
-        [Utilities animateOverlayView:[self bonusScoreOverlayView] withDuration:0.5f];
+        [Utilities animateOverlayView:[self bonusScoreOverlayView] withDuration:0.3f];
 
         [Utilities playUiiiSound];
 
@@ -290,7 +290,7 @@
             endMessageOverlayView.overlayString = [NSString
                 stringWithFormat:@"%@", endMessages[self.game.gameScore % [endMessages count]]];
 
-            [Utilities animateOverlayView:endMessageOverlayView withDuration:1.8f];
+            [Utilities animateOverlayView:endMessageOverlayView withDuration:1.5f];
 
             [self updateUIWithNewGame:NO];
         }
@@ -397,7 +397,7 @@
 
     [wobbling setToValue:@(-0.08f)];
 
-    [wobbling setDuration:0.11f];
+    [wobbling setDuration:0.1f];
 
     [wobbling setAutoreverses:YES];
 
@@ -534,7 +534,7 @@ static const NSInteger gTileMargin = 5;
 
         [self.nextLevelButton.layer removeAllAnimations];
 
-        [Utilities animateOverlayView:startMessageOverlayView withDuration:1.8f];
+        [Utilities animateOverlayView:startMessageOverlayView withDuration:1.5f];
 
         self.isLevelCompleted = NO;
     }
@@ -571,7 +571,7 @@ static const NSInteger gTileMargin = 5;
 
     self.scoreLabel.attributedText = [Utilities
         styledAttributedStringWithString:[NSString
-                                             stringWithFormat:@"✪ %d", (int)self.game.gameScore]
+                                             stringWithFormat:@"★ %d", (int)self.game.gameScore]
                            andAlignement:NSTextAlignmentCenter
                                 andColor:nil
                                  andSize:60
@@ -587,8 +587,7 @@ static const NSInteger gTileMargin = 5;
     UITapGestureRecognizer *tileTapRecog;
 
     NSString *tileBackImage =
-        [MemoransTileView allowedTileViewBacks][self.currentLevelNumber %
-                                                [[MemoransTileView allowedTileViewBacks] count]];
+        [NSString stringWithFormat:@"tileBackRibbon%d", self.currentLevelNumber % 6];
 
     NSInteger tileYOffset;
 
@@ -667,10 +666,8 @@ static const NSInteger gTileMargin = 5;
 - (MemoransOverlayView *)endMessageOverlayView
 {
 
-    MemoransOverlayView *endMessageOverlayView = [[MemoransOverlayView alloc]
-        initWithString:nil
-              andColor:nil
-           andFontSize:150];
+    MemoransOverlayView *endMessageOverlayView =
+        [[MemoransOverlayView alloc] initWithString:nil andColor:nil andFontSize:150];
 
     if ([self.tileArea.subviews indexOfObject:endMessageOverlayView] == NSNotFound)
     {
@@ -682,10 +679,8 @@ static const NSInteger gTileMargin = 5;
 
 - (MemoransOverlayView *)startMessageOverlayView
 {
-    MemoransOverlayView *startMessageOverlayView = [[MemoransOverlayView alloc]
-        initWithString:nil
-              andColor:nil
-           andFontSize:150];
+    MemoransOverlayView *startMessageOverlayView =
+        [[MemoransOverlayView alloc] initWithString:nil andColor:nil andFontSize:150];
 
     if ([self.tileArea.subviews indexOfObject:startMessageOverlayView] == NSNotFound)
     {
@@ -713,7 +708,7 @@ static const NSInteger gTileMargin = 5;
     self.restartGameButton.exclusiveTouch = YES;
 
     NSAttributedString *nextLevelString =
-        [Utilities styledAttributedStringWithString:@"➤"
+        [Utilities styledAttributedStringWithString:@"▶︎"
                                       andAlignement:NSTextAlignmentRight
                                            andColor:nil
                                             andSize:60
