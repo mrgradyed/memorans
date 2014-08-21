@@ -8,6 +8,7 @@
 
 @import AudioToolbox;
 @import AVFoundation;
+@import QuartzCore;
 
 #import "Utilities.h"
 #import "MemoransOverlayView.h"

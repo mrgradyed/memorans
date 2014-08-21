@@ -95,25 +95,17 @@
 
     self.backToMenuButton.exclusiveTouch = YES;
 
-    MemoransGameLevel *level;
-
     int loopCount = 0;
 
     NSString *levelButtonImage;
 
     for (MemoransLevelButton *levelButton in self.levelButtonViews)
     {
-
         levelButtonImage = [NSString stringWithFormat:@"Level%d", loopCount + 1];
 
         [levelButton setImage:[UIImage imageNamed:levelButtonImage] forState:UIControlStateNormal];
 
         levelButton.exclusiveTouch = YES;
-
-        if (loopCount < 2)
-        {
-            level.unlocked = YES;
-        }
 
         loopCount++;
     }
@@ -131,15 +123,31 @@
     MemoransGameLevel *level;
 
     int loopCount = 0;
+    int highestCompletedLevel = 0;
 
     for (MemoransLevelButton *levelButton in self.levelButtonViews)
     {
         level =
             (MemoransGameLevel *)[MemoransSharedLevelsPack sharedLevelsPack].levelsPack[loopCount];
 
-        levelButton.enabled = level.unlocked;
+        if (loopCount == 0)
+        {
+            level.completed = YES;
+        }
+
+        levelButton.enabled = level.completed;
+
+        if (level.completed)
+        {
+            highestCompletedLevel = loopCount;
+        }
 
         loopCount++;
+    }
+
+    if (highestCompletedLevel + 1 < [self.levelButtonViews count])
+    {
+        ((MemoransLevelButton *)self.levelButtonViews[highestCompletedLevel + 1]).enabled = YES;
     }
 
     MemoransOverlayView *overlayView =

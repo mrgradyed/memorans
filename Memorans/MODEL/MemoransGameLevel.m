@@ -81,7 +81,7 @@
 
         _tilesInLevel = [aDecoder decodeIntegerForKey:@"tilesInLevel"];
 
-        _unlocked = [aDecoder decodeBoolForKey:@"unlocked"];
+        _completed = [aDecoder decodeBoolForKey:@"unlocked"];
 
         _hasSave = [aDecoder decodeBoolForKey:@"hasSave"];
     }
@@ -95,7 +95,7 @@
 
     [aCoder encodeInteger:self.tilesInLevel forKey:@"tilesInLevel"];
 
-    [aCoder encodeBool:self.unlocked forKey:@"unlocked"];
+    [aCoder encodeBool:self.completed forKey:@"completed"];
 
     [aCoder encodeBool:self.hasSave forKey:@"hasSave"];
 }

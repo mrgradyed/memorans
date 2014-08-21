@@ -6,6 +6,8 @@
 //  Copyright (c) 2014 Emiliano D'Alterio. All rights reserved.
 //
 
+@import QuartzCore;
+
 #import "MemoransGameViewController.h"
 #import "MemoransTileView.h"
 #import "MemoransTile.h"
@@ -38,7 +40,7 @@
 @property(nonatomic) NSInteger wobblingTilesCount;
 
 @property(nonatomic) BOOL isBadScore;
-@property(nonatomic) BOOL isLevelCompleted;
+@property(nonatomic) BOOL isGameOver;
 
 @end
 
@@ -158,8 +160,11 @@
             tappedTileView.chosen = YES;
             tappedTileView.shown = YES;
         }
-        completion:^(BOOL completed) { [self playTappedTileView:tappedTileView]; }];
+        completion:^(BOOL finished) { [self playTappedTileView:tappedTileView]; }];
 }
+
+
+
 
 #pragma mark - GAMEPLAY
 
@@ -268,11 +273,11 @@
             [self currentLevel].hasSave = NO;
         }
 
-        self.isLevelCompleted = YES;
+        self.isGameOver = YES;
 
         if (!self.isBadScore)
         {
-            [self nextLevel].unlocked = YES;
+            [self currentLevel].completed = YES;
 
             [self addWobblingAnimationToView:self.nextLevelButton withRepeatCount:40];
 
@@ -515,7 +520,7 @@ static const NSInteger gTileMargin = 5;
         {
             [self createAndAnimateTileViews];
 
-            if (self.isBadScore && self.isLevelCompleted)
+            if (self.isBadScore && self.isGameOver)
             {
                 startMessageOverlayView.overlayString = @"Bad Score\nTry Again!";
             }
@@ -536,7 +541,7 @@ static const NSInteger gTileMargin = 5;
 
         [Utilities animateOverlayView:startMessageOverlayView withDuration:1.5f];
 
-        self.isLevelCompleted = NO;
+        self.isGameOver = NO;
     }
 
     if ([self.tileViews count] < 6)
@@ -565,7 +570,7 @@ static const NSInteger gTileMargin = 5;
         }
     }
 
-    self.nextLevelButton.hidden = ![self nextLevel].unlocked;
+    self.nextLevelButton.hidden = ![self currentLevel].completed;
 
     self.isBadScore = (self.game.gameScore < 0);
 

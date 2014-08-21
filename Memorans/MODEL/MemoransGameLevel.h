@@ -16,7 +16,7 @@
 
 @property(nonatomic) NSInteger tilesInLevel;
 
-@property(nonatomic) BOOL unlocked;
+@property(nonatomic) BOOL completed;
 
 @property(nonatomic) BOOL hasSave;
 
