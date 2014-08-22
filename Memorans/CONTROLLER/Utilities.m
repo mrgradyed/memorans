@@ -97,6 +97,14 @@
 
 + (void)animateOverlayView:(MemoransOverlayView *)overlayView withDuration:(NSTimeInterval)duration
 {
+    for (UIView *subview in overlayView.superview.subviews)
+    {
+        if ([subview isKindOfClass:[MemoransOverlayView class]] && subview != overlayView)
+        {
+            [subview removeFromSuperview];
+        }
+    }
+
     [overlayView.superview bringSubviewToFront:overlayView];
 
     CGPoint newCenter = CGPointMake(overlayView.superview.center.x, overlayView.superview.center.y);

@@ -110,6 +110,13 @@
 
         loopCount++;
     }
+
+    // JUST FOR TESTING, TO BE REMOVED - START -
+
+   // [[MemoransSharedLevelsPack sharedLevelsPack] deleteSavedLevelsStatus];
+
+    // JUST FOR TESTING, TO BE REMOVED - END -
+
 }
 
 - (void)viewWillAppear:(BOOL)animated

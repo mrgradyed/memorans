@@ -53,13 +53,15 @@
 
             int loopCount = 0;
 
+            NSInteger tileSetTypeIndex;
+
             for (NSNumber *tilesInLevel in [MemoransGameLevel allowedTilesCountsInLevels])
             {
                 newLevel = [[MemoransGameLevel alloc] init];
 
                 newLevel.tilesInLevel = [tilesInLevel integerValue];
 
-                NSInteger tileSetTypeIndex = loopCount % [[MemoransTile allowedTileSets] count];
+                tileSetTypeIndex = loopCount % [[MemoransTile allowedTileSets] count];
 
                 newLevel.tileSetType = [MemoransTile allowedTileSets][tileSetTypeIndex];
 
@@ -92,8 +94,6 @@
 
 - (BOOL)deleteSavedLevelsStatus
 {
-    self.levelsPack = nil;
-
     NSFileManager *fileManager = [NSFileManager defaultManager];
 
     NSError *error;

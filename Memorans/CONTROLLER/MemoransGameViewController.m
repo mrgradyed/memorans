@@ -236,7 +236,7 @@
 - (void)finishAndSave
 {
     NSLog(@"finishAndSave");
-    
+
     if ([self.chosenTileViews count] == 2)
     {
         MemoransTileView *firstTappedTileView = ((MemoransTileView *)self.chosenTileViews[0]);
@@ -330,8 +330,6 @@
     }
 
     [self.tileArea.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
-
- 
 
     self.tileViews = nil;
     self.tileViewsLeft = nil;
@@ -748,7 +746,6 @@ static const NSInteger gTileMargin = 5;
     [self.gradientLayer removeFromSuperlayer];
 
     self.gradientLayer = nil;
-
 }
 
 - (BOOL)prefersStatusBarHidden { return YES; }
@@ -780,7 +777,6 @@ static const NSInteger gTileMargin = 5;
 
 - (BOOL)deleteSavedGameControllerStatus
 {
-
     NSFileManager *fileManager = [NSFileManager defaultManager];
 
     NSError *gameError;
