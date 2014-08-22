@@ -17,6 +17,7 @@
 @property(weak, nonatomic) IBOutlet UITextView *creditsText;
 
 #pragma mark - PROPERTIES
+
 @property(strong, nonatomic) CAGradientLayer *gradientLayer;
 
 @end
@@ -79,10 +80,16 @@
 {
     [super viewWillAppear:animated];
 
-    [self.gradientLayer removeFromSuperlayer];
-    self.gradientLayer = nil;
-
     [self.view.layer insertSublayer:self.gradientLayer atIndex:0];
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+
+    [self.gradientLayer removeFromSuperlayer];
+
+    self.gradientLayer = nil;
 }
 
 - (BOOL)prefersStatusBarHidden { return YES; }

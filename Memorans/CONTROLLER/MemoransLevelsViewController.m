@@ -23,6 +23,7 @@
 @property(weak, nonatomic) IBOutlet UIButton *backToMenuButton;
 
 #pragma mark - PROPERTIES
+
 @property(strong, nonatomic) CAGradientLayer *gradientLayer;
 
 @end
@@ -115,9 +116,6 @@
 {
     [super viewWillAppear:animated];
 
-    [self.gradientLayer removeFromSuperlayer];
-    self.gradientLayer = nil;
-
     [self.view.layer insertSublayer:self.gradientLayer atIndex:0];
 
     MemoransGameLevel *level;
@@ -151,11 +149,20 @@
     }
 
     MemoransOverlayView *overlayView =
-        [[MemoransOverlayView alloc] initWithString:@"Pick a level" andColor:nil andFontSize:150];
+        [[MemoransOverlayView alloc] initWithString:@"Pick a level!" andColor:nil andFontSize:150];
 
     [self.view addSubview:overlayView];
 
     [Utilities animateOverlayView:overlayView withDuration:1.5f];
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+
+    [self.gradientLayer removeFromSuperlayer];
+
+    self.gradientLayer = nil;
 }
 
 - (BOOL)prefersStatusBarHidden { return YES; }

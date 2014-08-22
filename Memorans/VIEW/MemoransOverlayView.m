@@ -86,8 +86,10 @@
     {
         CGRect screenBounds = [[UIScreen mainScreen] bounds];
 
-        _outOfScreenCenter = CGPointMake(screenBounds.size.width + self.frame.size.width / 2,
-                                         screenBounds.size.height + self.frame.size.height / 2);
+        CGFloat shortSide = MIN(screenBounds.size.width, screenBounds.size.height);
+        CGFloat longSide = MAX(screenBounds.size.width, screenBounds.size.height);
+
+        _outOfScreenCenter = CGPointMake(longSide * 2, shortSide / 2);
     }
 
     return _outOfScreenCenter;
@@ -97,7 +99,7 @@
 
 - (void)resetView
 {
-    if (self.center.x != self.outOfScreenCenter.x)
+    if (self.center.x != self.outOfScreenCenter.x || self.center.y != self.outOfScreenCenter.y)
     {
         [self.layer removeAllAnimations];
 
@@ -140,6 +142,8 @@
     self.backgroundColor = [UIColor clearColor];
     self.contentMode = UIViewContentModeRedraw;
     self.userInteractionEnabled = NO;
+
+    [self resetView];
 }
 
 - (instancetype)initWithString:(NSString *)string

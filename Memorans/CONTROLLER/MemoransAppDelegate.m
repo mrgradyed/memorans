@@ -7,7 +7,6 @@
 //
 
 #import "MemoransAppDelegate.h"
-#import "MemoransSharedLevelsPack.h"
 
 @implementation MemoransAppDelegate
 

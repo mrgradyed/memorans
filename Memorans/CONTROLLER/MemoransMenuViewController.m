@@ -6,12 +6,10 @@
 //  Copyright (c) 2014 Emiliano D'Alterio. All rights reserved.
 //
 
-@import AVFoundation;
-
 #import "MemoransMenuViewController.h"
-#import "Utilities.h"
 #import "MemoransBehavior.h"
 #import "MemoransTile.h"
+#import "Utilities.h"
 
 @interface MemoransMenuViewController () <AVAudioPlayerDelegate, UIDynamicAnimatorDelegate>
 
@@ -205,27 +203,27 @@
     button.layer.cornerRadius = 25;
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+
+    [self.view.layer insertSublayer:self.gradientLayer atIndex:0];
+
+    [self addAndAnimateMonsterViews];
+}
+
 - (void)viewDidDisappear:(BOOL)animated
 {
 
     [super viewDidDisappear:animated];
 
+    [self.gradientLayer removeFromSuperlayer];
+    self.gradientLayer = nil;
+
     [self.monsterViews makeObjectsPerformSelector:@selector(removeFromSuperview)];
 
     self.monsterViews = nil;
     self.dynamicAnimator = nil;
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-
-    [self.gradientLayer removeFromSuperlayer];
-    self.gradientLayer = nil;
-
-    [self.view.layer insertSublayer:self.gradientLayer atIndex:0];
-
-    [self addAndAnimateMonsterViews];
 }
 
 #pragma mark - ANIMATIONS

@@ -6,10 +6,6 @@
 //  Copyright (c) 2014 Emiliano D'Alterio. All rights reserved.
 //
 
-@import AudioToolbox;
-@import AVFoundation;
-@import QuartzCore;
-
 #import "Utilities.h"
 #import "MemoransOverlayView.h"
 
@@ -101,13 +97,9 @@
 
 + (void)animateOverlayView:(MemoransOverlayView *)overlayView withDuration:(NSTimeInterval)duration
 {
-    [overlayView resetView];
-
     [overlayView.superview bringSubviewToFront:overlayView];
 
-    CGPoint newCenter =
-        CGPointMake(overlayView.superview.center.x,
-                    overlayView.superview.frame.origin.y + overlayView.frame.size.height / 2);
+    CGPoint newCenter = CGPointMake(overlayView.superview.center.x, overlayView.superview.center.y);
 
     [UIView animateWithDuration:0.3f
         animations:^{ overlayView.center = newCenter; }
