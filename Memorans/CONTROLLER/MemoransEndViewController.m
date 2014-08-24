@@ -14,6 +14,8 @@
 
 #pragma mark - OUTLETS
 
+@property(weak, nonatomic) IBOutlet UITextView *endLabel;
+
 @property(weak, nonatomic) IBOutlet UIButton *backToRootButton;
 
 #pragma mark - PROPERTIES
@@ -72,6 +74,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
+    self.endLabel.attributedText = [Utilities
+        styledAttributedStringWithString:NSLocalizedString(@"The End", @"End screen label")
+                           andAlignement:NSTextAlignmentCenter
+                                andColor:nil
+                                 andSize:120
+                          andStrokeColor:nil];
 
     NSAttributedString *backToRootString =
         [Utilities styledAttributedStringWithString:@"⬅︎"

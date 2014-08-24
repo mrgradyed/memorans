@@ -132,7 +132,7 @@
     UIColor *dcolor = color ? color : [Utilities colorFromHEXString:@"#108cff" withAlpha:1];
 
     UIColor *dStrokeColor =
-        strokeColor ? strokeColor : [Utilities colorFromHEXString:@"#2B2B2B" withAlpha:1];
+        strokeColor ? strokeColor : [UIColor whiteColor];
 
     CGFloat dsize = size ? size : 32;
 

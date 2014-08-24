@@ -81,7 +81,7 @@
 
         _tilesInLevel = [aDecoder decodeIntegerForKey:@"tilesInLevel"];
 
-        _completed = [aDecoder decodeBoolForKey:@"unlocked"];
+        _completed = [aDecoder decodeBoolForKey:@"completed"];
 
         _hasSave = [aDecoder decodeBoolForKey:@"hasSave"];
     }

@@ -285,12 +285,12 @@
             [self addWobblingAnimationToView:self.nextLevelButton withRepeatCount:50];
 
             NSArray *endMessages = @[
-                @"Well Done!",
-                @"Great!",
-                @"Excellent!",
-                @"Superb!",
-                @"Outstanding!",
-                @"Awesome!"
+                NSLocalizedString(@"Well Done!", @"End message 1"),
+                NSLocalizedString(@"Great!", @"End message 2"),
+                NSLocalizedString(@"Excellent!", @"End message 3"),
+                NSLocalizedString(@"Superb!", @"End message 4"),
+                NSLocalizedString(@"Outstanding!", @"End message 5"),
+                NSLocalizedString(@"Awesome!", @"End message 6")
             ];
 
             MemoransOverlayView *endMessageOverlayView = [self addEndMessageOverlayView];
@@ -517,7 +517,8 @@ static const NSInteger gTileMargin = 5;
         {
             [self resumeGame];
 
-            startMessageOverlayView.overlayString = @"Game\nResumed";
+            startMessageOverlayView.overlayString =
+                NSLocalizedString(@"Game\nResumed", @"Start message 1");
         }
         else
         {
@@ -525,15 +526,19 @@ static const NSInteger gTileMargin = 5;
 
             if (self.isBadScore && self.isGameOver)
             {
-                startMessageOverlayView.overlayString = @"Bad Score\nTry Again";
+                startMessageOverlayView.overlayString =
+                    NSLocalizedString(@"Bad Score\nTry Again", @"Start message 2");
+
                 startMessageOverlayView.overlayColor =
                     [Utilities colorFromHEXString:@"#FF1300" withAlpha:1];
             }
             else
             {
-                startMessageOverlayView.overlayString =
-                    [NSString stringWithFormat:@"Level %d\n%@", (int)self.currentLevelNumber + 1,
-                                               [self currentLevel].tileSetType];
+                NSString *levelString = NSLocalizedString(@"Level", @"Start message 3");
+
+                startMessageOverlayView.overlayString = [NSString
+                    stringWithFormat:@"%@ %d\n%@", levelString, (int)self.currentLevelNumber + 1,
+                                     [self currentLevel].tileSetType];
             }
         }
 
@@ -666,7 +671,7 @@ static const NSInteger gTileMargin = 5;
 - (MemoransOverlayView *)addEndMessageOverlayView
 {
     MemoransOverlayView *endMessageOverlayView =
-        [[MemoransOverlayView alloc] initWithString:nil andColor:nil andFontSize:200];
+        [[MemoransOverlayView alloc] initWithString:nil andColor:nil andFontSize:190];
 
     [self.view addSubview:endMessageOverlayView];
 
@@ -676,7 +681,7 @@ static const NSInteger gTileMargin = 5;
 - (MemoransOverlayView *)addStartMessageOverlayView
 {
     MemoransOverlayView *startMessageOverlayView =
-        [[MemoransOverlayView alloc] initWithString:nil andColor:nil andFontSize:200];
+        [[MemoransOverlayView alloc] initWithString:nil andColor:nil andFontSize:190];
 
     [self.view addSubview:startMessageOverlayView];
 

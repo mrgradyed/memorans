@@ -99,15 +99,21 @@
         self.playingFirstTrack = YES;
     }
 
+    NSString *overMusicOnOff = self.musicOff ? NSLocalizedString(@"Music Off", @"Music overlay OFF")
+                                             : NSLocalizedString(@"Music On", @"Music overlay ON");
+
     MemoransOverlayView *overlayView =
-    [[MemoransOverlayView alloc] initWithString:self.musicOff ? @"Music Off" : @"Music On" andColor:nil andFontSize:150];
+        [[MemoransOverlayView alloc] initWithString:overMusicOnOff andColor:nil andFontSize:150];
 
     [self.view addSubview:overlayView];
 
     [Utilities animateOverlayView:overlayView withDuration:0.5f];
 
+    NSString *musicOnOff = self.musicOff ? NSLocalizedString(@"♬ Off", @"Music button OFF")
+                                         : NSLocalizedString(@"♬ On", @"Music button ON");
+
     NSAttributedString *musicButtonString =
-        [Utilities styledAttributedStringWithString:self.musicOff ? @"♬ Off" : @"♬ On"
+        [Utilities styledAttributedStringWithString:musicOnOff
                                       andAlignement:NSTextAlignmentCenter
                                            andColor:nil
                                             andSize:60
@@ -124,16 +130,21 @@
 
     [Utilities playPopSound];
 
+    NSString *overSoundsOnOff = gSoundsOff ? NSLocalizedString(@"Sounds Off", @"Sounds overlay OFF")
+                                           : NSLocalizedString(@"Sounds On", @"Sounds overlay ON");
 
     MemoransOverlayView *overlayView =
-    [[MemoransOverlayView alloc] initWithString:gSoundsOff ? @"Sounds Off" : @"Sounds On" andColor:nil andFontSize:150];
+        [[MemoransOverlayView alloc] initWithString:overSoundsOnOff andColor:nil andFontSize:150];
 
     [self.view addSubview:overlayView];
 
     [Utilities animateOverlayView:overlayView withDuration:0.5f];
 
+    NSString *soundsOnOff = gSoundsOff ? NSLocalizedString(@"♪ Off", @"Sounds button OFF")
+                                       : NSLocalizedString(@"♪ On", @"Sounds button ON");
+
     NSAttributedString *soundsButtonString =
-        [Utilities styledAttributedStringWithString:gSoundsOff ? @"♪ Off" : @"♪ On"
+        [Utilities styledAttributedStringWithString:soundsOnOff
                                       andAlignement:NSTextAlignmentCenter
                                            andColor:nil
                                             andSize:60
@@ -169,7 +180,7 @@
     [self.playButton setAttributedTitle:playGameString forState:UIControlStateNormal];
 
     NSAttributedString *musicButtonString =
-        [Utilities styledAttributedStringWithString:@"♬ On"
+        [Utilities styledAttributedStringWithString:NSLocalizedString(@"♬ On", @"Music button ON")
                                       andAlignement:NSTextAlignmentCenter
                                            andColor:nil
                                             andSize:60
@@ -177,17 +188,17 @@
 
     [self.musicButton setAttributedTitle:musicButtonString forState:UIControlStateNormal];
 
-    NSAttributedString *soundsButtonString =
-        [Utilities styledAttributedStringWithString:@"♪ On"
-                                      andAlignement:NSTextAlignmentCenter
-                                           andColor:nil
-                                            andSize:60
-                                     andStrokeColor:nil];
+    NSAttributedString *soundsButtonString = [Utilities
+        styledAttributedStringWithString:NSLocalizedString(@"♪ On", @"Sounds button ON")
+                           andAlignement:NSTextAlignmentCenter
+                                andColor:nil
+                                 andSize:60
+                          andStrokeColor:nil];
 
     [self.soundEffectsButton setAttributedTitle:soundsButtonString forState:UIControlStateNormal];
 
     NSAttributedString *creditsString =
-        [Utilities styledAttributedStringWithString:@"Credits"
+        [Utilities styledAttributedStringWithString:NSLocalizedString(@"Credits", @"Credits button")
                                       andAlignement:NSTextAlignmentCenter
                                            andColor:nil
                                             andSize:60

@@ -147,6 +147,14 @@
         }
 
         loopCount++;
+
+        // JUST FOR TESTING, TO BE REMOVED - START -
+
+        levelButton.enabled = YES;
+
+        level.completed = YES;
+
+        // JUST FOR TESTING, TO BE REMOVED - END -
     }
 
     if (highestCompletedLevel + 1 < [self.levelButtonViews count])
@@ -154,8 +162,10 @@
         ((MemoransLevelButton *)self.levelButtonViews[highestCompletedLevel + 1]).enabled = YES;
     }
 
-    MemoransOverlayView *overlayView =
-        [[MemoransOverlayView alloc] initWithString:@"Pick\na Level" andColor:nil andFontSize:200];
+    MemoransOverlayView *overlayView = [[MemoransOverlayView alloc]
+        initWithString:NSLocalizedString(@"Pick\na Level", @"Level choice")
+              andColor:nil
+           andFontSize:190];
 
     [self.view addSubview:overlayView];
 
