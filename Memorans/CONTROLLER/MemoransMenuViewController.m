@@ -9,6 +9,7 @@
 #import "MemoransMenuViewController.h"
 #import "MemoransBehavior.h"
 #import "MemoransTile.h"
+#import "MemoransOverlayView.h"
 #import "Utilities.h"
 
 @interface MemoransMenuViewController () <AVAudioPlayerDelegate, UIDynamicAnimatorDelegate>
@@ -98,6 +99,13 @@
         self.playingFirstTrack = YES;
     }
 
+    MemoransOverlayView *overlayView =
+    [[MemoransOverlayView alloc] initWithString:self.musicOff ? @"Music Off" : @"Music On" andColor:nil andFontSize:150];
+
+    [self.view addSubview:overlayView];
+
+    [Utilities animateOverlayView:overlayView withDuration:0.5f];
+
     NSAttributedString *musicButtonString =
         [Utilities styledAttributedStringWithString:self.musicOff ? @"♬ Off" : @"♬ On"
                                       andAlignement:NSTextAlignmentCenter
@@ -115,6 +123,14 @@
     gSoundsOff = !gSoundsOff;
 
     [Utilities playPopSound];
+
+
+    MemoransOverlayView *overlayView =
+    [[MemoransOverlayView alloc] initWithString:gSoundsOff ? @"Sounds Off" : @"Sounds On" andColor:nil andFontSize:150];
+
+    [self.view addSubview:overlayView];
+
+    [Utilities animateOverlayView:overlayView withDuration:0.5f];
 
     NSAttributedString *soundsButtonString =
         [Utilities styledAttributedStringWithString:gSoundsOff ? @"♪ Off" : @"♪ On"

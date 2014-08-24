@@ -235,8 +235,6 @@
 
 - (void)finishAndSave
 {
-    NSLog(@"finishAndSave");
-
     if ([self.chosenTileViews count] == 2)
     {
         MemoransTileView *firstTappedTileView = ((MemoransTileView *)self.chosenTileViews[0]);
@@ -284,9 +282,7 @@
         {
             [self currentLevel].completed = YES;
 
-            [self addWobblingAnimationToView:self.nextLevelButton withRepeatCount:40];
-
-            MemoransOverlayView *endMessageOverlayView = [self addEndMessageOverlayView];
+            [self addWobblingAnimationToView:self.nextLevelButton withRepeatCount:50];
 
             NSArray *endMessages = @[
                 @"Well Done!",
@@ -297,10 +293,12 @@
                 @"Awesome!"
             ];
 
+            MemoransOverlayView *endMessageOverlayView = [self addEndMessageOverlayView];
+
             endMessageOverlayView.overlayString = [NSString
                 stringWithFormat:@"%@", endMessages[self.game.gameScore % [endMessages count]]];
 
-            [Utilities animateOverlayView:endMessageOverlayView withDuration:1.5f];
+            [Utilities animateOverlayView:endMessageOverlayView withDuration:1.8f];
 
             [self updateUIWithNewGame:NO];
         }
@@ -527,7 +525,9 @@ static const NSInteger gTileMargin = 5;
 
             if (self.isBadScore && self.isGameOver)
             {
-                startMessageOverlayView.overlayString = @"Bad Score\nTry Again!";
+                startMessageOverlayView.overlayString = @"Bad Score\nTry Again";
+                startMessageOverlayView.overlayColor =
+                    [Utilities colorFromHEXString:@"#FF1300" withAlpha:1];
             }
             else
             {
@@ -541,7 +541,7 @@ static const NSInteger gTileMargin = 5;
 
         [self.nextLevelButton.layer removeAllAnimations];
 
-        [Utilities animateOverlayView:startMessageOverlayView withDuration:1.5f];
+        [Utilities animateOverlayView:startMessageOverlayView withDuration:1.8f];
 
         self.isGameOver = NO;
     }
@@ -644,7 +644,7 @@ static const NSInteger gTileMargin = 5;
     MemoransOverlayView *bonusScoreOverlayView = [[MemoransOverlayView alloc]
         initWithString:[NSString stringWithFormat:@"+%d", (int)self.game.lastDeltaScore]
               andColor:[Utilities colorFromHEXString:@"#0BD318" withAlpha:1]
-           andFontSize:250];
+           andFontSize:300];
 
     [self.view addSubview:bonusScoreOverlayView];
 
@@ -656,7 +656,7 @@ static const NSInteger gTileMargin = 5;
     MemoransOverlayView *malusScoreOverlayView = [[MemoransOverlayView alloc]
         initWithString:[NSString stringWithFormat:@"%d", (int)self.game.lastDeltaScore]
               andColor:[Utilities colorFromHEXString:@"#FF1300" withAlpha:1]
-           andFontSize:250];
+           andFontSize:300];
 
     [self.view addSubview:malusScoreOverlayView];
 
@@ -666,7 +666,7 @@ static const NSInteger gTileMargin = 5;
 - (MemoransOverlayView *)addEndMessageOverlayView
 {
     MemoransOverlayView *endMessageOverlayView =
-        [[MemoransOverlayView alloc] initWithString:nil andColor:nil andFontSize:150];
+        [[MemoransOverlayView alloc] initWithString:nil andColor:nil andFontSize:200];
 
     [self.view addSubview:endMessageOverlayView];
 
@@ -676,7 +676,7 @@ static const NSInteger gTileMargin = 5;
 - (MemoransOverlayView *)addStartMessageOverlayView
 {
     MemoransOverlayView *startMessageOverlayView =
-        [[MemoransOverlayView alloc] initWithString:nil andColor:nil andFontSize:150];
+        [[MemoransOverlayView alloc] initWithString:nil andColor:nil andFontSize:200];
 
     [self.view addSubview:startMessageOverlayView];
 

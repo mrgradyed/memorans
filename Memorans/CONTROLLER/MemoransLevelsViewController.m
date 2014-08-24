@@ -113,10 +113,9 @@
 
     // JUST FOR TESTING, TO BE REMOVED - START -
 
-   // [[MemoransSharedLevelsPack sharedLevelsPack] deleteSavedLevelsStatus];
+    // [[MemoransSharedLevelsPack sharedLevelsPack] deleteSavedLevelsStatus];
 
     // JUST FOR TESTING, TO BE REMOVED - END -
-
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -156,7 +155,7 @@
     }
 
     MemoransOverlayView *overlayView =
-        [[MemoransOverlayView alloc] initWithString:@"Pick a level!" andColor:nil andFontSize:150];
+        [[MemoransOverlayView alloc] initWithString:@"Pick\na Level" andColor:nil andFontSize:200];
 
     [self.view addSubview:overlayView];
 
