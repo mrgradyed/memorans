@@ -20,6 +20,7 @@
 @property(weak, nonatomic) IBOutlet UIButton *musicButton;
 @property(weak, nonatomic) IBOutlet UIButton *creditsButton;
 @property(weak, nonatomic) IBOutlet UIButton *soundEffectsButton;
+@property(weak, nonatomic) IBOutlet UIButton *facebookButton;
 
 #pragma mark - PROPERTIES
 
@@ -160,6 +161,13 @@
     [self performSegueWithIdentifier:@"toCreditsController" sender:self];
 }
 
+- (IBAction)facebookButtonTouched
+{
+    NSURL *fbURL = [NSURL URLWithString:@"https://www.facebook.com/memorans"];
+
+    [[UIApplication sharedApplication] openURL:fbURL];
+}
+
 #pragma mark - VIEWS MANAGEMENT AND UPDATE
 
 - (void)viewDidLoad
@@ -205,6 +213,15 @@
                                      andStrokeColor:nil];
 
     [self.creditsButton setAttributedTitle:creditsString forState:UIControlStateNormal];
+
+    NSAttributedString *facebookString =
+        [Utilities styledAttributedStringWithString:NSLocalizedString(@"f", @"Facebook button")
+                                      andAlignement:NSTextAlignmentCenter
+                                           andColor:nil
+                                            andSize:60
+                                     andStrokeColor:nil];
+
+    [self.facebookButton setAttributedTitle:facebookString forState:UIControlStateNormal];
 
     for (UIView *view in self.view.subviews)
     {
@@ -258,7 +275,6 @@
 
 - (void)viewDidDisappear:(BOOL)animated
 {
-
     [super viewDidDisappear:animated];
 
     [self.gradientLayer removeFromSuperlayer];
