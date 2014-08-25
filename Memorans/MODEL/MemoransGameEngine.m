@@ -22,6 +22,9 @@
 @property(nonatomic) NSInteger lastDeltaScore;
 @property(nonatomic) NSInteger pairedTilesInGameCount;
 
+@property(nonatomic) BOOL isLucky;
+@property(nonatomic) NSInteger isCombo;
+
 @end
 
 @implementation MemoransGameEngine
@@ -30,7 +33,18 @@
 
 - (void)setGameScore:(NSInteger)gameScore
 {
+    BOOL wasAMatch = self.lastDeltaScore > 0;
+
     self.lastDeltaScore = gameScore - _gameScore;
+
+    if (wasAMatch && self.lastDeltaScore > 0)
+    {
+        self.isCombo++;
+    }
+    else
+    {
+        self.isCombo = 0;
+    }
 
     _gameScore = gameScore;
 }
@@ -106,8 +120,12 @@
     {
         if ([selectedTile isEqualToTile:self.previousSelectedTile])
         {
-            NSInteger actualBonus = [self pairedBonus] + (selectedTile.tilePoints +
-                                                          self.previousSelectedTile.tilePoints);
+            NSInteger tilesNegativePoints =
+                (selectedTile.tilePoints + self.previousSelectedTile.tilePoints);
+
+            self.isLucky = (tilesNegativePoints >= -2);
+
+            NSInteger actualBonus = [self pairedBonus] + tilesNegativePoints;
 
             self.gameScore += actualBonus < 3 ? 3 : actualBonus;
 

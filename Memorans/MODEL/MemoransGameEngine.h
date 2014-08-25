@@ -16,6 +16,10 @@
 @property(nonatomic, readonly) NSInteger gameScore;
 @property(nonatomic, readonly) NSInteger lastDeltaScore;
 
+@property(nonatomic, readonly) BOOL isLucky;
+@property(nonatomic, readonly) NSInteger isCombo;
+
+
 #pragma mark - DESIGNATED INITIALISER
 
 - (instancetype)initGameWithTilesCount:(NSInteger)gameTilesCount andTileSet:(NSString *)tileSetType;

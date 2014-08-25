@@ -171,7 +171,7 @@
     self.view.multipleTouchEnabled = NO;
 
     NSAttributedString *playGameString =
-        [Utilities styledAttributedStringWithString:@"▶︎"
+        [Utilities styledAttributedStringWithString:NSLocalizedString(@"Play", @"Play button")
                                       andAlignement:NSTextAlignmentCenter
                                            andColor:nil
                                             andSize:60

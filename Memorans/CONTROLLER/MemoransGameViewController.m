@@ -191,7 +191,42 @@
     }
     else if (tappedTileView.paired)
     {
-        [Utilities animateOverlayView:[self addBonusScoreOverlayView] withDuration:0.3f];
+        if (!self.game.isLucky && !self.game.isCombo)
+        {
+
+            [Utilities animateOverlayView:[self addBonusScoreOverlayView] withDuration:0.3f];
+        }
+
+        if (self.game.isLucky && !self.game.isCombo)
+        {
+            MemoransOverlayView *luckyMessage = [self addMessageOverlayView];
+
+            luckyMessage.overlayString = NSLocalizedString(@"What a Chance!", @"Lucky overlay");
+
+            luckyMessage.fontSize = 140;
+
+            [Utilities animateOverlayView:luckyMessage withDuration:0.5f];
+        }
+
+        if (self.game.isCombo)
+        {
+            MemoransOverlayView *comboMessage = [self addMessageOverlayView];
+
+            if (self.game.isCombo < 2)
+            {
+                comboMessage.overlayString = NSLocalizedString(@"Combo!", @"Combo overlay");
+            }
+            else
+            {
+                comboMessage.overlayString =
+                    [NSString stringWithFormat:@"%dX %@", self.game.isCombo,
+                                               NSLocalizedString(@"Combo!", @"Combo overlay")];
+            }
+
+            comboMessage.fontSize = 140;
+
+            [Utilities animateOverlayView:comboMessage withDuration:0.5f];
+        }
 
         [Utilities playUiiiSound];
 
@@ -293,7 +328,7 @@
                 NSLocalizedString(@"Awesome!", @"End message 6")
             ];
 
-            MemoransOverlayView *endMessageOverlayView = [self addEndMessageOverlayView];
+            MemoransOverlayView *endMessageOverlayView = [self addMessageOverlayView];
 
             endMessageOverlayView.overlayString = [NSString
                 stringWithFormat:@"%@", endMessages[self.game.gameScore % [endMessages count]]];
@@ -511,7 +546,7 @@ static const NSInteger gTileMargin = 5;
 {
     if (newGame)
     {
-        MemoransOverlayView *startMessageOverlayView = [self addStartMessageOverlayView];
+        MemoransOverlayView *startMessageOverlayView = [self addMessageOverlayView];
 
         if ([self currentLevel].hasSave)
         {
@@ -668,24 +703,14 @@ static const NSInteger gTileMargin = 5;
     return malusScoreOverlayView;
 }
 
-- (MemoransOverlayView *)addEndMessageOverlayView
+- (MemoransOverlayView *)addMessageOverlayView
 {
-    MemoransOverlayView *endMessageOverlayView =
+    MemoransOverlayView *messageOverlayView =
         [[MemoransOverlayView alloc] initWithString:nil andColor:nil andFontSize:190];
 
-    [self.view addSubview:endMessageOverlayView];
+    [self.view addSubview:messageOverlayView];
 
-    return endMessageOverlayView;
-}
-
-- (MemoransOverlayView *)addStartMessageOverlayView
-{
-    MemoransOverlayView *startMessageOverlayView =
-        [[MemoransOverlayView alloc] initWithString:nil andColor:nil andFontSize:190];
-
-    [self.view addSubview:startMessageOverlayView];
-
-    return startMessageOverlayView;
+    return messageOverlayView;
 }
 
 - (void)viewDidLoad
