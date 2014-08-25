@@ -21,6 +21,7 @@
 @property(weak, nonatomic) IBOutlet UIButton *creditsButton;
 @property(weak, nonatomic) IBOutlet UIButton *soundEffectsButton;
 @property(weak, nonatomic) IBOutlet UIButton *facebookButton;
+@property(weak, nonatomic) IBOutlet UIButton *rateButton;
 
 #pragma mark - PROPERTIES
 
@@ -168,6 +169,14 @@
     [[UIApplication sharedApplication] openURL:fbURL];
 }
 
+- (IBAction)rateButtonTouched
+{
+    // IMPORTANT: REMEMBER TO ADD APP ID TO URL!!
+    NSURL *appURL = [NSURL URLWithString:@"itms-apps://itunes.apple.com/app/"];
+
+    [[UIApplication sharedApplication] openURL:appURL];
+}
+
 #pragma mark - VIEWS MANAGEMENT AND UPDATE
 
 - (void)viewDidLoad
@@ -218,10 +227,19 @@
         [Utilities styledAttributedStringWithString:NSLocalizedString(@"f", @"Facebook button")
                                       andAlignement:NSTextAlignmentCenter
                                            andColor:nil
-                                            andSize:60
+                                            andSize:80
                                      andStrokeColor:nil];
 
     [self.facebookButton setAttributedTitle:facebookString forState:UIControlStateNormal];
+
+    NSAttributedString *rateString =
+        [Utilities styledAttributedStringWithString:NSLocalizedString(@"Rate", @"Rate button")
+                                      andAlignement:NSTextAlignmentCenter
+                                           andColor:nil
+                                            andSize:60
+                                     andStrokeColor:nil];
+
+    [self.rateButton setAttributedTitle:rateString forState:UIControlStateNormal];
 
     for (UIView *view in self.view.subviews)
     {

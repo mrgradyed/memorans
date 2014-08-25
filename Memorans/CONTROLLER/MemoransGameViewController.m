@@ -219,7 +219,7 @@
             else
             {
                 comboMessage.overlayString =
-                    [NSString stringWithFormat:@"%dX %@", self.game.isCombo,
+                    [NSString stringWithFormat:@"%dX %@", (int)self.game.isCombo,
                                                NSLocalizedString(@"Combo!", @"Combo overlay")];
             }
 
