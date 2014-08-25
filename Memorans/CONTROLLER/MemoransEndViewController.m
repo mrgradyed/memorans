@@ -14,8 +14,6 @@
 
 #pragma mark - OUTLETS
 
-@property(weak, nonatomic) IBOutlet UITextView *endLabel;
-
 @property(weak, nonatomic) IBOutlet UIButton *backToRootButton;
 
 #pragma mark - PROPERTIES
@@ -75,13 +73,6 @@
 {
     [super viewDidLoad];
 
-    self.endLabel.attributedText = [Utilities
-        styledAttributedStringWithString:NSLocalizedString(@"The End", @"End screen label")
-                           andAlignement:NSTextAlignmentCenter
-                                andColor:nil
-                                 andSize:120
-                          andStrokeColor:nil];
-
     NSAttributedString *backToRootString =
         [Utilities styledAttributedStringWithString:@"⬅︎"
                                       andAlignement:NSTextAlignmentLeft
@@ -92,6 +83,24 @@
     [self.backToRootButton setAttributedTitle:backToRootString forState:UIControlStateNormal];
 
     self.backToRootButton.exclusiveTouch = YES;
+
+    CGFloat shortSide = MIN(self.view.bounds.size.width, self.view.bounds.size.height);
+    CGFloat longSide = MAX(self.view.bounds.size.width, self.view.bounds.size.height);
+
+    UILabel *backgroundLabel =
+        [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 0.8 * longSide, 0.3 * shortSide)];
+
+    backgroundLabel.center = CGPointMake(longSide / 2, shortSide / 2);
+
+    backgroundLabel.attributedText = [Utilities
+        styledAttributedStringWithString:NSLocalizedString(@"The End", @"End screen label")
+                           andAlignement:NSTextAlignmentCenter
+                                andColor:nil
+                                 andSize:150
+                          andStrokeColor:nil];
+
+    [self.view addSubview:backgroundLabel];
+    [self.view bringSubviewToFront:backgroundLabel];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -166,7 +175,7 @@
 
     for (UIView *view in self.view.subviews)
     {
-        if ([view isKindOfClass:[UIButton class]] || [view isKindOfClass:[UITextView class]])
+        if ([view isKindOfClass:[UIButton class]] || [view isKindOfClass:[UILabel class]])
         {
             [self.view bringSubviewToFront:view];
         }

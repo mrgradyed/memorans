@@ -298,7 +298,7 @@
             endMessageOverlayView.overlayString = [NSString
                 stringWithFormat:@"%@", endMessages[self.game.gameScore % [endMessages count]]];
 
-            [Utilities animateOverlayView:endMessageOverlayView withDuration:1.8f];
+            [Utilities animateOverlayView:endMessageOverlayView withDuration:1.5f];
 
             [self updateUIWithNewGame:NO];
         }

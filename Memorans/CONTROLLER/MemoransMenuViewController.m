@@ -214,6 +214,23 @@
         }
     }
 
+    CGFloat shortSide = MIN(self.view.bounds.size.width, self.view.bounds.size.height);
+    CGFloat longSide = MAX(self.view.bounds.size.width, self.view.bounds.size.height);
+
+    UILabel *backgroundLabel =
+        [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 0.8 * longSide, 0.3 * shortSide)];
+
+    backgroundLabel.center = CGPointMake(longSide / 2, shortSide / 2);
+
+    backgroundLabel.attributedText =
+        [Utilities styledAttributedStringWithString:@"Memorans"
+                                      andAlignement:NSTextAlignmentCenter
+                                           andColor:[UIColor clearColor]
+                                            andSize:150
+                                     andStrokeColor:[UIColor blackColor]];
+
+    [self.view addSubview:backgroundLabel];
+
     [self startPlayingMusicFromResource:@"JauntyGumption" ofType:@"mp3"];
     self.playingFirstTrack = YES;
 }
