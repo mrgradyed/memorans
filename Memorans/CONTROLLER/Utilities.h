@@ -26,6 +26,10 @@
 
 + (void)animateOverlayView:(MemoransOverlayView *)overlayView withDuration:(NSTimeInterval)duration;
 
++ (void)addWobblingAnimationToView:(UIView *)view
+                   withRepeatCount:(float)repeatCount
+                       andDelegate:(id)delegate;
+
 + (NSAttributedString *)styledAttributedStringWithString:(NSString *)string
                                            andAlignement:(NSTextAlignment)alignement
                                                 andColor:(UIColor *)color
@@ -41,6 +45,12 @@
 + (void)playUiiiSound;
 
 + (void)playUeeeSound;
+
++ (AVAudioPlayer *)audioPlayerFromResource:(NSString *)fileName
+                                    ofType:(NSString *)fileType
+                              withDelegate:(id<AVAudioPlayerDelegate>)delegate
+                                    volume:(float)volume
+                          andNumberOfLoops:(NSInteger)numberOfLoops;
 
 #pragma mark - GLOBAL VARIABLES
 

@@ -93,7 +93,7 @@
     return gradientLayer;
 }
 
-#pragma mark - OVERLAYS ANIMATION
+#pragma mark - ANIMATION
 
 + (void)animateOverlayView:(MemoransOverlayView *)overlayView withDuration:(NSTimeInterval)duration
 {
@@ -121,6 +121,30 @@
         }];
 }
 
++ (void)addWobblingAnimationToView:(UIView *)view
+                   withRepeatCount:(float)repeatCount
+                       andDelegate:(id)delegate
+{
+    CABasicAnimation *wobbling = [CABasicAnimation animationWithKeyPath:@"transform.rotation"];
+
+    [wobbling setFromValue:@(0.08f)];
+
+    [wobbling setToValue:@(-0.08f)];
+
+    [wobbling setDuration:0.1f];
+
+    [wobbling setAutoreverses:YES];
+
+    [wobbling setRepeatCount:repeatCount];
+
+    if (delegate)
+    {
+        wobbling.delegate = delegate;
+    }
+
+    [view.layer addAnimation:wobbling forKey:@"wobbling"];
+}
+
 #pragma mark - ATTRIBUTED STRINGS
 
 + (NSAttributedString *)styledAttributedStringWithString:(NSString *)string
@@ -131,8 +155,7 @@
 {
     UIColor *dcolor = color ? color : [Utilities colorFromHEXString:@"#108cff" withAlpha:1];
 
-    UIColor *dStrokeColor =
-        strokeColor ? strokeColor : [UIColor whiteColor];
+    UIColor *dStrokeColor = strokeColor ? strokeColor : [UIColor whiteColor];
 
     CGFloat dsize = size ? size : 32;
 
@@ -274,8 +297,20 @@ BOOL gSoundsOff = NO;
     });
 }
 
-+ (AVAudioPlayer *)audioPlayerFromResource:(NSString *)fileName ofType:(NSString *)fileType
+
+
++ (AVAudioPlayer *)audioPlayerFromResource:(NSString *)fileName
+                                    ofType:(NSString *)fileType
+                              withDelegate:(id<AVAudioPlayerDelegate>)delegate
+                                    volume:(float)volume
+                          andNumberOfLoops:(NSInteger)numberOfLoops
 {
+
+    if (!fileName || !fileType)
+    {
+        return nil;
+    }
+
     NSBundle *appBundle = [NSBundle mainBundle];
 
     NSData *soundData =
@@ -287,8 +322,13 @@ BOOL gSoundsOff = NO;
 
     player = [[AVAudioPlayer alloc] initWithData:soundData error:&error];
 
-    player.numberOfLoops = 0;
-    player.volume = 0.8;
+    if (delegate)
+    {
+        player.delegate = delegate;
+    }
+
+    player.numberOfLoops = numberOfLoops;
+    player.volume = volume;
 
     return player;
 }
@@ -304,10 +344,29 @@ static AVAudioPlayer *uuueSoundPlayer;
 {
     if (self == [Utilities self])
     {
-        popSoundPlayer = [Utilities audioPlayerFromResource:@"pop" ofType:@"caf"];
-        iiiiSoundPlayer = [Utilities audioPlayerFromResource:@"iiii" ofType:@"caf"];
-        uiiiSoundPlayer = [Utilities audioPlayerFromResource:@"uiii" ofType:@"caf"];
-        uuueSoundPlayer = [Utilities audioPlayerFromResource:@"uuue" ofType:@"caf"];
+        popSoundPlayer = [Utilities audioPlayerFromResource:@"pop"
+                                                     ofType:@"caf"
+                                               withDelegate:nil
+                                                     volume:0.8
+                                           andNumberOfLoops:0];
+
+        iiiiSoundPlayer = [Utilities audioPlayerFromResource:@"iiii"
+                                                      ofType:@"caf"
+                                                withDelegate:nil
+                                                      volume:0.8
+                                            andNumberOfLoops:0];
+
+        uiiiSoundPlayer = [Utilities audioPlayerFromResource:@"uiii"
+                                                      ofType:@"caf"
+                                                withDelegate:nil
+                                                      volume:0.8
+                                            andNumberOfLoops:0];
+
+        uuueSoundPlayer = [Utilities audioPlayerFromResource:@"uuue"
+                                                      ofType:@"caf"
+                                                withDelegate:nil
+                                                      volume:0.8
+                                            andNumberOfLoops:0];
     }
 }
 

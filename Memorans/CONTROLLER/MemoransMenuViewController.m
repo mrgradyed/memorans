@@ -379,20 +379,12 @@
 
     dispatch_async(globalDefaultQueue, ^(void) {
 
-        NSBundle *appBundle = [NSBundle mainBundle];
-
-        NSData *musicData =
-            [NSData dataWithContentsOfFile:[appBundle pathForResource:fileName ofType:fileType]];
-
-        NSError *error;
-
         self.musicPlayer = nil;
-
-        self.musicPlayer = [[AVAudioPlayer alloc] initWithData:musicData error:&error];
-
-        self.musicPlayer.delegate = self;
-        self.musicPlayer.numberOfLoops = 0;
-        self.musicPlayer.volume = 0.4;
+        self.musicPlayer = [Utilities audioPlayerFromResource:fileName
+                                                       ofType:fileType
+                                                 withDelegate:self
+                                                       volume:0.4f
+                                             andNumberOfLoops:0];
 
         [self.musicPlayer prepareToPlay];
         [self.musicPlayer play];

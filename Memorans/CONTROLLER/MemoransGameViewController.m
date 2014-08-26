@@ -184,8 +184,12 @@
     {
         [Utilities animateOverlayView:[self addMalusScoreOverlayView] withDuration:0.3f];
 
-        [self addWobblingAnimationToView:self.chosenTileViews[0] withRepeatCount:4];
-        [self addWobblingAnimationToView:self.chosenTileViews[1] withRepeatCount:4];
+        [Utilities addWobblingAnimationToView:self.chosenTileViews[0]
+                              withRepeatCount:4
+                                  andDelegate:self];
+        [Utilities addWobblingAnimationToView:self.chosenTileViews[1]
+                              withRepeatCount:4
+                                  andDelegate:self];
 
         [Utilities playIiiiSound];
     }
@@ -193,7 +197,6 @@
     {
         if (!self.game.isLucky && !self.game.isCombo)
         {
-
             [Utilities animateOverlayView:[self addBonusScoreOverlayView] withDuration:0.3f];
         }
 
@@ -317,7 +320,9 @@
         {
             [self currentLevel].completed = YES;
 
-            [self addWobblingAnimationToView:self.nextLevelButton withRepeatCount:50];
+            [Utilities addWobblingAnimationToView:self.nextLevelButton
+                                  withRepeatCount:50
+                                      andDelegate:nil];
 
             NSArray *endMessages = @[
                 NSLocalizedString(@"Well Done!", @"End message 1"),
@@ -430,26 +435,7 @@
     return (MemoransGameLevel *)[self levelsPack][self.currentLevelNumber + 1];
 }
 
-#pragma mark - CAAnimation AND CAAnimation DELEGATE METHODS
-
-- (void)addWobblingAnimationToView:(UIView *)view withRepeatCount:(float)repeatCount
-{
-    CABasicAnimation *wobbling = [CABasicAnimation animationWithKeyPath:@"transform.rotation"];
-
-    [wobbling setFromValue:@(0.08f)];
-
-    [wobbling setToValue:@(-0.08f)];
-
-    [wobbling setDuration:0.1f];
-
-    [wobbling setAutoreverses:YES];
-
-    [wobbling setRepeatCount:repeatCount];
-
-    wobbling.delegate = self;
-
-    [view.layer addAnimation:wobbling forKey:@"wobbling"];
-}
+#pragma mark - CAAnimation DELEGATE METHODS
 
 - (void)animationDidStart:(CAAnimation *)anim { self.wobblingTilesCount++; }
 
