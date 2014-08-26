@@ -20,7 +20,7 @@
 @property(weak, nonatomic) IBOutlet UIButton *musicButton;
 @property(weak, nonatomic) IBOutlet UIButton *creditsButton;
 @property(weak, nonatomic) IBOutlet UIButton *soundEffectsButton;
-@property(weak, nonatomic) IBOutlet UIButton *facebookButton;
+@property(weak, nonatomic) IBOutlet UIButton *fbButton;
 @property(weak, nonatomic) IBOutlet UIButton *rateButton;
 
 #pragma mark - PROPERTIES
@@ -33,7 +33,6 @@
 
 @property(strong, nonatomic) AVAudioPlayer *musicPlayer;
 
-@property(nonatomic) BOOL playingFirstTrack;
 @property(nonatomic) BOOL musicOff;
 
 @end
@@ -93,12 +92,10 @@
     if (self.musicOff)
     {
         self.musicPlayer = nil;
-        self.playingFirstTrack = NO;
     }
     else
     {
         [self startPlayingMusicFromResource:@"JauntyGumption" ofType:@"mp3"];
-        self.playingFirstTrack = YES;
     }
 
     NSString *overMusicOnOff = self.musicOff ? NSLocalizedString(@"Music Off", @"Music overlay OFF")
@@ -162,7 +159,7 @@
     [self performSegueWithIdentifier:@"toCreditsController" sender:self];
 }
 
-- (IBAction)facebookButtonTouched
+- (IBAction)fbButtonTouched
 {
     NSURL *fbURL = [NSURL URLWithString:@"https://www.facebook.com/memorans"];
 
@@ -187,67 +184,23 @@
 
     self.view.multipleTouchEnabled = NO;
 
-    NSAttributedString *playGameString =
-        [Utilities styledAttributedStringWithString:NSLocalizedString(@"Play", @"Play button")
-                                      andAlignement:NSTextAlignmentCenter
-                                           andColor:nil
-                                            andSize:60
-                                     andStrokeColor:nil];
+    [self configureButton:self.playButton
+          withTitleString:NSLocalizedString(@"Play", @"Play button")];
 
-    [self.playButton setAttributedTitle:playGameString forState:UIControlStateNormal];
+    [self configureButton:self.musicButton
+          withTitleString:NSLocalizedString(@"♬ On", @"Music button ON")];
 
-    NSAttributedString *musicButtonString =
-        [Utilities styledAttributedStringWithString:NSLocalizedString(@"♬ On", @"Music button ON")
-                                      andAlignement:NSTextAlignmentCenter
-                                           andColor:nil
-                                            andSize:60
-                                     andStrokeColor:nil];
+    [self configureButton:self.soundEffectsButton
+          withTitleString:NSLocalizedString(@"♪ On", @"Sounds button ON")];
 
-    [self.musicButton setAttributedTitle:musicButtonString forState:UIControlStateNormal];
+    [self configureButton:self.creditsButton
+          withTitleString:NSLocalizedString(@"Credits", @"Credits button")];
 
-    NSAttributedString *soundsButtonString = [Utilities
-        styledAttributedStringWithString:NSLocalizedString(@"♪ On", @"Sounds button ON")
-                           andAlignement:NSTextAlignmentCenter
-                                andColor:nil
-                                 andSize:60
-                          andStrokeColor:nil];
+    [self configureButton:self.fbButton
+          withTitleString:NSLocalizedString(@"Social", @"Facebook button")];
 
-    [self.soundEffectsButton setAttributedTitle:soundsButtonString forState:UIControlStateNormal];
-
-    NSAttributedString *creditsString =
-        [Utilities styledAttributedStringWithString:NSLocalizedString(@"Credits", @"Credits button")
-                                      andAlignement:NSTextAlignmentCenter
-                                           andColor:nil
-                                            andSize:60
-                                     andStrokeColor:nil];
-
-    [self.creditsButton setAttributedTitle:creditsString forState:UIControlStateNormal];
-
-    NSAttributedString *facebookString =
-        [Utilities styledAttributedStringWithString:NSLocalizedString(@"f", @"Facebook button")
-                                      andAlignement:NSTextAlignmentCenter
-                                           andColor:nil
-                                            andSize:80
-                                     andStrokeColor:nil];
-
-    [self.facebookButton setAttributedTitle:facebookString forState:UIControlStateNormal];
-
-    NSAttributedString *rateString =
-        [Utilities styledAttributedStringWithString:NSLocalizedString(@"Rate", @"Rate button")
-                                      andAlignement:NSTextAlignmentCenter
-                                           andColor:nil
-                                            andSize:60
-                                     andStrokeColor:nil];
-
-    [self.rateButton setAttributedTitle:rateString forState:UIControlStateNormal];
-
-    for (UIView *view in self.view.subviews)
-    {
-        if ([view isKindOfClass:[UIButton class]])
-        {
-            [self configureButton:(UIButton *)view];
-        }
-    }
+    [self configureButton:self.rateButton
+          withTitleString:NSLocalizedString(@"Rate", @"Rate button")];
 
     CGFloat shortSide = MIN(self.view.bounds.size.width, self.view.bounds.size.height);
     CGFloat longSide = MAX(self.view.bounds.size.width, self.view.bounds.size.height);
@@ -267,11 +220,19 @@
     [self.view addSubview:backgroundLabel];
 
     [self startPlayingMusicFromResource:@"JauntyGumption" ofType:@"mp3"];
-    self.playingFirstTrack = YES;
 }
 
-- (void)configureButton:(UIButton *)button
+- (void)configureButton:(UIButton *)button withTitleString:(NSString *)titleString
 {
+    NSAttributedString *attributedTitle =
+        [Utilities styledAttributedStringWithString:titleString
+                                      andAlignement:NSTextAlignmentCenter
+                                           andColor:nil
+                                            andSize:60
+                                     andStrokeColor:nil];
+
+    [button setAttributedTitle:attributedTitle forState:UIControlStateNormal];
+
     button.backgroundColor = [Utilities colorFromHEXString:@"#2B2B2B" withAlpha:1];
     button.multipleTouchEnabled = NO;
     button.exclusiveTouch = YES;
@@ -384,7 +345,7 @@
                                                        ofType:fileType
                                                  withDelegate:self
                                                        volume:0.4f
-                                             andNumberOfLoops:0];
+                                             andNumberOfLoops:-1];
 
         [self.musicPlayer prepareToPlay];
         [self.musicPlayer play];
@@ -401,23 +362,6 @@
             dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
 
         dispatch_async(globalDefaultQueue, ^(void) { [self.musicPlayer play]; });
-    }
-}
-
-- (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag
-{
-    if ([player isEqual:self.musicPlayer] && flag)
-    {
-        if (self.playingFirstTrack)
-        {
-            [self startPlayingMusicFromResource:@"PixelPeekerPolka-slower" ofType:@"mp3"];
-            self.playingFirstTrack = NO;
-        }
-        else
-        {
-            [self startPlayingMusicFromResource:@"JauntyGumption" ofType:@"mp3"];
-            self.playingFirstTrack = YES;
-        }
     }
 }
 
