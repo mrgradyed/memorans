@@ -7,7 +7,6 @@
 //
 
 @import AudioToolbox;
-@import AVFoundation;
 @import QuartzCore;
 
 #import <Foundation/Foundation.h>

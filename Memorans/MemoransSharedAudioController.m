@@ -6,7 +6,6 @@
 //  Copyright (c) 2014 Emiliano D'Alterio. All rights reserved.
 //
 
-@import AVFoundation;
 
 #import "MemoransSharedAudioController.h"
 
@@ -87,7 +86,6 @@
 
 - (void)setSoundsOff:(BOOL)soundsOff
 {
-
     _soundsOff = soundsOff;
 
     if (soundsOff)
@@ -309,9 +307,12 @@
 {
     self = [super init];
 
-    if (!self)
+    if (self)
     {
-        return nil;
+        NSError *categoryError;
+
+        [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategorySoloAmbient
+                                               error:&categoryError];
     }
 
     return self;
@@ -326,7 +327,11 @@
         dispatch_queue_t globalDefaultQueue =
             dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
 
-        dispatch_async(globalDefaultQueue, ^(void) { [self.musicPlayer play]; });
+        dispatch_async(globalDefaultQueue, ^(void) {
+
+            [player prepareToPlay];
+            [player play];
+        });
     }
 }
 

@@ -13,7 +13,7 @@
 #import "MemoransSharedAudioController.h"
 #import "Utilities.h"
 
-@interface MemoransMenuViewController () <AVAudioPlayerDelegate, UIDynamicAnimatorDelegate>
+@interface MemoransMenuViewController () <UIDynamicAnimatorDelegate>
 
 #pragma mark - OUTLETS
 
@@ -210,13 +210,9 @@
                withTitleString:NSLocalizedString(@"Credits", @"Credits button")
                    andFontSize:50];
 
-    [Utilities configureButton:self.fbButton
-               withTitleString:NSLocalizedString(@"Follow ❤︎", @"FB button")
-                   andFontSize:50];
+    [Utilities configureButton:self.fbButton withTitleString:@"☍" andFontSize:50];
 
-    [Utilities configureButton:self.rateButton
-               withTitleString:NSLocalizedString(@"Rate ★", @"Rate button")
-                   andFontSize:50];
+    [Utilities configureButton:self.rateButton withTitleString:@"★" andFontSize:50];
 
     CGFloat shortSide = MIN(self.view.bounds.size.width, self.view.bounds.size.height);
     CGFloat longSide = MAX(self.view.bounds.size.width, self.view.bounds.size.height);
@@ -327,19 +323,6 @@
 - (BOOL)prefersStatusBarHidden { return YES; }
 
 - (void)didReceiveMemoryWarning { [super didReceiveMemoryWarning]; }
-
-#pragma mark - AVAudioPlayerDelegate PROTOCOL
-
-- (void)audioPlayerEndInterruption:(AVAudioPlayer *)player withOptions:(NSUInteger)flags
-{
-    if ([player isEqual:self.musicPlayer] && flags == AVAudioSessionInterruptionOptionShouldResume)
-    {
-        dispatch_queue_t globalDefaultQueue =
-            dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-
-        dispatch_async(globalDefaultQueue, ^(void) { [self.musicPlayer play]; });
-    }
-}
 
 #pragma mark - UIDynamicAnimatorDelegate PROTOCOL
 

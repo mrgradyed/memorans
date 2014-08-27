@@ -144,9 +144,9 @@
 
         // JUST FOR TESTING, TO BE REMOVED - START -
 
-        levelButton.enabled = YES;
+        // levelButton.enabled = YES;
 
-        level.completed = YES;
+        // level.completed = YES;
 
         // JUST FOR TESTING, TO BE REMOVED - END -
     }
@@ -159,7 +159,7 @@
     MemoransOverlayView *overlayView = [[MemoransOverlayView alloc]
         initWithString:NSLocalizedString(@"Pick\na Level", @"Level choice")
               andColor:nil
-           andFontSize:190];
+           andFontSize:150];
 
     [self.view addSubview:overlayView];
 

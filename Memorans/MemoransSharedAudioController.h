@@ -6,6 +6,8 @@
 //  Copyright (c) 2014 Emiliano D'Alterio. All rights reserved.
 //
 
+@import AVFoundation;
+
 #import <Foundation/Foundation.h>
 
 @interface MemoransSharedAudioController : NSObject

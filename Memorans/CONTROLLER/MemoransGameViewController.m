@@ -695,7 +695,7 @@ static const NSInteger gTileMargin = 5;
     MemoransOverlayView *bonusScoreOverlayView = [[MemoransOverlayView alloc]
         initWithString:[NSString stringWithFormat:@"+%d", (int)self.game.lastDeltaScore]
               andColor:[Utilities colorFromHEXString:@"#0BD318" withAlpha:1]
-           andFontSize:300];
+           andFontSize:200];
 
     [self.view addSubview:bonusScoreOverlayView];
 
@@ -707,7 +707,7 @@ static const NSInteger gTileMargin = 5;
     MemoransOverlayView *malusScoreOverlayView = [[MemoransOverlayView alloc]
         initWithString:[NSString stringWithFormat:@"%d", (int)self.game.lastDeltaScore]
               andColor:[Utilities colorFromHEXString:@"#FF1300" withAlpha:1]
-           andFontSize:300];
+           andFontSize:200];
 
     [self.view addSubview:malusScoreOverlayView];
 
@@ -717,7 +717,7 @@ static const NSInteger gTileMargin = 5;
 - (MemoransOverlayView *)addMessageOverlayView
 {
     MemoransOverlayView *messageOverlayView =
-        [[MemoransOverlayView alloc] initWithString:nil andColor:nil andFontSize:190];
+        [[MemoransOverlayView alloc] initWithString:nil andColor:nil andFontSize:150];
 
     [self.view addSubview:messageOverlayView];
 
