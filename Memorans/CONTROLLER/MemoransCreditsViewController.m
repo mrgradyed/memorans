@@ -7,6 +7,7 @@
 //
 
 #import "MemoransCreditsViewController.h"
+#import "MemoransSharedAudioController.h"
 #import "Utilities.h"
 
 @interface MemoransCreditsViewController ()
@@ -42,7 +43,8 @@
 
 - (IBAction)backToMenuButtonTouched
 {
-    [Utilities playPopSound];
+    [[MemoransSharedAudioController sharedAudioController] playPopSound];
+
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -52,16 +54,7 @@
 {
     [super viewDidLoad];
 
-    NSAttributedString *backToMenuString =
-        [Utilities styledAttributedStringWithString:@"⬅︎"
-                                      andAlignement:NSTextAlignmentLeft
-                                           andColor:nil
-                                            andSize:60
-                                     andStrokeColor:nil];
-
-    [self.backToMenuButton setAttributedTitle:backToMenuString forState:UIControlStateNormal];
-
-    self.backToMenuButton.exclusiveTouch = YES;
+    [Utilities configureButton:self.backToMenuButton withTitleString:@"⬅︎" andFontSize:50];
 
     self.creditsText.editable = NO;
     self.creditsText.selectable = YES;
@@ -81,6 +74,10 @@
     [super viewWillAppear:animated];
 
     [self.view.layer insertSublayer:self.gradientLayer atIndex:0];
+
+    [[MemoransSharedAudioController sharedAudioController] playMusicFromResource:@"TakeAChance"
+                                                                          ofType:@"mp3"
+                                                                      withVolume:0.8f];
 }
 
 - (void)viewDidDisappear:(BOOL)animated

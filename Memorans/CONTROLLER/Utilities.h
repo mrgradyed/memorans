@@ -38,22 +38,8 @@
 
 + (void)playSystemSoundEffectFromResource:(NSString *)fileName ofType:(NSString *)fileType;
 
-+ (void)playPopSound;
-
-+ (void)playIiiiSound;
-
-+ (void)playUiiiSound;
-
-+ (void)playUeeeSound;
-
-+ (AVAudioPlayer *)audioPlayerFromResource:(NSString *)fileName
-                                    ofType:(NSString *)fileType
-                              withDelegate:(id<AVAudioPlayerDelegate>)delegate
-                                    volume:(float)volume
-                          andNumberOfLoops:(NSInteger)numberOfLoops;
-
-#pragma mark - GLOBAL VARIABLES
-
-extern BOOL gSoundsOff;
++ (void)configureButton:(UIButton *)button
+        withTitleString:(NSString *)titleString
+            andFontSize:(CGFloat)size;
 
 @end

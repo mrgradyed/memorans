@@ -10,6 +10,7 @@
 #import "MemoransBehavior.h"
 #import "MemoransTile.h"
 #import "MemoransOverlayView.h"
+#import "MemoransSharedAudioController.h"
 #import "Utilities.h"
 
 @interface MemoransMenuViewController () <AVAudioPlayerDelegate, UIDynamicAnimatorDelegate>
@@ -33,7 +34,7 @@
 
 @property(strong, nonatomic) AVAudioPlayer *musicPlayer;
 
-@property(nonatomic) BOOL musicOff;
+@property(strong, nonatomic) MemoransSharedAudioController *sharedAudioController;
 
 @end
 
@@ -74,32 +75,34 @@
     return _monsterViews;
 }
 
+- (MemoransSharedAudioController *)sharedAudioController
+{
+    if (!_sharedAudioController)
+    {
+        _sharedAudioController = [MemoransSharedAudioController sharedAudioController];
+    }
+
+    return _sharedAudioController;
+}
+
 #pragma mark - ACTIONS AND NAVIGATION
 
 - (IBAction)playButtonTouched
 {
-    [Utilities playPopSound];
+    [self.sharedAudioController playPopSound];
 
     [self performSegueWithIdentifier:@"toLevelsController" sender:self];
 }
 
 - (IBAction)musicButtonTouched
 {
-    self.musicOff = !self.musicOff;
+    self.sharedAudioController.musicOff = !self.sharedAudioController.musicOff;
 
-    [Utilities playPopSound];
+    [self.sharedAudioController playPopSound];
 
-    if (self.musicOff)
-    {
-        self.musicPlayer = nil;
-    }
-    else
-    {
-        [self startPlayingMusicFromResource:@"JauntyGumption" ofType:@"mp3"];
-    }
-
-    NSString *overMusicOnOff = self.musicOff ? NSLocalizedString(@"Music Off", @"Music overlay OFF")
-                                             : NSLocalizedString(@"Music On", @"Music overlay ON");
+    NSString *overMusicOnOff = self.sharedAudioController.musicOff
+                                   ? NSLocalizedString(@"Music Off", @"Music overlay OFF")
+                                   : NSLocalizedString(@"Music On", @"Music overlay ON");
 
     MemoransOverlayView *overlayView =
         [[MemoransOverlayView alloc] initWithString:overMusicOnOff andColor:nil andFontSize:150];
@@ -108,14 +111,15 @@
 
     [Utilities animateOverlayView:overlayView withDuration:0.5f];
 
-    NSString *musicOnOff = self.musicOff ? NSLocalizedString(@"♬ Off", @"Music button OFF")
-                                         : NSLocalizedString(@"♬ On", @"Music button ON");
+    NSString *musicOnOff = self.sharedAudioController.musicOff
+                               ? NSLocalizedString(@"♬ Off", @"Music button OFF")
+                               : NSLocalizedString(@"♬ On", @"Music button ON");
 
     NSAttributedString *musicButtonString =
         [Utilities styledAttributedStringWithString:musicOnOff
                                       andAlignement:NSTextAlignmentCenter
                                            andColor:nil
-                                            andSize:60
+                                            andSize:50
                                      andStrokeColor:nil];
 
     [self.musicButton setAttributedTitle:musicButtonString forState:UIControlStateNormal];
@@ -123,14 +127,15 @@
 
 - (IBAction)soundEffectsButtonTouched
 {
-    [Utilities playPopSound];
+    [self.sharedAudioController playPopSound];
 
-    gSoundsOff = !gSoundsOff;
+    self.sharedAudioController.soundsOff = !self.sharedAudioController.soundsOff;
 
-    [Utilities playPopSound];
+    [self.sharedAudioController playPopSound];
 
-    NSString *overSoundsOnOff = gSoundsOff ? NSLocalizedString(@"Sounds Off", @"Sounds overlay OFF")
-                                           : NSLocalizedString(@"Sounds On", @"Sounds overlay ON");
+    NSString *overSoundsOnOff = self.sharedAudioController.soundsOff
+                                    ? NSLocalizedString(@"Sounds Off", @"Sounds overlay OFF")
+                                    : NSLocalizedString(@"Sounds On", @"Sounds overlay ON");
 
     MemoransOverlayView *overlayView =
         [[MemoransOverlayView alloc] initWithString:overSoundsOnOff andColor:nil andFontSize:150];
@@ -139,14 +144,15 @@
 
     [Utilities animateOverlayView:overlayView withDuration:0.5f];
 
-    NSString *soundsOnOff = gSoundsOff ? NSLocalizedString(@"♪ Off", @"Sounds button OFF")
-                                       : NSLocalizedString(@"♪ On", @"Sounds button ON");
+    NSString *soundsOnOff = self.sharedAudioController.soundsOff
+                                ? NSLocalizedString(@"♪ Off", @"Sounds button OFF")
+                                : NSLocalizedString(@"♪ On", @"Sounds button ON");
 
     NSAttributedString *soundsButtonString =
         [Utilities styledAttributedStringWithString:soundsOnOff
                                       andAlignement:NSTextAlignmentCenter
                                            andColor:nil
-                                            andSize:60
+                                            andSize:50
                                      andStrokeColor:nil];
 
     [self.soundEffectsButton setAttributedTitle:soundsButtonString forState:UIControlStateNormal];
@@ -154,13 +160,15 @@
 
 - (IBAction)creditsButtonTouched
 {
-    [Utilities playPopSound];
+    [self.sharedAudioController playPopSound];
 
     [self performSegueWithIdentifier:@"toCreditsController" sender:self];
 }
 
 - (IBAction)fbButtonTouched
 {
+    [self.sharedAudioController playPopSound];
+
     NSURL *fbURL = [NSURL URLWithString:@"https://www.facebook.com/memorans"];
 
     [[UIApplication sharedApplication] openURL:fbURL];
@@ -168,6 +176,8 @@
 
 - (IBAction)rateButtonTouched
 {
+    [self.sharedAudioController playPopSound];
+
     // IMPORTANT: REMEMBER TO ADD APP ID TO URL!!
     NSURL *appURL = [NSURL URLWithString:@"itms-apps://itunes.apple.com/app/"];
 
@@ -184,23 +194,29 @@
 
     self.view.multipleTouchEnabled = NO;
 
-    [self configureButton:self.playButton
-          withTitleString:NSLocalizedString(@"Play", @"Play button")];
+    [Utilities configureButton:self.playButton
+               withTitleString:NSLocalizedString(@"Play", @"Play button")
+                   andFontSize:50];
 
-    [self configureButton:self.musicButton
-          withTitleString:NSLocalizedString(@"♬ On", @"Music button ON")];
+    [Utilities configureButton:self.musicButton
+               withTitleString:NSLocalizedString(@"♬ On", @"Music button ON")
+                   andFontSize:50];
 
-    [self configureButton:self.soundEffectsButton
-          withTitleString:NSLocalizedString(@"♪ On", @"Sounds button ON")];
+    [Utilities configureButton:self.soundEffectsButton
+               withTitleString:NSLocalizedString(@"♪ On", @"Sounds button ON")
+                   andFontSize:50];
 
-    [self configureButton:self.creditsButton
-          withTitleString:NSLocalizedString(@"Credits", @"Credits button")];
+    [Utilities configureButton:self.creditsButton
+               withTitleString:NSLocalizedString(@"Credits", @"Credits button")
+                   andFontSize:50];
 
-    [self configureButton:self.fbButton
-          withTitleString:NSLocalizedString(@"Social", @"Facebook button")];
+    [Utilities configureButton:self.fbButton
+               withTitleString:NSLocalizedString(@"Follow ❤︎", @"FB button")
+                   andFontSize:50];
 
-    [self configureButton:self.rateButton
-          withTitleString:NSLocalizedString(@"Rate", @"Rate button")];
+    [Utilities configureButton:self.rateButton
+               withTitleString:NSLocalizedString(@"Rate ★", @"Rate button")
+                   andFontSize:50];
 
     CGFloat shortSide = MIN(self.view.bounds.size.width, self.view.bounds.size.height);
     CGFloat longSide = MAX(self.view.bounds.size.width, self.view.bounds.size.height);
@@ -218,29 +234,6 @@
                                      andStrokeColor:[UIColor blackColor]];
 
     [self.view addSubview:backgroundLabel];
-
-    [self startPlayingMusicFromResource:@"JauntyGumption" ofType:@"mp3"];
-}
-
-- (void)configureButton:(UIButton *)button withTitleString:(NSString *)titleString
-{
-    NSAttributedString *attributedTitle =
-        [Utilities styledAttributedStringWithString:titleString
-                                      andAlignement:NSTextAlignmentCenter
-                                           andColor:nil
-                                            andSize:60
-                                     andStrokeColor:nil];
-
-    [button setAttributedTitle:attributedTitle forState:UIControlStateNormal];
-
-    button.backgroundColor = [Utilities colorFromHEXString:@"#2B2B2B" withAlpha:1];
-    button.multipleTouchEnabled = NO;
-    button.exclusiveTouch = YES;
-    button.clipsToBounds = YES;
-
-    button.layer.borderColor = [Utilities colorFromHEXString:@"#2B2B2B" withAlpha:1].CGColor;
-    button.layer.borderWidth = 1;
-    button.layer.cornerRadius = 25;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -250,6 +243,10 @@
     [self.view.layer insertSublayer:self.gradientLayer atIndex:0];
 
     [self addAndAnimateMonsterViews];
+
+    [self.sharedAudioController playMusicFromResource:@"JauntyGumption"
+                                               ofType:@"mp3"
+                                           withVolume:0.3f];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -277,7 +274,7 @@
         self.dynamicAnimator = nil;
     }
 
-    [Utilities playIiiiSound];
+    [self.sharedAudioController playUiiiSound];
 
     UIImage *monsterImage;
     UIImageView *monsterImageView;
@@ -330,27 +327,6 @@
 - (BOOL)prefersStatusBarHidden { return YES; }
 
 - (void)didReceiveMemoryWarning { [super didReceiveMemoryWarning]; }
-
-#pragma mark - MUSIC
-
-- (void)startPlayingMusicFromResource:(NSString *)fileName ofType:(NSString *)fileType
-{
-    dispatch_queue_t globalDefaultQueue =
-        dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-
-    dispatch_async(globalDefaultQueue, ^(void) {
-
-        self.musicPlayer = nil;
-        self.musicPlayer = [Utilities audioPlayerFromResource:fileName
-                                                       ofType:fileType
-                                                 withDelegate:self
-                                                       volume:0.4f
-                                             andNumberOfLoops:-1];
-
-        [self.musicPlayer prepareToPlay];
-        [self.musicPlayer play];
-    });
-}
 
 #pragma mark - AVAudioPlayerDelegate PROTOCOL
 

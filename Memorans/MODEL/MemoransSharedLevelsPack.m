@@ -31,7 +31,7 @@
 {
     @throw [NSException
         exceptionWithName:@"SingletonException"
-                   reason:@"Please use +[MemoransLevelPack " @"sharedLevelsPack] instead."
+                   reason:@"Please use: [MemoransSharedLevelsPack sharedLevelsPack] instead."
                  userInfo:nil];
 
     return nil;

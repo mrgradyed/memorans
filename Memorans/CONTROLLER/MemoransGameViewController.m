@@ -13,6 +13,7 @@
 #import "MemoransOverlayView.h"
 #import "MemoransGameLevel.h"
 #import "MemoransSharedLevelsPack.h"
+#import "MemoransSharedAudioController.h"
 #import "Utilities.h"
 
 @interface MemoransGameViewController ()
@@ -30,6 +31,8 @@
 @property(nonatomic, strong) NSMutableArray *tileViews;
 @property(nonatomic, strong) NSMutableArray *tileViewsLeft;
 @property(nonatomic, strong) NSMutableArray *chosenTileViews;
+
+@property(strong, nonatomic) MemoransSharedAudioController *sharedAudioController;
 
 @property(strong, nonatomic) CAGradientLayer *gradientLayer;
 
@@ -75,6 +78,16 @@
     return _chosenTileViews;
 }
 
+- (MemoransSharedAudioController *)sharedAudioController
+{
+    if (!_sharedAudioController)
+    {
+        _sharedAudioController = [MemoransSharedAudioController sharedAudioController];
+    }
+
+    return _sharedAudioController;
+}
+
 - (CAGradientLayer *)gradientLayer
 {
     if (!_gradientLayer)
@@ -109,14 +122,14 @@
 
 - (IBAction)restartGameButtonTouched
 {
-    [Utilities playPopSound];
+    [self.sharedAudioController playPopSound];
 
     [self restartGameWithNextLevel:NO];
 }
 
 - (IBAction)nextLevelButtonTouched
 {
-    [Utilities playUiiiSound];
+    [self.sharedAudioController playPopSound];
 
     NSInteger lastLevelIndex = [[MemoransSharedLevelsPack sharedLevelsPack].levelsPack count] - 1;
 
@@ -132,8 +145,7 @@
 
 - (IBAction)backToMenuButtonTouched
 {
-
-    [Utilities playPopSound];
+    [self.sharedAudioController playPopSound];
 
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -154,7 +166,7 @@
 
 - (void)flipAndPlayTappedTileView:(MemoransTileView *)tappedTileView
 {
-    [Utilities playUeeeSound];
+    [self.sharedAudioController playUeeeSound];
 
     [UIView transitionWithView:tappedTileView
         duration:0.3f
@@ -191,7 +203,7 @@
                               withRepeatCount:4
                                   andDelegate:self];
 
-        [Utilities playIiiiSound];
+        [self.sharedAudioController playIiiiSound];
     }
     else if (tappedTileView.paired)
     {
@@ -231,7 +243,7 @@
             [Utilities animateOverlayView:comboMessage withDuration:0.5f];
         }
 
-        [Utilities playUiiiSound];
+        [self.sharedAudioController playUiiiSound];
 
         for (MemoransTileView *tileView in self.chosenTileViews)
         {
@@ -570,6 +582,19 @@ static const NSInteger gTileMargin = 5;
         [Utilities animateOverlayView:startMessageOverlayView withDuration:1.8f];
 
         self.isGameOver = NO;
+
+        if ([[self currentLevel].tileSetType isEqualToString:@"Happy"])
+        {
+            [self.sharedAudioController playMusicFromResource:@"TheBuilder"
+                                                       ofType:@"mp3"
+                                                   withVolume:0.8f];
+        }
+        else
+        {
+            [self.sharedAudioController playMusicFromResource:@"SchemingWeaselfaster"
+                                                       ofType:@"mp3"
+                                                   withVolume:0.9f];
+        }
     }
 
     if ([self.tileViews count] < 6)
@@ -705,38 +730,11 @@ static const NSInteger gTileMargin = 5;
 
     self.tileArea.backgroundColor = [UIColor clearColor];
 
-    NSAttributedString *restartGameString =
-        [Utilities styledAttributedStringWithString:@"↺"
-                                      andAlignement:NSTextAlignmentCenter
-                                           andColor:nil
-                                            andSize:60
-                                     andStrokeColor:nil];
+    [Utilities configureButton:self.restartGameButton withTitleString:@"↺" andFontSize:50];
 
-    [self.restartGameButton setAttributedTitle:restartGameString forState:UIControlStateNormal];
+    [Utilities configureButton:self.nextLevelButton withTitleString:@"▶︎" andFontSize:50];
 
-    self.restartGameButton.exclusiveTouch = YES;
-
-    NSAttributedString *nextLevelString =
-        [Utilities styledAttributedStringWithString:@"▶︎"
-                                      andAlignement:NSTextAlignmentRight
-                                           andColor:nil
-                                            andSize:60
-                                     andStrokeColor:nil];
-
-    [self.nextLevelButton setAttributedTitle:nextLevelString forState:UIControlStateNormal];
-
-    self.nextLevelButton.exclusiveTouch = YES;
-
-    NSAttributedString *backToLevelsString =
-        [Utilities styledAttributedStringWithString:@"⬅︎"
-                                      andAlignement:NSTextAlignmentLeft
-                                           andColor:nil
-                                            andSize:60
-                                     andStrokeColor:nil];
-
-    [self.backToLevelsButton setAttributedTitle:backToLevelsString forState:UIControlStateNormal];
-
-    self.backToLevelsButton.exclusiveTouch = YES;
+    [Utilities configureButton:self.backToLevelsButton withTitleString:@"⬅︎" andFontSize:50];
 
     [self.view bringSubviewToFront:self.tileArea];
 }

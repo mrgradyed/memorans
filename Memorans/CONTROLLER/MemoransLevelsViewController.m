@@ -12,6 +12,7 @@
 #import "MemoransSharedLevelsPack.h"
 #import "MemoransGameLevel.h"
 #import "MemoransOverlayView.h"
+#import "MemoransSharedAudioController.h"
 #import "Utilities.h"
 
 @interface MemoransLevelsViewController ()
@@ -25,6 +26,8 @@
 #pragma mark - PROPERTIES
 
 @property(strong, nonatomic) CAGradientLayer *gradientLayer;
+
+@property(strong, nonatomic) AVAudioPlayer *musicPlayer;
 
 @end
 
@@ -48,7 +51,7 @@
 
 - (IBAction)backToMenuButtonTouched
 {
-    [Utilities playPopSound];
+    [[MemoransSharedAudioController sharedAudioController] playPopSound];
 
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -57,7 +60,7 @@
 {
     if ([sender isKindOfClass:[MemoransLevelButton class]])
     {
-        [Utilities playPopSound];
+        [[MemoransSharedAudioController sharedAudioController] playPopSound];
 
         [self performSegueWithIdentifier:@"toGameController" sender:sender];
     }
@@ -85,16 +88,7 @@
 
     self.view.multipleTouchEnabled = NO;
 
-    NSAttributedString *backToMenuString =
-        [Utilities styledAttributedStringWithString:@"⬅︎"
-                                      andAlignement:NSTextAlignmentLeft
-                                           andColor:nil
-                                            andSize:60
-                                     andStrokeColor:nil];
-
-    [self.backToMenuButton setAttributedTitle:backToMenuString forState:UIControlStateNormal];
-
-    self.backToMenuButton.exclusiveTouch = YES;
+    [Utilities configureButton:self.backToMenuButton withTitleString:@"⬅︎" andFontSize:50];
 
     int loopCount = 0;
 
@@ -170,6 +164,10 @@
     [self.view addSubview:overlayView];
 
     [Utilities animateOverlayView:overlayView withDuration:1.5f];
+
+    [[MemoransSharedAudioController sharedAudioController] playMusicFromResource:@"MoveForward"
+                                                                          ofType:@"mp3"
+                                                                      withVolume:0.3f];
 }
 
 - (void)viewDidDisappear:(BOOL)animated

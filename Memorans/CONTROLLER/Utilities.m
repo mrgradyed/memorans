@@ -216,158 +216,27 @@ void disposeSoundEffect(soundEffect, inClientData)
     dispatch_async(globalDefaultQueue, ^(void) { AudioServicesDisposeSystemSoundID(soundEffect); });
 }
 
-#pragma mark - SOUNDS EFFECTS VIA AVAudioPlayer
-
-+ (dispatch_queue_t)sharedSoundEffectsSerialQueue
++ (void)configureButton:(UIButton *)button
+        withTitleString:(NSString *)titleString
+            andFontSize:(CGFloat)size
 {
-    static dispatch_queue_t soundEffectsSerialQueue;
+    NSAttributedString *attributedTitle =
+        [Utilities styledAttributedStringWithString:titleString
+                                      andAlignement:NSTextAlignmentCenter
+                                           andColor:nil
+                                            andSize:50
+                                     andStrokeColor:nil];
 
-    static dispatch_once_t blockHasCompleted;
+    [button setAttributedTitle:attributedTitle forState:UIControlStateNormal];
 
-    dispatch_once(&blockHasCompleted, ^{
+    button.backgroundColor = [Utilities colorFromHEXString:@"#2B2B2B" withAlpha:1];
+    button.multipleTouchEnabled = NO;
+    button.exclusiveTouch = YES;
+    button.clipsToBounds = YES;
 
-        soundEffectsSerialQueue =
-            dispatch_queue_create("SOUND_EFFECTS_SERIAL_QUEUE", DISPATCH_QUEUE_SERIAL);
-    });
-
-    return soundEffectsSerialQueue;
-}
-
-BOOL gSoundsOff = NO;
-
-+ (void)playPopSound
-{
-    if (gSoundsOff)
-    {
-        return;
-    }
-
-    dispatch_async([Utilities sharedSoundEffectsSerialQueue], ^(void) {
-
-        popSoundPlayer.currentTime = 0;
-
-        [popSoundPlayer play];
-    });
-}
-
-+ (void)playIiiiSound
-{
-    if (gSoundsOff)
-    {
-        return;
-    }
-
-    dispatch_async([Utilities sharedSoundEffectsSerialQueue], ^(void) {
-
-        iiiiSoundPlayer.currentTime = 0;
-
-        [iiiiSoundPlayer play];
-    });
-}
-
-+ (void)playUiiiSound
-{
-    if (gSoundsOff)
-    {
-        return;
-    }
-
-    dispatch_async([Utilities sharedSoundEffectsSerialQueue], ^(void) {
-
-        uiiiSoundPlayer.currentTime = 0;
-
-        [uiiiSoundPlayer play];
-    });
-}
-
-+ (void)playUeeeSound
-{
-    if (gSoundsOff)
-    {
-        return;
-    }
-
-    dispatch_async([Utilities sharedSoundEffectsSerialQueue], ^(void) {
-
-        [uuueSoundPlayer stop];
-
-        uuueSoundPlayer.currentTime = 0;
-
-        [uuueSoundPlayer play];
-    });
-}
-
-
-
-+ (AVAudioPlayer *)audioPlayerFromResource:(NSString *)fileName
-                                    ofType:(NSString *)fileType
-                              withDelegate:(id<AVAudioPlayerDelegate>)delegate
-                                    volume:(float)volume
-                          andNumberOfLoops:(NSInteger)numberOfLoops
-{
-
-    if (!fileName || !fileType)
-    {
-        return nil;
-    }
-
-    NSBundle *appBundle = [NSBundle mainBundle];
-
-    NSData *soundData =
-        [NSData dataWithContentsOfFile:[appBundle pathForResource:fileName ofType:fileType]];
-
-    NSError *error;
-
-    AVAudioPlayer *player;
-
-    player = [[AVAudioPlayer alloc] initWithData:soundData error:&error];
-
-    if (delegate)
-    {
-        player.delegate = delegate;
-    }
-
-    player.numberOfLoops = numberOfLoops;
-    player.volume = volume;
-
-    return player;
-}
-
-#pragma mark - CLASS INIT
-
-static AVAudioPlayer *popSoundPlayer;
-static AVAudioPlayer *iiiiSoundPlayer;
-static AVAudioPlayer *uiiiSoundPlayer;
-static AVAudioPlayer *uuueSoundPlayer;
-
-+ (void)initialize
-{
-    if (self == [Utilities self])
-    {
-        popSoundPlayer = [Utilities audioPlayerFromResource:@"pop"
-                                                     ofType:@"caf"
-                                               withDelegate:nil
-                                                     volume:0.8
-                                           andNumberOfLoops:0];
-
-        iiiiSoundPlayer = [Utilities audioPlayerFromResource:@"iiii"
-                                                      ofType:@"caf"
-                                                withDelegate:nil
-                                                      volume:0.8
-                                            andNumberOfLoops:0];
-
-        uiiiSoundPlayer = [Utilities audioPlayerFromResource:@"uiii"
-                                                      ofType:@"caf"
-                                                withDelegate:nil
-                                                      volume:0.8
-                                            andNumberOfLoops:0];
-
-        uuueSoundPlayer = [Utilities audioPlayerFromResource:@"uuue"
-                                                      ofType:@"caf"
-                                                withDelegate:nil
-                                                      volume:0.8
-                                            andNumberOfLoops:0];
-    }
+    button.layer.borderColor = [Utilities colorFromHEXString:@"#2B2B2B" withAlpha:1].CGColor;
+    button.layer.borderWidth = 1;
+    button.layer.cornerRadius = 25;
 }
 
 @end

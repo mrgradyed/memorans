@@ -8,6 +8,7 @@
 
 #import "MemoransEndViewController.h"
 #import "MemoransBehavior.h"
+#import "MemoransSharedAudioController.h"
 #import "Utilities.h"
 
 @interface MemoransEndViewController () <UIDynamicAnimatorDelegate>
@@ -73,16 +74,7 @@
 {
     [super viewDidLoad];
 
-    NSAttributedString *backToRootString =
-        [Utilities styledAttributedStringWithString:@"⬅︎"
-                                      andAlignement:NSTextAlignmentLeft
-                                           andColor:nil
-                                            andSize:60
-                                     andStrokeColor:nil];
-
-    [self.backToRootButton setAttributedTitle:backToRootString forState:UIControlStateNormal];
-
-    self.backToRootButton.exclusiveTouch = YES;
+    [Utilities configureButton:self.backToRootButton withTitleString:@"⬅︎" andFontSize:50];
 
     CGFloat shortSide = MIN(self.view.bounds.size.width, self.view.bounds.size.height);
     CGFloat longSide = MAX(self.view.bounds.size.width, self.view.bounds.size.height);
@@ -110,6 +102,10 @@
     [self.view.layer insertSublayer:self.gradientLayer atIndex:0];
 
     [self addAndAnimateMonsterViews];
+
+    [[MemoransSharedAudioController sharedAudioController] playMusicFromResource:@"TakeAChance"
+                                                                          ofType:@"mp3"
+                                                                      withVolume:0.8f];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -135,7 +131,7 @@
         self.dynamicAnimator = nil;
     }
 
-    [Utilities playIiiiSound];
+    [[MemoransSharedAudioController sharedAudioController] playIiiiSound];
 
     UIImage *monsterImage;
     UIImageView *monsterImageView;
