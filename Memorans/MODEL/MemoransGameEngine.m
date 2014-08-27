@@ -212,8 +212,6 @@
     {
         _gameScore = [aDecoder decodeIntegerForKey:@"gameScore"];
 
-        _lastDeltaScore = [aDecoder decodeIntegerForKey:@"lastDeltaScore"];
-
         _previousSelectedTile = [aDecoder decodeObjectForKey:@"previousSelectedTile"];
 
         _gameTiles = [aDecoder decodeObjectForKey:@"gameTiles"];
@@ -227,8 +225,6 @@
 - (void)encodeWithCoder:(NSCoder *)aCoder
 {
     [aCoder encodeInteger:self.gameScore forKey:@"gameScore"];
-
-    [aCoder encodeInteger:self.lastDeltaScore forKey:@"lastDeltaScore"];
 
     [aCoder encodeObject:self.previousSelectedTile forKey:@"previousSelectedTile"];
 
