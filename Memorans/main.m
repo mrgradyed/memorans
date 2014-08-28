@@ -10,9 +10,17 @@
 
 #import "MemoransAppDelegate.h"
 
-int main(int argc, char * argv[])
+int main(int argc, char *argv[])
 {
-    @autoreleasepool {
+    @autoreleasepool
+    {
+
+        // WARNING: FOR TESTING ONLY - START -
+
+        [[NSUserDefaults standardUserDefaults] setObject:@[ @"bg" ] forKey:@"AppleLanguages"];
+
+        // WARNING: FOR TESTING ONLY - END -
+
         return UIApplicationMain(argc, argv, nil, NSStringFromClass([MemoransAppDelegate class]));
     }
 }

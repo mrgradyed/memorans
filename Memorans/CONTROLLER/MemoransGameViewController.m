@@ -717,7 +717,7 @@ static const NSInteger gTileMargin = 5;
 - (MemoransOverlayView *)addMessageOverlayView
 {
     MemoransOverlayView *messageOverlayView =
-        [[MemoransOverlayView alloc] initWithString:nil andColor:nil andFontSize:150];
+        [[MemoransOverlayView alloc] initWithString:nil andColor:nil andFontSize:130];
 
     [self.view addSubview:messageOverlayView];
 

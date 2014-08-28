@@ -105,8 +105,8 @@
 
         [backImage drawInRect:imageRect];
 
-/*
-                // JUST FOR TESTING, TO BE REMOVED - START -
+        /*
+                // WARNING: FOR TESTING ONLY - START -
 
                 UIFont *backFont =
                     [[UIFont preferredFontForTextStyle:UIFontTextStyleCaption1] fontWithSize:18];
@@ -125,10 +125,8 @@
 
                 [tileBackString drawInRect:self.bounds];
 
-                // JUST FOR TESTING, TO BE REMOVED - END -
- 
- */
-         
+                // WARNING: FOR TESTING ONLY  - END -
+         */
     }
 }
 

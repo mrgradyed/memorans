@@ -104,12 +104,6 @@
 
         loopCount++;
     }
-
-    // JUST FOR TESTING, TO BE REMOVED - START -
-
-    // [[MemoransSharedLevelsPack sharedLevelsPack] deleteSavedLevelsStatus];
-
-    // JUST FOR TESTING, TO BE REMOVED - END -
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -142,13 +136,17 @@
 
         loopCount++;
 
-        // JUST FOR TESTING, TO BE REMOVED - START -
+        /*
 
-        // levelButton.enabled = YES;
+        // WARNING: FOR TESTING ONLY - START -
 
-        // level.completed = YES;
+        levelButton.enabled = YES;
 
-        // JUST FOR TESTING, TO BE REMOVED - END -
+        level.completed = YES;
+
+        // WARNING: FOR TESTING ONLY - END -
+
+         */
     }
 
     if (highestCompletedLevel + 1 < [self.levelButtonViews count])
