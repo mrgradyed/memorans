@@ -216,7 +216,7 @@
         {
             MemoransOverlayView *luckyMessage = [self addMessageOverlayView];
 
-            luckyMessage.overlayString = NSLocalizedString(@"What a\nChance!", @"Lucky overlay");
+            luckyMessage.overlayString = NSLocalizedString(@"What Luck!", @"Lucky overlay");
 
             luckyMessage.fontSize = 140;
 
