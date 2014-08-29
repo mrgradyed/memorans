@@ -37,7 +37,9 @@
 
     self.lastDeltaScore = gameScore - _gameScore;
 
-    if (wasAMatch && self.lastDeltaScore > 0)
+    BOOL isAMatch = self.lastDeltaScore > 0;
+
+    if (wasAMatch && isAMatch)
     {
         self.isCombo++;
     }
@@ -46,7 +48,7 @@
         self.isCombo = 0;
     }
 
-    _gameScore = gameScore;
+    _gameScore = gameScore + self.isCombo;
 }
 
 #pragma mark - GAME TILES HANDLING
