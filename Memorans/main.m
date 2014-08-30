@@ -17,7 +17,9 @@ int main(int argc, char *argv[])
 
         // WARNING: FOR TESTING ONLY - START -
 
-        [[NSUserDefaults standardUserDefaults] setObject:@[ @"en " ] forKey:@"AppleLanguages"];
+        [[NSUserDefaults standardUserDefaults] setObject:@[ @"fr" ] forKey:@"AppleLanguages"];
+
+        [[NSUserDefaults standardUserDefaults] synchronize];
 
         // WARNING: FOR TESTING ONLY - END -
 
