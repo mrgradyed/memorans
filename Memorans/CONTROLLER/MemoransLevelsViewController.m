@@ -13,6 +13,7 @@
 #import "MemoransGameLevel.h"
 #import "MemoransOverlayView.h"
 #import "MemoransSharedAudioController.h"
+#import "MemoransSharedLocalizationController.h"
 #import "Utilities.h"
 
 @interface MemoransLevelsViewController ()
@@ -136,7 +137,6 @@
 
         loopCount++;
 
-        /*
 
         // WARNING: FOR TESTING ONLY - START -
 
@@ -146,7 +146,7 @@
 
         // WARNING: FOR TESTING ONLY - END -
 
-         */
+
     }
 
     if (highestCompletedLevel + 1 < [self.levelButtonViews count])
@@ -155,7 +155,8 @@
     }
 
     MemoransOverlayView *overlayView = [[MemoransOverlayView alloc]
-        initWithString:NSLocalizedString(@"Pick\na Level", @"Level choice")
+        initWithString:[[MemoransSharedLocalizationController sharedLocalizationController]
+                           localizedStringForKey:@"Pick\na Level"]
               andColor:nil
            andFontSize:150];
 

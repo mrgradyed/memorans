@@ -14,6 +14,7 @@
 #import "MemoransGameLevel.h"
 #import "MemoransSharedLevelsPack.h"
 #import "MemoransSharedAudioController.h"
+#import "MemoransSharedLocalizationController.h"
 #import "Utilities.h"
 
 @interface MemoransGameViewController ()
@@ -33,6 +34,8 @@
 @property(nonatomic, strong) NSMutableArray *chosenTileViews;
 
 @property(strong, nonatomic) MemoransSharedAudioController *sharedAudioController;
+
+@property(strong, nonatomic) MemoransSharedLocalizationController *sharedLocalizationController;
 
 @property(strong, nonatomic) CAGradientLayer *gradientLayer;
 
@@ -86,6 +89,16 @@
     }
 
     return _sharedAudioController;
+}
+
+- (MemoransSharedLocalizationController *)sharedLocalizationController
+{
+    if (!_sharedLocalizationController)
+    {
+        _sharedLocalizationController =
+            [MemoransSharedLocalizationController sharedLocalizationController];
+    }
+    return _sharedLocalizationController;
 }
 
 - (CAGradientLayer *)gradientLayer
@@ -216,7 +229,8 @@
         {
             MemoransOverlayView *luckyMessage = [self addMessageOverlayView];
 
-            luckyMessage.overlayString = NSLocalizedString(@"What Luck!", @"Lucky overlay");
+            luckyMessage.overlayString =
+                [self.sharedLocalizationController localizedStringForKey:@"What Luck!"];
 
             luckyMessage.fontSize = 140;
 
@@ -229,13 +243,15 @@
 
             if (self.game.isCombo < 2)
             {
-                comboMessage.overlayString = NSLocalizedString(@"Combo!", @"Combo overlay");
+                comboMessage.overlayString =
+                    [self.sharedLocalizationController localizedStringForKey:@"Combo!"];
             }
             else
             {
                 comboMessage.overlayString =
                     [NSString stringWithFormat:@"%dX %@", (int)self.game.isCombo,
-                                               NSLocalizedString(@"Combo!", @"Combo overlay")];
+                                               [self.sharedLocalizationController
+                                                   localizedStringForKey:@"Combo!"]];
             }
 
             comboMessage.fontSize = 140;
@@ -337,12 +353,12 @@
                                       andDelegate:nil];
 
             NSArray *endMessages = @[
-                NSLocalizedString(@"Well Done!", @"End message 1"),
-                NSLocalizedString(@"Great!", @"End message 2"),
-                NSLocalizedString(@"Excellent!", @"End message 3"),
-                NSLocalizedString(@"Superb!", @"End message 4"),
-                NSLocalizedString(@"Outstanding!", @"End message 5"),
-                NSLocalizedString(@"Awesome!", @"End message 6")
+                [self.sharedLocalizationController localizedStringForKey:@"Well Done!"],
+                [self.sharedLocalizationController localizedStringForKey:@"Great!"],
+                [self.sharedLocalizationController localizedStringForKey:@"Excellent!"],
+                [self.sharedLocalizationController localizedStringForKey:@"Superb!"],
+                [self.sharedLocalizationController localizedStringForKey:@"Outstanding!"],
+                [self.sharedLocalizationController localizedStringForKey:@"Awesome!"]
             ];
 
             MemoransOverlayView *endMessageOverlayView = [self addMessageOverlayView];
@@ -551,7 +567,7 @@ static const NSInteger gTileMargin = 5;
             [self resumeGame];
 
             startMessageOverlayView.overlayString =
-                NSLocalizedString(@"Game\nResumed", @"Start message 1");
+                [self.sharedLocalizationController localizedStringForKey:@"Game\nResumed"];
         }
         else
         {
@@ -559,15 +575,16 @@ static const NSInteger gTileMargin = 5;
 
             if (self.isBadScore && self.isGameOver)
             {
-                startMessageOverlayView.overlayString =
-                    NSLocalizedString(@"Bad Score\nTry Again", @"Start message 2");
+                startMessageOverlayView.overlayString = [self.sharedLocalizationController
+                    localizedStringForKey:@"Bad Score\nTry Again"];
 
                 startMessageOverlayView.overlayColor =
                     [Utilities colorFromHEXString:@"#FF1300" withAlpha:1];
             }
             else
             {
-                NSString *levelString = NSLocalizedString(@"Level", @"Start message 3");
+                NSString *levelString =
+                    [self.sharedLocalizationController localizedStringForKey:@"Level"];
 
                 startMessageOverlayView.overlayString = [NSString
                     stringWithFormat:@"%@ %d\n%@", levelString, (int)self.currentLevelNumber + 1,

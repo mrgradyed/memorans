@@ -11,6 +11,7 @@
 #import "MemoransTile.h"
 #import "MemoransOverlayView.h"
 #import "MemoransSharedAudioController.h"
+#import "MemoransSharedLocalizationController.h"
 #import "Utilities.h"
 
 @interface MemoransMenuViewController () <UIDynamicAnimatorDelegate>
@@ -23,6 +24,7 @@
 @property(weak, nonatomic) IBOutlet UIButton *soundEffectsButton;
 @property(weak, nonatomic) IBOutlet UIButton *fbButton;
 @property(weak, nonatomic) IBOutlet UIButton *rateButton;
+@property(weak, nonatomic) IBOutlet UIButton *languageButton;
 
 #pragma mark - PROPERTIES
 
@@ -35,6 +37,8 @@
 @property(strong, nonatomic) AVAudioPlayer *musicPlayer;
 
 @property(strong, nonatomic) MemoransSharedAudioController *sharedAudioController;
+
+@property(strong, nonatomic) MemoransSharedLocalizationController *sharedLocalizationController;
 
 @end
 
@@ -85,6 +89,16 @@
     return _sharedAudioController;
 }
 
+- (MemoransSharedLocalizationController *)sharedLocalizationController
+{
+    if (!_sharedLocalizationController)
+    {
+        _sharedLocalizationController =
+            [MemoransSharedLocalizationController sharedLocalizationController];
+    }
+    return _sharedLocalizationController;
+}
+
 #pragma mark - ACTIONS AND NAVIGATION
 
 - (IBAction)playButtonTouched
@@ -94,15 +108,24 @@
     [self performSegueWithIdentifier:@"toLevelsController" sender:self];
 }
 
+- (IBAction)languageButtonTouched
+{
+    [self.sharedLocalizationController
+        setAppLanguage:[self.sharedLocalizationController nextSupportedLanguage]];
+
+    [self configureUIButtons];
+}
+
 - (IBAction)musicButtonTouched
 {
     self.sharedAudioController.musicOff = !self.sharedAudioController.musicOff;
 
     [self.sharedAudioController playPopSound];
 
-    NSString *overMusicOnOff = self.sharedAudioController.musicOff
-                                   ? NSLocalizedString(@"Music Off", @"Music overlay OFF")
-                                   : NSLocalizedString(@"Music On", @"Music overlay ON");
+    NSString *overMusicOnOff =
+        self.sharedAudioController.musicOff
+            ? [self.sharedLocalizationController localizedStringForKey:@"Music Off"]
+            : [self.sharedLocalizationController localizedStringForKey:@"Music On"];
 
     MemoransOverlayView *overlayView =
         [[MemoransOverlayView alloc] initWithString:overMusicOnOff andColor:nil andFontSize:150];
@@ -111,9 +134,10 @@
 
     [Utilities animateOverlayView:overlayView withDuration:0.5f];
 
-    NSString *musicOnOff = self.sharedAudioController.musicOff
-                               ? NSLocalizedString(@"♬ Off", @"Music button OFF")
-                               : NSLocalizedString(@"♬ On", @"Music button ON");
+    NSString *musicOnOff =
+        self.sharedAudioController.musicOff
+            ? [self.sharedLocalizationController localizedStringForKey:@"♬ Off"]
+            : [self.sharedLocalizationController localizedStringForKey:@"♬ On"];
 
     NSAttributedString *musicButtonString =
         [Utilities styledAttributedStringWithString:musicOnOff
@@ -133,9 +157,10 @@
 
     [self.sharedAudioController playPopSound];
 
-    NSString *overSoundsOnOff = self.sharedAudioController.soundsOff
-                                    ? NSLocalizedString(@"Sounds Off", @"Sounds overlay OFF")
-                                    : NSLocalizedString(@"Sounds On", @"Sounds overlay ON");
+    NSString *overSoundsOnOff =
+        self.sharedAudioController.soundsOff
+            ? [self.sharedLocalizationController localizedStringForKey:@"Sounds Off"]
+            : [self.sharedLocalizationController localizedStringForKey:@"Sounds On"];
 
     MemoransOverlayView *overlayView =
         [[MemoransOverlayView alloc] initWithString:overSoundsOnOff andColor:nil andFontSize:150];
@@ -144,9 +169,10 @@
 
     [Utilities animateOverlayView:overlayView withDuration:0.5f];
 
-    NSString *soundsOnOff = self.sharedAudioController.soundsOff
-                                ? NSLocalizedString(@"♪ Off", @"Sounds button OFF")
-                                : NSLocalizedString(@"♪ On", @"Sounds button ON");
+    NSString *soundsOnOff =
+        self.sharedAudioController.soundsOff
+            ? [self.sharedLocalizationController localizedStringForKey:@"♪ Off"]
+            : [self.sharedLocalizationController localizedStringForKey:@"♪ On"];
 
     NSAttributedString *soundsButtonString =
         [Utilities styledAttributedStringWithString:soundsOnOff
@@ -186,6 +212,37 @@
 
 #pragma mark - VIEWS MANAGEMENT AND UPDATE
 
+- (void)configureUIButtons
+{
+    [Utilities configureButton:self.languageButton
+               withTitleString:self.sharedLocalizationController.currentLanguageCode.uppercaseString
+                   andFontSize:50];
+
+    [Utilities configureButton:self.playButton
+               withTitleString:[self.sharedLocalizationController localizedStringForKey:@"Play"]
+                   andFontSize:50];
+
+    NSString *musicOnOff = self.sharedAudioController.musicOff ? @"♬ Off" : @"♬ On";
+
+    [Utilities configureButton:self.musicButton
+               withTitleString:[self.sharedLocalizationController localizedStringForKey:musicOnOff]
+                   andFontSize:50];
+
+    NSString *soundsOnOff = self.sharedAudioController.soundsOff ? @"♪ Off" : @"♪ On";
+
+    [Utilities configureButton:self.soundEffectsButton
+               withTitleString:[self.sharedLocalizationController localizedStringForKey:soundsOnOff]
+                   andFontSize:50];
+
+    [Utilities configureButton:self.creditsButton
+               withTitleString:[self.sharedLocalizationController localizedStringForKey:@"Credits"]
+                   andFontSize:50];
+
+    [Utilities configureButton:self.fbButton withTitleString:@"☍" andFontSize:50];
+
+    [Utilities configureButton:self.rateButton withTitleString:@"★" andFontSize:50];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -194,25 +251,7 @@
 
     self.view.multipleTouchEnabled = NO;
 
-    [Utilities configureButton:self.playButton
-               withTitleString:NSLocalizedString(@"Play", @"Play button")
-                   andFontSize:50];
-
-    [Utilities configureButton:self.musicButton
-               withTitleString:NSLocalizedString(@"♬ On", @"Music button ON")
-                   andFontSize:50];
-
-    [Utilities configureButton:self.soundEffectsButton
-               withTitleString:NSLocalizedString(@"♪ On", @"Sounds button ON")
-                   andFontSize:50];
-
-    [Utilities configureButton:self.creditsButton
-               withTitleString:NSLocalizedString(@"Credits", @"Credits button")
-                   andFontSize:50];
-
-    [Utilities configureButton:self.fbButton withTitleString:@"☍" andFontSize:50];
-
-    [Utilities configureButton:self.rateButton withTitleString:@"★" andFontSize:50];
+    [self configureUIButtons];
 
     CGFloat shortSide = MIN(self.view.bounds.size.width, self.view.bounds.size.height);
     CGFloat longSide = MAX(self.view.bounds.size.width, self.view.bounds.size.height);
@@ -269,8 +308,6 @@
         self.monsterViews = nil;
         self.dynamicAnimator = nil;
     }
-
-    [self.sharedAudioController playUiiiSound];
 
     UIImage *monsterImage;
     UIImageView *monsterImageView;

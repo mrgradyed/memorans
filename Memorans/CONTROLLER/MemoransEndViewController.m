@@ -9,6 +9,7 @@
 #import "MemoransEndViewController.h"
 #import "MemoransBehavior.h"
 #import "MemoransSharedAudioController.h"
+#import "MemoransSharedLocalizationController.h"
 #import "Utilities.h"
 
 @interface MemoransEndViewController () <UIDynamicAnimatorDelegate>
@@ -84,12 +85,14 @@
 
     backgroundLabel.center = CGPointMake(longSide / 2, shortSide / 2);
 
-    backgroundLabel.attributedText = [Utilities
-        styledAttributedStringWithString:NSLocalizedString(@"The End", @"End screen label")
-                           andAlignement:NSTextAlignmentCenter
-                                andColor:nil
-                                 andSize:150
-                          andStrokeColor:nil];
+    backgroundLabel.attributedText =
+        [Utilities styledAttributedStringWithString:
+                       [[MemoransSharedLocalizationController sharedLocalizationController]
+                           localizedStringForKey:@"The End"]
+                                      andAlignement:NSTextAlignmentCenter
+                                           andColor:nil
+                                            andSize:150
+                                     andStrokeColor:nil];
 
     [self.view addSubview:backgroundLabel];
     [self.view bringSubviewToFront:backgroundLabel];
