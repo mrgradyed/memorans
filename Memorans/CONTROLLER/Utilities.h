@@ -35,10 +35,10 @@
                                                  andSize:(CGFloat)size
                                           andStrokeColor:(UIColor *)strokeColor;
 
-+ (void)playSystemSoundEffectFromResource:(NSString *)fileName ofType:(NSString *)fileType;
-
 + (void)configureButton:(UIButton *)button
         withTitleString:(NSString *)titleString
             andFontSize:(CGFloat)size;
+
++ (void)playSystemSoundEffectFromResource:(NSString *)fileName ofType:(NSString *)fileType;
 
 @end

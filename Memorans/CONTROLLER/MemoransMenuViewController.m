@@ -110,6 +110,8 @@
 
 - (IBAction)languageButtonTouched
 {
+    [self.sharedAudioController playPopSound];
+
     [self.sharedLocalizationController
         setAppLanguage:[self.sharedLocalizationController nextSupportedLanguage]];
 
@@ -118,9 +120,9 @@
 
 - (IBAction)musicButtonTouched
 {
-    self.sharedAudioController.musicOff = !self.sharedAudioController.musicOff;
-
     [self.sharedAudioController playPopSound];
+
+    self.sharedAudioController.musicOff = !self.sharedAudioController.musicOff;
 
     NSString *overMusicOnOff =
         self.sharedAudioController.musicOff
@@ -139,7 +141,6 @@
     [Utilities configureButton:self.musicButton
                withTitleString:[self.sharedLocalizationController localizedStringForKey:musicOnOff]
                    andFontSize:50];
-
 }
 
 - (IBAction)soundEffectsButtonTouched
@@ -167,7 +168,6 @@
     [Utilities configureButton:self.soundEffectsButton
                withTitleString:[self.sharedLocalizationController localizedStringForKey:soundsOnOff]
                    andFontSize:50];
-
 }
 
 - (IBAction)creditsButtonTouched
