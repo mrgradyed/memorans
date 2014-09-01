@@ -15,11 +15,13 @@ int main(int argc, char *argv[])
     @autoreleasepool
     {
 
-        // WARNING: FOR TESTING ONLY - START -
-
-      //  [[NSUserDefaults standardUserDefaults] setObject:@[ @"de" ] forKey:@"AppleLanguages"];
-
-        // WARNING: FOR TESTING ONLY - END -
+        ////////////////////////////////////////////////////////////////////
+        //
+        // WARNING: ENABLE ONLY FOR TESTING PURPOSES:
+        //
+        // [[NSUserDefaults standardUserDefaults] setObject:@[ @"bg" ] forKey:@"AppleLanguages"];
+        //
+        ////////////////////////////////////////////////////////////////////
 
         return UIApplicationMain(argc, argv, nil, NSStringFromClass([MemoransAppDelegate class]));
     }

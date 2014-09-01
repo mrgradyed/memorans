@@ -177,6 +177,31 @@
             }];
 }
 
+#pragma mark - BUTTONS CONFIGURATION
+
++ (void)configureButton:(UIButton *)button
+        withTitleString:(NSString *)titleString
+            andFontSize:(CGFloat)size
+{
+    NSAttributedString *attributedTitle =
+        [Utilities styledAttributedStringWithString:titleString
+                                      andAlignement:NSTextAlignmentCenter
+                                           andColor:nil
+                                            andSize:50
+                                     andStrokeColor:nil];
+
+    [button setAttributedTitle:attributedTitle forState:UIControlStateNormal];
+
+    button.backgroundColor = [Utilities colorFromHEXString:@"#2B2B2B" withAlpha:1];
+    button.multipleTouchEnabled = NO;
+    button.exclusiveTouch = YES;
+    button.clipsToBounds = YES;
+
+    button.layer.borderColor = [Utilities colorFromHEXString:@"#2B2B2B" withAlpha:1].CGColor;
+    button.layer.borderWidth = 1;
+    button.layer.cornerRadius = 25;
+}
+
 #pragma mark - SYSTEM SOUNDS
 
 + (void)playSystemSoundEffectFromResource:(NSString *)fileName ofType:(NSString *)fileType
@@ -214,29 +239,6 @@ void disposeSoundEffect(soundEffect, inClientData)
         dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
 
     dispatch_async(globalDefaultQueue, ^(void) { AudioServicesDisposeSystemSoundID(soundEffect); });
-}
-
-+ (void)configureButton:(UIButton *)button
-        withTitleString:(NSString *)titleString
-            andFontSize:(CGFloat)size
-{
-    NSAttributedString *attributedTitle =
-        [Utilities styledAttributedStringWithString:titleString
-                                      andAlignement:NSTextAlignmentCenter
-                                           andColor:nil
-                                            andSize:50
-                                     andStrokeColor:nil];
-
-    [button setAttributedTitle:attributedTitle forState:UIControlStateNormal];
-
-    button.backgroundColor = [Utilities colorFromHEXString:@"#2B2B2B" withAlpha:1];
-    button.multipleTouchEnabled = NO;
-    button.exclusiveTouch = YES;
-    button.clipsToBounds = YES;
-
-    button.layer.borderColor = [Utilities colorFromHEXString:@"#2B2B2B" withAlpha:1].CGColor;
-    button.layer.borderWidth = 1;
-    button.layer.cornerRadius = 25;
 }
 
 @end

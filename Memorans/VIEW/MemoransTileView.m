@@ -105,28 +105,17 @@
 
         [backImage drawInRect:imageRect];
 
-        /*
-                // WARNING: FOR TESTING ONLY - START -
-
-                UIFont *backFont =
-                    [[UIFont preferredFontForTextStyle:UIFontTextStyleCaption1] fontWithSize:18];
-
-                NSMutableParagraphStyle *parStyle = [[NSMutableParagraphStyle alloc] init];
-
-                [parStyle setAlignment:NSTextAlignmentCenter];
-
-                NSAttributedString *tileBackString =
-                    [[NSAttributedString alloc] initWithString:self.imageID
-                                                    attributes:@{
-                                                                  NSFontAttributeName : backFont,
-                                                                  NSParagraphStyleAttributeName :
-           parStyle
-                                                               }];
-
-                [tileBackString drawInRect:self.bounds];
-
-                // WARNING: FOR TESTING ONLY  - END -
-         */
+        ////////////////////////////////////////////////////////////////////
+        //
+        // WARNING: ENABLE ONLY FOR TESTING PURPOSES:
+        //
+        // [[Utilities styledAttributedStringWithString:self.imageID
+        //                                andAlignement:NSTextAlignmentCenter
+        //                                     andColor:nil
+        //                                      andSize:20
+        //                               andStrokeColor:nil] drawInRect:self.bounds];
+        //
+        ////////////////////////////////////////////////////////////////////
     }
 }
 
