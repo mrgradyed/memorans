@@ -134,19 +134,12 @@
 
     [Utilities animateOverlayView:overlayView withDuration:0.5f];
 
-    NSString *musicOnOff =
-        self.sharedAudioController.musicOff
-            ? [self.sharedLocalizationController localizedStringForKey:@"♬ Off"]
-            : [self.sharedLocalizationController localizedStringForKey:@"♬ On"];
+    NSString *musicOnOff = self.sharedAudioController.musicOff ? @"♬ Off" : @"♬ On";
 
-    NSAttributedString *musicButtonString =
-        [Utilities styledAttributedStringWithString:musicOnOff
-                                      andAlignement:NSTextAlignmentCenter
-                                           andColor:nil
-                                            andSize:50
-                                     andStrokeColor:nil];
+    [Utilities configureButton:self.musicButton
+               withTitleString:[self.sharedLocalizationController localizedStringForKey:musicOnOff]
+                   andFontSize:50];
 
-    [self.musicButton setAttributedTitle:musicButtonString forState:UIControlStateNormal];
 }
 
 - (IBAction)soundEffectsButtonTouched
@@ -169,19 +162,12 @@
 
     [Utilities animateOverlayView:overlayView withDuration:0.5f];
 
-    NSString *soundsOnOff =
-        self.sharedAudioController.soundsOff
-            ? [self.sharedLocalizationController localizedStringForKey:@"♪ Off"]
-            : [self.sharedLocalizationController localizedStringForKey:@"♪ On"];
+    NSString *soundsOnOff = self.sharedAudioController.soundsOff ? @"♪ Off" : @"♪ On";
 
-    NSAttributedString *soundsButtonString =
-        [Utilities styledAttributedStringWithString:soundsOnOff
-                                      andAlignement:NSTextAlignmentCenter
-                                           andColor:nil
-                                            andSize:50
-                                     andStrokeColor:nil];
+    [Utilities configureButton:self.soundEffectsButton
+               withTitleString:[self.sharedLocalizationController localizedStringForKey:soundsOnOff]
+                   andFontSize:50];
 
-    [self.soundEffectsButton setAttributedTitle:soundsButtonString forState:UIControlStateNormal];
 }
 
 - (IBAction)creditsButtonTouched

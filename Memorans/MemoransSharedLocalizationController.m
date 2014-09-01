@@ -39,7 +39,7 @@
 
 - (NSString *)localizedStringForKey:(NSString *)key
 {
-    return [self.currentBundle localizedStringForKey:key value:@"???" table:nil];
+    return [self.currentBundle localizedStringForKey:key value:@"??" table:nil];
 }
 
 - (void)setAppLanguage:(NSString *)language
@@ -55,6 +55,9 @@
 
         self.currentLanguageCode = self.defaultLanguageCode;
     }
+
+    [[NSUserDefaults standardUserDefaults] setObject:self.currentLanguageCode
+                                              forKey:@"appLanguage"];
 
     self.currentBundle = [NSBundle bundleWithPath:languageFolder];
 }
@@ -105,29 +108,38 @@
 
     if (self)
     {
-        for (NSString *code in
-             [[NSUserDefaults standardUserDefaults] objectForKey:@"AppleLanguages"])
+        NSArray *supportedLanguagesCodes =
+            [MemoransSharedLocalizationController supportedLanguagesCodes];
+
+        NSString *previouslySetAppLanguage =
+            [[NSUserDefaults standardUserDefaults] stringForKey:@"appLanguage"];
+
+        if (previouslySetAppLanguage)
         {
-            if ([[MemoransSharedLocalizationController supportedLanguagesCodes]
-                    containsObject:code])
+            _defaultLanguageCode = previouslySetAppLanguage;
+        }
+        else
+        {
+            for (NSString *code in
+                 [[NSUserDefaults standardUserDefaults] objectForKey:@"AppleLanguages"])
             {
-                _defaultLanguageCode = code;
-                break;
+                if ([supportedLanguagesCodes containsObject:code])
+                {
+                    _defaultLanguageCode = code;
+                    break;
+                }
             }
         }
 
         if (!_defaultLanguageCode)
         {
-            if ([[MemoransSharedLocalizationController supportedLanguagesCodes]
-                    containsObject:@"en"])
-
+            if ([supportedLanguagesCodes containsObject:@"en"])
             {
                 _defaultLanguageCode = @"en";
             }
             else
             {
-                _defaultLanguageCode =
-                    [MemoransSharedLocalizationController supportedLanguagesCodes][0];
+                _defaultLanguageCode = supportedLanguagesCodes[0];
             }
         }
 
