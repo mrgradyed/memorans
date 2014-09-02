@@ -39,6 +39,10 @@
         withTitleString:(NSString *)titleString
             andFontSize:(CGFloat)size;
 
+/*
+
 + (void)playSystemSoundEffectFromResource:(NSString *)fileName ofType:(NSString *)fileType;
+
+*/
 
 @end

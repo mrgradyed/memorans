@@ -107,7 +107,7 @@
 
         ////////////////////////////////////////////////////////////////////
         //
-        // WARNING: ENABLE ONLY FOR TESTING PURPOSES:
+        // WARNING: ENABLE ONLY FOR MANUAL TESTING PURPOSES:
         //
         // [[Utilities styledAttributedStringWithString:self.imageID
         //                                andAlignement:NSTextAlignmentCenter

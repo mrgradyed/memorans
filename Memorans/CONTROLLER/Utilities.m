@@ -202,6 +202,8 @@
     button.layer.cornerRadius = 25;
 }
 
+/*
+
 #pragma mark - SYSTEM SOUNDS
 
 + (void)playSystemSoundEffectFromResource:(NSString *)fileName ofType:(NSString *)fileType
@@ -240,5 +242,7 @@ void disposeSoundEffect(soundEffect, inClientData)
 
     dispatch_async(globalDefaultQueue, ^(void) { AudioServicesDisposeSystemSoundID(soundEffect); });
 }
+
+ */
 
 @end

@@ -139,7 +139,7 @@
 
         ////////////////////////////////////////////////////////////////////
         //
-        // WARNING: ENABLE ONLY FOR TESTING PURPOSES:
+        // WARNING: ENABLE ONLY FOR MANUAL TESTING PURPOSES:
         //
         // levelButton.enabled = YES;
         // level.completed = YES;

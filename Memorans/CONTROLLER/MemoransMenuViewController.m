@@ -181,7 +181,7 @@
 {
     [self.sharedAudioController playPopSound];
 
-    NSURL *fbURL = [NSURL URLWithString:@"https://www.facebook.com/memorans"];
+    NSURL *fbURL = [NSURL URLWithString:@"https://www.facebook.com/720774387995937"];
 
     [[UIApplication sharedApplication] openURL:fbURL];
 }
@@ -190,8 +190,7 @@
 {
     [self.sharedAudioController playPopSound];
 
-    // IMPORTANT: REMEMBER TO ADD APP ID TO URL!!
-    NSURL *appURL = [NSURL URLWithString:@"itms-apps://itunes.apple.com/app/"];
+    NSURL *appURL = [NSURL URLWithString:@"itms-apps://itunes.apple.com/app/id914969431"];
 
     [[UIApplication sharedApplication] openURL:appURL];
 }
