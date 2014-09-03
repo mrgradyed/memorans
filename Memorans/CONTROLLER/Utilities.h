@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Emiliano D'Alterio. All rights reserved.
 //
 
-@import AudioToolbox;
+// @import AudioToolbox;
 @import QuartzCore;
 
 #import <Foundation/Foundation.h>
@@ -39,10 +39,10 @@
         withTitleString:(NSString *)titleString
             andFontSize:(CGFloat)size;
 
-/*
 
-+ (void)playSystemSoundEffectFromResource:(NSString *)fileName ofType:(NSString *)fileType;
 
-*/
+// + (void)playSystemSoundEffectFromResource:(NSString *)fileName ofType:(NSString *)fileType;
+
+
 
 @end

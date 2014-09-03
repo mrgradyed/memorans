@@ -39,8 +39,23 @@
     if (!_collision)
     {
         _collision = [[UICollisionBehavior alloc] init];
-        _collision.translatesReferenceBoundsIntoBoundary = YES;
         _collision.collisionDelegate = self;
+        _collision.translatesReferenceBoundsIntoBoundary = NO;
+
+        CGRect screenBounds = [[UIScreen mainScreen] bounds];
+
+        CGFloat shortSide = MIN(screenBounds.size.width, screenBounds.size.height);
+        CGFloat longSide = MAX(screenBounds.size.width, screenBounds.size.height);
+
+        CGPoint topLeft = CGPointMake(0, 0);
+        CGPoint topRight = CGPointMake(longSide, 0);
+        CGPoint bottomLeft = CGPointMake(0, shortSide);
+        CGPoint bottomRight = CGPointMake(longSide, shortSide);
+
+        [_collision addBoundaryWithIdentifier:@"1" fromPoint:topLeft toPoint:topRight];
+        [_collision addBoundaryWithIdentifier:@"2" fromPoint:topRight toPoint:bottomRight];
+        [_collision addBoundaryWithIdentifier:@"3" fromPoint:bottomRight toPoint:bottomLeft];
+        [_collision addBoundaryWithIdentifier:@"4" fromPoint:bottomLeft toPoint:topLeft];
     }
 
     return _collision;
@@ -112,7 +127,6 @@
                  withItem:(id<UIDynamicItem>)item2
                   atPoint:(CGPoint)p
 {
-
     [self.push removeItem:item1];
     [self.push removeItem:item2];
 }
