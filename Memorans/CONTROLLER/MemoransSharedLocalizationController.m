@@ -126,9 +126,9 @@
 
     static MemoransSharedLocalizationController *sharedLocalizationController;
 
-    // Create an instance of this class once and only once for the lifetime of the application.
-
     static dispatch_once_t blockHasCompleted;
+
+    // Create an instance of this class once and only once for the lifetime of the application.
 
     dispatch_once(&blockHasCompleted,
                   ^{ sharedLocalizationController = [[self alloc] initActually]; });
