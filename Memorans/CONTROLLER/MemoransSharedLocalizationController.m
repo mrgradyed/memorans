@@ -20,7 +20,7 @@
 
 @property(strong, nonatomic) NSString *currentLanguageCode;
 
-// The default language code used as a fall-back value.
+// The default language code used as a safe fall-back value.
 
 @property(strong, nonatomic) NSString *defaultLanguageCode;
 

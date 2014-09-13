@@ -12,6 +12,8 @@
 
 #pragma mark - PUBLIC PROPERTIES
 
+// The level currently chosen for playing.
+
 @property(nonatomic) NSInteger currentLevelNumber;
 
 @end

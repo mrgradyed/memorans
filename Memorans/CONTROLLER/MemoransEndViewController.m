@@ -73,6 +73,8 @@
 
 - (void)viewDidLoad
 {
+    // This controller’s view was loaded into memory!
+
     [super viewDidLoad];
 
     [Utilities configureButton:self.backToRootButton withTitleString:@"⬅︎" andFontSize:50];
@@ -100,6 +102,8 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    // This controller’s view is about to go on screen!
+
     [super viewWillAppear:animated];
 
     [self.view.layer insertSublayer:self.gradientLayer atIndex:0];
@@ -113,6 +117,8 @@
 
 - (void)viewDidDisappear:(BOOL)animated
 {
+    // This controller’s view has gone OFF screen!
+
     [super viewDidDisappear:animated];
 
     [self.gradientLayer removeFromSuperlayer];
@@ -185,7 +191,12 @@
     [self.dynamicAnimator addBehavior:memoransBehavior];
 }
 
-- (BOOL)prefersStatusBarHidden { return YES; }
+- (BOOL)prefersStatusBarHidden
+{
+    // Yes, we prefer the status bar hidden.
+
+    return YES;
+}
 
 - (void)didReceiveMemoryWarning { [super didReceiveMemoryWarning]; }
 
