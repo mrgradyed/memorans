@@ -14,14 +14,6 @@ int main(int argc, char *argv[])
 {
     @autoreleasepool
     {
-        ////////////////////////////////////////////////////////////////////
-        //
-        // WARNING: ENABLE ONLY FOR MANUAL TESTING PURPOSES:
-        //
-        // [[NSUserDefaults standardUserDefaults] setObject:@[ @"bg" ] forKey:@"AppleLanguages"];
-        //
-        ////////////////////////////////////////////////////////////////////
-
         return UIApplicationMain(argc, argv, nil, NSStringFromClass([MemoransAppDelegate class]));
     }
 }

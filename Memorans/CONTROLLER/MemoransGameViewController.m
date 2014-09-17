@@ -1261,7 +1261,6 @@ static const NSInteger gTileMargin = 5;
 
 - (BOOL)prefersStatusBarHidden
 {
-
     // Yes, we prefer the status bar hidden.
 
     return YES;
@@ -1273,30 +1272,46 @@ static const NSInteger gTileMargin = 5;
 
 - (NSString *)filePathForArchivingWithName:(NSString *)filename
 {
+    // User's documents folder in the app sandbox.
+
     NSString *documentDirectory =
         NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
+
+    // Return a path to the specified file in the user's documents folder.
 
     return [documentDirectory stringByAppendingPathComponent:filename];
 }
 
 - (BOOL)archiveGameControllerStatus
 {
+    // This methods saves game engine status and UI status.
+
+    // Call the archiving chain on the game engine.
+
     BOOL gameArchiving = [NSKeyedArchiver
         archiveRootObject:self.game
                    toFile:[self filePathForArchivingWithName:@"gameStatus.archive"]];
 
+    // Call the archiving chain on the tile views array.
+
     BOOL tileViewsArchiving = [NSKeyedArchiver
         archiveRootObject:self.tileViews
                    toFile:[self filePathForArchivingWithName:@"tileViewsStatus.archive"]];
+
+    // If both the archiving operations were successful this method worked properly.
 
     return (gameArchiving && tileViewsArchiving);
 }
 
 - (BOOL)deleteSavedGameControllerStatus
 {
+    // Get a file manager.
+
     NSFileManager *fileManager = [NSFileManager defaultManager];
 
     NSError *gameError;
+
+    // Remove the game engine status save file.
 
     BOOL gameArchiveRemoval =
         [fileManager removeItemAtPath:[self filePathForArchivingWithName:@"gameStatus.archive"]
@@ -1304,9 +1319,13 @@ static const NSInteger gTileMargin = 5;
 
     NSError *tileError;
 
+    // Remove the UI status save file.
+
     BOOL tileViewsArchiveRemoval =
         [fileManager removeItemAtPath:[self filePathForArchivingWithName:@"tileViewsStatus.archive"]
                                 error:&tileError];
+
+    // If both removals were successful this method worked properly.
 
     return (gameArchiveRemoval && tileViewsArchiveRemoval);
 }

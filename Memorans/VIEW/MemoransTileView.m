@@ -104,18 +104,6 @@
                                       shortestTileSide, shortestTileSide);
 
         [backImage drawInRect:imageRect];
-
-        ////////////////////////////////////////////////////////////////////
-        //
-        // WARNING: ENABLE ONLY FOR MANUAL TESTING PURPOSES:
-        //
-        // [[Utilities styledAttributedStringWithString:self.imageID
-        //                                andAlignement:NSTextAlignmentCenter
-        //                                     andColor:nil
-        //                                      andSize:20
-        //                               andStrokeColor:nil] drawInRect:self.bounds];
-        //
-        ////////////////////////////////////////////////////////////////////
     }
 }
 

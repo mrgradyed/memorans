@@ -140,15 +140,6 @@
         }
 
         loopCount++;
-
-        ////////////////////////////////////////////////////////////////////
-        //
-        // WARNING: ENABLE ONLY FOR MANUAL TESTING PURPOSES:
-        //
-        // levelButton.enabled = YES;
-        // level.completed = YES;
-        //
-        ////////////////////////////////////////////////////////////////////
     }
 
     if (highestCompletedLevel + 1 < [self.levelButtonViews count])

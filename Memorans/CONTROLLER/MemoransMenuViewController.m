@@ -359,6 +359,12 @@
 
 #pragma mark - UIDynamicAnimatorDelegate PROTOCOL
 
-- (void)dynamicAnimatorDidPause:(UIDynamicAnimator *)animator { [self addAndAnimateMonsterViews]; }
+- (void)dynamicAnimatorDidPause:(UIDynamicAnimator *)animator
+{
+
+    // When the monsters animation stops, restart it.
+
+    [self addAndAnimateMonsterViews];
+}
 
 @end
