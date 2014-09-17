@@ -20,6 +20,8 @@
 
 #pragma mark - PROPERTIES
 
+// A gradient layer for the background.
+
 @property(strong, nonatomic) CAGradientLayer *gradientLayer;
 
 @property(strong, nonatomic) UIDynamicAnimator *dynamicAnimator;
@@ -36,7 +38,11 @@
 {
     if (!_gradientLayer)
     {
+        // Get a random gradient for the background.
+
         _gradientLayer = [Utilities randomGradient];
+
+        // Gradient must cover the whole controller's view.
 
         _gradientLayer.frame = self.view.bounds;
     }
@@ -106,6 +112,8 @@
 
     [super viewWillAppear:animated];
 
+    // Get a dynamic gradient and push it to the very background.
+
     [self.view.layer insertSublayer:self.gradientLayer atIndex:0];
 
     [self addAndAnimateMonsterViews];
@@ -121,7 +129,11 @@
 
     [super viewDidDisappear:animated];
 
+    // Remove and release the gradient. We'll get a new random one the next time
+    // this controller's view will go on screen.
+
     [self.gradientLayer removeFromSuperlayer];
+    
     self.gradientLayer = nil;
 
     [self.monsterViews makeObjectsPerformSelector:@selector(removeFromSuperview)];

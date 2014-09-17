@@ -12,8 +12,16 @@
 
 #pragma mark - PROPERTIES
 
+// A push force.
+
 @property(strong, nonatomic) UIPushBehavior *push;
+
+// A collision manager.
+
 @property(strong, nonatomic) UICollisionBehavior *collision;
+
+// A bouncing behavior.
+
 @property(strong, nonatomic) UIDynamicItemBehavior *bouncing;
 
 @end
@@ -26,6 +34,8 @@
 {
     if (!_push)
     {
+        // A strong push force, directed to the bottom and slightly to the right.
+
         _push = [[UIPushBehavior alloc] init];
         _push.magnitude = 10000.0f;
         _push.angle = 1.44f;
@@ -38,19 +48,35 @@
 {
     if (!_collision)
     {
+        // A collision behavior with this custom behavior as delegate.
+
         _collision = [[UICollisionBehavior alloc] init];
         _collision.collisionDelegate = self;
+
+        // We set this to NO and we create the boundaries manually, because it seems that after
+        // releasing the collision behavior a memory leak occurs as the CGPath for the boundaries is
+        // not relased properly.
+
         _collision.translatesReferenceBoundsIntoBoundary = NO;
+
+        // Get the screen bounds.
 
         CGRect screenBounds = [[UIScreen mainScreen] bounds];
 
+        // Get the screen's dimensions considering device orientation.
+
         CGFloat shortSide = MIN(screenBounds.size.width, screenBounds.size.height);
         CGFloat longSide = MAX(screenBounds.size.width, screenBounds.size.height);
+
+        // Get the four screen corners coordinates.
 
         CGPoint topLeft = CGPointMake(0, 0);
         CGPoint topRight = CGPointMake(longSide, 0);
         CGPoint bottomLeft = CGPointMake(0, shortSide);
         CGPoint bottomRight = CGPointMake(longSide, shortSide);
+
+        // Set the collision boundaries manually to avoid CGPath memory leak in the collision
+        // behavior.
 
         [_collision addBoundaryWithIdentifier:@"1" fromPoint:topLeft toPoint:topRight];
         [_collision addBoundaryWithIdentifier:@"2" fromPoint:topRight toPoint:bottomRight];
@@ -65,6 +91,8 @@
 {
     if (!_bouncing)
     {
+        // A strong bouncing behavior with rotation.
+
         _bouncing = [[UIDynamicItemBehavior alloc] init];
         _bouncing.elasticity = 0.9f;
         _bouncing.allowsRotation = YES;
@@ -77,6 +105,8 @@
 
 - (void)addItem:(id<UIDynamicItem>)item
 {
+    // A method for adding an item to this custom behavior.
+
     [self.push addItem:item];
     [self.collision addItem:item];
     [self.bouncing addItem:item];
@@ -84,6 +114,8 @@
 
 - (void)removeItem:(id<UIDynamicItem>)item
 {
+    // A method for removing an item frome this custom behavior.
+
     [self.push removeItem:item];
     [self.collision removeItem:item];
     [self.bouncing removeItem:item];
@@ -97,6 +129,8 @@
 
     if (self)
     {
+        // Add the push, the collision, and bouncing behaviors to this custom behavior.
+
         [self addChildBehavior:self.push];
         [self addChildBehavior:self.collision];
         [self addChildBehavior:self.bouncing];
@@ -107,10 +141,16 @@
 
 - (instancetype)initWithItems:(NSArray *)items
 {
+    // Call the designated initialiser.
+
     self = [self init];
 
     if (self)
     {
+        // An init method to initialise a custom behavior with an array of objects.
+
+        // Add the items in the array to this custom behavior.
+
         for (id<UIDynamicItem> item in items)
         {
             [self addItem:item];
@@ -127,6 +167,9 @@
                  withItem:(id<UIDynamicItem>)item2
                   atPoint:(CGPoint)p
 {
+
+    // When the 2 objects collide, remove them from the push force, so they can float free.
+
     [self.push removeItem:item1];
     [self.push removeItem:item2];
 }

@@ -63,7 +63,7 @@
 
 @property(strong, nonatomic) MemoransSharedLocalizationController *sharedLocalizationController;
 
-// The background gradient layer.
+// A gradient layer for the background.
 
 @property(strong, nonatomic) CAGradientLayer *gradientLayer;
 
@@ -153,11 +153,11 @@
 {
     if (!_gradientLayer)
     {
-        // Get a random gradient
+        // Get a random gradient for the background.
 
         _gradientLayer = [Utilities randomGradient];
 
-        // Gradient must cover the whole background size.
+        // Gradient must cover the whole controller's view.
 
         _gradientLayer.frame = self.view.bounds;
     }
@@ -958,7 +958,7 @@ static const NSInteger gTileMargin = 5;
             }
         }
 
-        // Create a dynamic gradient and set it to be in the very background.
+        // Get a dynamic gradient and push it to the very background.
 
         [self.view.layer insertSublayer:self.gradientLayer atIndex:0];
 

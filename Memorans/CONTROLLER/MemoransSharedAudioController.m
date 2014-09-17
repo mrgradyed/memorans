@@ -431,7 +431,6 @@
 {
     if ([player isEqual:self.musicPlayer] && flags == AVAudioSessionInterruptionOptionShouldResume)
     {
-
         // In case the music player is interrupted, start playing again when possible.
 
         // From Apple docs: "Unlike the main queue or queues allocated with

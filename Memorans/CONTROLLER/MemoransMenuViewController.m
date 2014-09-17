@@ -18,25 +18,53 @@
 
 #pragma mark - OUTLETS
 
+// The main menu play button.
+
 @property(weak, nonatomic) IBOutlet UIButton *playButton;
+
+// The main menu music on/off button.
+
 @property(weak, nonatomic) IBOutlet UIButton *musicButton;
-@property(weak, nonatomic) IBOutlet UIButton *creditsButton;
+
+// The main menu sounds on/off button.
+
 @property(weak, nonatomic) IBOutlet UIButton *soundEffectsButton;
+
+// The main menu credits button.
+
+@property(weak, nonatomic) IBOutlet UIButton *creditsButton;
+
+// The main menu Facebook link button.
+
 @property(weak, nonatomic) IBOutlet UIButton *fbButton;
+
+// The main menu App Store rate button.
+
 @property(weak, nonatomic) IBOutlet UIButton *rateButton;
+
+// The main menu language button to change app language "on the fly".
+
 @property(weak, nonatomic) IBOutlet UIButton *languageButton;
 
 #pragma mark - PROPERTIES
 
+// A gradient layer for the background.
+
 @property(strong, nonatomic) CAGradientLayer *gradientLayer;
+
+// An animator for the monsters animation.
 
 @property(strong, nonatomic) UIDynamicAnimator *dynamicAnimator;
 
+// An array of "monsters" views for using in the main menu screen animation.
+
 @property(strong, nonatomic) NSMutableArray *monsterViews;
 
-@property(strong, nonatomic) AVAudioPlayer *musicPlayer;
+// The shared audio controller to play music and effects.
 
 @property(strong, nonatomic) MemoransSharedAudioController *sharedAudioController;
+
+// The shared localization controller to allow language switching "on the fly".
 
 @property(strong, nonatomic) MemoransSharedLocalizationController *sharedLocalizationController;
 
@@ -50,7 +78,11 @@
 {
     if (!_gradientLayer)
     {
+        // Get a random gradient for the background.
+
         _gradientLayer = [Utilities randomGradient];
+
+        // Gradient must cover the whole screen's background.
 
         _gradientLayer.frame = self.view.bounds;
     }
@@ -62,7 +94,12 @@
 {
     if (!_dynamicAnimator)
     {
+        // Get an dynamic animator to animate monsters views on the main menu screen.
+
         _dynamicAnimator = [[UIDynamicAnimator alloc] initWithReferenceView:self.view];
+
+        // Set the animator's delegate to be this controller.
+
         _dynamicAnimator.delegate = self;
     }
 
@@ -73,6 +110,8 @@
 {
     if (!_monsterViews)
     {
+        // Get a new mutable array to contain monsters views.
+
         _monsterViews = [[NSMutableArray alloc] init];
     }
 
@@ -83,6 +122,8 @@
 {
     if (!_sharedAudioController)
     {
+        // Get the shared audio controller instance.
+
         _sharedAudioController = [MemoransSharedAudioController sharedAudioController];
     }
 
@@ -93,6 +134,8 @@
 {
     if (!_sharedLocalizationController)
     {
+        // Get the shared localization controller instance.
+
         _sharedLocalizationController =
             [MemoransSharedLocalizationController sharedLocalizationController];
     }
@@ -103,38 +146,61 @@
 
 - (IBAction)playButtonTouched
 {
+    // An audio feedback.
+
     [self.sharedAudioController playPopSound];
+
+    // Go to the level choice screen.
 
     [self performSegueWithIdentifier:@"toLevelsController" sender:self];
 }
 
 - (IBAction)languageButtonTouched
 {
+    // An audio feedback.
+
     [self.sharedAudioController playPopSound];
+
+    // Set the app language to be the next language actually supported by the app,
+    // it circularly iterates the list of supported languages starting from the current set one.
 
     [self.sharedLocalizationController
         setAppLanguage:[self.sharedLocalizationController nextSupportedLanguage]];
+
+    // Change buttons titles according to the new language set.
 
     [self configureUIButtons];
 }
 
 - (IBAction)musicButtonTouched
 {
+    // An audio feedback.
+
     [self.sharedAudioController playPopSound];
 
+    // Turn the music ON/OFF in the shared audio controller.
+
     self.sharedAudioController.musicOff = !self.sharedAudioController.musicOff;
+
+    // Create a string which states the music new status.
 
     NSString *overMusicOnOff =
         self.sharedAudioController.musicOff
             ? [self.sharedLocalizationController localizedStringForKey:@"Music Off"]
             : [self.sharedLocalizationController localizedStringForKey:@"Music On"];
 
+    // Create an overlay text to notify the user of the change, using the string above.
+
     MemoransOverlayView *overlayView =
         [[MemoransOverlayView alloc] initWithString:overMusicOnOff andColor:nil andFontSize:150];
+
+    // Add and animate the overlay text.
 
     [self.view addSubview:overlayView];
 
     [Utilities animateOverlayView:overlayView withDuration:0.5f];
+
+    // Change the music button's title according to music status.
 
     NSString *musicOnOff = self.sharedAudioController.musicOff ? @"♬ Off" : @"♬ On";
 
@@ -145,23 +211,37 @@
 
 - (IBAction)soundEffectsButtonTouched
 {
+    // An audio feedback. This plays only when sounds are ON.
+
     [self.sharedAudioController playPopSound];
+
+    // Turn the sounds ON/OFF in the shared audio controller.
 
     self.sharedAudioController.soundsOff = !self.sharedAudioController.soundsOff;
 
+    // An audio feedback. This plays only if sounds are turned back on.
+
     [self.sharedAudioController playPopSound];
+
+    // Create a string which states the sounds new status.
 
     NSString *overSoundsOnOff =
         self.sharedAudioController.soundsOff
             ? [self.sharedLocalizationController localizedStringForKey:@"Sounds Off"]
             : [self.sharedLocalizationController localizedStringForKey:@"Sounds On"];
 
+    // Create an overlay text to notify the user of the change, using the string above.
+
     MemoransOverlayView *overlayView =
         [[MemoransOverlayView alloc] initWithString:overSoundsOnOff andColor:nil andFontSize:150];
+
+    // Add and animate the overlay text.
 
     [self.view addSubview:overlayView];
 
     [Utilities animateOverlayView:overlayView withDuration:0.5f];
+
+    // Change the sounds button's title according to sounds status.
 
     NSString *soundsOnOff = self.sharedAudioController.soundsOff ? @"♪ Off" : @"♪ On";
 
@@ -172,25 +252,44 @@
 
 - (IBAction)creditsButtonTouched
 {
+    // An audio feedback.
+
     [self.sharedAudioController playPopSound];
+
+    // Go to the credits screen.
 
     [self performSegueWithIdentifier:@"toCreditsController" sender:self];
 }
 
 - (IBAction)fbButtonTouched
 {
+    // An audio feedback.
+
     [self.sharedAudioController playPopSound];
 
+    // The Memorans app Facebook page URL. Using the page id (instead of the "nice" url) will allow
+    // the
+    // page to be correctly displayed by the FB official app too (if installed).
+
     NSURL *fbURL = [NSURL URLWithString:@"https://www.facebook.com/720774387995937"];
+
+    // Open the FB page URL.
 
     [[UIApplication sharedApplication] openURL:fbURL];
 }
 
 - (IBAction)rateButtonTouched
 {
+    // An audio feedback.
+
     [self.sharedAudioController playPopSound];
 
+    // The Memorans App Store page URL. Using "itms-apps" protocol will open it directly with the
+    // App Store application.
+
     NSURL *appURL = [NSURL URLWithString:@"itms-apps://itunes.apple.com/app/id914969431"];
+
+    // Open the App Store page URL.
 
     [[UIApplication sharedApplication] openURL:appURL];
 }
@@ -199,6 +298,9 @@
 
 - (void)configureUIButtons
 {
+    // This method styles and configures all the main menu buttons consistently, using an utility
+    // method and the shared localized controller to correctly localize the buttons titles.
+
     [Utilities configureButton:self.languageButton
                withTitleString:self.sharedLocalizationController.currentLanguageCode.uppercaseString
                    andFontSize:50];
@@ -207,11 +309,15 @@
                withTitleString:[self.sharedLocalizationController localizedStringForKey:@"Play"]
                    andFontSize:50];
 
+    // Change the music button's title according to music status.
+
     NSString *musicOnOff = self.sharedAudioController.musicOff ? @"♬ Off" : @"♬ On";
 
     [Utilities configureButton:self.musicButton
                withTitleString:[self.sharedLocalizationController localizedStringForKey:musicOnOff]
                    andFontSize:50];
+
+    // Change the sounds button's title according to sounds status.
 
     NSString *soundsOnOff = self.sharedAudioController.soundsOff ? @"♪ Off" : @"♪ On";
 
@@ -234,19 +340,34 @@
 
     [super viewDidLoad];
 
+    // It's a game, we want all the space available, no navigation bar.
+
     self.navigationController.navigationBarHidden = YES;
+
+    // NO multiple touch allowed on the main menu screen, one action at time.
 
     self.view.multipleTouchEnabled = NO;
 
+    // Style and configure the buttons.
+
     [self configureUIButtons];
+
+    // Get the controller's view's dimensions considering device orientation.
 
     CGFloat shortSide = MIN(self.view.bounds.size.width, self.view.bounds.size.height);
     CGFloat longSide = MAX(self.view.bounds.size.width, self.view.bounds.size.height);
 
+    // Create a proportional background text. This is the main menu "Memorans" text.
+
     UILabel *backgroundLabel =
         [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 0.8 * longSide, 0.3 * shortSide)];
 
+    // Center the background text in the controller's view.
+
     backgroundLabel.center = CGPointMake(longSide / 2, shortSide / 2);
+
+    // Set the "Memorans" background text as the label's text and add the background label to the
+    // controller's view.
 
     backgroundLabel.attributedText =
         [Utilities styledAttributedStringWithString:@"Memorans"
@@ -264,9 +385,15 @@
 
     [super viewWillAppear:animated];
 
+    // Get a dynamic gradient and push it to the very background.
+
     [self.view.layer insertSublayer:self.gradientLayer atIndex:0];
 
+    // Start floating monsters animation.
+
     [self addAndAnimateMonsterViews];
+
+    // Start playing main menu's music.
 
     [self.sharedAudioController playMusicFromResource:@"JauntyGumption"
                                                ofType:@"mp3"
@@ -279,8 +406,14 @@
 
     [super viewDidDisappear:animated];
 
+    // Remove and release the gradient. We'll get a new random one the next time
+    // this controller's view will go on screen.
+
     [self.gradientLayer removeFromSuperlayer];
+    
     self.gradientLayer = nil;
+
+    // Release the monsters views and the dynamic animator.
 
     [self.monsterViews makeObjectsPerformSelector:@selector(removeFromSuperview)];
 
@@ -294,16 +427,26 @@
 {
     if ([self.monsterViews count])
     {
+        // If monsters views from a previous animation are present, release the monsters views and
+        // the dynamic animator. We want new random monsters every time we start the animation.
+
         [self.monsterViews makeObjectsPerformSelector:@selector(removeFromSuperview)];
 
         self.monsterViews = nil;
         self.dynamicAnimator = nil;
     }
 
+    // An image view containing an image of a memorans monster.
+
     UIImage *monsterImage;
     UIImageView *monsterImageView;
+
+    // X and Y offsets to randomly scatter the monsters on the screen.
+
     NSInteger monsterViewXOffset;
     NSInteger monsterViewYOffset;
+
+    // An array of monsters images already used, we want no duplicate monsters in the animation.
 
     NSMutableArray *imageIndexes = [[NSMutableArray alloc] init];
     NSInteger randomImageIndex = 0;
@@ -312,15 +455,30 @@
     {
         do
         {
+            // The next random monster image's index.
+
             randomImageIndex = (arc4random() % 20) + 1;
+
+            // If that image index has already been included repeat until you get a
+            // new unused monster image's index.
+
         } while ([imageIndexes indexOfObject:@(randomImageIndex)] != NSNotFound);
 
+        // Add the monster images's index to the array of the already included ones.
+
         [imageIndexes addObject:@(randomImageIndex)];
+
+        // The monster's image selected (the monsters images for this animation will all be from the
+        // Happy set).
 
         monsterImage =
             [UIImage imageNamed:[NSString stringWithFormat:@"Happy%d", (int)randomImageIndex]];
 
+        // Get a view with the selected image.
+
         monsterImageView = [[UIImageView alloc] initWithImage:monsterImage];
+
+        // Calculate random offsets to slighly scatter the monsters image views.
 
         monsterViewXOffset = monsterImageView.frame.size.width +
                              (arc4random() % (int)monsterImageView.frame.size.width);
@@ -328,22 +486,38 @@
         monsterViewYOffset = monsterImageView.frame.size.height +
                              (arc4random() % (int)monsterImageView.frame.size.height);
 
+        // Place the monsters views. Having slight different start positions the views will behavior
+        // in more chaotic way when added to the animator.
+
         monsterImageView.center = CGPointMake(monsterViewXOffset, monsterViewYOffset);
+
+        // Add the monster view just created to the array of the currenty used in the animation.
 
         [self.monsterViews addObject:monsterImageView];
 
+        // Add the monster view just created to the controller's view.
+
         [self.view addSubview:monsterImageView];
     }
+
+    // Be sure all the main menu buttons are in foreground. This is to avoid monsters views to
+    // animate over buttons.
 
     for (UIView *view in self.view.subviews)
     {
         if ([view isKindOfClass:[UIButton class]])
         {
+            // If it's a button, push it to the front.
+
             [self.view bringSubviewToFront:view];
         }
     }
 
+    // Create an instance of the custom behavior, intialised with all the monsters views created.
+
     MemoransBehavior *memoransBehavior = [[MemoransBehavior alloc] initWithItems:self.monsterViews];
+
+    // Add this behavior to the dynamic animator and start the monsters animation.
 
     [self.dynamicAnimator addBehavior:memoransBehavior];
 }
@@ -361,8 +535,7 @@
 
 - (void)dynamicAnimatorDidPause:(UIDynamicAnimator *)animator
 {
-
-    // When the monsters animation stops, restart it.
+    // When the monsters animation stops, start a new one.
 
     [self addAndAnimateMonsterViews];
 }

@@ -26,9 +26,9 @@
 
 #pragma mark - PROPERTIES
 
-@property(strong, nonatomic) CAGradientLayer *gradientLayer;
+// A gradient layer for the background.
 
-@property(strong, nonatomic) AVAudioPlayer *musicPlayer;
+@property(strong, nonatomic) CAGradientLayer *gradientLayer;
 
 @end
 
@@ -40,7 +40,11 @@
 {
     if (!_gradientLayer)
     {
+        // Get a random gradient for the background.
+
         _gradientLayer = [Utilities randomGradient];
+        
+        // Gradient must cover the whole controller's view.
 
         _gradientLayer.frame = self.view.bounds;
     }
@@ -115,6 +119,8 @@
 
     [super viewWillAppear:animated];
 
+    // Get a dynamic gradient and push it to the very background.
+
     [self.view.layer insertSublayer:self.gradientLayer atIndex:0];
 
     MemoransGameLevel *level;
@@ -167,6 +173,9 @@
     // This controller’s view has gone OFF screen!
 
     [super viewDidDisappear:animated];
+
+    // Remove and release the gradient. We'll get a new random one the next time
+    // this controller's view will go on screen.
 
     [self.gradientLayer removeFromSuperlayer];
 

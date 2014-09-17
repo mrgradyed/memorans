@@ -136,7 +136,7 @@
 
     gradientLayer.locations = @[ @(0.0f), @(0.5f), @(1.0f) ];
 
-    // The gradient will be a background gradient, covering all the screen.
+    // The gradient will be a background gradient, covering its whole frame.
 
     gradientLayer.startPoint = CGPointMake(0.0f, 0.0f);
     gradientLayer.endPoint = CGPointMake(1.0f, 1.0f);
