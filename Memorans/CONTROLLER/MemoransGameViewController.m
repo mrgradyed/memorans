@@ -173,11 +173,10 @@
     if (!_game)
     {
         // An instance of the game engine, initialised with the number of tiles and
-        // tile type
-        // prescribed by the current level.
+        // tile type prescribed by the current level.
 
         _game = [[MemoransGameEngine alloc] initGameWithTilesCount:[self currentLevel].tilesInLevel
-                                                        andTileSet:[self currentLevel].tileSetType];
+                                                        andTileSet:[self currentLevel].levelType];
     }
     return _game;
 }
