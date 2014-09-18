@@ -12,7 +12,7 @@
 
 // From Apple docs: The NSCoding protocol declares the two methods that a class must implement so
 // that instances of that class can be encoded and decoded. This capability provides the basis for
-// archiving
+// archiving.
 
 @interface MemoransTilesSet : NSObject <NSCoding>
 

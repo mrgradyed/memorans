@@ -85,7 +85,9 @@
 
 #pragma mark - NSCoding PROTOCOL
 
-// Archiving
+// From Apple docs: The NSCoding protocol declares the two methods that a class
+// must implement so that instances of that class can be encoded and decoded. This capability
+// provides the basis for archiving.
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder
 {
@@ -95,7 +97,7 @@
     {
         // Reload saved level status.
 
-        _levelType = [aDecoder decodeObjectForKey:@"levelType"];
+        _levelType = [aDecoder decodeObjectForKey:@"tileSetType"];
 
         _tilesInLevel = [aDecoder decodeIntegerForKey:@"tilesInLevel"];
 
@@ -111,7 +113,7 @@
 {
     // Save level status.
 
-    [aCoder encodeObject:self.levelType forKey:@"levelType"];
+    [aCoder encodeObject:self.levelType forKey:@"tileSetType"];
 
     [aCoder encodeInteger:self.tilesInLevel forKey:@"tilesInLevel"];
 

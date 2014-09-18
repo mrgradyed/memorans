@@ -316,7 +316,7 @@
     button.multipleTouchEnabled = NO;
     button.exclusiveTouch = YES;
 
-    // Subviews won't escape the button boundaries.
+    // Subviews won't escape the button ROUNDED boundaries.
 
     button.clipsToBounds = YES;
 

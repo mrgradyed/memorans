@@ -10,7 +10,7 @@
 
 // From Apple docs: The NSCoding protocol declares the two methods that a class must implement so
 // that instances of that class can be encoded and decoded. This capability provides the basis for
-// archiving
+// archiving.
 
 // From Apple docs: The NSCopying protocol declares a method for providing functional copies of an
 // object. The exact meaning of “copy” can vary from class to class, but a copy must be a
