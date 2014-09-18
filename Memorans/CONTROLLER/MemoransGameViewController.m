@@ -33,7 +33,8 @@
 
 @property(weak, nonatomic) IBOutlet UIButton *restartGameButton;
 
-// The button for going to the next level (available if the current level is completed).
+// The button for going to the next level (available if the current level is
+// completed).
 
 @property(weak, nonatomic) IBOutlet UIButton *nextLevelButton;
 
@@ -94,7 +95,8 @@
     if (!_tileViews)
     {
 
-        // Create an array sized according to the number of tiles in the current level.
+        // Create an array sized according to the number of tiles in the current
+        // level.
 
         _tileViews = [[NSMutableArray alloc] initWithCapacity:[self currentLevel].tilesInLevel];
     }
@@ -105,7 +107,8 @@
 {
     if (!_tileViewsLeft)
     {
-        // When the game begins, the number of tile views left is the total number of tiles.
+        // When the game begins, the number of tile views left is the total number
+        // of tiles.
 
         _tileViewsLeft = [self.tileViews mutableCopy];
     }
@@ -169,7 +172,8 @@
 {
     if (!_game)
     {
-        // An instance of the game engine, initialised with the number of tiles and tile type
+        // An instance of the game engine, initialised with the number of tiles and
+        // tile type
         // prescribed by the current level.
 
         _game = [[MemoransGameEngine alloc] initGameWithTilesCount:[self currentLevel].tilesInLevel
@@ -250,7 +254,8 @@
 
     if (tappedTileView.paired || tappedTileView.shown || [self.chosenTileViews count] == 2)
     {
-        // The tapped tile is already face up, or it is already paired, or 2 tiles have already been
+        // The tapped tile is already face up, or it is already paired, or 2 tiles
+        // have already been
         // chosen for playing, so ignore the tap.
 
         return;
@@ -352,7 +357,8 @@
 
         if (self.game.isLucky && !self.game.isCombo)
         {
-            // The user got the pair of tiles matched at the first try, display an overlay text to
+            // The user got the pair of tiles matched at the first try, display an
+            // overlay text to
             // notify the user that he/she was very lucky ;)
 
             // Add an overlay view.
@@ -373,7 +379,7 @@
 
         if (self.game.isCombo)
         {
-            // The user got a series of right matches in a row without errors.
+            // The user got a series of matches in a row without errors.
             // Display a message to notify the user that he/she is good at this game.
 
             // Add an overlay view.
@@ -389,7 +395,8 @@
             }
             else
             {
-                // We have a series of combos, create an overlay text showing the combo counter.
+                // We have a series of combos, create an overlay text showing the combo
+                // counter.
 
                 comboMessage.overlayString =
                     [NSString stringWithFormat:@"%dX %@", (int)self.game.isCombo,
@@ -420,7 +427,8 @@
 
                     if ([self.chosenTileViews indexOfObject:tileView] == 1)
                     {
-                        // Here we have finished animating the second chosen paired tile.
+                        // Here we have finished animating the second chosen paired
+                        // tile.
                         // Clean up and save the game status.
 
                         [self finishAndSave];
@@ -434,7 +442,8 @@
 {
     if ([self.chosenTileViews count] == 2)
     {
-        // Execute this method only if there are 2 tiles currently chosen, that means we are at the
+        // Execute this method only if there are 2 tiles currently chosen, that
+        // means we are at the
         // end of a valid action.
 
         // Get the indexes of the 2 chosen tiles in the tile views array.
@@ -464,7 +473,8 @@
 {
     if ([self.chosenTileViews count] == 2)
     {
-        // Execute this method only if there are 2 tiles currently chosen, that means we are at the
+        // Execute this method only if there are 2 tiles currently chosen, that
+        // means we are at the
         // end of a valid action.
 
         // Get the 2 chosen views.
@@ -484,7 +494,8 @@
 
         if (firstTappedTileView.paired && secondTappedTileView.paired)
         {
-            // The 2 chosen tiles were paired, so remove them from the unpaired tile views.
+            // The 2 chosen tiles were paired, so remove them from the unpaired tile
+            // views.
 
             [self.tileViewsLeft removeObject:firstTappedTileView];
             [self.tileViewsLeft removeObject:secondTappedTileView];
@@ -497,7 +508,8 @@
 
             if ([self archiveGameControllerStatus])
             {
-                // If the saving was completed succesfully, then this level has a game save.
+                // If the saving was completed succesfully, then this level has a game
+                // save.
 
                 [self currentLevel].hasSave = YES;
             }
@@ -537,7 +549,8 @@
 
             [self currentLevel].completed = YES;
 
-            // Add a wobbling animation to the next level button to notify that the user can go to
+            // Add a wobbling animation to the next level button to notify that the
+            // user can go to
             // the next level.
 
             [Utilities addWobblingAnimationToView:self.nextLevelButton
@@ -679,7 +692,8 @@
 
         if (tileView.paired)
         {
-            // The resumed tile view was paired, so remove it from the unpaired tile views array.
+            // The resumed tile view was paired, so remove it from the unpaired tile
+            // views array.
 
             [self.tileViewsLeft removeObject:tileView];
         }
@@ -741,7 +755,8 @@
         return;
     }
 
-    // A view has stopped wobbling, decrease the count of views currently wobbling.
+    // A view has stopped wobbling, decrease the count of views currently
+    // wobbling.
 
     self.wobblingTilesCount--;
 
@@ -751,7 +766,8 @@
 
         for (MemoransTileView *tileView in self.chosenTileViews)
         {
-            // Wobbling animation is to visually notify the user that the chosen tiles didn't match.
+            // Wobbling animation is to visually notify the user that the chosen tiles
+            // didn't match.
             // If tiles have finished wobbling, put them back face down, animating.
 
             [UIView transitionWithView:tileView
@@ -782,7 +798,8 @@
 - (NSInteger)numOfTilesCols
 {
     // This method returns the number of columns available for placing the tiles,
-    // according to the number of tiles. This helps dynamically place the tiles in a good layout, no
+    // according to the number of tiles. This helps dynamically place the tiles in
+    // a good layout, no
     // matter the number.
 
     for (int r = 6; r >= 2; r--)
@@ -795,12 +812,16 @@
 
         if ([self currentLevel].tilesInLevel % r == 0 && r <= c)
         {
-            // The game has a landscape layout only, so we want the number of rows (matrix height)
-            // to be less than the number of cols (matrix width), and that the number of tiles fit
-            // perfectly in the matrix layout (that is when the number of tiles is divisible
+            // The game has a landscape layout only, so we want the number of rows
+            // (matrix height)
+            // to be less than the number of cols (matrix width), and that the number
+            // of tiles fit
+            // perfectly in the matrix layout (that is when the number of tiles is
+            // divisible
             // by the number of rows).
 
-            // The above conditions are satisfied (for the highest possible number of rows), so
+            // The above conditions are satisfied (for the highest possible number of
+            // rows), so
             // return the number of columns.
 
             return c;
@@ -813,7 +834,8 @@
 - (NSInteger)numOfTilesRows
 {
     // This method returns the number of rows available for placing the tiles,
-    // according to the number of tiles. This helps dynamically place the tiles in a good layout, no
+    // according to the number of tiles. This helps dynamically place the tiles in
+    // a good layout, no
     // matter the number.
 
     for (int r = 6; r >= 2; r--)
@@ -826,12 +848,16 @@
 
         if ([self currentLevel].tilesInLevel % r == 0 && r <= c)
         {
-            // The game has a landscape layout only, so we want the number of rows (matrix height)
-            // to be less than the number of cols (matrix width), and that the number of tiles fit
-            // perfectly in the matrix layout (that is when the number of tiles is divisible
+            // The game has a landscape layout only, so we want the number of rows
+            // (matrix height)
+            // to be less than the number of cols (matrix width), and that the number
+            // of tiles fit
+            // perfectly in the matrix layout (that is when the number of tiles is
+            // divisible
             // by the number of rows).
 
-            // The above conditions are satisfied (for the highest possible number of rows), so
+            // The above conditions are satisfied (for the highest possible number of
+            // rows), so
             // return the number of rows.
 
             return r;
@@ -847,7 +873,8 @@ static const NSInteger gTileMargin = 5;
 
 - (CGFloat)tileWidth
 {
-    // The tile width is equal to the matrix cell width minus 2 times the default margin.
+    // The tile width is equal to the matrix cell width minus 2 times the default
+    // margin.
 
     // Get the matrix cell width.
 
@@ -860,7 +887,8 @@ static const NSInteger gTileMargin = 5;
 
 - (CGFloat)tileHeight
 {
-    // The tile height is equal to the matrix cell height minus 2 times the default margin.
+    // The tile height is equal to the matrix cell height minus 2 times the
+    // default margin.
 
     // Get the matrix cell height.
 
@@ -873,18 +901,21 @@ static const NSInteger gTileMargin = 5;
 
 - (CGRect)frameForTileAtRow:(NSInteger)i Col:(NSInteger)j
 {
-    // This method returns a frame for a tile at the given matrix coordinates (i-th row, j-th col).
+    // This method returns a frame for a tile at the given matrix coordinates
+    // (i-th row, j-th col).
 
     // Get cell width and height.
 
     CGFloat cellWidth = self.tileArea.bounds.size.width / self.numOfTilesCols;
     CGFloat cellHeight = self.tileArea.bounds.size.height / self.numOfTilesRows;
 
-    // Frame origin X is equal to j times the cellWidth, plus the default left margin.
+    // Frame origin X is equal to j times the cellWidth, plus the default left
+    // margin.
 
     CGFloat frameOriginX = j * cellWidth + gTileMargin;
 
-    // Frame origin Y is equal to j times the cellHeight, plus the default top margin.
+    // Frame origin Y is equal to j times the cellHeight, plus the default top
+    // margin.
 
     CGFloat frameOriginY = i * cellHeight + gTileMargin;
 
@@ -932,7 +963,8 @@ static const NSInteger gTileMargin = 5;
                 // New game after a previously game that has just been fully played
                 // with a negative score. Let's notify this with an overlay message.
 
-                // The start overlay message will notify that the user got a bad score in the
+                // The start overlay message will notify that the user got a bad score
+                // in the
                 // previously fully-played game.
                 // This is an automatic restart after the user lost a game.
 
@@ -944,8 +976,10 @@ static const NSInteger gTileMargin = 5;
             }
             else
             {
-                // No previous bad score is present as this is the first game in this level or the
-                // user hit the restart button after played the game succesfully or partially.
+                // No previous bad score is present as this is the first game in this
+                // level or the
+                // user hit the restart button after played the game succesfully or
+                // partially.
 
                 // The overlay message will simply display the level number and type.
 
@@ -954,7 +988,7 @@ static const NSInteger gTileMargin = 5;
 
                 startMessageOverlayView.overlayString = [NSString
                     stringWithFormat:@"%@ %d\n%@", levelString, (int)self.currentLevelNumber + 1,
-                                     [self currentLevel].tileSetType];
+                                     [self currentLevel].levelType];
             }
         }
 
@@ -976,7 +1010,7 @@ static const NSInteger gTileMargin = 5;
 
         // Play a different music according to level type.
 
-        if ([[self currentLevel].tileSetType isEqualToString:@"Happy"])
+        if ([[self currentLevel].levelType isEqualToString:@"Happy"])
         {
             // This is an Happy level.
 
@@ -1033,7 +1067,8 @@ static const NSInteger gTileMargin = 5;
         }
     }
 
-    // The next level button is hidden if the current level is not succesfully completed
+    // The next level button is hidden if the current level is not succesfully
+    // completed
     // and viceversa.
 
     self.nextLevelButton.hidden = ![self currentLevel].completed;
@@ -1063,7 +1098,8 @@ static const NSInteger gTileMargin = 5;
 
     UITapGestureRecognizer *tileTapRecog;
 
-    // The tile view back side image is one of the six different back images available.
+    // The tile view back side image is one of the six different back images
+    // available.
     // Choose using the level number.
 
     NSString *tileBackImage =
@@ -1089,16 +1125,19 @@ static const NSInteger gTileMargin = 5;
 
             tileView.onBoardCenter = tileView.center;
 
-            // Get a random vertical offset variable from 0 to the tile view height - 1.
+            // Get a random vertical offset variable from 0 to the tile view height -
+            // 1.
             // This is to vertically scatter the tile view off screen.
 
             tileYOffset = arc4random() % (int)self.view.frame.size.height;
 
             // The actual tile view center at game start is off screen.
-            // Vertically scattering the tile views of each column allows to create a nice drop
+            // Vertically scattering the tile views of each column allows to create a
+            // nice drop
             // animation at game start.
 
-            // The center Y is the visible screen origin Y minus the variable vertical offset and
+            // The center Y is the visible screen origin Y minus the variable vertical
+            // offset and
             // minus the tile view height.
 
             tileView.center =
@@ -1136,7 +1175,8 @@ static const NSInteger gTileMargin = 5;
                                 options:0
                              animations:^{
 
-                                 // Drop the tile view from off screen to the on screen correct
+                                 // Drop the tile view from off screen to the on
+                                 // screen correct
                                  // place, bouncing it.
 
                                  tileView.center = tileView.onBoardCenter;
@@ -1148,7 +1188,8 @@ static const NSInteger gTileMargin = 5;
 
 - (MemoransOverlayView *)addBonusScoreOverlayView
 {
-    // An overlay view configured to display the latest positive change to the game score.
+    // An overlay view configured to display the latest positive change to the
+    // game score.
 
     MemoransOverlayView *bonusScoreOverlayView = [[MemoransOverlayView alloc]
         initWithString:[NSString stringWithFormat:@"+%d", (int)self.game.lastDeltaScore]
@@ -1166,7 +1207,8 @@ static const NSInteger gTileMargin = 5;
 
 - (MemoransOverlayView *)addMalusScoreOverlayView
 {
-    // An overlay view configured to display the latest negative change to the game score.
+    // An overlay view configured to display the latest negative change to the
+    // game score.
 
     MemoransOverlayView *malusScoreOverlayView = [[MemoransOverlayView alloc]
         initWithString:[NSString stringWithFormat:@"%d", (int)self.game.lastDeltaScore]
@@ -1204,11 +1246,13 @@ static const NSInteger gTileMargin = 5;
 
     [super viewDidLoad];
 
-    // The tile area view must be transparent to let the user see the nice background gradient.
+    // The tile area view must be transparent to let the user see the nice
+    // background gradient.
 
     self.tileArea.backgroundColor = [UIColor clearColor];
 
-    // Configure restart button, next level button, and back button to look consistently throughout
+    // Configure restart button, next level button, and back button to look
+    // consistently throughout
     // the whole app.
 
     [Utilities configureButton:self.restartGameButton withTitleString:@"↺" andFontSize:50];
@@ -1217,7 +1261,8 @@ static const NSInteger gTileMargin = 5;
 
     [Utilities configureButton:self.backToLevelsButton withTitleString:@"⬅︎" andFontSize:50];
 
-    // Be sure to always bring the tile area and its subviews (tile views) to the front,
+    // Be sure to always bring the tile area and its subviews (tile views) to the
+    // front,
     // so the tile views can drop above all the other elements at game start.
 
     [self.view bringSubviewToFront:self.tileArea];
@@ -1229,7 +1274,8 @@ static const NSInteger gTileMargin = 5;
 
     [super viewWillAppear:animated];
 
-    // Every time this view is about to go on screen, be sure to update the UI with a new game.
+    // Every time this view is about to go on screen, be sure to update the UI
+    // with a new game.
 
     [self updateUIWithNewGame:YES];
 }
@@ -1298,7 +1344,8 @@ static const NSInteger gTileMargin = 5;
         archiveRootObject:self.tileViews
                    toFile:[self filePathForArchivingWithName:@"tileViewsStatus.archive"]];
 
-    // If both the archiving operations were successful this method worked properly.
+    // If both the archiving operations were successful this method worked
+    // properly.
 
     return (gameArchiving && tileViewsArchiving);
 }

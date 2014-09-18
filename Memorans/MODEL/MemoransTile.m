@@ -10,6 +10,8 @@
 
 @interface MemoransTile ()
 
+// The tile id (tile type + tile value) to uniquely identify a tile in the game.
+
 @property(strong, nonatomic) NSString *tileID;
 
 @end
@@ -22,6 +24,8 @@
 {
     if (gMinTileValue <= tileValue <= gMaxTileValue)
     {
+        // The tile value is valid, set it.
+
         _tileValue = tileValue;
     }
 }
@@ -30,6 +34,8 @@
 {
     if ([[MemoransTile allowedTileSets] containsObject:tileSetType])
     {
+        // The tile set is valid, set it.
+
         _tileSetType = tileSetType;
     }
 }
@@ -38,6 +44,8 @@
 {
     if (!_tileID)
     {
+        // Generate the tile set ID, chaining the tile type and the tile value.
+
         _tileID = [NSString stringWithFormat:@"%@%d", self.tileSetType, (int)self.tileValue];
     }
 
@@ -48,10 +56,14 @@
 
 - (BOOL)isEqualToTile:(MemoransTile *)otherTile
 {
+    // Tiles are equal when their IDs are the same.
+
     if ([[self tileID] isEqualToString:[otherTile tileID]])
     {
+
         return YES;
     }
+
     return NO;
 }
 
@@ -59,7 +71,11 @@
 
 - (id)copyWithZone:(NSZone *)zone
 {
+    // Get a new tile instance.
+
     MemoransTile *tileCopy = [[MemoransTile allocWithZone:zone] init];
+
+    // To copy a tile object we have to copy all these properties.
 
     tileCopy.tileValue = self.tileValue;
     tileCopy.tileSetType = self.tileSetType;
@@ -72,12 +88,16 @@
 
 #pragma mark - NSCoding PROTOCOL
 
+// Archiving.
+
 - (instancetype)initWithCoder:(NSCoder *)aDecoder
 {
     self = [super init];
 
     if (self)
     {
+        // Reload the saved tiles properties.
+
         _tileValue = [aDecoder decodeIntegerForKey:@"tileValue"];
         _tilePoints = [aDecoder decodeIntegerForKey:@"_tilePoints"];
 
@@ -93,6 +113,8 @@
 
 - (void)encodeWithCoder:(NSCoder *)aCoder
 {
+    // Save the tiles properties.
+
     [aCoder encodeInteger:self.tileValue forKey:@"tileValue"];
     [aCoder encodeInteger:self.tilePoints forKey:@"_tilePoints"];
 
@@ -105,9 +127,16 @@
 
 #pragma mark - GLOBAL VARS AND CLASS METHODS
 
+// Global tile limits.
+
 const int gMaxTileValue = 20;
 const int gMinTileValue = 1;
 
-+ (NSArray *)allowedTileSets { return @[ @"Happy", @"Angry", ]; }
++ (NSArray *)allowedTileSets
+{
+    // The currently available tile types.
+
+    return @[ @"Happy", @"Angry", ];
+}
 
 @end

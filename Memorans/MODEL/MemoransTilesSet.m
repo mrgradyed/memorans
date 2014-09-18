@@ -13,6 +13,9 @@
 
 #pragma mark - PROPERTIES
 
+// The array containing the set of tiles. The tiles in the set are unique.
+// 2 copies of each tiles extracted from the set will be put in game.
+
 @property(strong, nonatomic) NSMutableArray *setTiles;
 
 @end
@@ -29,9 +32,17 @@
 
     if (numberOfSetTiles)
     {
+        // Set Tiles are present.
+
+        // Get a random index between 0 and the number of tiles in the set - 1.
+
         NSInteger tileIndex = arc4random() % numberOfSetTiles;
 
+        // Get a random tile using the above index.
+
         randomTile = self.setTiles[tileIndex];
+
+        // Remove the extracted tile from the set.
 
         [self.setTiles removeObjectAtIndex:tileIndex];
     }
@@ -47,16 +58,28 @@
 
     if (self)
     {
+        // Create an array for containin the set of tiles, use the max number of different tiles
+        // values in this app.
+
         _setTiles = [[NSMutableArray alloc] initWithCapacity:gMaxTileValue];
 
         MemoransTile *newTile;
 
         for (int tileVal = gMinTileValue; tileVal <= gMaxTileValue; tileVal++)
         {
+            // For each tile value available in this app, create a new tile object.
+
             newTile = [[MemoransTile alloc] init];
 
+            // Set the tile type to be the one specified.
+
             newTile.tileSetType = tileSetType;
+
+            // Set the current tile value to be the current one in the loop.
+
             newTile.tileValue = tileVal;
+
+            // Add the new tile to the set.
 
             [_setTiles addObject:newTile];
         }
@@ -71,6 +94,8 @@
 
     if (self)
     {
+        // Create a new set of tiles using the default tile type.
+
         self = [self initWithSetType:[MemoransTile allowedTileSets][0]];
     }
 
@@ -79,12 +104,16 @@
 
 #pragma mark - NSCoding PROTOCOL
 
+// Archiving.
+
 - (instancetype)initWithCoder:(NSCoder *)aDecoder
 {
     self = [super init];
 
     if (self)
     {
+        // Reload the saved set of tiles.
+
         _setTiles = [aDecoder decodeObjectForKey:@"setTiles"];
     }
 
@@ -93,6 +122,8 @@
 
 - (void)encodeWithCoder:(NSCoder *)aCoder
 {
+    // Save the current set of tiles.
+
     [aCoder encodeObject:self.setTiles forKey:@"setTiles"];
 }
 

@@ -14,13 +14,23 @@
 
 #pragma mark - PUBLIC PROPERTIES
 
+// The array of levels available in the game.
+
 @property(strong, nonatomic) NSArray *levelsPack;
 
 #pragma mark - PUBLIC METHODS
 
+// This method creates an instance of this class once and only once
+// for the entire lifetime of the application.
+// Do NOT use the init method to create an instance, it will just return an exception.
+
 + (instancetype)sharedLevelsPack;
 
+// Save the levels status by archiving.
+
 - (BOOL)archiveLevelsStatus;
+
+// Remove the level status from disk (for testing only).
 
 - (BOOL)deleteSavedLevelsStatus;
 

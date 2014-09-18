@@ -17,22 +17,34 @@
 {
     if (hasSave)
     {
+        // This level has been partially played and a game has been saved.
+
         for (MemoransGameLevel *lvl in [MemoransSharedLevelsPack sharedLevelsPack].levelsPack)
         {
             if ([lvl isEqual:self])
             {
+                // This level has a saved game.
+
                 _hasSave = YES;
             }
             else
             {
+                // We save only the last partially played game, so we have only one saved game at
+                // time. A game has been saved for this level, set the other levels not to have a
+                // saved game.
+
                 lvl.hasSave = NO;
             }
         }
     }
     else
     {
+        // This level has been fully played and this level has not a saved game.
+
         _hasSave = NO;
     }
+
+    // Save (by archiving) the updated levels status.
 
     [[MemoransSharedLevelsPack sharedLevelsPack] archiveLevelsStatus];
 }
@@ -41,6 +53,8 @@
 
 + (NSArray *)allowedTilesCountsInLevels
 {
+    // The numbers of tiles per level.
+
     return @[
         @6,
         @6,
@@ -71,13 +85,17 @@
 
 #pragma mark - NSCoding PROTOCOL
 
+// Archiving
+
 - (instancetype)initWithCoder:(NSCoder *)aDecoder
 {
     self = [super init];
 
     if (self)
     {
-        _tileSetType = [aDecoder decodeObjectForKey:@"tileSetType"];
+        // Reload saved level status.
+
+        _levelType = [aDecoder decodeObjectForKey:@"levelType"];
 
         _tilesInLevel = [aDecoder decodeIntegerForKey:@"tilesInLevel"];
 
@@ -91,7 +109,9 @@
 
 - (void)encodeWithCoder:(NSCoder *)aCoder
 {
-    [aCoder encodeObject:self.tileSetType forKey:@"tileSetType"];
+    // Save level status.
+
+    [aCoder encodeObject:self.levelType forKey:@"levelType"];
 
     [aCoder encodeInteger:self.tilesInLevel forKey:@"tilesInLevel"];
 
