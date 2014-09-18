@@ -113,7 +113,7 @@
 
     [self.view.layer insertSublayer:self.gradientLayer atIndex:0];
 
-    // Play credits music.
+    // Play credits screen's music.
 
     [[MemoransSharedAudioController sharedAudioController] playMusicFromResource:@"TakeAChance"
                                                                           ofType:@"mp3"

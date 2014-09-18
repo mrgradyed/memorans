@@ -352,7 +352,7 @@
 
     [self configureUIButtons];
 
-    // Get the controller's view's dimensions considering device orientation.
+    // Get the controller's view's dimensions.
 
     CGFloat shortSide = MIN(self.view.bounds.size.width, self.view.bounds.size.height);
     CGFloat longSide = MAX(self.view.bounds.size.width, self.view.bounds.size.height);
@@ -366,7 +366,7 @@
 
     backgroundLabel.center = CGPointMake(longSide / 2, shortSide / 2);
 
-    // Set the "Memorans" background text as the label's text and add the background label to the
+    // Set the "Memorans" localized text as the label's text, add the background label to the
     // controller's view.
 
     backgroundLabel.attributedText =
@@ -410,7 +410,7 @@
     // this controller's view will go on screen.
 
     [self.gradientLayer removeFromSuperlayer];
-    
+
     self.gradientLayer = nil;
 
     // Release the monsters views and the dynamic animator.
@@ -451,6 +451,8 @@
     NSMutableArray *imageIndexes = [[NSMutableArray alloc] init];
     NSInteger randomImageIndex = 0;
 
+    // We want to animate 12 random monsters images.
+
     for (int i = 0; i < 12; i++)
     {
         do
@@ -459,7 +461,7 @@
 
             randomImageIndex = (arc4random() % 20) + 1;
 
-            // If that image index has already been included repeat until you get a
+            // If that image index has already been included, repeat until you get a
             // new unused monster image's index.
 
         } while ([imageIndexes indexOfObject:@(randomImageIndex)] != NSNotFound);
@@ -479,6 +481,7 @@
         monsterImageView = [[UIImageView alloc] initWithImage:monsterImage];
 
         // Calculate random offsets to slighly scatter the monsters image views.
+        // Random offsets will be between 0 and the monsters images' size-1.
 
         monsterViewXOffset = monsterImageView.frame.size.width +
                              (arc4random() % (int)monsterImageView.frame.size.width);

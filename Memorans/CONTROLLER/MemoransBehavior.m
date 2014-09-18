@@ -59,11 +59,11 @@
 
         _collision.translatesReferenceBoundsIntoBoundary = NO;
 
-        // Get the screen bounds.
+        // Get the screen's bounds.
 
         CGRect screenBounds = [[UIScreen mainScreen] bounds];
 
-        // Get the screen's dimensions considering device orientation.
+        // Get the controller's view's dimensions.
 
         CGFloat shortSide = MIN(screenBounds.size.width, screenBounds.size.height);
         CGFloat longSide = MAX(screenBounds.size.width, screenBounds.size.height);

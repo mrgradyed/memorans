@@ -84,7 +84,11 @@
 {
     if (_outOfScreenCenter.x == CGPointZero.x || _outOfScreenCenter.y == CGPointZero.y)
     {
+        // Get the screen's bounds.
+
         CGRect screenBounds = [[UIScreen mainScreen] bounds];
+
+        // Get the controller's view's dimensions.
 
         CGFloat shortSide = MIN(screenBounds.size.width, screenBounds.size.height);
         CGFloat longSide = MAX(screenBounds.size.width, screenBounds.size.height);
