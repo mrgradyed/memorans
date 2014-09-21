@@ -1,10 +1,12 @@
 //
-//  MemoransColorConverter.m
+//  Utilities.m
 //  Memorans
 //
 //  Created by emi on 29/07/14.
 //  Copyright (c) 2014 Emiliano D'Alterio. All rights reserved.
 //
+
+@import QuartzCore;
 @import AudioToolbox;
 
 #import "Utilities.h"
