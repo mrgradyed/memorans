@@ -25,10 +25,10 @@
 
 ### Credits:
 
-#### Programming
+#### Programming  
 Emiliano D'Alterio
 
-## Monsters Images
+## Monsters Images  
 "Мультфильм милый монстры" (#58602560 ) © virinaflora Licensed under Fotolia (fotolia.com) Extended X License
 
 #### Music
@@ -46,8 +46,7 @@ Licensed under Creative Commons: By Attribution 3.0
 Creative Commons: By Attribution 3.0:
 http://creativecommons.org/licenses/by/3.0/
 
-#### Localization
-Elisa Vannoni (http://www.traduzionivannoni.it/)
-
+#### Localization  
+Elisa Vannoni (http://www.traduzionivannoni.it/)  
 
 Apple and the Apple logo are trademarks of Apple Inc., registered in the U.S. and other countries. App Store is a service mark of Apple Inc.
