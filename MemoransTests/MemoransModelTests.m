@@ -153,27 +153,20 @@
         XCTFail(@"Found a game tile without a its twin. Test: %s", __PRETTY_FUNCTION__);
     }
 
-    int oldScore = gameEngine.gameScore;
-
-    XCTAssertFalse(firstTile.selected);
-    XCTAssertFalse(secondTile.selected);
-
     XCTAssertFalse(firstTile.paired);
     XCTAssertFalse(secondTile.paired);
 
+    int oldScore = gameEngine.gameScore;
+
     [gameEngine playGameTileAtIndex:firstTileIndex];
-
-    XCTAssertTrue(firstTile.selected);
-    XCTAssertFalse(secondTile.selected);
-
     [gameEngine playGameTileAtIndex:secondTileIndex];
 
     XCTAssertTrue(firstTile.paired);
     XCTAssertTrue(secondTile.paired);
 
+    XCTAssertGreaterThan(gameEngine.lastDeltaScore, 0);
     XCTAssertGreaterThan(gameEngine.gameScore, oldScore);
 }
-
 
 - (void)testPlayGameTileAtIndexWithMismatchingTiles
 {
@@ -182,8 +175,8 @@
     // A game engine with 12 tiles of the first set type.
 
     MemoransGameEngine *gameEngine =
-    [[MemoransGameEngine alloc] initGameWithTilesCount:numberOfTilesToTest
-                                            andTileSet:[MemoransTile allowedTileSets][0]];
+        [[MemoransGameEngine alloc] initGameWithTilesCount:numberOfTilesToTest
+                                                andTileSet:[MemoransTile allowedTileSets][0]];
 
     int firstTileIndex = 0;
     int secondTileIndex = 0;
@@ -203,7 +196,16 @@
         }
     }
 
+    XCTAssertFalse(firstTile.selected);
+    XCTAssertFalse(secondTile.selected);
+
+    XCTAssertFalse(firstTile.paired);
+    XCTAssertFalse(secondTile.paired);
+
     int oldScore = gameEngine.gameScore;
+
+    [gameEngine playGameTileAtIndex:firstTileIndex];
+    [gameEngine playGameTileAtIndex:secondTileIndex];
 
     XCTAssertFalse(firstTile.selected);
     XCTAssertFalse(secondTile.selected);
@@ -211,16 +213,7 @@
     XCTAssertFalse(firstTile.paired);
     XCTAssertFalse(secondTile.paired);
 
-    [gameEngine playGameTileAtIndex:firstTileIndex];
-
-    XCTAssertTrue(firstTile.selected);
-    XCTAssertFalse(secondTile.selected);
-
-    [gameEngine playGameTileAtIndex:secondTileIndex];
-
-    XCTAssertFalse(firstTile.paired);
-    XCTAssertFalse(secondTile.paired);
-
+    XCTAssertLessThan(gameEngine.lastDeltaScore, 0);
     XCTAssertLessThan(gameEngine.gameScore, oldScore);
 }
 
