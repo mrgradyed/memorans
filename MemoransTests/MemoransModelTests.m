@@ -120,7 +120,7 @@
     XCTAssertNil([gameEngine gameTileAtIndex:1000], @"This tile object should be nil.");
 }
 
-- (void)testPlayGameTileAtIndex
+- (void)testPlayGameTileAtIndexWithMatchingTiles
 {
     NSInteger numberOfTilesToTest = 12;
 
@@ -166,17 +166,65 @@
     XCTAssertTrue(firstTile.selected);
     XCTAssertFalse(secondTile.selected);
 
-
     [gameEngine playGameTileAtIndex:secondTileIndex];
-
-    XCTAssertTrue(firstTile.selected);
-    XCTAssertTrue(secondTile.selected);
 
     XCTAssertTrue(firstTile.paired);
     XCTAssertTrue(secondTile.paired);
 
     XCTAssertGreaterThan(gameEngine.gameScore, oldScore);
 }
+
+
+- (void)testPlayGameTileAtIndexWithMismatchingTiles
+{
+    NSInteger numberOfTilesToTest = 12;
+
+    // A game engine with 12 tiles of the first set type.
+
+    MemoransGameEngine *gameEngine =
+    [[MemoransGameEngine alloc] initGameWithTilesCount:numberOfTilesToTest
+                                            andTileSet:[MemoransTile allowedTileSets][0]];
+
+    int firstTileIndex = 0;
+    int secondTileIndex = 0;
+
+    MemoransTile *firstTile = [gameEngine gameTileAtIndex:0];
+    MemoransTile *secondTile = nil;
+
+    for (int i = 1; i < numberOfTilesToTest; i++)
+    {
+        secondTile = [gameEngine gameTileAtIndex:i];
+
+        if (![firstTile isEqualToTile:secondTile])
+        {
+            secondTileIndex = i;
+
+            break;
+        }
+    }
+
+    int oldScore = gameEngine.gameScore;
+
+    XCTAssertFalse(firstTile.selected);
+    XCTAssertFalse(secondTile.selected);
+
+    XCTAssertFalse(firstTile.paired);
+    XCTAssertFalse(secondTile.paired);
+
+    [gameEngine playGameTileAtIndex:firstTileIndex];
+
+    XCTAssertTrue(firstTile.selected);
+    XCTAssertFalse(secondTile.selected);
+
+    [gameEngine playGameTileAtIndex:secondTileIndex];
+
+    XCTAssertFalse(firstTile.paired);
+    XCTAssertFalse(secondTile.paired);
+
+    XCTAssertLessThan(gameEngine.gameScore, oldScore);
+}
+
+#pragma mark - Tests setup
 
 - (void)setUp
 {
