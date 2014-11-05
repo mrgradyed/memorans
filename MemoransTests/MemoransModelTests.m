@@ -130,11 +130,17 @@
         [[MemoransGameEngine alloc] initGameWithTilesCount:numberOfTilesToTest
                                                 andTileSet:[MemoransTile allowedTileSets][0]];
 
+    // We need 2 identical tiles to be played.
+
     int firstTileIndex = 0;
     int secondTileIndex = 0;
 
+    // We pick the first tile in game.
+
     MemoransTile *firstTile = [gameEngine gameTileAtIndex:0];
     MemoransTile *secondTile = nil;
+
+    // Look for its twin tile (Level are randomized).
 
     for (int i = 1; i < numberOfTilesToTest; i++)
     {
@@ -142,6 +148,9 @@
 
         if ([firstTile isEqualToTile:secondTile])
         {
+
+            // We found its twin tile, which will be our second tile to play.
+
             secondTileIndex = i;
 
             break;
@@ -150,22 +159,41 @@
 
     if (!secondTile)
     {
+        // We didn't find a twin tile for the first tile in the game, something is very wrong, fail.
+
         XCTFail(@"Found a game tile without a its twin. Test: %s", __PRETTY_FUNCTION__);
     }
 
-    XCTAssertFalse(firstTile.paired);
-    XCTAssertFalse(secondTile.paired);
+    // Unplayed tiles should be unselected.
 
-    int oldScore = gameEngine.gameScore;
+    XCTAssertFalse(firstTile.paired, @"Tile should be unselected if not yet played.");
+    XCTAssertFalse(secondTile.paired, @"Tile should be unselected if not yet played.");
+
+    // Unplayed tiles should be unpaired.
+
+    XCTAssertFalse(firstTile.paired, @"Tile should be unpaired if not yet played.");
+    XCTAssertFalse(secondTile.paired, @"Tile should be unpaired if not yet played.");
+
+    // The score before playing the tiles.
+
+    NSInteger oldScore = gameEngine.gameScore;
+
+    // Play the twin tiles.
 
     [gameEngine playGameTileAtIndex:firstTileIndex];
     [gameEngine playGameTileAtIndex:secondTileIndex];
 
-    XCTAssertTrue(firstTile.paired);
-    XCTAssertTrue(secondTile.paired);
+    // Played matched tiles should be paired.
 
-    XCTAssertGreaterThan(gameEngine.lastDeltaScore, 0);
-    XCTAssertGreaterThan(gameEngine.gameScore, oldScore);
+    XCTAssertTrue(firstTile.paired, @"Tile should be paired at this point.");
+    XCTAssertTrue(secondTile.paired, @"Tile should be paired at this point.");
+
+    // After a match, delta score should be positive and the score should be incremented.
+
+    XCTAssertGreaterThan(gameEngine.lastDeltaScore, 0,
+                         @"A match should always produce a positive delta score.");
+    XCTAssertGreaterThan(gameEngine.gameScore, oldScore,
+                         @"A match should always produce a score increment.");
 }
 
 - (void)testPlayGameTileAtIndexWithMismatchingTiles
@@ -178,11 +206,17 @@
         [[MemoransGameEngine alloc] initGameWithTilesCount:numberOfTilesToTest
                                                 andTileSet:[MemoransTile allowedTileSets][0]];
 
+    // We need 2 unmatchable tiles to be played.
+
     int firstTileIndex = 0;
     int secondTileIndex = 0;
 
+    // We pick the first tile in game.
+
     MemoransTile *firstTile = [gameEngine gameTileAtIndex:0];
     MemoransTile *secondTile = nil;
+
+    // Look for a different tile (Level are randomized).
 
     for (int i = 1; i < numberOfTilesToTest; i++)
     {
@@ -190,19 +224,29 @@
 
         if (![firstTile isEqualToTile:secondTile])
         {
+            // We found a different unmatchable tile, which will be our second tile to play.
+
             secondTileIndex = i;
 
             break;
         }
     }
 
-    XCTAssertFalse(firstTile.selected);
-    XCTAssertFalse(secondTile.selected);
+    // Unplayed tiles should be unselected.
 
-    XCTAssertFalse(firstTile.paired);
-    XCTAssertFalse(secondTile.paired);
+    XCTAssertFalse(firstTile.paired, @"Tile should be unselected if not yet played.");
+    XCTAssertFalse(secondTile.paired, @"Tile should be unselected if not yet played.");
 
-    int oldScore = gameEngine.gameScore;
+    // Unplayed tiles should be unpaired.
+
+    XCTAssertFalse(firstTile.paired, @"Tile should be unpaired if not yet played.");
+    XCTAssertFalse(secondTile.paired, @"Tile should be unpaired if not yet played.");
+
+    // The score before playing the tiles.
+
+    NSInteger oldScore = gameEngine.gameScore;
+
+    // Play the mismatching tiles.
 
     [gameEngine playGameTileAtIndex:firstTileIndex];
     [gameEngine playGameTileAtIndex:secondTileIndex];
@@ -210,8 +254,12 @@
     XCTAssertFalse(firstTile.selected);
     XCTAssertFalse(secondTile.selected);
 
-    XCTAssertFalse(firstTile.paired);
-    XCTAssertFalse(secondTile.paired);
+    // Mismatching tiles should be unpaired after play.
+
+    XCTAssertFalse(firstTile.paired, @"Tile should be NOT paired at this point.");
+    XCTAssertFalse(secondTile.paired, @"Tile should be NOT paired at this point.");
+
+    // After a mismatch, delta score should be negative and the score should be decremented.
 
     XCTAssertLessThan(gameEngine.lastDeltaScore, 0);
     XCTAssertLessThan(gameEngine.gameScore, oldScore);

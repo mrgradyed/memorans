@@ -152,7 +152,8 @@
 
 + (void)animateOverlayView:(MemoransOverlayView *)overlayView withDuration:(NSTimeInterval)duration
 {
-    // This method animates an overlay view, puts it on the center of the screen, fade it, and then release it.
+    // This method animates an overlay view, puts it on the center of the screen, fade it, and then
+    // release it.
 
     for (UIView *subview in overlayView.superview.subviews)
     {
@@ -173,7 +174,8 @@
 
     // The overlay view new center will be the center of its super view.
 
-    CGPoint newCenter = CGPointMake(overlayView.superview.center.x, overlayView.superview.center.y);
+    CGPoint newCenter = CGPointMake(CGRectGetMidX(overlayView.superview.bounds),
+                                    CGRectGetMidY(overlayView.superview.bounds));
 
     // Animate the overlay view from off screen to the center of it.
 
