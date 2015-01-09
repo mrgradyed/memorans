@@ -1,4 +1,7 @@
-# Memorans app
+# Memorans iOS app
+
+Memorans features automatic progress saving, 24 randomised levels, and 6 languages localization.    
+It's free and open-source.     
 
 * A colorful memory game. Free. For iPad.
 * Un variopinto gioco di memoria. Gratis. Per iPad.
