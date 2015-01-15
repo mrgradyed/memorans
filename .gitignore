@@ -5,4 +5,5 @@
 !*.m
 !*.swift
 !*.strings
+!README.md
 !LICENSE
