@@ -3,4 +3,6 @@
 !.gitignore
 !*.h
 !*.m
+!*.swift
 !*.strings
+!LICENSE
