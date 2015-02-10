@@ -1,0 +1,865 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="FvV-t5-ECr">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+    </dependencies>
+    <scenes>
+        <!--Memorans Game View Controller-->
+        <scene sceneID="G4l-0g-clh">
+            <objects>
+                <viewController id="zD6-p3-Msy" customClass="MemoransGameViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="TDe-KM-VHs"/>
+                        <viewControllerLayoutGuide type="bottom" id="9wz-qX-cvM"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="PYP-Bo-ruN">
+                        <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tcf-eH-inW">
+                                <rect key="frame" x="98" y="688" width="70" height="60"/>
+                                <state key="normal" title="restartGame">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="restartGameButtonTouched" destination="zD6-p3-Msy" eventType="touchUpInside" id="zDD-Dr-WaY"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="scoreLabel " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8wF-xA-c2Y">
+                                <rect key="frame" x="387" y="688" width="250" height="60"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gCm-8h-EHL">
+                                <rect key="frame" x="20" y="20" width="984" height="660"/>
+                                <color key="backgroundColor" red="1" green="1" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bA3-nU-8qK">
+                                <rect key="frame" x="934" y="688" width="70" height="60"/>
+                                <state key="normal" title="nextLevel">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="nextLevelButtonTouched" destination="zD6-p3-Msy" eventType="touchUpInside" id="ZsL-cv-hH2"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pi7-Ps-Luv">
+                                <rect key="frame" x="20" y="688" width="70" height="60"/>
+                                <state key="normal" title="backToMenu">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="backToMenuButtonTouched" destination="zD6-p3-Msy" eventType="touchUpInside" id="kZK-Yj-Jjh"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="pnb-Js-Szp"/>
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+                    <connections>
+                        <outlet property="backToLevelsButton" destination="Pi7-Ps-Luv" id="7t8-Eh-AhC"/>
+                        <outlet property="nextLevelButton" destination="bA3-nU-8qK" id="ccj-2Y-P1C"/>
+                        <outlet property="restartGameButton" destination="Tcf-eH-inW" id="w7I-ol-vIZ"/>
+                        <outlet property="scoreLabel" destination="8wF-xA-c2Y" id="jSm-Xg-dNO"/>
+                        <outlet property="tileArea" destination="gCm-8h-EHL" id="72o-nh-nEd"/>
+                        <segue destination="be7-SU-zUX" kind="push" identifier="toEndController" id="3sr-hB-yuM"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="CVl-Zh-i8c" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4438" y="1551"/>
+        </scene>
+        <!--Memorans End View Controller-->
+        <scene sceneID="iLq-AC-aCQ">
+            <objects>
+                <viewController id="be7-SU-zUX" customClass="MemoransEndViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="u2m-7N-zqy"/>
+                        <viewControllerLayoutGuide type="bottom" id="kr8-ae-CE0"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="ucM-VS-GpB">
+                        <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DhZ-fz-vDb">
+                                <rect key="frame" x="20" y="688" width="70" height="60"/>
+                                <state key="normal" title="backToMenu">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="backToMenuTouched" destination="be7-SU-zUX" eventType="touchUpInside" id="Euc-rH-FtQ"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="agt-f8-u6o"/>
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+                    <connections>
+                        <outlet property="backToRootButton" destination="DhZ-fz-vDb" id="k09-hW-bGX"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="trc-f0-ylO" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5742" y="1551"/>
+        </scene>
+        <!--Memorans Levels View Controller-->
+        <scene sceneID="drP-Aj-2Tk">
+            <objects>
+                <viewController id="rus-h0-pj8" customClass="MemoransLevelsViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="lfr-FV-OKd"/>
+                        <viewControllerLayoutGuide type="bottom" id="s23-bX-8Z5"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="W1C-lo-elH">
+                        <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CsQ-pj-8Dp" customClass="MemoransLevelButton">
+                                <rect key="frame" x="20" y="101" width="116" height="116"/>
+                                <color key="backgroundColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="levelButtonTouched:" destination="rus-h0-pj8" eventType="touchUpInside" id="a39-1P-KMQ"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kIE-5n-Xyp" customClass="MemoransLevelButton">
+                                <rect key="frame" x="144" y="101" width="116" height="116"/>
+                                <color key="backgroundColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="levelButtonTouched:" destination="rus-h0-pj8" eventType="touchUpInside" id="HsT-In-cmg"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wFL-TZ-ivy" customClass="MemoransLevelButton">
+                                <rect key="frame" x="268" y="151" width="116" height="116"/>
+                                <color key="backgroundColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="levelButtonTouched:" destination="rus-h0-pj8" eventType="touchUpInside" id="Zwf-BW-m8p"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ows-X2-oV1" customClass="MemoransLevelButton">
+                                <rect key="frame" x="392" y="151" width="116" height="116"/>
+                                <color key="backgroundColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="levelButtonTouched:" destination="rus-h0-pj8" eventType="touchUpInside" id="PvQ-at-Vld"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="leO-cq-BoX" customClass="MemoransLevelButton">
+                                <rect key="frame" x="516" y="101" width="116" height="116"/>
+                                <color key="backgroundColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="levelButtonTouched:" destination="rus-h0-pj8" eventType="touchUpInside" id="FU6-JL-Myz"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qSg-Gg-8RH" customClass="MemoransLevelButton">
+                                <rect key="frame" x="640" y="101" width="116" height="116"/>
+                                <color key="backgroundColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="levelButtonTouched:" destination="rus-h0-pj8" eventType="touchUpInside" id="80O-lr-frb"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rkd-jQ-BXV" customClass="MemoransLevelButton">
+                                <rect key="frame" x="764" y="151" width="116" height="116"/>
+                                <color key="backgroundColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="levelButtonTouched:" destination="rus-h0-pj8" eventType="touchUpInside" id="NFf-rV-SZA"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UNI-4p-fSI" customClass="MemoransLevelButton">
+                                <rect key="frame" x="888" y="151" width="116" height="116"/>
+                                <color key="backgroundColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="levelButtonTouched:" destination="rus-h0-pj8" eventType="touchUpInside" id="PO5-EI-EHu"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sin-P0-V38" customClass="MemoransLevelButton">
+                                <rect key="frame" x="20" y="311" width="116" height="116"/>
+                                <color key="backgroundColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="levelButtonTouched:" destination="rus-h0-pj8" eventType="touchUpInside" id="5ve-ib-Hpi"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7y8-sC-ccB" customClass="MemoransLevelButton">
+                                <rect key="frame" x="144" y="311" width="116" height="116"/>
+                                <color key="backgroundColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="levelButtonTouched:" destination="rus-h0-pj8" eventType="touchUpInside" id="VSE-Md-tCQ"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kss-kF-sII" customClass="MemoransLevelButton">
+                                <rect key="frame" x="268" y="361" width="116" height="116"/>
+                                <color key="backgroundColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="levelButtonTouched:" destination="rus-h0-pj8" eventType="touchUpInside" id="NoF-90-Lvb"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g2m-vl-G97" customClass="MemoransLevelButton">
+                                <rect key="frame" x="392" y="361" width="116" height="116"/>
+                                <color key="backgroundColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="levelButtonTouched:" destination="rus-h0-pj8" eventType="touchUpInside" id="ENi-R6-LTx"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Eia-pk-6SH" customClass="MemoransLevelButton">
+                                <rect key="frame" x="516" y="311" width="116" height="116"/>
+                                <color key="backgroundColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="levelButtonTouched:" destination="rus-h0-pj8" eventType="touchUpInside" id="SKB-BE-6dG"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ejf-Bt-MEH" customClass="MemoransLevelButton">
+                                <rect key="frame" x="640" y="311" width="116" height="116"/>
+                                <color key="backgroundColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="levelButtonTouched:" destination="rus-h0-pj8" eventType="touchUpInside" id="pd5-Mf-Lxb"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9os-FP-G8m" customClass="MemoransLevelButton">
+                                <rect key="frame" x="764" y="361" width="116" height="116"/>
+                                <color key="backgroundColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="levelButtonTouched:" destination="rus-h0-pj8" eventType="touchUpInside" id="UQZ-qD-Ja2"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4qx-Q2-wos" customClass="MemoransLevelButton">
+                                <rect key="frame" x="888" y="361" width="116" height="116"/>
+                                <color key="backgroundColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="levelButtonTouched:" destination="rus-h0-pj8" eventType="touchUpInside" id="Aqo-Gl-i81"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pKB-he-EBr" customClass="MemoransLevelButton">
+                                <rect key="frame" x="20" y="521" width="116" height="116"/>
+                                <color key="backgroundColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="levelButtonTouched:" destination="rus-h0-pj8" eventType="touchUpInside" id="SmI-Sp-MuV"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jgu-4m-8Jd" customClass="MemoransLevelButton">
+                                <rect key="frame" x="144" y="521" width="116" height="116"/>
+                                <color key="backgroundColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="levelButtonTouched:" destination="rus-h0-pj8" eventType="touchUpInside" id="qQS-9W-lbp"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b90-Ly-29S" customClass="MemoransLevelButton">
+                                <rect key="frame" x="268" y="571" width="116" height="116"/>
+                                <color key="backgroundColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="levelButtonTouched:" destination="rus-h0-pj8" eventType="touchUpInside" id="dFA-no-o0L"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zFn-0Z-tNr" customClass="MemoransLevelButton">
+                                <rect key="frame" x="392" y="571" width="116" height="116"/>
+                                <color key="backgroundColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="levelButtonTouched:" destination="rus-h0-pj8" eventType="touchUpInside" id="2mJ-mo-JTQ"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kov-4v-NQa" customClass="MemoransLevelButton">
+                                <rect key="frame" x="516" y="521" width="116" height="116"/>
+                                <color key="backgroundColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="levelButtonTouched:" destination="rus-h0-pj8" eventType="touchUpInside" id="aob-Xr-5F7"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yAn-Lq-1VP" customClass="MemoransLevelButton">
+                                <rect key="frame" x="640" y="521" width="116" height="116"/>
+                                <color key="backgroundColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="levelButtonTouched:" destination="rus-h0-pj8" eventType="touchUpInside" id="xJ8-LR-VqC"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VG8-Lp-ZTB" customClass="MemoransLevelButton">
+                                <rect key="frame" x="764" y="571" width="116" height="116"/>
+                                <color key="backgroundColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="levelButtonTouched:" destination="rus-h0-pj8" eventType="touchUpInside" id="Py3-2C-3TL"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="do8-Br-WQn" customClass="MemoransLevelButton">
+                                <rect key="frame" x="888" y="571" width="116" height="116"/>
+                                <color key="backgroundColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="levelButtonTouched:" destination="rus-h0-pj8" eventType="touchUpInside" id="EL8-Ss-4dg"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8lJ-t8-Vp8">
+                                <rect key="frame" x="20" y="688" width="70" height="60"/>
+                                <state key="normal" title="backToMenu">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="backToMenuButtonTouched" destination="rus-h0-pj8" eventType="touchUpInside" id="c3i-Ds-Pzx"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="UNi-lO-pnL"/>
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+                    <connections>
+                        <outlet property="backToMenuButton" destination="8lJ-t8-Vp8" id="v68-81-OBT"/>
+                        <outletCollection property="levelButtonViews" destination="CsQ-pj-8Dp" id="Jmd-9X-5el"/>
+                        <outletCollection property="levelButtonViews" destination="kIE-5n-Xyp" id="J20-4y-5AJ"/>
+                        <outletCollection property="levelButtonViews" destination="wFL-TZ-ivy" id="FyK-wp-i9D"/>
+                        <outletCollection property="levelButtonViews" destination="Ows-X2-oV1" id="Jsk-Ub-Lho"/>
+                        <outletCollection property="levelButtonViews" destination="leO-cq-BoX" id="t74-Q4-N8K"/>
+                        <outletCollection property="levelButtonViews" destination="qSg-Gg-8RH" id="3wc-oO-WZt"/>
+                        <outletCollection property="levelButtonViews" destination="rkd-jQ-BXV" id="4Ek-Ch-Zi3"/>
+                        <outletCollection property="levelButtonViews" destination="UNI-4p-fSI" id="5XR-gH-nzo"/>
+                        <outletCollection property="levelButtonViews" destination="Sin-P0-V38" id="noM-eG-usW"/>
+                        <outletCollection property="levelButtonViews" destination="7y8-sC-ccB" id="xcW-cp-0G7"/>
+                        <outletCollection property="levelButtonViews" destination="kss-kF-sII" id="M92-8y-Lng"/>
+                        <outletCollection property="levelButtonViews" destination="g2m-vl-G97" id="EbQ-q6-LWZ"/>
+                        <outletCollection property="levelButtonViews" destination="Eia-pk-6SH" id="hVq-h1-jbu"/>
+                        <outletCollection property="levelButtonViews" destination="ejf-Bt-MEH" id="pkQ-Ah-g1h"/>
+                        <outletCollection property="levelButtonViews" destination="9os-FP-G8m" id="VUS-Ir-DOB"/>
+                        <outletCollection property="levelButtonViews" destination="4qx-Q2-wos" id="yEE-rZ-cYp"/>
+                        <outletCollection property="levelButtonViews" destination="pKB-he-EBr" id="fM1-GW-pIl"/>
+                        <outletCollection property="levelButtonViews" destination="Jgu-4m-8Jd" id="Hwb-va-P2m"/>
+                        <outletCollection property="levelButtonViews" destination="b90-Ly-29S" id="Gg4-B5-QpZ"/>
+                        <outletCollection property="levelButtonViews" destination="zFn-0Z-tNr" id="wY8-fO-x7l"/>
+                        <outletCollection property="levelButtonViews" destination="Kov-4v-NQa" id="iRA-tl-swj"/>
+                        <outletCollection property="levelButtonViews" destination="yAn-Lq-1VP" id="ztp-KS-sJY"/>
+                        <outletCollection property="levelButtonViews" destination="VG8-Lp-ZTB" id="791-ax-0H8"/>
+                        <outletCollection property="levelButtonViews" destination="do8-Br-WQn" id="gNd-vP-qav"/>
+                        <segue destination="zD6-p3-Msy" kind="push" identifier="toGameController" id="VQN-zB-Z4b"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="EYy-sA-QXd" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3078" y="1593"/>
+        </scene>
+        <!--Memorans Menu View Controller-->
+        <scene sceneID="Ogg-4y-R3f">
+            <objects>
+                <viewController id="07j-E8-Obc" customClass="MemoransMenuViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="ate-I0-2Bk"/>
+                        <viewControllerLayoutGuide type="bottom" id="0Hm-cb-UBM"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="oYb-g9-3UY">
+                        <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jgv-i6-Dew">
+                                <rect key="frame" x="804" y="678" width="200" height="70"/>
+                                <state key="normal" title="play">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="playButtonTouched" destination="07j-E8-Obc" eventType="touchUpInside" id="RiC-er-9vc"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hqL-1h-FHI">
+                                <rect key="frame" x="20" y="20" width="250" height="70"/>
+                                <state key="normal" title="credits">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="creditsButtonTouched" destination="07j-E8-Obc" eventType="touchUpInside" id="jjb-dx-vP1"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PyK-Ot-htZ">
+                                <rect key="frame" x="856" y="20" width="70" height="70"/>
+                                <state key="normal" title="rate">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="rateButtonTouched" destination="07j-E8-Obc" eventType="touchUpInside" id="7J2-IY-7C2"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ykt-L7-6cf">
+                                <rect key="frame" x="20" y="678" width="200" height="70"/>
+                                <state key="normal" title="music">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="musicButtonTouched" destination="07j-E8-Obc" eventType="touchUpInside" id="smW-4i-Oe1"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b8j-SO-obe">
+                                <rect key="frame" x="228" y="678" width="200" height="70"/>
+                                <state key="normal" title="soundEffects">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="soundEffectsButtonTouched" destination="07j-E8-Obc" eventType="touchUpInside" id="uQM-SR-Qo5"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RnN-AL-E5n">
+                                <rect key="frame" x="934" y="20" width="70" height="70"/>
+                                <state key="normal" title="FB">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="fbButtonTouched" destination="07j-E8-Obc" eventType="touchUpInside" id="xOi-Ko-2W1"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vGs-Qj-VR4">
+                                <rect key="frame" x="436" y="678" width="100" height="70"/>
+                                <state key="normal" title="language">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="languageButtonTouched" destination="07j-E8-Obc" eventType="touchUpInside" id="uiS-c3-huU"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="GFJ-m1-jdu"/>
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+                    <connections>
+                        <outlet property="creditsButton" destination="hqL-1h-FHI" id="ffg-A4-Sb1"/>
+                        <outlet property="fbButton" destination="RnN-AL-E5n" id="19h-by-N7e"/>
+                        <outlet property="languageButton" destination="vGs-Qj-VR4" id="O8x-jl-sgH"/>
+                        <outlet property="musicButton" destination="ykt-L7-6cf" id="lZG-Gg-xpT"/>
+                        <outlet property="playButton" destination="jgv-i6-Dew" id="32Q-cc-HpX"/>
+                        <outlet property="rateButton" destination="PyK-Ot-htZ" id="2bf-qb-Moh"/>
+                        <outlet property="soundEffectsButton" destination="b8j-SO-obe" id="Xa1-Ax-D5D"/>
+                        <segue destination="rus-h0-pj8" kind="push" identifier="toLevelsController" id="hla-XU-wAE"/>
+                        <segue destination="8vc-1Y-Av4" kind="push" identifier="toCreditsController" id="cUJ-iN-J8R"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="QAP-4K-7uD" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1864" y="1536"/>
+        </scene>
+        <!--Memorans Credits View Controller-->
+        <scene sceneID="d9C-Ra-lwT">
+            <objects>
+                <viewController id="8vc-1Y-Av4" customClass="MemoransCreditsViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="jBF-wO-P4W"/>
+                        <viewControllerLayoutGuide type="bottom" id="o1W-vk-GzC"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="f3P-wh-SkT">
+                        <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a9f-3H-LT4">
+                                <rect key="frame" x="20" y="688" width="70" height="60"/>
+                                <state key="normal" title="backToMenu">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="backToMenuButtonTouched" destination="8vc-1Y-Av4" eventType="touchUpInside" id="ZcQ-kI-YMc"/>
+                                </connections>
+                            </button>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" showsHorizontalScrollIndicator="NO" editable="NO" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fMc-Xk-rUw">
+                                <rect key="frame" x="97" y="20" width="830" height="728"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <attributedString key="attributedText">
+                                    <fragment>
+                                        <string key="content">
+Programming</string>
+                                        <attributes>
+                                            <color key="NSColor" red="0.50196081399917603" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="20" name="HelveticaNeue-Bold"/>
+                                            <font key="NSOriginalFont" size="20" name="HelveticaNeue-Bold"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineHeightMultiple="1.1100000000000001"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content" base64-UTF8="YES">
+Cg
+</string>
+                                        <attributes>
+                                            <font key="NSFont" size="20" name="HelveticaNeue-Bold"/>
+                                            <font key="NSOriginalFont" size="20" name="HelveticaNeue-Bold"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineHeightMultiple="1.1100000000000001"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content="Emiliano D'Alterio">
+                                        <attributes>
+                                            <font key="NSFont" size="20" name="HelveticaNeue-Bold"/>
+                                            <font key="NSOriginalFont" size="20" name="HelveticaNeue-BoldItalic"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineHeightMultiple="1.1100000000000001"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content" base64-UTF8="YES">
+Cgo
+</string>
+                                        <attributes>
+                                            <font key="NSFont" size="20" name="HelveticaNeue-Bold"/>
+                                            <font key="NSOriginalFont" size="20" name="HelveticaNeue-Bold"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineHeightMultiple="1.1100000000000001"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content="Monsters Images">
+                                        <attributes>
+                                            <color key="NSColor" red="1" green="0.50196081399917603" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="20" name="HelveticaNeue-Bold"/>
+                                            <font key="NSOriginalFont" size="20" name="HelveticaNeue-Bold"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineHeightMultiple="1.1100000000000001"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content" base64-UTF8="YES">
+Cg
+</string>
+                                        <attributes>
+                                            <font key="NSFont" size="20" name="HelveticaNeue-Bold"/>
+                                            <font key="NSOriginalFont" size="20" name="HelveticaNeue-Bold"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineHeightMultiple="1.1100000000000001"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content="&quot;">
+                                        <attributes>
+                                            <font key="NSFont" size="20" name="HelveticaNeue-Bold"/>
+                                            <font key="NSOriginalFont" size="20" name="HelveticaNeue-BoldItalic"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineHeightMultiple="1.1100000000000001"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content="Мультфильм милый монстры">
+                                        <attributes>
+                                            <color key="NSColor" red="1" green="0.50196081399917603" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="20" name="HelveticaNeue-Bold"/>
+                                            <font key="NSOriginalFont" size="20" name="HelveticaNeue-BoldItalic"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineHeightMultiple="1.1100000000000001"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content">" (#58602560 ) © virinaflora
+Licensed under Fotolia (fotolia.com) Extended X License</string>
+                                        <attributes>
+                                            <font key="NSFont" size="20" name="HelveticaNeue-Bold"/>
+                                            <font key="NSOriginalFont" size="20" name="HelveticaNeue-BoldItalic"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineHeightMultiple="1.1100000000000001"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content" base64-UTF8="YES">
+Cgo
+</string>
+                                        <attributes>
+                                            <font key="NSFont" size="20" name="HelveticaNeue-Bold"/>
+                                            <font key="NSOriginalFont" size="20" name="HelveticaNeue-Bold"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineHeightMultiple="1.1100000000000001"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content="Music">
+                                        <attributes>
+                                            <color key="NSColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="20" name="HelveticaNeue-Bold"/>
+                                            <font key="NSOriginalFont" size="20" name="HelveticaNeue-Bold"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineHeightMultiple="1.1100000000000001"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content" base64-UTF8="YES">
+Cg
+</string>
+                                        <attributes>
+                                            <font key="NSFont" size="20" name="HelveticaNeue-Bold"/>
+                                            <font key="NSOriginalFont" size="20" name="HelveticaNeue-Bold"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineHeightMultiple="1.1100000000000001"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content="&quot;">
+                                        <attributes>
+                                            <font key="NSFont" size="20" name="HelveticaNeue-Bold"/>
+                                            <font key="NSOriginalFont" size="20" name="HelveticaNeue-BoldItalic"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineHeightMultiple="1.1100000000000001"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content="Jaunty Gumption">
+                                        <attributes>
+                                            <color key="NSColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="20" name="HelveticaNeue-Bold"/>
+                                            <font key="NSOriginalFont" size="20" name="HelveticaNeue-BoldItalic"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineHeightMultiple="1.1100000000000001"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content">" Kevin MacLeod (incompetech.com)
+Licensed under Creative Commons: By Attribution 3.0
+"</string>
+                                        <attributes>
+                                            <font key="NSFont" size="20" name="HelveticaNeue-Bold"/>
+                                            <font key="NSOriginalFont" size="20" name="HelveticaNeue-BoldItalic"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineHeightMultiple="1.1100000000000001"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content="Move Forward">
+                                        <attributes>
+                                            <color key="NSColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="20" name="HelveticaNeue-Bold"/>
+                                            <font key="NSOriginalFont" size="20" name="HelveticaNeue-BoldItalic"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineHeightMultiple="1.1100000000000001"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content">" Kevin MacLeod (incompetech.com) 
+Licensed under Creative Commons: By Attribution 3.0
+"</string>
+                                        <attributes>
+                                            <font key="NSFont" size="20" name="HelveticaNeue-Bold"/>
+                                            <font key="NSOriginalFont" size="20" name="HelveticaNeue-BoldItalic"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineHeightMultiple="1.1100000000000001"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content="The Builder">
+                                        <attributes>
+                                            <color key="NSColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="20" name="HelveticaNeue-Bold"/>
+                                            <font key="NSOriginalFont" size="20" name="HelveticaNeue-BoldItalic"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineHeightMultiple="1.1100000000000001"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content">" Kevin MacLeod (incompetech.com) 
+Licensed under Creative Commons: By Attribution 3.0
+"</string>
+                                        <attributes>
+                                            <font key="NSFont" size="20" name="HelveticaNeue-Bold"/>
+                                            <font key="NSOriginalFont" size="20" name="HelveticaNeue-BoldItalic"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineHeightMultiple="1.1100000000000001"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content="Scheming Weasel (faster version)">
+                                        <attributes>
+                                            <color key="NSColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="20" name="HelveticaNeue-Bold"/>
+                                            <font key="NSOriginalFont" size="20" name="HelveticaNeue-BoldItalic"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineHeightMultiple="1.1100000000000001"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content">" Kevin MacLeod (incompetech.com) 
+Licensed under Creative Commons: By Attribution 3.0
+"</string>
+                                        <attributes>
+                                            <font key="NSFont" size="20" name="HelveticaNeue-Bold"/>
+                                            <font key="NSOriginalFont" size="20" name="HelveticaNeue-BoldItalic"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineHeightMultiple="1.1100000000000001"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content="Take a Chance">
+                                        <attributes>
+                                            <color key="NSColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="20" name="HelveticaNeue-Bold"/>
+                                            <font key="NSOriginalFont" size="20" name="HelveticaNeue-BoldItalic"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineHeightMultiple="1.1100000000000001"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content">" Kevin MacLeod (incompetech.com) 
+Licensed under Creative Commons: By Attribution 3.0
+</string>
+                                        <attributes>
+                                            <font key="NSFont" size="20" name="HelveticaNeue-Bold"/>
+                                            <font key="NSOriginalFont" size="20" name="HelveticaNeue-BoldItalic"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineHeightMultiple="1.1100000000000001"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content="Creative Commons: By Attribution 3.0">
+                                        <attributes>
+                                            <font key="NSFont" size="20" name="HelveticaNeue-Bold"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineHeightMultiple="1.1100000000000001"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content=": ">
+                                        <attributes>
+                                            <font key="NSFont" size="20" name="HelveticaNeue-Bold"/>
+                                            <font key="NSOriginalFont" size="20" name="HelveticaNeue-BoldItalic"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineHeightMultiple="1.1100000000000001"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content">creativecommons.org/licenses/by/3.0/
+
+</string>
+                                        <attributes>
+                                            <font key="NSFont" size="20" name="HelveticaNeue-Bold"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineHeightMultiple="1.1100000000000001"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content="Localization">
+                                        <attributes>
+                                            <color key="NSColor" red="0.50196081399917603" green="0.0" blue="0.50196081399917603" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="20" name="HelveticaNeue-Bold"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineHeightMultiple="1.1100000000000001"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content" base64-UTF8="YES">
+Cg
+</string>
+                                        <attributes>
+                                            <font key="NSFont" size="20" name="HelveticaNeue-Bold"/>
+                                            <font key="NSOriginalFont" size="20" name="HelveticaNeue-BoldItalic"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineHeightMultiple="1.1100000000000001"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content="Elisa Vannoni (">
+                                        <attributes>
+                                            <font key="NSFont" size="20" name="HelveticaNeue-Bold"/>
+                                            <font key="NSOriginalFont" size="20" name="HelveticaNeue-Bold"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineHeightMultiple="1.1100000000000001"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content="www.traduzionivannoni.it">
+                                        <attributes>
+                                            <font key="NSFont" size="20" name="HelveticaNeue-Bold"/>
+                                            <string key="NSLink">http://www.traduzionivannoni.it/</string>
+                                            <font key="NSOriginalFont" size="20" name="HelveticaNeue-Bold"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineHeightMultiple="1.1100000000000001"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content">)
+
+</string>
+                                        <attributes>
+                                            <font key="NSFont" size="20" name="HelveticaNeue-Bold"/>
+                                            <font key="NSOriginalFont" size="20" name="HelveticaNeue-Bold"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineHeightMultiple="1.1100000000000001"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content="Special Thanks">
+                                        <attributes>
+                                            <color key="NSColor" red="0.0" green="0.50196081399917603" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <font key="NSFont" size="20" name="HelveticaNeue-Bold"/>
+                                            <font key="NSOriginalFont" size="20" name="HelveticaNeue-Bold"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineHeightMultiple="1.1100000000000001"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment>
+                                        <string key="content">
+My Family &amp; Stellina</string>
+                                        <attributes>
+                                            <font key="NSFont" size="20" name="HelveticaNeue-Bold"/>
+                                            <font key="NSOriginalFont" size="20" name="HelveticaNeue-BoldItalic"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineHeightMultiple="1.1100000000000001"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <dataDetectorType key="dataDetectorTypes" link="YES"/>
+                            </textView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Happy9" translatesAutoresizingMaskIntoConstraints="NO" id="S1u-uA-yHC">
+                                <rect key="frame" x="20" y="20" width="180" height="180"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Happy14" translatesAutoresizingMaskIntoConstraints="NO" id="uj2-cE-eGg">
+                                <rect key="frame" x="824" y="20" width="180" height="180"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="1dH-j3-IHa"/>
+                    <connections>
+                        <outlet property="backToMenuButton" destination="a9f-3H-LT4" id="pK0-kf-cx8"/>
+                        <outlet property="creditsText" destination="fMc-Xk-rUw" id="YTy-TA-kvc"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jGG-f9-zRF" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3078" y="520"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="dMu-GO-HWQ">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="FvV-t5-ECr" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="3E4-4o-Vut">
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="07j-E8-Obc" kind="relationship" relationship="rootViewController" id="91z-T9-rmR"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cON-iF-3j0" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="866" y="1408"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="Happy14" width="175" height="175"/>
+        <image name="Happy9" width="175" height="175"/>
+    </resources>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination"/>
+    </simulatedMetricsContainer>
+</document>

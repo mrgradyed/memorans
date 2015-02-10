@@ -5,5 +5,8 @@
 !*.m
 !*.swift
 !*.strings
+!*.xib
+!*.storyboard
+!*Info.plist
 !README.md
 !LICENSE
