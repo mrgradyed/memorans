@@ -154,12 +154,11 @@
         // know what music we should play when the music option is turned back on thanks to
         // properties.
 
-        _musicPlayer =
-            [MemoransSharedAudioController audioPlayerFromResource:self.currentMusicFileName
-                                                            ofType:self.currentMusicFileType
-                                                      withDelegate:self
-                                                            volume:0.4
-                                                  andNumberOfLoops:-1];
+        _musicPlayer = [MemoransSharedAudioController audioPlayerFromResource:self.currentMusicFileName
+                                                                       ofType:self.currentMusicFileType
+                                                                 withDelegate:self
+                                                                       volume:0.4
+                                                             andNumberOfLoops:-1];
 
         [_musicPlayer play];
     }
@@ -261,9 +260,7 @@
 
 #pragma mark - MUSIC PLAY
 
-- (void)playMusicFromResource:(NSString *)fileName
-                       ofType:(NSString *)fileType
-                   withVolume:(float)volume
+- (void)playMusicFromResource:(NSString *)fileName ofType:(NSString *)fileType withVolume:(float)volume
 {
     if (self.musicOff)
     {
@@ -278,8 +275,7 @@
 
     // Get the the default priority global queue.
 
-    dispatch_queue_t globalDefaultQueue =
-        dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_queue_t globalDefaultQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
 
     dispatch_async(globalDefaultQueue, ^(void) {
 
@@ -328,8 +324,7 @@
 
     dispatch_once(&blockHasCompleted, ^{
 
-        soundEffectsSerialQueue =
-            dispatch_queue_create("SOUND_EFFECTS_SERIAL_QUEUE", DISPATCH_QUEUE_SERIAL);
+        soundEffectsSerialQueue = dispatch_queue_create("SOUND_EFFECTS_SERIAL_QUEUE", DISPATCH_QUEUE_SERIAL);
     });
 
     return soundEffectsSerialQueue;
@@ -341,7 +336,6 @@
                                     volume:(float)volume
                           andNumberOfLoops:(NSInteger)numberOfLoops
 {
-
     // This methods returns a customised audio player.
 
     if (!fileName || !fileType)
@@ -357,8 +351,7 @@
 
     // Search for the audio file and load its data.
 
-    NSData *soundData =
-        [NSData dataWithContentsOfFile:[appBundle pathForResource:fileName ofType:fileType]];
+    NSData *soundData = [NSData dataWithContentsOfFile:[appBundle pathForResource:fileName ofType:fileType]];
 
     NSError *error;
 
@@ -404,12 +397,10 @@
 {
     // Return an exception if someone try to use the default init
     // instead of creating a singleton by using the class method.
+    NSString *exceptionString =
+        [NSString stringWithFormat:@"Please use: [%@ sharedInstance] instead.", NSStringFromClass([self class])];
 
-    @throw [NSException
-        exceptionWithName:@"SingletonException"
-                   reason:
-                       @"Please use: [MemoransSharedAudioController sharedAudioController] instead."
-                 userInfo:nil];
+    @throw [NSException exceptionWithName:@"SingletonException" reason:exceptionString userInfo:nil];
 
     return nil;
 }
@@ -426,8 +417,7 @@
 
         // Set the audio session. Use the iOS default one.
 
-        [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategorySoloAmbient
-                                               error:&categoryError];
+        [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategorySoloAmbient error:&categoryError];
     }
 
     return self;
@@ -447,8 +437,7 @@
 
         // Get the the default priority global queue.
 
-        dispatch_queue_t globalDefaultQueue =
-            dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+        dispatch_queue_t globalDefaultQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
 
         dispatch_async(globalDefaultQueue, ^(void) {
 

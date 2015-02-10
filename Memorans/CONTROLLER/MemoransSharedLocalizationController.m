@@ -86,8 +86,7 @@
         // If there's not a folder for the language requested,
         // fall back to the default language folder.
 
-        languageFolder =
-            [[NSBundle mainBundle] pathForResource:self.defaultLanguageCode ofType:@"lproj"];
+        languageFolder = [[NSBundle mainBundle] pathForResource:self.defaultLanguageCode ofType:@"lproj"];
 
         // Set the current language used back to the default one.
 
@@ -96,8 +95,7 @@
 
     // Write to a local user's language preference the language code currently set.
 
-    [[NSUserDefaults standardUserDefaults] setObject:self.currentLanguageCode
-                                              forKey:@"appLanguage"];
+    [[NSUserDefaults standardUserDefaults] setObject:self.currentLanguageCode forKey:@"appLanguage"];
 
     // Update the actual used language bundle to point to the language folder computed.
 
@@ -108,16 +106,15 @@
 {
     // The index of the current set language
 
-    NSInteger currentLanguageIndex = [[MemoransSharedLocalizationController supportedLanguagesCodes]
-        indexOfObject:self.currentLanguageCode];
+    NSInteger currentLanguageIndex =
+        [[MemoransSharedLocalizationController supportedLanguagesCodes] indexOfObject:self.currentLanguageCode];
 
     // The index of the next language in the list of the languages by the app,
     // starting from the current set one. If the current language is the last of the list,
     // the next one is the first one.
 
     NSInteger nextLanguageIndex =
-        (currentLanguageIndex + 1) %
-        [[MemoransSharedLocalizationController supportedLanguagesCodes] count];
+        (currentLanguageIndex + 1) % [[MemoransSharedLocalizationController supportedLanguagesCodes] count];
 
     // Returns the code of the next language.
 
@@ -138,8 +135,7 @@
 
     // Create an instance of this class once and only once for the lifetime of the application.
 
-    dispatch_once(&blockHasCompleted,
-                  ^{ sharedLocalizationController = [[self alloc] initActually]; });
+    dispatch_once(&blockHasCompleted, ^{ sharedLocalizationController = [[self alloc] initActually]; });
 
     return sharedLocalizationController;
 }
@@ -157,11 +153,10 @@
 {
     // Return an exception if someone try to use the default init
     // instead of creating a singleton by using the class method.
+    NSString *exceptionString =
+        [NSString stringWithFormat:@"Please use: [%@ sharedInstance] instead.", NSStringFromClass([self class])];
 
-    @throw [NSException exceptionWithName:@"SingletonException"
-                                   reason:@"Please use: [MemoransSharedLocalizationController "
-                                   @"sharedLocalizationController] instead."
-                                 userInfo:nil];
+    @throw [NSException exceptionWithName:@"SingletonException" reason:exceptionString userInfo:nil];
 
     return nil;
 }
@@ -176,13 +171,11 @@
     {
         // The localizations actually present in the app.
 
-        NSArray *supportedLanguagesCodes =
-            [MemoransSharedLocalizationController supportedLanguagesCodes];
+        NSArray *supportedLanguagesCodes = [MemoransSharedLocalizationController supportedLanguagesCodes];
 
         // The local user's language preference set from inside the app.
 
-        NSString *previouslySetAppLanguage =
-            [[NSUserDefaults standardUserDefaults] stringForKey:@"appLanguage"];
+        NSString *previouslySetAppLanguage = [[NSUserDefaults standardUserDefaults] stringForKey:@"appLanguage"];
 
         if (previouslySetAppLanguage)
         {
@@ -197,8 +190,7 @@
             // use the first language in the system AppleLanguages preference list
             // that is supported by the app.
 
-            for (NSString *code in
-                 [[NSUserDefaults standardUserDefaults] objectForKey:@"AppleLanguages"])
+            for (NSString *code in [[NSUserDefaults standardUserDefaults] objectForKey:@"AppleLanguages"])
             {
                 if ([supportedLanguagesCodes containsObject:code])
                 {

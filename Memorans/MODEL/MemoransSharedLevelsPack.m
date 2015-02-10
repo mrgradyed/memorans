@@ -45,11 +45,10 @@
 {
     // Return an exception if someone try to use the default init
     // instead of creating a singleton by using the class method.
+    NSString *exceptionString =
+        [NSString stringWithFormat:@"Please use: [%@ sharedInstance] instead.", NSStringFromClass([self class])];
 
-    @throw [NSException
-        exceptionWithName:@"SingletonException"
-                   reason:@"Please use: [MemoransSharedLevelsPack " @"sharedLevelsPack] instead."
-                 userInfo:nil];
+    @throw [NSException exceptionWithName:@"SingletonException" reason:exceptionString userInfo:nil];
 
     return nil;
 }
@@ -119,8 +118,7 @@
 {
     // User's documents folder in the app sandbox.
 
-    NSString *documentDirectory =
-        NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
+    NSString *documentDirectory = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
 
     // Return a path to the levelsStatus.archive file in the user's documents folder.
 
