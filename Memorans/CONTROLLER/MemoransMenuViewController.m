@@ -397,15 +397,22 @@
 
     [self.view.layer insertSublayer:self.gradientLayer atIndex:0];
 
-    // Start floating monsters animation.
 
-    [self addAndAnimateMonsterViews];
 
     // Start playing main menu's music.
 
     [self.sharedAudioController playMusicFromResource:@"JauntyGumption"
                                                ofType:@"mp3"
                                            withVolume:0.3f];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    
+    [super viewDidAppear:animated];
+    
+    // Start floating monsters animation.
+    
+    [self addAndAnimateMonsterViews];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -459,9 +466,11 @@
     NSMutableArray *imageIndexes = [[NSMutableArray alloc] init];
     NSInteger randomImageIndex = 0;
 
-    // We want to animate 12 random monsters images.
+    // We want to animate random monsters images.
 
-    for (int i = 0; i < 12; i++)
+    int numberOfMonster = [Utilities isIPad] ? 8 : 4;
+    
+    for (int i = 0; i < numberOfMonster; i++)
     {
         do
         {
@@ -487,7 +496,18 @@
         // Get a view with the selected image.
 
         monsterImageView = [[UIImageView alloc] initWithImage:monsterImage];
-
+        monsterImageView.contentMode = UIViewContentModeRedraw;
+        
+        if([Utilities isIPad] == NO)
+        {
+            // On iPhones reduce monsters size..
+            CGRect newFrame = monsterImageView.frame;
+            newFrame.size.height = newFrame.size.height * 0.4;
+            newFrame.size.width = newFrame.size.width * 0.4;
+            
+            monsterImageView.frame = newFrame;
+        }
+        
         // Calculate random offsets to slighly scatter the monsters image views.
         // Random offsets will be between 0 and the monsters images' size-1.
 

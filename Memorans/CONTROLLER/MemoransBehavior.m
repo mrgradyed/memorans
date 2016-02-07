@@ -45,7 +45,7 @@
         // A strong push force, directed to the bottom and slightly to the right.
 
         _push = [[UIPushBehavior alloc] init];
-        _push.magnitude = 10000.0f;
+        _push.magnitude = 1000.0f;
         _push.angle = 1.44f;
     }
 
@@ -102,7 +102,7 @@
         // A strong bouncing behavior with rotation.
 
         _bouncing = [[UIDynamicItemBehavior alloc] init];
-        _bouncing.elasticity = 0.9f;
+        _bouncing.elasticity = 0.8f;
         _bouncing.allowsRotation = YES;
     }
 
