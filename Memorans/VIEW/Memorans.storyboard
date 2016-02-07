@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="FvV-t5-ECr">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="FvV-t5-ECr">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
     </dependencies>
     <scenes>
         <!--Memorans Game View Controller-->
@@ -14,7 +14,7 @@
                         <viewControllerLayoutGuide type="bottom" id="9wz-qX-cvM"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="PYP-Bo-ruN">
-                        <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tcf-eH-inW">
@@ -65,12 +65,12 @@
                         <outlet property="restartGameButton" destination="Tcf-eH-inW" id="w7I-ol-vIZ"/>
                         <outlet property="scoreLabel" destination="8wF-xA-c2Y" id="jSm-Xg-dNO"/>
                         <outlet property="tileArea" destination="gCm-8h-EHL" id="72o-nh-nEd"/>
-                        <segue destination="be7-SU-zUX" kind="push" identifier="toEndController" id="3sr-hB-yuM"/>
+                        <segue destination="be7-SU-zUX" kind="show" identifier="toEndController" id="3sr-hB-yuM"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CVl-Zh-i8c" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4438" y="1551"/>
+            <point key="canvasLocation" x="3467.1875" y="908.7890625"/>
         </scene>
         <!--Memorans End View Controller-->
         <scene sceneID="iLq-AC-aCQ">
@@ -81,7 +81,7 @@
                         <viewControllerLayoutGuide type="bottom" id="kr8-ae-CE0"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="ucM-VS-GpB">
-                        <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DhZ-fz-vDb">
@@ -104,7 +104,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="trc-f0-ylO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5742" y="1551"/>
+            <point key="canvasLocation" x="4485.9375" y="908.7890625"/>
         </scene>
         <!--Memorans Levels View Controller-->
         <scene sceneID="drP-Aj-2Tk">
@@ -115,7 +115,7 @@
                         <viewControllerLayoutGuide type="bottom" id="s23-bX-8Z5"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="W1C-lo-elH">
-                        <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CsQ-pj-8Dp" customClass="MemoransLevelButton">
@@ -398,12 +398,12 @@
                         <outletCollection property="levelButtonViews" destination="yAn-Lq-1VP" id="ztp-KS-sJY"/>
                         <outletCollection property="levelButtonViews" destination="VG8-Lp-ZTB" id="791-ax-0H8"/>
                         <outletCollection property="levelButtonViews" destination="do8-Br-WQn" id="gNd-vP-qav"/>
-                        <segue destination="zD6-p3-Msy" kind="push" identifier="toGameController" id="VQN-zB-Z4b"/>
+                        <segue destination="zD6-p3-Msy" kind="show" identifier="toGameController" id="VQN-zB-Z4b"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EYy-sA-QXd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3078" y="1593"/>
+            <point key="canvasLocation" x="2404.6875" y="933.3984375"/>
         </scene>
         <!--Memorans Menu View Controller-->
         <scene sceneID="Ogg-4y-R3f">
@@ -414,7 +414,7 @@
                         <viewControllerLayoutGuide type="bottom" id="0Hm-cb-UBM"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="oYb-g9-3UY">
-                        <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jgv-i6-Dew">
@@ -493,13 +493,13 @@
                         <outlet property="playButton" destination="jgv-i6-Dew" id="32Q-cc-HpX"/>
                         <outlet property="rateButton" destination="PyK-Ot-htZ" id="2bf-qb-Moh"/>
                         <outlet property="soundEffectsButton" destination="b8j-SO-obe" id="Xa1-Ax-D5D"/>
-                        <segue destination="rus-h0-pj8" kind="push" identifier="toLevelsController" id="hla-XU-wAE"/>
-                        <segue destination="8vc-1Y-Av4" kind="push" identifier="toCreditsController" id="cUJ-iN-J8R"/>
+                        <segue destination="rus-h0-pj8" kind="show" identifier="toLevelsController" id="hla-XU-wAE"/>
+                        <segue destination="8vc-1Y-Av4" kind="show" identifier="toCreditsController" id="cUJ-iN-J8R"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QAP-4K-7uD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1864" y="1536"/>
+            <point key="canvasLocation" x="1456.25" y="900"/>
         </scene>
         <!--Memorans Credits View Controller-->
         <scene sceneID="d9C-Ra-lwT">
@@ -510,7 +510,7 @@
                         <viewControllerLayoutGuide type="bottom" id="o1W-vk-GzC"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="f3P-wh-SkT">
-                        <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a9f-3H-LT4">
@@ -832,7 +832,7 @@ My Family &amp; Stellina</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jGG-f9-zRF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3078" y="520"/>
+            <point key="canvasLocation" x="2404.6875" y="304.6875"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="dMu-GO-HWQ">
@@ -850,16 +850,11 @@ My Family &amp; Stellina</string>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cON-iF-3j0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="866" y="1408"/>
+            <point key="canvasLocation" x="676.5625" y="825"/>
         </scene>
     </scenes>
     <resources>
         <image name="Happy14" width="175" height="175"/>
         <image name="Happy9" width="175" height="175"/>
     </resources>
-    <simulatedMetricsContainer key="defaultSimulatedMetrics">
-        <simulatedStatusBarMetrics key="statusBar"/>
-        <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination"/>
-    </simulatedMetricsContainer>
 </document>
