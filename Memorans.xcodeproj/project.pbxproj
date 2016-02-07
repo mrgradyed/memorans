@@ -1,0 +1,655 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A5031346196345E900FDEE2E /* MemoransTile.m in Sources */ = {isa = PBXBuildFile; fileRef = A5031345196345E900FDEE2E /* MemoransTile.m */; };
+		A50DA5B519B79D65008B9F1E /* MemoransSharedAudioController.m in Sources */ = {isa = PBXBuildFile; fileRef = A50DA5B319B79D65008B9F1E /* MemoransSharedAudioController.m */; };
+		A50DA5B619B79D65008B9F1E /* MemoransSharedLocalizationController.m in Sources */ = {isa = PBXBuildFile; fileRef = A50DA5B419B79D65008B9F1E /* MemoransSharedLocalizationController.m */; };
+		A5221F21198A8663000B654F /* MemoransLevelsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A5221F20198A8663000B654F /* MemoransLevelsViewController.m */; };
+		A5221F24198AAACA000B654F /* MemoransLevelButton.m in Sources */ = {isa = PBXBuildFile; fileRef = A5221F23198AAACA000B654F /* MemoransLevelButton.m */; };
+		A5221F26198ABA19000B654F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A5221F25198ABA19000B654F /* Images.xcassets */; };
+		A53962F619913D7F00BDC993 /* MemoransMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A53962F519913D7F00BDC993 /* MemoransMenuViewController.m */; };
+		A55118AA19A284FF001E2030 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A55118A919A284FF001E2030 /* AVFoundation.framework */; };
+		A55118AE19A2852C001E2030 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A55118AD19A2852C001E2030 /* QuartzCore.framework */; };
+		A55191E119AD50990076C1A4 /* MoveForward.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A55191E019AD50990076C1A4 /* MoveForward.mp3 */; };
+		A55191E319AD51740076C1A4 /* TheBuilder.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A55191E219AD51740076C1A4 /* TheBuilder.mp3 */; };
+		A565A96319ADF0E300AC7E13 /* SchemingWeaselfaster.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A565A96219ADF0E300AC7E13 /* SchemingWeaselfaster.mp3 */; };
+		A565A96719ADF81700AC7E13 /* TakeAChance.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A565A96619ADF81700AC7E13 /* TakeAChance.mp3 */; };
+		A567BB5619A0C89C004260B9 /* MemoransBehavior.m in Sources */ = {isa = PBXBuildFile; fileRef = A567BB5519A0C89C004260B9 /* MemoransBehavior.m */; };
+		A56DC5DE19A3543E009F7E24 /* iiii.caf in Resources */ = {isa = PBXBuildFile; fileRef = A56DC5D819A3543E009F7E24 /* iiii.caf */; };
+		A56DC5DF19A3543E009F7E24 /* JauntyGumption.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A56DC5D919A3543E009F7E24 /* JauntyGumption.mp3 */; };
+		A56DC5E119A3543E009F7E24 /* pop.caf in Resources */ = {isa = PBXBuildFile; fileRef = A56DC5DB19A3543E009F7E24 /* pop.caf */; };
+		A56DC5E219A3543E009F7E24 /* uiii.caf in Resources */ = {isa = PBXBuildFile; fileRef = A56DC5DC19A3543E009F7E24 /* uiii.caf */; };
+		A56DC5E319A3543E009F7E24 /* uuue.caf in Resources */ = {isa = PBXBuildFile; fileRef = A56DC5DD19A3543E009F7E24 /* uuue.caf */; };
+		A56F388A19922DE700B83DCA /* MemoransCreditsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A56F388919922DE700B83DCA /* MemoransCreditsViewController.m */; };
+		A58213A319A68ED500F15DA0 /* MemoransEndViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A58213A219A68ED500F15DA0 /* MemoransEndViewController.m */; };
+		A583FD24198E6B56008282CD /* MemoransGameLevel.m in Sources */ = {isa = PBXBuildFile; fileRef = A583FD23198E6B56008282CD /* MemoransGameLevel.m */; };
+		A583FD2A198E6CEA008282CD /* MemoransSharedLevelsPack.m in Sources */ = {isa = PBXBuildFile; fileRef = A583FD29198E6CEA008282CD /* MemoransSharedLevelsPack.m */; };
+		A5984E9719DAEAB70096C255 /* MemoransModelTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A5984E9619DAEAB70096C255 /* MemoransModelTests.m */; };
+		A5A423941987F8C8000A239A /* Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = A5A423931987F8C8000A239A /* Utilities.m */; };
+		A5BD550E19A9F7E600B4269C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A5BD551019A9F7E600B4269C /* Localizable.strings */; };
+		A5C7818619641DDF0068191E /* MemoransTilesSet.m in Sources */ = {isa = PBXBuildFile; fileRef = A5C7818519641DDF0068191E /* MemoransTilesSet.m */; };
+		A5D6BD4019658EF40019345E /* MemoransGameEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = A5D6BD3F19658EF40019345E /* MemoransGameEngine.m */; };
+		A5D6BD421965C09C0019345E /* Memorans.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A5D6BD411965C09C0019345E /* Memorans.storyboard */; };
+		A5D6BD451965C2C90019345E /* MemoransTileView.m in Sources */ = {isa = PBXBuildFile; fileRef = A5D6BD441965C2C90019345E /* MemoransTileView.m */; };
+		A5D96222196311AD00626BF6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5D96221196311AD00626BF6 /* Foundation.framework */; };
+		A5D96224196311AD00626BF6 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5D96223196311AD00626BF6 /* CoreGraphics.framework */; };
+		A5D96226196311AD00626BF6 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5D96225196311AD00626BF6 /* UIKit.framework */; };
+		A5D9622E196311AD00626BF6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A5D9622D196311AD00626BF6 /* main.m */; };
+		A5D96232196311AD00626BF6 /* MemoransAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A5D96231196311AD00626BF6 /* MemoransAppDelegate.m */; };
+		A5D9623B196311AD00626BF6 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5D9623A196311AD00626BF6 /* XCTest.framework */; };
+		A5D9623C196311AD00626BF6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5D96221196311AD00626BF6 /* Foundation.framework */; };
+		A5D9623D196311AD00626BF6 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5D96225196311AD00626BF6 /* UIKit.framework */; };
+		A5DFDADC197D208400CA9228 /* MemoransOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = A5DFDADB197D208400CA9228 /* MemoransOverlayView.m */; };
+		A5EEA7C01965E1920093471B /* MemoransGameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A5EEA7BF1965E1920093471B /* MemoransGameViewController.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		A5D9623E196311AD00626BF6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A5D96216196311AC00626BF6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A5D9621D196311AC00626BF6;
+			remoteInfo = Memorans;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		A5031344196345E900FDEE2E /* MemoransTile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MemoransTile.h; path = MODEL/MemoransTile.h; sourceTree = "<group>"; };
+		A5031345196345E900FDEE2E /* MemoransTile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MemoransTile.m; path = MODEL/MemoransTile.m; sourceTree = "<group>"; };
+		A50DA5B119B79D65008B9F1E /* MemoransSharedAudioController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MemoransSharedAudioController.h; path = CONTROLLER/MemoransSharedAudioController.h; sourceTree = "<group>"; };
+		A50DA5B219B79D65008B9F1E /* MemoransSharedLocalizationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MemoransSharedLocalizationController.h; path = CONTROLLER/MemoransSharedLocalizationController.h; sourceTree = "<group>"; };
+		A50DA5B319B79D65008B9F1E /* MemoransSharedAudioController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MemoransSharedAudioController.m; path = CONTROLLER/MemoransSharedAudioController.m; sourceTree = "<group>"; };
+		A50DA5B419B79D65008B9F1E /* MemoransSharedLocalizationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MemoransSharedLocalizationController.m; path = CONTROLLER/MemoransSharedLocalizationController.m; sourceTree = "<group>"; };
+		A5221F1F198A8663000B654F /* MemoransLevelsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MemoransLevelsViewController.h; path = CONTROLLER/MemoransLevelsViewController.h; sourceTree = "<group>"; };
+		A5221F20198A8663000B654F /* MemoransLevelsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MemoransLevelsViewController.m; path = CONTROLLER/MemoransLevelsViewController.m; sourceTree = "<group>"; };
+		A5221F22198AAACA000B654F /* MemoransLevelButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MemoransLevelButton.h; path = VIEW/MemoransLevelButton.h; sourceTree = "<group>"; };
+		A5221F23198AAACA000B654F /* MemoransLevelButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MemoransLevelButton.m; path = VIEW/MemoransLevelButton.m; sourceTree = "<group>"; };
+		A5221F25198ABA19000B654F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		A53962F419913D7F00BDC993 /* MemoransMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MemoransMenuViewController.h; path = CONTROLLER/MemoransMenuViewController.h; sourceTree = "<group>"; };
+		A53962F519913D7F00BDC993 /* MemoransMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MemoransMenuViewController.m; path = CONTROLLER/MemoransMenuViewController.m; sourceTree = "<group>"; };
+		A54B64CA19AF993900D657BE /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
+		A54B64CB19AF994600D657BE /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		A54B64CC19AF994F00D657BE /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		A54B64CD19AF995600D657BE /* bg */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = bg; path = bg.lproj/Localizable.strings; sourceTree = "<group>"; };
+		A55118A919A284FF001E2030 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		A55118AB19A2851B001E2030 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		A55118AD19A2852C001E2030 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		A55191E019AD50990076C1A4 /* MoveForward.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = MoveForward.mp3; sourceTree = "<group>"; };
+		A55191E219AD51740076C1A4 /* TheBuilder.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = TheBuilder.mp3; sourceTree = "<group>"; };
+		A565A96219ADF0E300AC7E13 /* SchemingWeaselfaster.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = SchemingWeaselfaster.mp3; sourceTree = "<group>"; };
+		A565A96619ADF81700AC7E13 /* TakeAChance.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = TakeAChance.mp3; sourceTree = "<group>"; };
+		A567BB5419A0C89C004260B9 /* MemoransBehavior.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MemoransBehavior.h; path = CONTROLLER/MemoransBehavior.h; sourceTree = "<group>"; };
+		A567BB5519A0C89C004260B9 /* MemoransBehavior.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MemoransBehavior.m; path = CONTROLLER/MemoransBehavior.m; sourceTree = "<group>"; };
+		A56DC5D819A3543E009F7E24 /* iiii.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = iiii.caf; sourceTree = "<group>"; };
+		A56DC5D919A3543E009F7E24 /* JauntyGumption.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = JauntyGumption.mp3; sourceTree = "<group>"; };
+		A56DC5DB19A3543E009F7E24 /* pop.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = pop.caf; sourceTree = "<group>"; };
+		A56DC5DC19A3543E009F7E24 /* uiii.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = uiii.caf; sourceTree = "<group>"; };
+		A56DC5DD19A3543E009F7E24 /* uuue.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = uuue.caf; sourceTree = "<group>"; };
+		A56F388819922DE700B83DCA /* MemoransCreditsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MemoransCreditsViewController.h; path = CONTROLLER/MemoransCreditsViewController.h; sourceTree = "<group>"; };
+		A56F388919922DE700B83DCA /* MemoransCreditsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MemoransCreditsViewController.m; path = CONTROLLER/MemoransCreditsViewController.m; sourceTree = "<group>"; };
+		A58213A119A68ED500F15DA0 /* MemoransEndViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MemoransEndViewController.h; path = CONTROLLER/MemoransEndViewController.h; sourceTree = "<group>"; };
+		A58213A219A68ED500F15DA0 /* MemoransEndViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MemoransEndViewController.m; path = CONTROLLER/MemoransEndViewController.m; sourceTree = "<group>"; };
+		A583FD22198E6B56008282CD /* MemoransGameLevel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MemoransGameLevel.h; path = MODEL/MemoransGameLevel.h; sourceTree = "<group>"; };
+		A583FD23198E6B56008282CD /* MemoransGameLevel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MemoransGameLevel.m; path = MODEL/MemoransGameLevel.m; sourceTree = "<group>"; };
+		A583FD28198E6CEA008282CD /* MemoransSharedLevelsPack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MemoransSharedLevelsPack.h; path = MODEL/MemoransSharedLevelsPack.h; sourceTree = "<group>"; };
+		A583FD29198E6CEA008282CD /* MemoransSharedLevelsPack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MemoransSharedLevelsPack.m; path = MODEL/MemoransSharedLevelsPack.m; sourceTree = "<group>"; };
+		A5984E9619DAEAB70096C255 /* MemoransModelTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MemoransModelTests.m; sourceTree = "<group>"; };
+		A5A423921987F8C8000A239A /* Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Utilities.h; path = CONTROLLER/Utilities.h; sourceTree = "<group>"; };
+		A5A423931987F8C8000A239A /* Utilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Utilities.m; path = CONTROLLER/Utilities.m; sourceTree = "<group>"; };
+		A5BD550F19A9F7E600B4269C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		A5C7818419641DDF0068191E /* MemoransTilesSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MemoransTilesSet.h; path = MODEL/MemoransTilesSet.h; sourceTree = "<group>"; };
+		A5C7818519641DDF0068191E /* MemoransTilesSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MemoransTilesSet.m; path = MODEL/MemoransTilesSet.m; sourceTree = "<group>"; };
+		A5D6BD3E19658EF40019345E /* MemoransGameEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MemoransGameEngine.h; path = MODEL/MemoransGameEngine.h; sourceTree = "<group>"; };
+		A5D6BD3F19658EF40019345E /* MemoransGameEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MemoransGameEngine.m; path = MODEL/MemoransGameEngine.m; sourceTree = "<group>"; };
+		A5D6BD411965C09C0019345E /* Memorans.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Memorans.storyboard; path = VIEW/Memorans.storyboard; sourceTree = "<group>"; };
+		A5D6BD431965C2C90019345E /* MemoransTileView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MemoransTileView.h; path = VIEW/MemoransTileView.h; sourceTree = "<group>"; };
+		A5D6BD441965C2C90019345E /* MemoransTileView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MemoransTileView.m; path = VIEW/MemoransTileView.m; sourceTree = "<group>"; };
+		A5D9621E196311AC00626BF6 /* Memorans.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Memorans.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A5D96221196311AD00626BF6 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		A5D96223196311AD00626BF6 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		A5D96225196311AD00626BF6 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		A5D96229196311AD00626BF6 /* Memorans-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Memorans-Info.plist"; sourceTree = "<group>"; };
+		A5D9622D196311AD00626BF6 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		A5D9622F196311AD00626BF6 /* Memorans-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Memorans-Prefix.pch"; sourceTree = "<group>"; };
+		A5D96230196311AD00626BF6 /* MemoransAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MemoransAppDelegate.h; path = CONTROLLER/MemoransAppDelegate.h; sourceTree = "<group>"; };
+		A5D96231196311AD00626BF6 /* MemoransAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = MemoransAppDelegate.m; path = CONTROLLER/MemoransAppDelegate.m; sourceTree = "<group>"; };
+		A5D96239196311AD00626BF6 /* MemoransTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MemoransTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A5D9623A196311AD00626BF6 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		A5D96242196311AD00626BF6 /* MemoransTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MemoransTests-Info.plist"; sourceTree = "<group>"; };
+		A5DFDADA197D208400CA9228 /* MemoransOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MemoransOverlayView.h; path = VIEW/MemoransOverlayView.h; sourceTree = "<group>"; };
+		A5DFDADB197D208400CA9228 /* MemoransOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MemoransOverlayView.m; path = VIEW/MemoransOverlayView.m; sourceTree = "<group>"; };
+		A5E73C0C19A9FAEC004BBC7B /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
+		A5EEA7BE1965E1920093471B /* MemoransGameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MemoransGameViewController.h; path = CONTROLLER/MemoransGameViewController.h; sourceTree = "<group>"; };
+		A5EEA7BF1965E1920093471B /* MemoransGameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MemoransGameViewController.m; path = CONTROLLER/MemoransGameViewController.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A5D9621B196311AC00626BF6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A55118AE19A2852C001E2030 /* QuartzCore.framework in Frameworks */,
+				A55118AA19A284FF001E2030 /* AVFoundation.framework in Frameworks */,
+				A5D96224196311AD00626BF6 /* CoreGraphics.framework in Frameworks */,
+				A5D96226196311AD00626BF6 /* UIKit.framework in Frameworks */,
+				A5D96222196311AD00626BF6 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A5D96236196311AD00626BF6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A5D9623B196311AD00626BF6 /* XCTest.framework in Frameworks */,
+				A5D9623D196311AD00626BF6 /* UIKit.framework in Frameworks */,
+				A5D9623C196311AD00626BF6 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A503133E1963451C00FDEE2E /* MODEL */ = {
+			isa = PBXGroup;
+			children = (
+				A5D6BD3E19658EF40019345E /* MemoransGameEngine.h */,
+				A5D6BD3F19658EF40019345E /* MemoransGameEngine.m */,
+				A5C7818419641DDF0068191E /* MemoransTilesSet.h */,
+				A5C7818519641DDF0068191E /* MemoransTilesSet.m */,
+				A5031344196345E900FDEE2E /* MemoransTile.h */,
+				A5031345196345E900FDEE2E /* MemoransTile.m */,
+				A583FD22198E6B56008282CD /* MemoransGameLevel.h */,
+				A583FD23198E6B56008282CD /* MemoransGameLevel.m */,
+				A583FD28198E6CEA008282CD /* MemoransSharedLevelsPack.h */,
+				A583FD29198E6CEA008282CD /* MemoransSharedLevelsPack.m */,
+			);
+			name = MODEL;
+			sourceTree = "<group>";
+		};
+		A503133F1963452400FDEE2E /* VIEW */ = {
+			isa = PBXGroup;
+			children = (
+				A5D6BD411965C09C0019345E /* Memorans.storyboard */,
+				A5DFDADA197D208400CA9228 /* MemoransOverlayView.h */,
+				A5DFDADB197D208400CA9228 /* MemoransOverlayView.m */,
+				A5D6BD431965C2C90019345E /* MemoransTileView.h */,
+				A5D6BD441965C2C90019345E /* MemoransTileView.m */,
+				A5221F22198AAACA000B654F /* MemoransLevelButton.h */,
+				A5221F23198AAACA000B654F /* MemoransLevelButton.m */,
+			);
+			name = VIEW;
+			sourceTree = "<group>";
+		};
+		A50313401963452B00FDEE2E /* CONTROLLER */ = {
+			isa = PBXGroup;
+			children = (
+				A5A423921987F8C8000A239A /* Utilities.h */,
+				A5A423931987F8C8000A239A /* Utilities.m */,
+				A5D96230196311AD00626BF6 /* MemoransAppDelegate.h */,
+				A5D96231196311AD00626BF6 /* MemoransAppDelegate.m */,
+				A567BB5419A0C89C004260B9 /* MemoransBehavior.h */,
+				A567BB5519A0C89C004260B9 /* MemoransBehavior.m */,
+				A50DA5B119B79D65008B9F1E /* MemoransSharedAudioController.h */,
+				A50DA5B319B79D65008B9F1E /* MemoransSharedAudioController.m */,
+				A50DA5B219B79D65008B9F1E /* MemoransSharedLocalizationController.h */,
+				A50DA5B419B79D65008B9F1E /* MemoransSharedLocalizationController.m */,
+				A53962F419913D7F00BDC993 /* MemoransMenuViewController.h */,
+				A53962F519913D7F00BDC993 /* MemoransMenuViewController.m */,
+				A56F388819922DE700B83DCA /* MemoransCreditsViewController.h */,
+				A56F388919922DE700B83DCA /* MemoransCreditsViewController.m */,
+				A5221F1F198A8663000B654F /* MemoransLevelsViewController.h */,
+				A5221F20198A8663000B654F /* MemoransLevelsViewController.m */,
+				A5EEA7BE1965E1920093471B /* MemoransGameViewController.h */,
+				A5EEA7BF1965E1920093471B /* MemoransGameViewController.m */,
+				A58213A119A68ED500F15DA0 /* MemoransEndViewController.h */,
+				A58213A219A68ED500F15DA0 /* MemoransEndViewController.m */,
+			);
+			name = CONTROLLER;
+			sourceTree = "<group>";
+		};
+		A56DC5D719A3543E009F7E24 /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+				A56DC5D819A3543E009F7E24 /* iiii.caf */,
+				A56DC5DC19A3543E009F7E24 /* uiii.caf */,
+				A56DC5DD19A3543E009F7E24 /* uuue.caf */,
+				A56DC5DB19A3543E009F7E24 /* pop.caf */,
+				A56DC5D919A3543E009F7E24 /* JauntyGumption.mp3 */,
+				A55191E019AD50990076C1A4 /* MoveForward.mp3 */,
+				A55191E219AD51740076C1A4 /* TheBuilder.mp3 */,
+				A565A96219ADF0E300AC7E13 /* SchemingWeaselfaster.mp3 */,
+				A565A96619ADF81700AC7E13 /* TakeAChance.mp3 */,
+			);
+			path = Audio;
+			sourceTree = "<group>";
+		};
+		A5D96215196311AC00626BF6 = {
+			isa = PBXGroup;
+			children = (
+				A5D96227196311AD00626BF6 /* Memorans */,
+				A5D96240196311AD00626BF6 /* MemoransTests */,
+				A5D96220196311AD00626BF6 /* Frameworks */,
+				A5D9621F196311AD00626BF6 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A5D9621F196311AD00626BF6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A5D9621E196311AC00626BF6 /* Memorans.app */,
+				A5D96239196311AD00626BF6 /* MemoransTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A5D96220196311AD00626BF6 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A55118AD19A2852C001E2030 /* QuartzCore.framework */,
+				A55118AB19A2851B001E2030 /* AudioToolbox.framework */,
+				A55118A919A284FF001E2030 /* AVFoundation.framework */,
+				A5D96221196311AD00626BF6 /* Foundation.framework */,
+				A5D96223196311AD00626BF6 /* CoreGraphics.framework */,
+				A5D96225196311AD00626BF6 /* UIKit.framework */,
+				A5D9623A196311AD00626BF6 /* XCTest.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		A5D96227196311AD00626BF6 /* Memorans */ = {
+			isa = PBXGroup;
+			children = (
+				A503133F1963452400FDEE2E /* VIEW */,
+				A50313401963452B00FDEE2E /* CONTROLLER */,
+				A503133E1963451C00FDEE2E /* MODEL */,
+				A5D96228196311AD00626BF6 /* Supporting Files */,
+			);
+			path = Memorans;
+			sourceTree = "<group>";
+		};
+		A5D96228196311AD00626BF6 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				A5BD551019A9F7E600B4269C /* Localizable.strings */,
+				A56DC5D719A3543E009F7E24 /* Audio */,
+				A5221F25198ABA19000B654F /* Images.xcassets */,
+				A5D96229196311AD00626BF6 /* Memorans-Info.plist */,
+				A5D9622D196311AD00626BF6 /* main.m */,
+				A5D9622F196311AD00626BF6 /* Memorans-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		A5D96240196311AD00626BF6 /* MemoransTests */ = {
+			isa = PBXGroup;
+			children = (
+				A5D96241196311AD00626BF6 /* Supporting Files */,
+			);
+			path = MemoransTests;
+			sourceTree = "<group>";
+		};
+		A5D96241196311AD00626BF6 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				A5984E9619DAEAB70096C255 /* MemoransModelTests.m */,
+				A5D96242196311AD00626BF6 /* MemoransTests-Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A5D9621D196311AC00626BF6 /* Memorans */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A5D9624A196311AD00626BF6 /* Build configuration list for PBXNativeTarget "Memorans" */;
+			buildPhases = (
+				A5D9621A196311AC00626BF6 /* Sources */,
+				A5D9621B196311AC00626BF6 /* Frameworks */,
+				A5D9621C196311AC00626BF6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Memorans;
+			productName = Memorans;
+			productReference = A5D9621E196311AC00626BF6 /* Memorans.app */;
+			productType = "com.apple.product-type.application";
+		};
+		A5D96238196311AD00626BF6 /* MemoransTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A5D9624D196311AD00626BF6 /* Build configuration list for PBXNativeTarget "MemoransTests" */;
+			buildPhases = (
+				A5D96235196311AD00626BF6 /* Sources */,
+				A5D96236196311AD00626BF6 /* Frameworks */,
+				A5D96237196311AD00626BF6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A5D9623F196311AD00626BF6 /* PBXTargetDependency */,
+			);
+			name = MemoransTests;
+			productName = MemoransTests;
+			productReference = A5D96239196311AD00626BF6 /* MemoransTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A5D96216196311AC00626BF6 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = Memorans;
+				LastUpgradeCheck = 0510;
+				ORGANIZATIONNAME = "Emiliano D'Alterio";
+				TargetAttributes = {
+					A5D9621D196311AC00626BF6 = {
+						DevelopmentTeam = WMS5WD9LV7;
+					};
+					A5D96238196311AD00626BF6 = {
+						TestTargetID = A5D9621D196311AC00626BF6;
+					};
+				};
+			};
+			buildConfigurationList = A5D96219196311AC00626BF6 /* Build configuration list for PBXProject "Memorans" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				it,
+				es,
+				fr,
+				ru,
+				bg,
+			);
+			mainGroup = A5D96215196311AC00626BF6;
+			productRefGroup = A5D9621F196311AD00626BF6 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A5D9621D196311AC00626BF6 /* Memorans */,
+				A5D96238196311AD00626BF6 /* MemoransTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A5D9621C196311AC00626BF6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A56DC5E319A3543E009F7E24 /* uuue.caf in Resources */,
+				A56DC5E219A3543E009F7E24 /* uiii.caf in Resources */,
+				A56DC5DE19A3543E009F7E24 /* iiii.caf in Resources */,
+				A5221F26198ABA19000B654F /* Images.xcassets in Resources */,
+				A56DC5E119A3543E009F7E24 /* pop.caf in Resources */,
+				A565A96719ADF81700AC7E13 /* TakeAChance.mp3 in Resources */,
+				A5BD550E19A9F7E600B4269C /* Localizable.strings in Resources */,
+				A56DC5DF19A3543E009F7E24 /* JauntyGumption.mp3 in Resources */,
+				A565A96319ADF0E300AC7E13 /* SchemingWeaselfaster.mp3 in Resources */,
+				A55191E319AD51740076C1A4 /* TheBuilder.mp3 in Resources */,
+				A55191E119AD50990076C1A4 /* MoveForward.mp3 in Resources */,
+				A5D6BD421965C09C0019345E /* Memorans.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A5D96237196311AD00626BF6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A5D9621A196311AC00626BF6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A5A423941987F8C8000A239A /* Utilities.m in Sources */,
+				A5D6BD4019658EF40019345E /* MemoransGameEngine.m in Sources */,
+				A5031346196345E900FDEE2E /* MemoransTile.m in Sources */,
+				A583FD2A198E6CEA008282CD /* MemoransSharedLevelsPack.m in Sources */,
+				A58213A319A68ED500F15DA0 /* MemoransEndViewController.m in Sources */,
+				A5221F21198A8663000B654F /* MemoransLevelsViewController.m in Sources */,
+				A583FD24198E6B56008282CD /* MemoransGameLevel.m in Sources */,
+				A5DFDADC197D208400CA9228 /* MemoransOverlayView.m in Sources */,
+				A5D6BD451965C2C90019345E /* MemoransTileView.m in Sources */,
+				A56F388A19922DE700B83DCA /* MemoransCreditsViewController.m in Sources */,
+				A5221F24198AAACA000B654F /* MemoransLevelButton.m in Sources */,
+				A5EEA7C01965E1920093471B /* MemoransGameViewController.m in Sources */,
+				A53962F619913D7F00BDC993 /* MemoransMenuViewController.m in Sources */,
+				A50DA5B519B79D65008B9F1E /* MemoransSharedAudioController.m in Sources */,
+				A5D96232196311AD00626BF6 /* MemoransAppDelegate.m in Sources */,
+				A5D9622E196311AD00626BF6 /* main.m in Sources */,
+				A5C7818619641DDF0068191E /* MemoransTilesSet.m in Sources */,
+				A567BB5619A0C89C004260B9 /* MemoransBehavior.m in Sources */,
+				A50DA5B619B79D65008B9F1E /* MemoransSharedLocalizationController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A5D96235196311AD00626BF6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A5984E9719DAEAB70096C255 /* MemoransModelTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		A5D9623F196311AD00626BF6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A5D9621D196311AC00626BF6 /* Memorans */;
+			targetProxy = A5D9623E196311AD00626BF6 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		A5BD551019A9F7E600B4269C /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A5BD550F19A9F7E600B4269C /* en */,
+				A5E73C0C19A9FAEC004BBC7B /* it */,
+				A54B64CA19AF993900D657BE /* es */,
+				A54B64CB19AF994600D657BE /* fr */,
+				A54B64CC19AF994F00D657BE /* ru */,
+				A54B64CD19AF995600D657BE /* bg */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		A5D96248196311AD00626BF6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 2;
+			};
+			name = Debug;
+		};
+		A5D96249196311AD00626BF6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 2;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		A5D9624B196311AD00626BF6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Memorans/Memorans-Prefix.pch";
+				INFOPLIST_FILE = "Memorans/Memorans-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		A5D9624C196311AD00626BF6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Memorans/Memorans-Prefix.pch";
+				INFOPLIST_FILE = "Memorans/Memorans-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		A5D9624E196311AD00626BF6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Memorans.app/Memorans";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Memorans/Memorans-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "MemoransTests/MemoransTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		A5D9624F196311AD00626BF6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Memorans.app/Memorans";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Memorans/Memorans-Prefix.pch";
+				INFOPLIST_FILE = "MemoransTests/MemoransTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A5D96219196311AC00626BF6 /* Build configuration list for PBXProject "Memorans" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A5D96248196311AD00626BF6 /* Debug */,
+				A5D96249196311AD00626BF6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A5D9624A196311AD00626BF6 /* Build configuration list for PBXNativeTarget "Memorans" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A5D9624B196311AD00626BF6 /* Debug */,
+				A5D9624C196311AD00626BF6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A5D9624D196311AD00626BF6 /* Build configuration list for PBXNativeTarget "MemoransTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A5D9624E196311AD00626BF6 /* Debug */,
+				A5D9624F196311AD00626BF6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A5D96216196311AC00626BF6 /* Project object */;
+}

@@ -8,5 +8,7 @@
 !*.xib
 !*.storyboard
 !*Info.plist
+!*.pbxproj
 !README.md
 !LICENSE
+
