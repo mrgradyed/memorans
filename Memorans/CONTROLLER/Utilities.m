@@ -251,7 +251,7 @@
 #pragma mark - ATTRIBUTED STRINGS
 
 + (NSAttributedString *)styledAttributedStringWithString:(NSString *)string
-                                           andAlignement:(NSTextAlignment)alignement
+                                           andAlignement:(NSTextAlignment)alignment
                                                 andColor:(UIColor *)color
                                                  andSize:(CGFloat)size
                                           andStrokeColor:(UIColor *)strokeColor
@@ -277,7 +277,7 @@
 
     // Set the text alignement to the one passed.
 
-    paragraphStyle.alignment = alignement;
+    paragraphStyle.alignment = alignment;
 
     // Text wrapping will occur at word boundaries.
 
@@ -289,7 +289,7 @@
         initWithString:string
             attributes:@
             {
-                NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-Bold" size:adaptedSize],
+                NSFontAttributeName : [UIFont fontWithName:@"Avenir-Heavy" size:adaptedSize],
                 NSForegroundColorAttributeName : dcolor,
                 NSStrokeWidthAttributeName : @-3,
                 NSStrokeColorAttributeName : dStrokeColor,
