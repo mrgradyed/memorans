@@ -269,7 +269,7 @@
 
     // If no text size is passed let's use the default one.
 
-    CGFloat adaptedSize = [self isIPad] ? size : size / 2;
+    CGFloat adaptedSize = [self isIPad] ? size : size * 0.5;
 
     // Get a paragraph style object.
 
@@ -318,10 +318,9 @@
 
     [button setAttributedTitle:attributedTitle forState:UIControlStateNormal];
 
-    // A shade of black for the button background.
-
-    button.backgroundColor = [Utilities colorFromHEXString:@"#2B2B2B" withAlpha:1];
-
+    // A transparent color for the button background.
+    button.backgroundColor = [UIColor clearColor];
+    
     // Single and exclusive touch for the button. After a button is touched we don't want any more
     // touches delivered.
 
@@ -336,10 +335,12 @@
 
     button.layer.borderColor = [Utilities colorFromHEXString:@"#2B2B2B" withAlpha:1].CGColor;
     button.layer.borderWidth = 1;
+    
+    button.contentEdgeInsets = UIEdgeInsetsMake(2, 5, 2, 5);
 
     // Button must be quite rounded.
 
-    button.layer.cornerRadius = 25;
+    button.layer.cornerRadius = [Utilities isIPad] ? 25 : 10;
 }
 
 #pragma mark - SYSTEM SOUNDS
