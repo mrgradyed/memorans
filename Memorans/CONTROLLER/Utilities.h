@@ -67,4 +67,8 @@
 
 + (void)playSystemSoundEffectFromResource:(NSString *)fileName ofType:(NSString *)fileType;
 
+#pragma mark - SYSTEM UTILITIES
+
++ (BOOL)isIPad;
+
 @end

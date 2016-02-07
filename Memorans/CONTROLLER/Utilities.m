@@ -269,7 +269,7 @@
 
     // If no text size is passed let's use the default one.
 
-    CGFloat dsize = size ? size : 32;
+    CGFloat adaptedSize = [self isIPad] ? size : size / 2;
 
     // Get a paragraph style object.
 
@@ -289,7 +289,7 @@
         initWithString:string
             attributes:@
             {
-                NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-Bold" size:dsize],
+                NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-Bold" size:adaptedSize],
                 NSForegroundColorAttributeName : dcolor,
                 NSStrokeWidthAttributeName : @-3,
                 NSStrokeColorAttributeName : dStrokeColor,
