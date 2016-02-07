@@ -414,4 +414,13 @@ void disposeSoundEffect(soundEffect, inClientData)
     });
 }
 
+#pragma mark - SYSTEM UTILITIES
+
++ (BOOL)isIPad
+{
+    NSString *model = [[UIDevice currentDevice] model];
+
+    return [model.lowercaseString rangeOfString:@"ipad"].length;
+}
+
 @end
