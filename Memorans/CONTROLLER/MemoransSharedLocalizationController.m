@@ -20,7 +20,7 @@
 
 #pragma mark - PROPERTIES
 
-// The current bundle used by the app for localize the strings.
+// The current bundle used by the app to localize the strings.
 
 @property(strong, nonatomic) NSBundle *currentBundle;
 

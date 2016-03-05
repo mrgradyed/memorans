@@ -45,8 +45,8 @@
         // A strong push force, directed to the bottom and slightly to the right.
 
         _push = [[UIPushBehavior alloc] init];
-        _push.magnitude = 1000.0f;
-        _push.angle = 1.44f;
+        _push.magnitude = 500.0f;
+        _push.angle = 1.45f;
     }
 
     return _push;
@@ -77,11 +77,12 @@
         CGFloat longSide = MAX(screenBounds.size.width, screenBounds.size.height);
 
         // Get the four screen corners coordinates.
-
-        CGPoint topLeft = CGPointMake(0, 0);
-        CGPoint topRight = CGPointMake(longSide, 0);
-        CGPoint bottomLeft = CGPointMake(0, shortSide);
-        CGPoint bottomRight = CGPointMake(longSide, shortSide);
+        
+        CGFloat margin = 40;
+        CGPoint topLeft = CGPointMake(0, margin);
+        CGPoint topRight = CGPointMake(longSide, margin);
+        CGPoint bottomLeft = CGPointMake(0, shortSide - margin);
+        CGPoint bottomRight = CGPointMake(longSide, shortSide - margin);
 
         // Set the collision boundaries manually to avoid CGPath memory leak in the collision
         // behavior.
