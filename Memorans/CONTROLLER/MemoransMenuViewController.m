@@ -287,9 +287,11 @@
 {
     // This method styles and configures all the main menu buttons consistently, using an utility
     // method and the shared localized controller to correctly localize the buttons titles.
+    
+    NSString *currentLangCode = self.sharedLocalizationController.currentLanguageCode;
 
     [Utilities configureButton:self.languageButton
-               withTitleString:self.sharedLocalizationController.currentLanguageCode.uppercaseString
+               withTitleString:[NSString stringWithFormat:@"⚑ %@",currentLangCode.capitalizedString]
                    andFontSize:50];
 
     [Utilities configureButton:self.playButton
