@@ -125,7 +125,7 @@
 
     // Configure the "back to menu" button.
 
-    [Utilities configureButton:self.backToMenuButton withTitleString:@"⬅︎" andFontSize:50];
+    [Utilities configureButton:self.backToMenuButton withTitleString:@"⬅︎"];
 
     int loopCount = 0;
 

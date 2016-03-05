@@ -56,8 +56,7 @@
 // This method will make all the app's buttons look consistently.
 
 + (void)configureButton:(UIButton *)button
-        withTitleString:(NSString *)titleString
-            andFontSize:(CGFloat)size;
+        withTitleString:(NSString *)titleString;
 
 // A method to play system sounds
 // File limitations:

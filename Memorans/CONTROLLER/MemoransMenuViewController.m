@@ -209,8 +209,8 @@
     NSString *musicOnOff = self.sharedAudioController.musicOff ? @"♬ Off" : @"♬ On";
 
     [Utilities configureButton:self.musicButton
-               withTitleString:[self.sharedLocalizationController localizedStringForKey:musicOnOff]
-                   andFontSize:50];
+               withTitleString:
+                            [self.sharedLocalizationController localizedStringForKey:musicOnOff]];
 }
 
 - (IBAction)soundEffectsButtonTouched
@@ -250,8 +250,8 @@
     NSString *soundsOnOff = self.sharedAudioController.soundsOff ? @"♪ Off" : @"♪ On";
 
     [Utilities configureButton:self.soundEffectsButton
-               withTitleString:[self.sharedLocalizationController localizedStringForKey:soundsOnOff]
-                   andFontSize:50];
+               withTitleString:
+                            [self.sharedLocalizationController localizedStringForKey:soundsOnOff]];
 }
 
 - (IBAction)creditsButtonTouched
@@ -291,34 +291,33 @@
     NSString *currentLangCode = self.sharedLocalizationController.currentLanguageCode;
 
     [Utilities configureButton:self.languageButton
-               withTitleString:[NSString stringWithFormat:@"⚑ %@",currentLangCode.capitalizedString]
-                   andFontSize:50];
+               withTitleString:
+                            [NSString stringWithFormat:@"⚑ %@", currentLangCode.capitalizedString]];
 
     [Utilities configureButton:self.playButton
-               withTitleString:[self.sharedLocalizationController localizedStringForKey:@"Play"]
-                   andFontSize:50];
+               withTitleString:[self.sharedLocalizationController localizedStringForKey:@"Play"]];
 
     // Change the music button's title according to music status.
 
     NSString *musicOnOff = self.sharedAudioController.musicOff ? @"♬ Off" : @"♬ On";
 
     [Utilities configureButton:self.musicButton
-               withTitleString:[self.sharedLocalizationController localizedStringForKey:musicOnOff]
-                   andFontSize:50];
+               withTitleString:
+                            [self.sharedLocalizationController localizedStringForKey:musicOnOff]];
 
     // Change the sounds button's title according to sounds status.
 
     NSString *soundsOnOff = self.sharedAudioController.soundsOff ? @"♪ Off" : @"♪ On";
 
     [Utilities configureButton:self.soundEffectsButton
-               withTitleString:[self.sharedLocalizationController localizedStringForKey:soundsOnOff]
-                   andFontSize:50];
+               withTitleString:
+                            [self.sharedLocalizationController localizedStringForKey:soundsOnOff]];
 
     [Utilities configureButton:self.creditsButton
-               withTitleString:[self.sharedLocalizationController localizedStringForKey:@"Credits"]
-                   andFontSize:50];
+               withTitleString:
+                            [self.sharedLocalizationController localizedStringForKey:@"Credits"]];
 
-    [Utilities configureButton:self.rateButton withTitleString:@"★★★★★" andFontSize:50];
+    [Utilities configureButton:self.rateButton withTitleString:@"★★★★★"];
 }
 
 - (void)viewDidLoad

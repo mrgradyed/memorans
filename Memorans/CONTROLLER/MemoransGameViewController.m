@@ -1262,11 +1262,11 @@ static const NSInteger gTileMargin = 5;
     // consistently throughout
     // the whole app.
 
-    [Utilities configureButton:self.restartGameButton withTitleString:@"↺" andFontSize:50];
+    [Utilities configureButton:self.restartGameButton withTitleString:@"↺"];
 
-    [Utilities configureButton:self.nextLevelButton withTitleString:@"▶︎" andFontSize:50];
+    [Utilities configureButton:self.nextLevelButton withTitleString:@"▶︎"];
 
-    [Utilities configureButton:self.backToLevelsButton withTitleString:@"⬅︎" andFontSize:50];
+    [Utilities configureButton:self.backToLevelsButton withTitleString:@"⬅︎"];
 
     // Be sure to always bring the tile area and its subviews (tile views) to the
     // front,

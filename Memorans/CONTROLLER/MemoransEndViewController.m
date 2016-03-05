@@ -109,7 +109,7 @@
 
     [super viewDidLoad];
 
-    [Utilities configureButton:self.backToRootButton withTitleString:@"⬅︎" andFontSize:50];
+    [Utilities configureButton:self.backToRootButton withTitleString:@"⬅︎"];
 
     // Get the controller's view's dimensions.
 

@@ -81,7 +81,7 @@
 
     // Configure the "back" button.
 
-    [Utilities configureButton:self.backToMenuButton withTitleString:@"⬅︎" andFontSize:50];
+    [Utilities configureButton:self.backToMenuButton withTitleString:@"⬅︎"];
 
     // The credits text view must not be editable.
 

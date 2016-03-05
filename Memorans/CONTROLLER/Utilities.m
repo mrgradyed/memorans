@@ -301,7 +301,6 @@
 
 + (void)configureButton:(UIButton *)button
         withTitleString:(NSString *)titleString
-            andFontSize:(CGFloat)size
 {
     // This method will make all the app's buttons look consistently.
 
