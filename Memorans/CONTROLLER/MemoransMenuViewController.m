@@ -42,10 +42,6 @@
 
 @property(weak, nonatomic) IBOutlet UIButton *creditsButton;
 
-// The main menu Facebook link button.
-
-@property(weak, nonatomic) IBOutlet UIButton *fbButton;
-
 // The main menu App Store rate button.
 
 @property(weak, nonatomic) IBOutlet UIButton *rateButton;
@@ -269,23 +265,6 @@
     [self performSegueWithIdentifier:@"toCreditsController" sender:self];
 }
 
-- (IBAction)fbButtonTouched
-{
-    // An audio feedback.
-
-    [self.sharedAudioController playPopSound];
-
-    // The Memorans app Facebook page URL. Using the page id (instead of the "nice" url) will allow
-    // the
-    // page to be correctly displayed by the FB official app too (if installed).
-
-    NSURL *fbURL = [NSURL URLWithString:@"https://www.facebook.com/720774387995937"];
-
-    // Open the FB page URL.
-
-    [[UIApplication sharedApplication] openURL:fbURL];
-}
-
 - (IBAction)rateButtonTouched
 {
     // An audio feedback.
@@ -337,9 +316,7 @@
                withTitleString:[self.sharedLocalizationController localizedStringForKey:@"Credits"]
                    andFontSize:50];
 
-    [Utilities configureButton:self.fbButton withTitleString:@"☍" andFontSize:50];
-
-    [Utilities configureButton:self.rateButton withTitleString:@"★" andFontSize:50];
+    [Utilities configureButton:self.rateButton withTitleString:@"★★★★★" andFontSize:50];
 }
 
 - (void)viewDidLoad
