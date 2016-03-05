@@ -500,6 +500,16 @@
 
         monsterImageView.center = CGPointMake(CGRectGetMidX(self.view.bounds) + monsterViewXOffset,
                                               CGRectGetMidY(self.view.bounds) + monsterViewYOffset);
+        
+        // Add tap gesture to monster views. On tap restart animation.
+        UITapGestureRecognizer *tapRecog = [[UITapGestureRecognizer alloc]
+                                                initWithTarget:self
+                                                        action:@selector(monsterWasTapped)];
+        
+        tapRecog.numberOfTapsRequired = 1;
+        
+        monsterImageView.userInteractionEnabled = YES;
+        [monsterImageView addGestureRecognizer:tapRecog];
 
         // Add the monster view just created to the array of the currenty used in the animation.
 
@@ -530,6 +540,12 @@
     // Add this behavior to the dynamic animator and start the monsters animation.
 
     [self.dynamicAnimator addBehavior:memoransBehavior];
+}
+
+- (void)monsterWasTapped {
+
+    // When monsters are tapped start a new animation.
+    [self addAndAnimateMonsterViews];
 }
 
 - (BOOL)prefersStatusBarHidden
