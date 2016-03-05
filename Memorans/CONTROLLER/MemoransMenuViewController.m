@@ -511,16 +511,18 @@
         // Calculate random offsets to slighly scatter the monsters image views.
         // Random offsets will be between 0 and the monsters images' size-1.
 
-        monsterViewXOffset = monsterImageView.frame.size.width +
-                             (arc4random() % (int)monsterImageView.frame.size.width);
+        monsterViewXOffset = (arc4random() % (int)monsterImageView.frame.size.width);
+        monsterViewYOffset = (arc4random() % (int)monsterImageView.frame.size.height);
 
-        monsterViewYOffset = monsterImageView.frame.size.height +
-                             (arc4random() % (int)monsterImageView.frame.size.height);
-
+        // Change sign to get more random positions.
+        if(monsterViewXOffset % 2 == 0) { monsterViewXOffset = -monsterViewXOffset; };
+        if(monsterViewYOffset % 2 == 0) { monsterViewYOffset = -monsterViewYOffset; };
+        
         // Place the monsters views. Having slight different start positions the views will behavior
         // in more chaotic way when added to the animator.
 
-        monsterImageView.center = CGPointMake(monsterViewXOffset, monsterViewYOffset);
+        monsterImageView.center = CGPointMake(CGRectGetMidX(self.view.bounds) + monsterViewXOffset,
+                                              CGRectGetMidY(self.view.bounds) + monsterViewYOffset);
 
         // Add the monster view just created to the array of the currenty used in the animation.
 
