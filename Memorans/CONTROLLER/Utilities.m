@@ -289,7 +289,7 @@
         initWithString:string
             attributes:@
             {
-                NSFontAttributeName : [UIFont fontWithName:@"Avenir-Heavy" size:adaptedSize],
+                NSFontAttributeName : [UIFont fontWithName:@"Avenir-Black" size:adaptedSize],
                 NSForegroundColorAttributeName : dcolor,
                 NSStrokeWidthAttributeName : @-3,
                 NSStrokeColorAttributeName : dStrokeColor,
@@ -330,17 +330,8 @@
     // Subviews won't escape the button ROUNDED boundaries.
 
     button.clipsToBounds = YES;
-
-    // A shade of black for the 1px button border.
-
-    button.layer.borderColor = [Utilities colorFromHEXString:@"#2B2B2B" withAlpha:1].CGColor;
-    button.layer.borderWidth = 1;
     
     button.contentEdgeInsets = UIEdgeInsetsMake(2, 5, 2, 5);
-
-    // Button must be quite rounded.
-
-    button.layer.cornerRadius = [Utilities isIPad] ? 25 : 10;
 }
 
 #pragma mark - SYSTEM SOUNDS
