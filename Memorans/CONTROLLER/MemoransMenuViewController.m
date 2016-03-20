@@ -489,8 +489,8 @@
         // Calculate random offsets to slighly scatter the monsters image views.
         // Random offsets will be between 0 and the monsters images' size-1.
 
-        monsterViewXOffset = (arc4random() % (int)monsterImageView.frame.size.width);
-        monsterViewYOffset = (arc4random() % (int)monsterImageView.frame.size.height);
+        monsterViewXOffset = (arc4random() % (int) (1 + monsterImageView.frame.size.width));
+        monsterViewYOffset = (arc4random() % (int)(1 + monsterImageView.frame.size.height));
 
         // Change sign to get more random positions.
         if(monsterViewXOffset % 2 == 0) { monsterViewXOffset = -monsterViewXOffset; };

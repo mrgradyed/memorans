@@ -261,11 +261,11 @@
 
     // If no text color is passed let's use the default one.
 
-    UIColor *dcolor = color ? color : [Utilities colorFromHEXString:@"#108cff" withAlpha:1];
+    UIColor *dcolor = color ? color : [UIColor whiteColor];
 
     // If no text stroke color is passed let's use the default one.
 
-    UIColor *dStrokeColor = strokeColor ? strokeColor : [UIColor whiteColor];
+    UIColor *dStrokeColor = strokeColor ? strokeColor : [UIColor clearColor];
 
     // If no text size is passed let's use the default one.
 
@@ -310,7 +310,7 @@
         [Utilities styledAttributedStringWithString:titleString
                                       andAlignement:NSTextAlignmentCenter
                                            andColor:nil
-                                            andSize:45
+                                            andSize:40
                                      andStrokeColor:nil];
 
     // Set the attributed string as button title.

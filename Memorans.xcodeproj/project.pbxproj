@@ -7,12 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		326827011C9F170500DD6A31 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 326827001C9F170500DD6A31 /* Images.xcassets */; };
 		A5031346196345E900FDEE2E /* MemoransTile.m in Sources */ = {isa = PBXBuildFile; fileRef = A5031345196345E900FDEE2E /* MemoransTile.m */; };
 		A50DA5B519B79D65008B9F1E /* MemoransSharedAudioController.m in Sources */ = {isa = PBXBuildFile; fileRef = A50DA5B319B79D65008B9F1E /* MemoransSharedAudioController.m */; };
 		A50DA5B619B79D65008B9F1E /* MemoransSharedLocalizationController.m in Sources */ = {isa = PBXBuildFile; fileRef = A50DA5B419B79D65008B9F1E /* MemoransSharedLocalizationController.m */; };
 		A5221F21198A8663000B654F /* MemoransLevelsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A5221F20198A8663000B654F /* MemoransLevelsViewController.m */; };
 		A5221F24198AAACA000B654F /* MemoransLevelButton.m in Sources */ = {isa = PBXBuildFile; fileRef = A5221F23198AAACA000B654F /* MemoransLevelButton.m */; };
-		A5221F26198ABA19000B654F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A5221F25198ABA19000B654F /* Images.xcassets */; };
 		A53962F619913D7F00BDC993 /* MemoransMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A53962F519913D7F00BDC993 /* MemoransMenuViewController.m */; };
 		A55118AA19A284FF001E2030 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A55118A919A284FF001E2030 /* AVFoundation.framework */; };
 		A55118AE19A2852C001E2030 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A55118AD19A2852C001E2030 /* QuartzCore.framework */; };
@@ -60,6 +60,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		326827001C9F170500DD6A31 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		A5031344196345E900FDEE2E /* MemoransTile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MemoransTile.h; path = MODEL/MemoransTile.h; sourceTree = "<group>"; };
 		A5031345196345E900FDEE2E /* MemoransTile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MemoransTile.m; path = MODEL/MemoransTile.m; sourceTree = "<group>"; };
 		A50DA5B119B79D65008B9F1E /* MemoransSharedAudioController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MemoransSharedAudioController.h; path = CONTROLLER/MemoransSharedAudioController.h; sourceTree = "<group>"; };
@@ -70,7 +71,6 @@
 		A5221F20198A8663000B654F /* MemoransLevelsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MemoransLevelsViewController.m; path = CONTROLLER/MemoransLevelsViewController.m; sourceTree = "<group>"; };
 		A5221F22198AAACA000B654F /* MemoransLevelButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MemoransLevelButton.h; path = VIEW/MemoransLevelButton.h; sourceTree = "<group>"; };
 		A5221F23198AAACA000B654F /* MemoransLevelButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MemoransLevelButton.m; path = VIEW/MemoransLevelButton.m; sourceTree = "<group>"; };
-		A5221F25198ABA19000B654F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		A53962F419913D7F00BDC993 /* MemoransMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MemoransMenuViewController.h; path = CONTROLLER/MemoransMenuViewController.h; sourceTree = "<group>"; };
 		A53962F519913D7F00BDC993 /* MemoransMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MemoransMenuViewController.m; path = CONTROLLER/MemoransMenuViewController.m; sourceTree = "<group>"; };
 		A54B64CA19AF993900D657BE /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -176,6 +176,7 @@
 			isa = PBXGroup;
 			children = (
 				A5D6BD411965C09C0019345E /* Memorans.storyboard */,
+				326827001C9F170500DD6A31 /* Images.xcassets */,
 				A5DFDADA197D208400CA9228 /* MemoransOverlayView.h */,
 				A5DFDADB197D208400CA9228 /* MemoransOverlayView.m */,
 				A5D6BD431965C2C90019345E /* MemoransTileView.h */,
@@ -189,8 +190,6 @@
 		A50313401963452B00FDEE2E /* CONTROLLER */ = {
 			isa = PBXGroup;
 			children = (
-				A5A423921987F8C8000A239A /* Utilities.h */,
-				A5A423931987F8C8000A239A /* Utilities.m */,
 				A5D96230196311AD00626BF6 /* MemoransAppDelegate.h */,
 				A5D96231196311AD00626BF6 /* MemoransAppDelegate.m */,
 				A567BB5419A0C89C004260B9 /* MemoransBehavior.h */,
@@ -276,9 +275,10 @@
 		A5D96228196311AD00626BF6 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				A5A423921987F8C8000A239A /* Utilities.h */,
+				A5A423931987F8C8000A239A /* Utilities.m */,
 				A5BD551019A9F7E600B4269C /* Localizable.strings */,
 				A56DC5D719A3543E009F7E24 /* Audio */,
-				A5221F25198ABA19000B654F /* Images.xcassets */,
 				A5D96229196311AD00626BF6 /* Memorans-Info.plist */,
 				A5D9622D196311AD00626BF6 /* main.m */,
 				A5D9622F196311AD00626BF6 /* Memorans-Prefix.pch */,
@@ -390,13 +390,13 @@
 				A56DC5E319A3543E009F7E24 /* uuue.caf in Resources */,
 				A56DC5E219A3543E009F7E24 /* uiii.caf in Resources */,
 				A56DC5DE19A3543E009F7E24 /* iiii.caf in Resources */,
-				A5221F26198ABA19000B654F /* Images.xcassets in Resources */,
 				A56DC5E119A3543E009F7E24 /* pop.caf in Resources */,
 				A565A96719ADF81700AC7E13 /* TakeAChance.mp3 in Resources */,
 				A5BD550E19A9F7E600B4269C /* Localizable.strings in Resources */,
 				A56DC5DF19A3543E009F7E24 /* JauntyGumption.mp3 in Resources */,
 				A565A96319ADF0E300AC7E13 /* SchemingWeaselfaster.mp3 in Resources */,
 				A55191E319AD51740076C1A4 /* TheBuilder.mp3 in Resources */,
+				326827011C9F170500DD6A31 /* Images.xcassets in Resources */,
 				A55191E119AD50990076C1A4 /* MoveForward.mp3 in Resources */,
 				A5D6BD421965C09C0019345E /* Memorans.storyboard in Resources */,
 			);
