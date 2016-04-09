@@ -132,10 +132,6 @@ fastlane/screenshots
 *.obj
 *.elf
 
-# Precompiled Headers
-*.gch
-*.pch
-
 # Libraries
 *.lib
 *.a
@@ -168,8 +164,8 @@ fastlane/screenshots
 *.obj
 
 # Precompiled Headers
-*.gch
-*.pch
+# *.gch
+# *.pch
 
 # Compiled Dynamic libraries
 *.so
