@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -119,19 +120,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CsQ-pj-8Dp" customClass="MemoransLevelButton">
-                                <rect key="frame" x="20" y="101" width="116" height="116"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kIE-5n-Xyp" customClass="MemoransLevelButton">
+                                <rect key="frame" x="62" y="199" width="34" height="34"/>
                                 <color key="backgroundColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="levelButtonTouched:" destination="rus-h0-pj8" eventType="touchUpInside" id="a39-1P-KMQ"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kIE-5n-Xyp" customClass="MemoransLevelButton">
-                                <rect key="frame" x="144" y="101" width="116" height="116"/>
-                                <color key="backgroundColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="kIE-5n-Xyp" secondAttribute="height" multiplier="1:1" id="usa-0g-jtL"/>
+                                </constraints>
                                 <state key="normal">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -139,9 +133,12 @@
                                     <action selector="levelButtonTouched:" destination="rus-h0-pj8" eventType="touchUpInside" id="HsT-In-cmg"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wFL-TZ-ivy" customClass="MemoransLevelButton">
-                                <rect key="frame" x="268" y="151" width="116" height="116"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wFL-TZ-ivy" customClass="MemoransLevelButton">
+                                <rect key="frame" x="104" y="219" width="34" height="34"/>
                                 <color key="backgroundColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="wFL-TZ-ivy" secondAttribute="height" multiplier="1:1" id="WPW-we-RFW"/>
+                                </constraints>
                                 <state key="normal">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -149,9 +146,12 @@
                                     <action selector="levelButtonTouched:" destination="rus-h0-pj8" eventType="touchUpInside" id="Zwf-BW-m8p"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ows-X2-oV1" customClass="MemoransLevelButton">
-                                <rect key="frame" x="392" y="151" width="116" height="116"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ows-X2-oV1" customClass="MemoransLevelButton">
+                                <rect key="frame" x="146" y="219" width="34" height="34"/>
                                 <color key="backgroundColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="Ows-X2-oV1" secondAttribute="height" multiplier="1:1" id="8Xj-3k-6np"/>
+                                </constraints>
                                 <state key="normal">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -159,9 +159,12 @@
                                     <action selector="levelButtonTouched:" destination="rus-h0-pj8" eventType="touchUpInside" id="PvQ-at-Vld"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="leO-cq-BoX" customClass="MemoransLevelButton">
-                                <rect key="frame" x="516" y="101" width="116" height="116"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="leO-cq-BoX" customClass="MemoransLevelButton">
+                                <rect key="frame" x="188" y="199" width="34" height="34"/>
                                 <color key="backgroundColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="leO-cq-BoX" secondAttribute="height" multiplier="1:1" id="PcP-Vv-sNz"/>
+                                </constraints>
                                 <state key="normal">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -169,9 +172,12 @@
                                     <action selector="levelButtonTouched:" destination="rus-h0-pj8" eventType="touchUpInside" id="FU6-JL-Myz"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qSg-Gg-8RH" customClass="MemoransLevelButton">
-                                <rect key="frame" x="640" y="101" width="116" height="116"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qSg-Gg-8RH" customClass="MemoransLevelButton">
+                                <rect key="frame" x="230" y="199" width="34" height="34"/>
                                 <color key="backgroundColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="qSg-Gg-8RH" secondAttribute="height" multiplier="1:1" id="QSc-dC-lE7"/>
+                                </constraints>
                                 <state key="normal">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -179,9 +185,12 @@
                                     <action selector="levelButtonTouched:" destination="rus-h0-pj8" eventType="touchUpInside" id="80O-lr-frb"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rkd-jQ-BXV" customClass="MemoransLevelButton">
-                                <rect key="frame" x="764" y="151" width="116" height="116"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rkd-jQ-BXV" customClass="MemoransLevelButton">
+                                <rect key="frame" x="272" y="219" width="34" height="34"/>
                                 <color key="backgroundColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="rkd-jQ-BXV" secondAttribute="height" multiplier="1:1" id="LkK-ze-V3F"/>
+                                </constraints>
                                 <state key="normal">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -189,9 +198,12 @@
                                     <action selector="levelButtonTouched:" destination="rus-h0-pj8" eventType="touchUpInside" id="NFf-rV-SZA"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UNI-4p-fSI" customClass="MemoransLevelButton">
-                                <rect key="frame" x="888" y="151" width="116" height="116"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UNI-4p-fSI" customClass="MemoransLevelButton">
+                                <rect key="frame" x="314" y="219" width="34" height="34"/>
                                 <color key="backgroundColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="UNI-4p-fSI" secondAttribute="height" multiplier="1:1" id="Yjs-1B-TGa"/>
+                                </constraints>
                                 <state key="normal">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -199,9 +211,12 @@
                                     <action selector="levelButtonTouched:" destination="rus-h0-pj8" eventType="touchUpInside" id="PO5-EI-EHu"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sin-P0-V38" customClass="MemoransLevelButton">
-                                <rect key="frame" x="20" y="311" width="116" height="116"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sin-P0-V38" customClass="MemoransLevelButton">
+                                <rect key="frame" x="252" y="283" width="34" height="34"/>
                                 <color key="backgroundColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="Sin-P0-V38" secondAttribute="height" multiplier="1:1" id="5G6-j4-eFg"/>
+                                </constraints>
                                 <state key="normal">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -209,9 +224,12 @@
                                     <action selector="levelButtonTouched:" destination="rus-h0-pj8" eventType="touchUpInside" id="5ve-ib-Hpi"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7y8-sC-ccB" customClass="MemoransLevelButton">
-                                <rect key="frame" x="144" y="311" width="116" height="116"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7y8-sC-ccB" customClass="MemoransLevelButton">
+                                <rect key="frame" x="294" y="283" width="34" height="34"/>
                                 <color key="backgroundColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="7y8-sC-ccB" secondAttribute="height" multiplier="1:1" id="7t6-Et-uJc"/>
+                                </constraints>
                                 <state key="normal">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -219,9 +237,12 @@
                                     <action selector="levelButtonTouched:" destination="rus-h0-pj8" eventType="touchUpInside" id="VSE-Md-tCQ"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kss-kF-sII" customClass="MemoransLevelButton">
-                                <rect key="frame" x="268" y="361" width="116" height="116"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kss-kF-sII" customClass="MemoransLevelButton">
+                                <rect key="frame" x="336" y="303" width="34" height="34"/>
                                 <color key="backgroundColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="kss-kF-sII" secondAttribute="height" multiplier="1:1" id="lpl-dY-Ok3"/>
+                                </constraints>
                                 <state key="normal">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -229,9 +250,12 @@
                                     <action selector="levelButtonTouched:" destination="rus-h0-pj8" eventType="touchUpInside" id="NoF-90-Lvb"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g2m-vl-G97" customClass="MemoransLevelButton">
-                                <rect key="frame" x="392" y="361" width="116" height="116"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g2m-vl-G97" customClass="MemoransLevelButton">
+                                <rect key="frame" x="378" y="303" width="34" height="34"/>
                                 <color key="backgroundColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="g2m-vl-G97" secondAttribute="height" multiplier="1:1" id="5W2-8Q-lA2"/>
+                                </constraints>
                                 <state key="normal">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -239,9 +263,12 @@
                                     <action selector="levelButtonTouched:" destination="rus-h0-pj8" eventType="touchUpInside" id="ENi-R6-LTx"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Eia-pk-6SH" customClass="MemoransLevelButton">
-                                <rect key="frame" x="516" y="311" width="116" height="116"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Eia-pk-6SH" customClass="MemoransLevelButton">
+                                <rect key="frame" x="420" y="283" width="34" height="34"/>
                                 <color key="backgroundColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="Eia-pk-6SH" secondAttribute="height" multiplier="1:1" id="ubf-94-WiH"/>
+                                </constraints>
                                 <state key="normal">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -249,9 +276,12 @@
                                     <action selector="levelButtonTouched:" destination="rus-h0-pj8" eventType="touchUpInside" id="SKB-BE-6dG"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ejf-Bt-MEH" customClass="MemoransLevelButton">
-                                <rect key="frame" x="640" y="311" width="116" height="116"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ejf-Bt-MEH" customClass="MemoransLevelButton">
+                                <rect key="frame" x="462" y="283" width="34" height="34"/>
                                 <color key="backgroundColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="ejf-Bt-MEH" secondAttribute="height" multiplier="1:1" id="u9p-Pe-eue"/>
+                                </constraints>
                                 <state key="normal">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -259,9 +289,12 @@
                                     <action selector="levelButtonTouched:" destination="rus-h0-pj8" eventType="touchUpInside" id="pd5-Mf-Lxb"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9os-FP-G8m" customClass="MemoransLevelButton">
-                                <rect key="frame" x="764" y="361" width="116" height="116"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9os-FP-G8m" customClass="MemoransLevelButton">
+                                <rect key="frame" x="504" y="303" width="34" height="34"/>
                                 <color key="backgroundColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="9os-FP-G8m" secondAttribute="height" multiplier="1:1" id="BZj-od-NtS"/>
+                                </constraints>
                                 <state key="normal">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -269,9 +302,12 @@
                                     <action selector="levelButtonTouched:" destination="rus-h0-pj8" eventType="touchUpInside" id="UQZ-qD-Ja2"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4qx-Q2-wos" customClass="MemoransLevelButton">
-                                <rect key="frame" x="888" y="361" width="116" height="116"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4qx-Q2-wos" customClass="MemoransLevelButton">
+                                <rect key="frame" x="546" y="303" width="34" height="34"/>
                                 <color key="backgroundColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="4qx-Q2-wos" secondAttribute="height" multiplier="1:1" id="5pD-MC-xec"/>
+                                </constraints>
                                 <state key="normal">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -279,9 +315,12 @@
                                     <action selector="levelButtonTouched:" destination="rus-h0-pj8" eventType="touchUpInside" id="Aqo-Gl-i81"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pKB-he-EBr" customClass="MemoransLevelButton">
-                                <rect key="frame" x="20" y="521" width="116" height="116"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pKB-he-EBr" customClass="MemoransLevelButton">
+                                <rect key="frame" x="20" y="367" width="34" height="34"/>
                                 <color key="backgroundColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="pKB-he-EBr" secondAttribute="height" multiplier="1:1" id="k8S-Xt-KAz"/>
+                                </constraints>
                                 <state key="normal">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -289,9 +328,12 @@
                                     <action selector="levelButtonTouched:" destination="rus-h0-pj8" eventType="touchUpInside" id="SmI-Sp-MuV"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jgu-4m-8Jd" customClass="MemoransLevelButton">
-                                <rect key="frame" x="144" y="521" width="116" height="116"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jgu-4m-8Jd" customClass="MemoransLevelButton">
+                                <rect key="frame" x="62" y="367" width="34" height="34"/>
                                 <color key="backgroundColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="Jgu-4m-8Jd" secondAttribute="height" multiplier="1:1" id="xEI-f2-RFN"/>
+                                </constraints>
                                 <state key="normal">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -299,9 +341,12 @@
                                     <action selector="levelButtonTouched:" destination="rus-h0-pj8" eventType="touchUpInside" id="qQS-9W-lbp"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b90-Ly-29S" customClass="MemoransLevelButton">
-                                <rect key="frame" x="268" y="571" width="116" height="116"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b90-Ly-29S" customClass="MemoransLevelButton">
+                                <rect key="frame" x="104" y="387" width="34" height="34"/>
                                 <color key="backgroundColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="b90-Ly-29S" secondAttribute="height" multiplier="1:1" id="HFA-70-xAZ"/>
+                                </constraints>
                                 <state key="normal">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -309,9 +354,12 @@
                                     <action selector="levelButtonTouched:" destination="rus-h0-pj8" eventType="touchUpInside" id="dFA-no-o0L"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zFn-0Z-tNr" customClass="MemoransLevelButton">
-                                <rect key="frame" x="392" y="571" width="116" height="116"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zFn-0Z-tNr" customClass="MemoransLevelButton">
+                                <rect key="frame" x="146" y="387" width="34" height="34"/>
                                 <color key="backgroundColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="zFn-0Z-tNr" secondAttribute="height" multiplier="1:1" id="aGD-IG-ugh"/>
+                                </constraints>
                                 <state key="normal">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -319,9 +367,12 @@
                                     <action selector="levelButtonTouched:" destination="rus-h0-pj8" eventType="touchUpInside" id="2mJ-mo-JTQ"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kov-4v-NQa" customClass="MemoransLevelButton">
-                                <rect key="frame" x="516" y="521" width="116" height="116"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kov-4v-NQa" customClass="MemoransLevelButton">
+                                <rect key="frame" x="188" y="367" width="34" height="34"/>
                                 <color key="backgroundColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="Kov-4v-NQa" secondAttribute="height" multiplier="1:1" id="KSo-hT-1rw"/>
+                                </constraints>
                                 <state key="normal">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -329,9 +380,12 @@
                                     <action selector="levelButtonTouched:" destination="rus-h0-pj8" eventType="touchUpInside" id="aob-Xr-5F7"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yAn-Lq-1VP" customClass="MemoransLevelButton">
-                                <rect key="frame" x="640" y="521" width="116" height="116"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yAn-Lq-1VP" customClass="MemoransLevelButton">
+                                <rect key="frame" x="230" y="367" width="34" height="34"/>
                                 <color key="backgroundColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="yAn-Lq-1VP" secondAttribute="height" multiplier="1:1" id="EzX-0h-fiG"/>
+                                </constraints>
                                 <state key="normal">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -339,9 +393,12 @@
                                     <action selector="levelButtonTouched:" destination="rus-h0-pj8" eventType="touchUpInside" id="xJ8-LR-VqC"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VG8-Lp-ZTB" customClass="MemoransLevelButton">
-                                <rect key="frame" x="764" y="571" width="116" height="116"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VG8-Lp-ZTB" customClass="MemoransLevelButton">
+                                <rect key="frame" x="272" y="387" width="34" height="34"/>
                                 <color key="backgroundColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="VG8-Lp-ZTB" secondAttribute="height" multiplier="1:1" id="jve-zf-8Nc"/>
+                                </constraints>
                                 <state key="normal">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -349,9 +406,12 @@
                                     <action selector="levelButtonTouched:" destination="rus-h0-pj8" eventType="touchUpInside" id="Py3-2C-3TL"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="do8-Br-WQn" customClass="MemoransLevelButton">
-                                <rect key="frame" x="888" y="571" width="116" height="116"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="do8-Br-WQn" customClass="MemoransLevelButton">
+                                <rect key="frame" x="314" y="387" width="34" height="34"/>
                                 <color key="backgroundColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="do8-Br-WQn" secondAttribute="height" multiplier="1:1" id="J5Z-DY-XJr"/>
+                                </constraints>
                                 <state key="normal">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -359,8 +419,8 @@
                                     <action selector="levelButtonTouched:" destination="rus-h0-pj8" eventType="touchUpInside" id="EL8-Ss-4dg"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8lJ-t8-Vp8">
-                                <rect key="frame" x="20" y="688" width="70" height="60"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8lJ-t8-Vp8">
+                                <rect key="frame" x="20" y="565" width="88" height="30"/>
                                 <state key="normal" title="backToMenu">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -368,8 +428,124 @@
                                     <action selector="backToMenuButtonTouched" destination="rus-h0-pj8" eventType="touchUpInside" id="c3i-Ds-Pzx"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CsQ-pj-8Dp" customClass="MemoransLevelButton">
+                                <rect key="frame" x="20" y="199" width="34" height="34"/>
+                                <color key="backgroundColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="CsQ-pj-8Dp" secondAttribute="height" multiplier="1:1" id="cIw-qk-uvx"/>
+                                </constraints>
+                                <state key="normal">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="levelButtonTouched:" destination="rus-h0-pj8" eventType="touchUpInside" id="a39-1P-KMQ"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Eia-pk-6SH" firstAttribute="height" secondItem="CsQ-pj-8Dp" secondAttribute="height" id="0HS-ms-3gw"/>
+                            <constraint firstItem="do8-Br-WQn" firstAttribute="height" secondItem="CsQ-pj-8Dp" secondAttribute="height" id="1GY-Oq-1OT"/>
+                            <constraint firstItem="9os-FP-G8m" firstAttribute="leading" secondItem="ejf-Bt-MEH" secondAttribute="trailing" constant="8" id="1WY-AK-2hJ"/>
+                            <constraint firstItem="CsQ-pj-8Dp" firstAttribute="top" relation="greaterThanOrEqual" secondItem="lfr-FV-OKd" secondAttribute="bottom" id="1iT-PW-V7g"/>
+                            <constraint firstItem="b90-Ly-29S" firstAttribute="height" secondItem="CsQ-pj-8Dp" secondAttribute="height" id="3pw-s1-EQr"/>
+                            <constraint firstItem="8lJ-t8-Vp8" firstAttribute="top" relation="greaterThanOrEqual" secondItem="b90-Ly-29S" secondAttribute="bottom" constant="20" id="4Fz-Xz-od1"/>
+                            <constraint firstItem="Jgu-4m-8Jd" firstAttribute="top" secondItem="kss-kF-sII" secondAttribute="bottom" constant="30" id="4NH-xt-rHc"/>
+                            <constraint firstItem="rkd-jQ-BXV" firstAttribute="width" secondItem="CsQ-pj-8Dp" secondAttribute="width" id="4cy-LH-Svj"/>
+                            <constraint firstItem="UNI-4p-fSI" firstAttribute="leading" secondItem="rkd-jQ-BXV" secondAttribute="trailing" constant="8" id="55R-FU-xtt"/>
+                            <constraint firstItem="7y8-sC-ccB" firstAttribute="top" secondItem="wFL-TZ-ivy" secondAttribute="bottom" constant="30" id="5Lm-N7-LnH"/>
+                            <constraint firstItem="pKB-he-EBr" firstAttribute="height" secondItem="CsQ-pj-8Dp" secondAttribute="height" id="62L-du-Qud"/>
+                            <constraint firstItem="Ows-X2-oV1" firstAttribute="height" secondItem="CsQ-pj-8Dp" secondAttribute="height" id="6TK-hS-Mcg"/>
+                            <constraint firstItem="7y8-sC-ccB" firstAttribute="height" secondItem="CsQ-pj-8Dp" secondAttribute="height" id="7er-bb-41Y"/>
+                            <constraint firstItem="kss-kF-sII" firstAttribute="height" secondItem="CsQ-pj-8Dp" secondAttribute="height" id="81v-Z2-qgb"/>
+                            <constraint firstItem="g2m-vl-G97" firstAttribute="leading" secondItem="kss-kF-sII" secondAttribute="trailing" constant="8" id="8XZ-HI-aDQ"/>
+                            <constraint firstItem="s23-bX-8Z5" firstAttribute="top" secondItem="8lJ-t8-Vp8" secondAttribute="bottom" constant="5" id="9H8-2q-bFH"/>
+                            <constraint firstItem="4qx-Q2-wos" firstAttribute="leading" secondItem="9os-FP-G8m" secondAttribute="trailing" constant="8" id="9io-hC-6Ay"/>
+                            <constraint firstItem="7y8-sC-ccB" firstAttribute="centerY" secondItem="Eia-pk-6SH" secondAttribute="centerY" id="B4A-19-dKP"/>
+                            <constraint firstItem="b90-Ly-29S" firstAttribute="centerY" secondItem="zFn-0Z-tNr" secondAttribute="centerY" id="C3I-Ye-cHo"/>
+                            <constraint firstItem="do8-Br-WQn" firstAttribute="leading" secondItem="VG8-Lp-ZTB" secondAttribute="trailing" constant="8" id="Cds-qS-18u"/>
+                            <constraint firstItem="kIE-5n-Xyp" firstAttribute="height" secondItem="CsQ-pj-8Dp" secondAttribute="height" id="Dnn-vE-uQA"/>
+                            <constraint firstItem="b90-Ly-29S" firstAttribute="width" secondItem="CsQ-pj-8Dp" secondAttribute="width" id="E7W-9K-qSs"/>
+                            <constraint firstItem="Ows-X2-oV1" firstAttribute="width" secondItem="CsQ-pj-8Dp" secondAttribute="width" id="EWL-rK-w2X"/>
+                            <constraint firstItem="do8-Br-WQn" firstAttribute="width" secondItem="CsQ-pj-8Dp" secondAttribute="width" id="F2H-Tr-un9"/>
+                            <constraint firstItem="4qx-Q2-wos" firstAttribute="height" secondItem="CsQ-pj-8Dp" secondAttribute="height" id="F5f-He-LRh"/>
+                            <constraint firstItem="wFL-TZ-ivy" firstAttribute="centerY" secondItem="Ows-X2-oV1" secondAttribute="centerY" id="FAd-tW-eqV"/>
+                            <constraint firstItem="zFn-0Z-tNr" firstAttribute="centerY" secondItem="VG8-Lp-ZTB" secondAttribute="centerY" id="FG6-Ho-uN6"/>
+                            <constraint firstItem="VG8-Lp-ZTB" firstAttribute="width" secondItem="CsQ-pj-8Dp" secondAttribute="width" id="FPY-ac-boQ"/>
+                            <constraint firstItem="kIE-5n-Xyp" firstAttribute="centerY" secondItem="leO-cq-BoX" secondAttribute="centerY" id="HpT-z4-af7"/>
+                            <constraint firstItem="pKB-he-EBr" firstAttribute="width" secondItem="CsQ-pj-8Dp" secondAttribute="width" id="J7K-t0-Qfg"/>
+                            <constraint firstItem="Kov-4v-NQa" firstAttribute="leading" secondItem="zFn-0Z-tNr" secondAttribute="trailing" constant="8" id="Kzc-AJ-fjK"/>
+                            <constraint firstItem="ejf-Bt-MEH" firstAttribute="height" secondItem="CsQ-pj-8Dp" secondAttribute="height" id="LDK-BU-8jR"/>
+                            <constraint firstItem="zFn-0Z-tNr" firstAttribute="leading" secondItem="b90-Ly-29S" secondAttribute="trailing" constant="8" id="LWJ-0z-B5P"/>
+                            <constraint firstItem="kIE-5n-Xyp" firstAttribute="width" secondItem="CsQ-pj-8Dp" secondAttribute="width" id="LY1-Mh-z9V"/>
+                            <constraint firstItem="rkd-jQ-BXV" firstAttribute="leading" secondItem="qSg-Gg-8RH" secondAttribute="trailing" constant="8" id="Lcr-I7-0NL"/>
+                            <constraint firstItem="leO-cq-BoX" firstAttribute="centerY" secondItem="qSg-Gg-8RH" secondAttribute="centerY" id="Lfm-7J-Ked"/>
+                            <constraint firstItem="pKB-he-EBr" firstAttribute="centerY" secondItem="Jgu-4m-8Jd" secondAttribute="centerY" id="MAS-Pe-KlF"/>
+                            <constraint firstItem="Jgu-4m-8Jd" firstAttribute="leading" secondItem="pKB-he-EBr" secondAttribute="trailing" constant="8" id="MCh-QC-que"/>
+                            <constraint firstItem="Eia-pk-6SH" firstAttribute="centerY" secondItem="ejf-Bt-MEH" secondAttribute="centerY" id="MRG-Sp-0bI"/>
+                            <constraint firstItem="Jgu-4m-8Jd" firstAttribute="height" secondItem="CsQ-pj-8Dp" secondAttribute="height" id="Myi-FB-dg3"/>
+                            <constraint firstItem="7y8-sC-ccB" firstAttribute="leading" secondItem="Sin-P0-V38" secondAttribute="trailing" constant="8" id="NFQ-jY-Dsp"/>
+                            <constraint firstItem="yAn-Lq-1VP" firstAttribute="leading" secondItem="Kov-4v-NQa" secondAttribute="trailing" constant="8" id="NJJ-Dh-vMh"/>
+                            <constraint firstItem="Eia-pk-6SH" firstAttribute="leading" secondItem="g2m-vl-G97" secondAttribute="trailing" constant="8" id="OB4-3K-GAm"/>
+                            <constraint firstItem="kss-kF-sII" firstAttribute="centerY" secondItem="g2m-vl-G97" secondAttribute="centerY" id="OIJ-hO-dP8"/>
+                            <constraint firstItem="qSg-Gg-8RH" firstAttribute="leading" secondItem="leO-cq-BoX" secondAttribute="trailing" constant="8" id="P4P-eU-Wfd"/>
+                            <constraint firstItem="UNI-4p-fSI" firstAttribute="width" secondItem="CsQ-pj-8Dp" secondAttribute="width" id="PgS-Ks-3SN"/>
+                            <constraint firstItem="Ows-X2-oV1" firstAttribute="leading" secondItem="wFL-TZ-ivy" secondAttribute="trailing" constant="8" id="QEe-o5-eEE"/>
+                            <constraint firstItem="9os-FP-G8m" firstAttribute="centerY" secondItem="4qx-Q2-wos" secondAttribute="centerY" id="RRK-Wp-zMO"/>
+                            <constraint firstItem="7y8-sC-ccB" firstAttribute="bottom" secondItem="kss-kF-sII" secondAttribute="bottom" constant="-20" id="Rtf-bd-xqU"/>
+                            <constraint firstItem="Sin-P0-V38" firstAttribute="centerY" secondItem="W1C-lo-elH" secondAttribute="centerY" id="SPu-eH-v6t"/>
+                            <constraint firstItem="g2m-vl-G97" firstAttribute="centerY" secondItem="9os-FP-G8m" secondAttribute="centerY" id="TCQ-hb-9e2"/>
+                            <constraint firstItem="kss-kF-sII" firstAttribute="leading" secondItem="7y8-sC-ccB" secondAttribute="trailing" constant="8" id="TaF-Ve-n9L"/>
+                            <constraint firstItem="g2m-vl-G97" firstAttribute="height" secondItem="CsQ-pj-8Dp" secondAttribute="height" id="Thp-vO-asY"/>
+                            <constraint firstItem="pKB-he-EBr" firstAttribute="leading" secondItem="CsQ-pj-8Dp" secondAttribute="leading" id="Tnt-AA-R59"/>
+                            <constraint firstItem="4qx-Q2-wos" firstAttribute="width" secondItem="CsQ-pj-8Dp" secondAttribute="width" id="Ts9-fo-WVr"/>
+                            <constraint firstItem="ejf-Bt-MEH" firstAttribute="leading" secondItem="Eia-pk-6SH" secondAttribute="trailing" constant="8" id="Tv4-VY-c8f"/>
+                            <constraint firstItem="VG8-Lp-ZTB" firstAttribute="leading" secondItem="yAn-Lq-1VP" secondAttribute="trailing" constant="8" id="X0e-q1-ceF"/>
+                            <constraint firstItem="7y8-sC-ccB" firstAttribute="width" secondItem="CsQ-pj-8Dp" secondAttribute="width" id="X8Z-qj-lGt"/>
+                            <constraint firstItem="UNI-4p-fSI" firstAttribute="height" secondItem="CsQ-pj-8Dp" secondAttribute="height" id="YA6-Gy-zQR"/>
+                            <constraint firstItem="wFL-TZ-ivy" firstAttribute="leading" secondItem="kIE-5n-Xyp" secondAttribute="trailing" constant="8" id="Z5e-zM-VLI"/>
+                            <constraint firstItem="Kov-4v-NQa" firstAttribute="width" secondItem="CsQ-pj-8Dp" secondAttribute="width" id="ZPo-jm-Kao"/>
+                            <constraint firstItem="leO-cq-BoX" firstAttribute="height" secondItem="CsQ-pj-8Dp" secondAttribute="height" id="agF-h6-xnc"/>
+                            <constraint firstItem="Sin-P0-V38" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="W1C-lo-elH" secondAttribute="leadingMargin" id="arv-A8-8pS"/>
+                            <constraint firstItem="qSg-Gg-8RH" firstAttribute="height" secondItem="CsQ-pj-8Dp" secondAttribute="height" id="bm1-bL-Iin"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="CsQ-pj-8Dp" secondAttribute="leading" id="dUw-zj-b3X"/>
+                            <constraint firstItem="kIE-5n-Xyp" firstAttribute="leading" secondItem="CsQ-pj-8Dp" secondAttribute="trailing" constant="8" id="eCP-8J-EK3"/>
+                            <constraint firstItem="yAn-Lq-1VP" firstAttribute="width" secondItem="CsQ-pj-8Dp" secondAttribute="width" id="f42-88-Dln"/>
+                            <constraint firstItem="g2m-vl-G97" firstAttribute="width" secondItem="CsQ-pj-8Dp" secondAttribute="width" id="faQ-eE-6Ya"/>
+                            <constraint firstItem="yAn-Lq-1VP" firstAttribute="height" secondItem="CsQ-pj-8Dp" secondAttribute="height" id="gCq-N6-OF9"/>
+                            <constraint firstItem="9os-FP-G8m" firstAttribute="height" secondItem="CsQ-pj-8Dp" secondAttribute="height" id="gE1-44-que"/>
+                            <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="UNI-4p-fSI" secondAttribute="trailing" id="gFK-xi-d0t"/>
+                            <constraint firstItem="9os-FP-G8m" firstAttribute="width" secondItem="CsQ-pj-8Dp" secondAttribute="width" id="gy2-HG-P4y"/>
+                            <constraint firstItem="Jgu-4m-8Jd" firstAttribute="centerY" secondItem="Kov-4v-NQa" secondAttribute="centerY" id="hAB-DW-ij1"/>
+                            <constraint firstItem="wFL-TZ-ivy" firstAttribute="height" secondItem="CsQ-pj-8Dp" secondAttribute="height" id="iQp-I0-PXs"/>
+                            <constraint firstItem="leO-cq-BoX" firstAttribute="leading" secondItem="Ows-X2-oV1" secondAttribute="trailing" constant="8" id="lnw-bm-fUb"/>
+                            <constraint firstItem="kIE-5n-Xyp" firstAttribute="bottom" secondItem="wFL-TZ-ivy" secondAttribute="bottom" constant="-20" id="miG-eP-id0"/>
+                            <constraint firstItem="zFn-0Z-tNr" firstAttribute="height" secondItem="CsQ-pj-8Dp" secondAttribute="height" id="naw-qm-Zln"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="8lJ-t8-Vp8" secondAttribute="leading" id="olu-Pe-j60"/>
+                            <constraint firstItem="Kov-4v-NQa" firstAttribute="centerY" secondItem="yAn-Lq-1VP" secondAttribute="centerY" id="p7S-HC-hDL"/>
+                            <constraint firstItem="wFL-TZ-ivy" firstAttribute="width" secondItem="CsQ-pj-8Dp" secondAttribute="width" id="pDS-Er-sKq"/>
+                            <constraint firstItem="qSg-Gg-8RH" firstAttribute="width" secondItem="CsQ-pj-8Dp" secondAttribute="width" id="pSU-L9-9c8"/>
+                            <constraint firstItem="Jgu-4m-8Jd" firstAttribute="bottom" secondItem="b90-Ly-29S" secondAttribute="bottom" constant="-20" id="qkn-eO-0tH"/>
+                            <constraint firstItem="CsQ-pj-8Dp" firstAttribute="centerY" secondItem="kIE-5n-Xyp" secondAttribute="centerY" id="rGJ-e3-HP3"/>
+                            <constraint firstItem="b90-Ly-29S" firstAttribute="leading" secondItem="Jgu-4m-8Jd" secondAttribute="trailing" constant="8" id="sG5-kY-qjW"/>
+                            <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="do8-Br-WQn" secondAttribute="trailing" id="sgG-c9-wRp"/>
+                            <constraint firstItem="VG8-Lp-ZTB" firstAttribute="height" secondItem="CsQ-pj-8Dp" secondAttribute="height" id="tFr-q2-0CR"/>
+                            <constraint firstItem="Sin-P0-V38" firstAttribute="centerY" secondItem="7y8-sC-ccB" secondAttribute="centerY" id="tPJ-bZ-eE9"/>
+                            <constraint firstItem="zFn-0Z-tNr" firstAttribute="width" secondItem="CsQ-pj-8Dp" secondAttribute="width" id="uYh-fn-xoB"/>
+                            <constraint firstItem="rkd-jQ-BXV" firstAttribute="height" secondItem="CsQ-pj-8Dp" secondAttribute="height" id="ujI-sB-wkS"/>
+                            <constraint firstItem="Kov-4v-NQa" firstAttribute="height" secondItem="CsQ-pj-8Dp" secondAttribute="height" id="ujy-gJ-byR"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="4qx-Q2-wos" secondAttribute="trailing" id="vjj-A0-tdy"/>
+                            <constraint firstItem="Eia-pk-6SH" firstAttribute="width" secondItem="CsQ-pj-8Dp" secondAttribute="width" id="wkD-BZ-W9w"/>
+                            <constraint firstItem="ejf-Bt-MEH" firstAttribute="width" secondItem="CsQ-pj-8Dp" secondAttribute="width" id="x74-N0-plz"/>
+                            <constraint firstItem="Sin-P0-V38" firstAttribute="width" secondItem="CsQ-pj-8Dp" secondAttribute="width" id="yFH-Tf-LcK"/>
+                            <constraint firstItem="Jgu-4m-8Jd" firstAttribute="width" secondItem="CsQ-pj-8Dp" secondAttribute="width" id="yW0-sH-RaI"/>
+                            <constraint firstItem="Sin-P0-V38" firstAttribute="height" secondItem="CsQ-pj-8Dp" secondAttribute="height" id="yZP-u5-rge"/>
+                            <constraint firstItem="kss-kF-sII" firstAttribute="width" secondItem="CsQ-pj-8Dp" secondAttribute="width" id="zOO-A5-4jZ"/>
+                            <constraint firstItem="Ows-X2-oV1" firstAttribute="centerY" secondItem="rkd-jQ-BXV" secondAttribute="centerY" id="zcS-aY-o4j"/>
+                            <constraint firstItem="rkd-jQ-BXV" firstAttribute="centerY" secondItem="UNI-4p-fSI" secondAttribute="centerY" id="zeD-a5-Aky"/>
+                            <constraint firstItem="VG8-Lp-ZTB" firstAttribute="centerY" secondItem="do8-Br-WQn" secondAttribute="centerY" id="zh5-eK-IPc"/>
+                            <constraint firstItem="leO-cq-BoX" firstAttribute="width" secondItem="CsQ-pj-8Dp" secondAttribute="width" id="zx7-vD-e5v"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="UNi-lO-pnL"/>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
@@ -404,7 +580,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EYy-sA-QXd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2404.6875" y="933.3984375"/>
+            <point key="canvasLocation" x="2404" y="1039"/>
         </scene>
         <!--Memorans Menu View Controller-->
         <scene sceneID="Ogg-4y-R3f">
