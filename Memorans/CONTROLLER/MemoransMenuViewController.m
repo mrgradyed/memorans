@@ -317,7 +317,7 @@
                withTitleString:
                             [self.sharedLocalizationController localizedStringForKey:@"Credits"]];
 
-    [Utilities configureButton:self.rateButton withTitleString:@"★★★★★"];
+    [Utilities configureButton:self.rateButton withTitleString:@"★"];
 }
 
 - (void)viewDidLoad

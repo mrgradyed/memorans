@@ -78,7 +78,7 @@
 
         // Get the four screen corners coordinates.
         
-        CGFloat margin = 25;
+        CGFloat margin = 32;
         CGPoint topLeft = CGPointMake(0, margin);
         CGPoint topRight = CGPointMake(longSide, margin);
         CGPoint bottomLeft = CGPointMake(0, shortSide - margin);

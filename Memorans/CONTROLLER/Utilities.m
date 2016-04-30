@@ -310,7 +310,7 @@
         [Utilities styledAttributedStringWithString:titleString
                                       andAlignement:NSTextAlignmentCenter
                                            andColor:nil
-                                            andSize:40
+                                            andSize:42
                                      andStrokeColor:nil];
 
     // Set the attributed string as button title.

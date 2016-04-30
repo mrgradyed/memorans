@@ -419,7 +419,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hqL-1h-FHI">
-                                <rect key="frame" x="20" y="20" width="100" height="30"/>
+                                <rect key="frame" x="20" y="30" width="100" height="30"/>
                                 <state key="normal" title="credits" backgroundImage="purple-square">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -428,7 +428,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PyK-Ot-htZ">
-                                <rect key="frame" x="480" y="20" width="100" height="30"/>
+                                <rect key="frame" x="480" y="30" width="100" height="30"/>
                                 <state key="normal" title="rate" backgroundImage="purple-square">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -437,7 +437,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ykt-L7-6cf">
-                                <rect key="frame" x="20" y="550" width="100" height="30"/>
+                                <rect key="frame" x="20" y="560" width="100" height="30"/>
                                 <state key="normal" title="music" backgroundImage="purple-square">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -446,7 +446,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b8j-SO-obe">
-                                <rect key="frame" x="128" y="550" width="100" height="30"/>
+                                <rect key="frame" x="128" y="560" width="100" height="30"/>
                                 <state key="normal" title="soundEffects" backgroundImage="purple-square">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -455,7 +455,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vGs-Qj-VR4">
-                                <rect key="frame" x="236" y="550" width="100" height="30"/>
+                                <rect key="frame" x="236" y="560" width="100" height="30"/>
                                 <state key="normal" title="language" backgroundImage="purple-square">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -464,7 +464,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="center" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jgv-i6-Dew">
-                                <rect key="frame" x="480" y="550" width="100" height="30"/>
+                                <rect key="frame" x="480" y="560" width="100" height="30"/>
                                 <state key="normal" title="play" backgroundImage="orange-square">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -476,17 +476,17 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="vGs-Qj-VR4" firstAttribute="leading" secondItem="b8j-SO-obe" secondAttribute="trailing" constant="8" symbolic="YES" id="41U-ZJ-lsY"/>
-                            <constraint firstItem="PyK-Ot-htZ" firstAttribute="leading" secondItem="jgv-i6-Dew" secondAttribute="leading" id="7xm-SW-Lg3"/>
                             <constraint firstItem="b8j-SO-obe" firstAttribute="baseline" secondItem="ykt-L7-6cf" secondAttribute="baseline" id="NEE-nh-W6d"/>
-                            <constraint firstAttribute="bottom" secondItem="ykt-L7-6cf" secondAttribute="bottom" constant="20" symbolic="YES" id="Pqo-HM-N2D"/>
+                            <constraint firstAttribute="bottom" secondItem="ykt-L7-6cf" secondAttribute="bottom" constant="10" id="Pqo-HM-N2D"/>
                             <constraint firstItem="hqL-1h-FHI" firstAttribute="leading" secondItem="ykt-L7-6cf" secondAttribute="leading" id="SBU-r8-XSn"/>
                             <constraint firstItem="b8j-SO-obe" firstAttribute="leading" secondItem="ykt-L7-6cf" secondAttribute="trailing" constant="8" symbolic="YES" id="SVi-FF-ZtI"/>
-                            <constraint firstItem="hqL-1h-FHI" firstAttribute="top" secondItem="ate-I0-2Bk" secondAttribute="bottom" id="Wca-RH-ieT"/>
+                            <constraint firstItem="hqL-1h-FHI" firstAttribute="top" secondItem="ate-I0-2Bk" secondAttribute="bottom" constant="10" id="Wca-RH-ieT"/>
                             <constraint firstItem="vGs-Qj-VR4" firstAttribute="baseline" secondItem="jgv-i6-Dew" secondAttribute="baseline" id="lLo-VN-at6"/>
-                            <constraint firstItem="jgv-i6-Dew" firstAttribute="trailing" secondItem="oYb-g9-3UY" secondAttribute="trailingMargin" id="nec-cd-hvY"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="PyK-Ot-htZ" secondAttribute="trailing" id="tPf-wl-HhY"/>
                             <constraint firstItem="hqL-1h-FHI" firstAttribute="leading" secondItem="oYb-g9-3UY" secondAttribute="leadingMargin" id="wHe-zl-eXp"/>
                             <constraint firstItem="vGs-Qj-VR4" firstAttribute="baseline" secondItem="b8j-SO-obe" secondAttribute="baseline" id="wJe-fU-HVT"/>
                             <constraint firstItem="PyK-Ot-htZ" firstAttribute="baseline" secondItem="hqL-1h-FHI" secondAttribute="baseline" id="wbA-kk-I0Z"/>
+                            <constraint firstItem="jgv-i6-Dew" firstAttribute="trailing" secondItem="PyK-Ot-htZ" secondAttribute="trailing" id="zNK-8Z-wUq"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="GFJ-m1-jdu"/>
@@ -859,8 +859,8 @@ My Family &amp; Stellina</string>
         </scene>
     </scenes>
     <resources>
-        <image name="Happy14" width="175" height="175"/>
-        <image name="Happy9" width="175" height="175"/>
+        <image name="Happy14" width="116" height="116"/>
+        <image name="Happy9" width="116" height="116"/>
         <image name="orange-square" width="100" height="30"/>
         <image name="purple-square" width="100" height="30"/>
     </resources>
